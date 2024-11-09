@@ -1,2 +1,3 @@
-# priest
-The Holy Counter
+# Priest
+
+The Holy Colors

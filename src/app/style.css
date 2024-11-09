@@ -1,0 +1,99 @@
+:root {
+  --priest-100: #f2f3f4;
+  --priest-200: #c2c3c4;
+  --priest-300: #a4a5a6;
+  --priest-400: #727374;
+  --priest-600: #545556;
+  --priest-700: #343536;
+  --priest-800: #242526;
+  --priest-900: #121314;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+html {
+  background-color: var(--priest-900);
+  color: var(--priest-100);
+  color-scheme: dark;
+  font-family: var(--font-geist-sans);
+  font-size: 100%;
+}
+body {
+  display: flex;
+  flex-direction: column;
+}
+header,
+main,
+footer {
+  margin: 0 auto;
+  max-width: 80em;
+  width: 100%;
+}
+header > h1 {
+  color: var(--priest-300);
+  font-size: 1rem;
+  font-weight: 600;
+  line-height: 1rem;
+  padding: 1em;
+}
+footer > p {
+  color: var(--priest-300);
+  font-size: 0.75rem;
+  font-weight: 500;
+  line-height: 1rem;
+  padding: 1em;
+}
+main {
+  min-height: 80svh;
+}
+a,
+button {
+  -webkit-tap-highlight-color: transparent;
+  cursor: pointer;
+}
+
+.chroma {
+  padding: 0 1rem;
+}
+.chroma-card {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+.chroma-color {
+  border-radius: 0.5rem;
+  display: inline-flex;
+  height: 32rem;
+}
+.chroma-hex {
+  font-family: var(--font-geist-mono);
+  font-size: 2rem;
+  font-weight: 600;
+  line-height: 1;
+}
+.chroma-hsl {
+  color: var(--priest-300);
+  font-family: var(--font-geist-mono);
+  font-size: 0.75rem;
+  font-weight: 500;
+  line-height: 1;
+  margin-top: -0.75em;
+}
+.chroma-btn {
+  background: 0;
+  border: 0;
+  border-radius: 0.25rem;
+  color: var(--priest-300);
+  font-size: 0.75rem;
+  font-weight: 400;
+  margin-bottom: 2rem;
+  margin-top: 1.5rem;
+  outline: 1px solid var(--priest-700);
+  padding: 0.5em 0.75em;
+  user-select: none;
+}
