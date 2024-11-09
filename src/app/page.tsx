@@ -1,15 +1,19 @@
 import { type Metadata } from "next";
-import Counter from "~/components/counter";
+
+import { ChromaProvider } from "~/components/chroma/provider";
+import Chroma from "~/components/chroma";
 
 export const metadata: Metadata = {
   title: "Priest",
-  description: "The Holy Counter",
+  description: "The Holy Colors",
 };
 
 export default function HomePage() {
   return (
-    <main>
-      <Counter />
-    </main>
+    <div className="priest">
+      <ChromaProvider>
+        <Chroma />
+      </ChromaProvider>
+    </div>
   );
 }
