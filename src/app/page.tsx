@@ -1,7 +1,6 @@
 import { type Metadata } from "next";
-
-import { ChromaProvider } from "~/components/chroma/provider";
-import Chroma from "~/components/chroma";
+import { random } from "colord";
+import Color from "~/components/color";
 
 export const metadata: Metadata = {
   title: "Priest",
@@ -9,11 +8,6 @@ export const metadata: Metadata = {
 };
 
 export default function HomePage() {
-  return (
-    <div className="priest">
-      <ChromaProvider>
-        <Chroma />
-      </ChromaProvider>
-    </div>
-  );
+  const color = random().toHsv();
+  return <Color hsv={color} />;
 }
