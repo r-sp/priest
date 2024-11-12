@@ -1,14 +1,16 @@
 "use client";
 
 import { useState } from "react";
-import { type HsvaColor, colord, random } from "colord";
+import { type HsvaColor, colord, random, extend } from "colord";
+import clsx from "clsx";
+import chroma from "chroma-js";
 import Hue from "@uiw/react-color-hue";
 import Saturation from "@uiw/react-color-saturation";
 import ShadeSlider from "@uiw/react-color-shade-slider";
-import clsx from "clsx";
-import chroma from "chroma-js";
-
 import ColorHarmony from "./color-harmony";
+
+import harmoniesPlugin from "colord/plugins/harmonies";
+extend([harmoniesPlugin]);
 
 export default function Color(props: { hsv: { h: number; s: number; v: number; a: number } }) {
   const [picker, setPicker] = useState<boolean>(false);
@@ -20,6 +22,24 @@ export default function Color(props: { hsv: { h: number; s: number; v: number; a
   const chromaColor = chroma(colorHEX);
   const colorHSL = chromaColor.css("hsl");
   const randomColor = () => random().toHsv();
+
+  const analogous = color.harmonies("analogous").map((c) => c.toHex());
+  const complementary = color.harmonies("complementary").map((c) => c.toHex());
+  const doubleSplitComplementary = color.harmonies("double-split-complementary").map((c) => c.toHex());
+  const rectangle = color.harmonies("rectangle").map((c) => c.toHex());
+  const splitComplementary = color.harmonies("split-complementary").map((c) => c.toHex());
+  const tetradic = color.harmonies("tetradic").map((c) => c.toHex());
+  const triadic = color.harmonies("triadic").map((c) => c.toHex());
+
+  const colors = {
+    analogous: analogous,
+    complementary: complementary,
+    doubleSplitComplementary: doubleSplitComplementary,
+    rectangle: rectangle,
+    splitComplementary: splitComplementary,
+    tetradic: tetradic,
+    triadic: triadic,
+  };
 
   return (
     <section className="color" aria-label={clsx("color", colorHEX)}>
@@ -45,8 +65,9 @@ export default function Color(props: { hsv: { h: number; s: number; v: number; a
           <div className="color-saturation" role="toolbar" aria-label="color saturation">
             <Saturation
               hsva={hsva}
+              hue={hsva.h}
               style={{ height: "100%", width: "100%" }}
-              onChange={(newColor) => setHsva({ ...hsva, ...newColor, a: hsva.a })}
+              onChange={(newColor) => setHsva({ ...hsva, ...newColor })}
             />
           </div>
           <div className="color-hue" role="toolbar" aria-label="color hue" aria-orientation="horizontal">
@@ -79,7 +100,7 @@ export default function Color(props: { hsv: { h: number; s: number; v: number; a
           </button>
         </div>
       </div>
-      <ColorHarmony hsv={hsva} />
+      <ColorHarmony harmony={colors} />
     </section>
   );
 }

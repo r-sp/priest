@@ -65,6 +65,7 @@ code {
   display: flex;
   justify-content: center;
   width: 100%;
+  z-index: 4;
 }
 .color-picker {
   background-color: var(--priest-900);
@@ -74,16 +75,14 @@ code {
   max-height: max-content;
   padding: 0 1rem 1rem;
   gap: 1rem;
-  will-change: transform;
-  z-index: 2;
+  will-change: visibility;
+  z-index: 8;
 }
 .color-picker.is-close {
-  transform: translateY(-32rem);
   opacity: 0;
   visibility: hidden;
 }
 .color-picker.is-open {
-  transform: translateY(0rem);
   opacity: 1;
   visibility: visible;
 }
@@ -93,7 +92,7 @@ code {
   position: fixed;
   right: 0;
   top: 0;
-  z-index: 1;
+  z-index: 6;
 }
 .color-box,
 .color-picker {
@@ -110,29 +109,46 @@ code {
   z-index: 1;
 }
 .color-info {
+  background-color: var(--priest-900);
   display: flex;
   gap: 1rem;
-  margin-top: 1rem;
+  padding: 1rem 0;
+  position: sticky;
+  top: 0;
+  z-index: 2;
+}
+.color-info::after {
+  background-color: var(--priest-900);
+  border-bottom: 1px solid var(--priest-800);
+  bottom: 0;
+  content: "";
+  pointer-events: none;
+  position: absolute;
+  top: 0;
+  z-index: -1;
 }
 .color-metadata {
+  display: flex;
+  flex-direction: column;
   flex-grow: 1;
   overflow-x: auto;
   white-space: pre;
 }
 .color-hex {
   color: var(--priest-100);
-  font-size: 2rem;
+  font-size: 1rem;
   font-weight: 600;
-  margin-top: -0.5rem;
+  line-height: 1rem;
 }
 .color-hsl {
   color: var(--priest-300);
   font-size: 0.75rem;
   font-weight: 400;
+  line-height: 1rem;
 }
 .color-hex,
 .color-hsl {
-  display: flex;
+  display: inline-flex;
 }
 .color-tool {
   flex-grow: 0;
@@ -161,12 +177,15 @@ code {
   gap: 0.5rem;
 }
 .color-tab-option {
+  align-items: center;
   background: 0;
   border: 0;
   border-radius: 0.25rem;
   color: var(--priest-300);
+  display: inline-flex;
   font-size: 0.75rem;
   font-weight: 400;
+  justify-content: center;
   outline: 1px solid var(--priest-800);
   padding: 0.5em 0.75em;
   user-select: none;
@@ -178,12 +197,10 @@ code {
 }
 
 .color-harmonies {
-  border-top: 1px solid var(--priest-800);
   display: grid;
   gap: 1rem;
   margin-top: 2rem;
   margin-bottom: 3rem;
-  padding-top: 1rem;
 }
 .color-harmony {
   display: flex;
@@ -207,10 +224,6 @@ code {
   font-weight: 400;
   line-height: 1rem;
 }
-.color-name.display {
-  color: var(--priest-200);
-  font-weight: 600;
-}
 
 .btn:hover,
 .btn:focus {
@@ -230,41 +243,7 @@ code {
   }
 }
 
-@media (min-width: 32em) {
-  .color-box {
-    height: 32rem;
-  }
-  .color-saturation {
-    height: 20rem;
-    width: 20rem;
-  }
-  .color-hue,
-  .color-lightness {
-    width: 20rem;
-  }
-  .color-harmony {
-    flex-direction: row;
-    gap: 0.75rem;
-  }
-}
-@media (max-width: 32em) {
-  .color-box {
-    height: calc(100vw + 10rem);
-  }
-  .color-saturation {
-    height: calc(100vw - 2rem);
-    width: calc(100vw - 2rem);
-  }
-  .color-hue,
-  .color-lightness {
-    width: calc(100vw - 2rem);
-  }
-  .color-harmony {
-    flex-direction: column;
-    gap: 1rem;
-  }
-}
-@media (max-height: 32rem) {
+@media (min-width: 22em) {
   .color-box {
     height: 24rem;
   }
@@ -276,14 +255,47 @@ code {
   .color-lightness {
     width: 16rem;
   }
-}
-@media (min-width: 22rem) {
   .color-info {
     flex-direction: row;
   }
 }
-@media (max-width: 22rem) {
+@media (max-width: 22em) {
+  .color-box {
+    height: calc(100vw + 10rem);
+  }
+  .color-saturation {
+    height: calc(100vw - 2rem);
+    width: calc(100vw - 2rem);
+  }
+  .color-hue,
+  .color-lightness {
+    width: calc(100vw - 2rem);
+  }
   .color-info {
     flex-direction: column;
+  }
+}
+@media (min-width: 32em) {
+  .color-harmony {
+    flex-direction: row;
+    gap: 0.75rem;
+  }
+}
+@media (max-width: 32em) {
+  .color-harmony {
+    flex-direction: column;
+    gap: 1rem;
+  }
+}
+@media (min-width: 80em) {
+  .color-info::after {
+    left: 0;
+    right: 0;
+  }
+}
+@media (max-width: 80em) {
+  .color-info::after {
+    left: -1rem;
+    right: -1rem;
   }
 }
