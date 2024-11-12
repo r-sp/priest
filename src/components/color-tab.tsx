@@ -45,37 +45,43 @@ export default function ColorTab(props: { hex: string; harmony: ColorHarmony }) 
     <Fragment>
       <nav className="color-tab" aria-label="color harmony">
         <button
-          className={clsx("color-tab-option", content === "complementary" && "active")}
+          className={clsx("color-tab-option btn", content === "complementary" && "active")}
           onClick={() => setContent("complementary")}
         >
           <span>Complementary</span>
         </button>
         <button
-          className={clsx("color-tab-option", content === "analogous" && "active")}
+          className={clsx("color-tab-option btn", content === "analogous" && "active")}
           onClick={() => setContent("analogous")}
         >
           <span>Analogous</span>
         </button>
-        <button className={clsx("color-tab-option", content === "triadic" && "active")} onClick={() => setContent("triadic")}>
+        <button
+          className={clsx("color-tab-option btn", content === "triadic" && "active")}
+          onClick={() => setContent("triadic")}
+        >
           <span>Triadic</span>
         </button>
         <button
-          className={clsx("color-tab-option", content === "split-complementary" && "active")}
+          className={clsx("color-tab-option btn", content === "split-complementary" && "active")}
           onClick={() => setContent("split-complementary")}
         >
           <span>Split Complementary</span>
         </button>
-        <button className={clsx("color-tab-option", content === "tetradic" && "active")} onClick={() => setContent("tetradic")}>
+        <button
+          className={clsx("color-tab-option btn", content === "tetradic" && "active")}
+          onClick={() => setContent("tetradic")}
+        >
           <span>Tetradic</span>
         </button>
         <button
-          className={clsx("color-tab-option", content === "rectangle" && "active")}
+          className={clsx("color-tab-option btn", content === "rectangle" && "active")}
           onClick={() => setContent("rectangle")}
         >
           <span>Rectangle</span>
         </button>
         <button
-          className={clsx("color-tab-option", content === "double-split-complementary" && "active")}
+          className={clsx("color-tab-option btn", content === "double-split-complementary" && "active")}
           onClick={() => setContent("double-split-complementary")}
         >
           <span>Double Split Complementary</span>
