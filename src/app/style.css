@@ -109,60 +109,50 @@ code {
   top: 0;
   z-index: 1;
 }
+.color-info {
+  display: flex;
+  gap: 1rem;
+  margin-top: 1rem;
+}
+.color-metadata {
+  flex-grow: 1;
+  overflow-x: auto;
+  white-space: pre;
+}
 .color-hex {
   color: var(--priest-100);
   font-size: 2rem;
   font-weight: 600;
-  margin-top: 1rem;
+  margin-top: -0.5rem;
+}
+.color-hsl {
+  color: var(--priest-300);
+  font-size: 0.75rem;
+  font-weight: 400;
 }
 .color-hex,
 .color-hsl {
   display: flex;
 }
-.color-random {
-  background: 0;
-  border: 0;
-  border-radius: 0.25rem;
-  margin-top: 1.5rem;
-  outline: 1px solid var(--priest-700);
-  padding: 0.5em 0.75em;
-  user-select: none;
+.color-tool {
+  flex-grow: 0;
 }
-.color-hsl,
 .color-random {
+  align-items: center;
+  background: 0px center;
+  border: 0px;
+  border-radius: 0.5rem;
   color: var(--priest-300);
   font-size: 0.75rem;
-  font-weight: 400;
-}
-.color-random:focus-visible {
-  outline-color: var(--priest-400);
-}
-
-@media (min-width: 26em) {
-  .color-box {
-    height: 32rem;
-  }
-  .color-saturation {
-    height: 20rem;
-    width: 20rem;
-  }
-  .color-hue,
-  .color-lightness {
-    width: 20rem;
-  }
-}
-@media (max-width: 26em) {
-  .color-box {
-    height: calc(100vw + 10rem);
-  }
-  .color-saturation {
-    height: calc(100vw - 2rem);
-    width: calc(100vw - 2rem);
-  }
-  .color-hue,
-  .color-lightness {
-    width: calc(100vw - 2rem);
-  }
+  font-weight: 500;
+  display: flex;
+  gap: 0.25rem;
+  justify-content: center;
+  line-height: 1.5rem;
+  outline: 1px solid var(--priest-700);
+  padding: 0.25rem 0.5rem 0.25rem 0.25rem;
+  text-transform: uppercase;
+  user-select: none;
 }
 
 .color-tab {
@@ -176,7 +166,7 @@ code {
   border-radius: 0.25rem;
   color: var(--priest-300);
   font-size: 0.75rem;
-  font-weight: 500;
+  font-weight: 400;
   outline: 1px solid var(--priest-800);
   padding: 0.5em 0.75em;
   user-select: none;
@@ -186,23 +176,6 @@ code {
   color: var(--priest-200);
   outline-color: var(--priest-800);
 }
-.color-tab-option:hover,
-.color-tab-option:focus {
-  background-color: var(--priest-800);
-  outline-color: var(--priest-700);
-}
-.color-tab-option:active {
-  background-color: var(--priest-700);
-  outline-color: var(--priest-600);
-}
-.color-tab-option:focus-visible {
-  outline-color: var(--priest-400);
-}
-@media (prefers-reduced-motion: no-preference) {
-  .color-tab-option:hover {
-    transition: background-color 0.2s cubic-bezier(0.4, 0, 0.2, 1);
-  }
-}
 
 .color-harmonies {
   border-top: 1px solid var(--priest-800);
@@ -210,12 +183,10 @@ code {
   gap: 1rem;
   margin-top: 2rem;
   margin-bottom: 3rem;
-  padding-top: 1.5rem;
+  padding-top: 1rem;
 }
 .color-harmony {
   display: flex;
-  flex-direction: row;
-  gap: 0.75rem;
   max-width: 100%;
 }
 .color-card {
@@ -232,11 +203,87 @@ code {
 }
 .color-name {
   color: var(--priest-300);
-  font-size: 0.75rem;
+  font-size: 1rem;
   font-weight: 400;
   line-height: 1rem;
 }
 .color-name.display {
   color: var(--priest-200);
   font-weight: 600;
+}
+
+.btn:hover,
+.btn:focus {
+  background-color: var(--priest-800);
+  outline-color: var(--priest-700);
+}
+.btn:active {
+  background-color: var(--priest-700);
+  outline-color: var(--priest-600);
+}
+.btn:focus-visible {
+  outline-color: var(--priest-400);
+}
+@media (prefers-reduced-motion: no-preference) {
+  .btn:hover {
+    transition: background-color 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+}
+
+@media (min-width: 32em) {
+  .color-box {
+    height: 32rem;
+  }
+  .color-saturation {
+    height: 20rem;
+    width: 20rem;
+  }
+  .color-hue,
+  .color-lightness {
+    width: 20rem;
+  }
+  .color-harmony {
+    flex-direction: row;
+    gap: 0.75rem;
+  }
+}
+@media (max-width: 32em) {
+  .color-box {
+    height: calc(100vw + 10rem);
+  }
+  .color-saturation {
+    height: calc(100vw - 2rem);
+    width: calc(100vw - 2rem);
+  }
+  .color-hue,
+  .color-lightness {
+    width: calc(100vw - 2rem);
+  }
+  .color-harmony {
+    flex-direction: column;
+    gap: 1rem;
+  }
+}
+@media (max-height: 32rem) {
+  .color-box {
+    height: 24rem;
+  }
+  .color-saturation {
+    height: 16rem;
+    width: 16rem;
+  }
+  .color-hue,
+  .color-lightness {
+    width: 16rem;
+  }
+}
+@media (min-width: 22rem) {
+  .color-info {
+    flex-direction: row;
+  }
+}
+@media (max-width: 22rem) {
+  .color-info {
+    flex-direction: column;
+  }
 }
