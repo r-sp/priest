@@ -123,8 +123,6 @@ code {
   background: 0;
   border: 0;
   border-radius: 0.25rem;
-  font-weight: 400;
-  margin-bottom: 2rem;
   margin-top: 1.5rem;
   outline: 1px solid var(--priest-700);
   padding: 0.5em 0.75em;
@@ -165,4 +163,80 @@ code {
   .color-lightness {
     width: calc(100vw - 2rem);
   }
+}
+
+.color-tab {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+.color-tab-option {
+  background: 0;
+  border: 0;
+  border-radius: 0.25rem;
+  color: var(--priest-300);
+  font-size: 0.75rem;
+  font-weight: 500;
+  outline: 1px solid var(--priest-800);
+  padding: 0.5em 0.75em;
+  user-select: none;
+}
+.color-tab-option.active {
+  background-color: var(--priest-800);
+  color: var(--priest-200);
+  outline-color: var(--priest-800);
+}
+.color-tab-option:hover,
+.color-tab-option:focus {
+  background-color: var(--priest-800);
+  outline-color: var(--priest-700);
+}
+.color-tab-option:active {
+  background-color: var(--priest-700);
+  outline-color: var(--priest-600);
+}
+.color-tab-option:focus-visible {
+  outline-color: var(--priest-400);
+}
+@media (prefers-reduced-motion: no-preference) {
+  .color-tab-option:hover {
+    transition: background-color 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+}
+
+.color-harmonies {
+  border-top: 1px solid var(--priest-800);
+  display: grid;
+  gap: 1rem;
+  margin-top: 2rem;
+  margin-bottom: 3rem;
+  padding-top: 1.5rem;
+}
+.color-harmony {
+  display: flex;
+  flex-direction: row;
+  gap: 0.75rem;
+  max-width: 100%;
+}
+.color-card {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  width: 100%;
+}
+.color-display {
+  border-radius: 0.5rem;
+  display: inline-flex;
+  height: 8rem;
+  width: 100%;
+}
+.color-name {
+  color: var(--priest-300);
+  font-size: 0.75rem;
+  font-weight: 400;
+  line-height: 1rem;
+}
+.color-name.display {
+  color: var(--priest-200);
+  font-weight: 600;
 }
