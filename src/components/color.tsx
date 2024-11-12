@@ -1,19 +1,28 @@
 "use client";
 
 import { useState } from "react";
-import { colord, random } from "colord";
+import { type HsvaColor, colord, random } from "colord";
 import Hue from "@uiw/react-color-hue";
 import Saturation from "@uiw/react-color-saturation";
 import ShadeSlider from "@uiw/react-color-shade-slider";
 import clsx from "clsx";
+import chroma from "chroma-js";
+
+import ColorHarmony from "./color-harmony";
 
 export default function Color(props: { hsv: { h: number; s: number; v: number; a: number } }) {
   const [picker, setPicker] = useState<boolean>(false);
-  const [hsva, setHsva] = useState(props.hsv);
+  const [hsva, setHsva] = useState<HsvaColor>(props.hsv);
+
   const color = colord(hsva);
+  const colorHEX = color.toHex();
+  const colorRGB = color.toRgbString();
+  const chromaColor = chroma(colorHEX);
+  const colorHSL = chromaColor.css("hsl");
+  const randomColor = () => random().toHsv();
 
   return (
-    <section className="color" aria-label={clsx("color", color.toHex())}>
+    <section className="color" aria-label={clsx("color", colorHEX)}>
       <div className="color-box" role="none">
         <button
           className="color-preview"
@@ -21,7 +30,7 @@ export default function Color(props: { hsv: { h: number; s: number; v: number; a
           aria-expanded={picker ? true : false}
           aria-controls="color-dialog"
           aria-label={clsx(picker ? "close color picker" : "open color picker")}
-          style={{ backgroundColor: color.toRgbString() }}
+          style={{ backgroundColor: colorRGB }}
           tabIndex={0}
           onClick={() => setPicker(!picker)}
         ></button>
@@ -37,41 +46,28 @@ export default function Color(props: { hsv: { h: number; s: number; v: number; a
             <Saturation
               hsva={hsva}
               style={{ height: "100%", width: "100%" }}
-              onChange={(newColor) => {
-                setHsva({ ...hsva, ...newColor, a: hsva.a });
-              }}
+              onChange={(newColor) => setHsva({ ...hsva, ...newColor, a: hsva.a })}
             />
           </div>
           <div className="color-hue" role="toolbar" aria-label="color hue" aria-orientation="horizontal">
-            <Hue
-              hue={hsva.h}
-              onChange={(newHue) => {
-                setHsva({ ...hsva, ...newHue });
-              }}
-            />
+            <Hue hue={hsva.h} onChange={(newHue) => setHsva({ ...hsva, ...newHue })} />
           </div>
           <div className="color-lightness" role="toolbar" aria-label="color lightness" aria-orientation="horizontal">
-            <ShadeSlider
-              hsva={hsva}
-              onChange={(newShade) => {
-                setHsva({ ...hsva, ...newShade });
-              }}
-            />
+            <ShadeSlider hsva={hsva} onChange={(newShade) => setHsva({ ...hsva, ...newShade })} />
           </div>
         </div>
         <div className="color-overlay" aria-hidden="true" onClick={() => setPicker(!picker)}></div>
       </div>
-      <code className="color-hex">{color.toHex()}</code>
-      <code className="color-hsl">{color.toHslString()}</code>
-      <button
-        className="color-random"
-        aria-label="generate random color"
-        onClick={() => {
-          setHsva(random().toHsv());
-        }}
-      >
+      <code className="color-hex" role="heading" aria-level={2}>
+        {colorHEX}
+      </code>
+      <code className="color-hsl" role="none">
+        {colorHSL}
+      </code>
+      <button className="color-random" aria-label="generate random color" onClick={() => setHsva(randomColor)}>
         <span>Random Color</span>
       </button>
+      <ColorHarmony hsv={hsva} />
     </section>
   );
 }
