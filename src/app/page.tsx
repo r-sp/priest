@@ -7,6 +7,8 @@ export const metadata: Metadata = {
   description: "The Holy Colors",
 };
 
+export const dynamic = "force-dynamic";
+
 export default function HomePage() {
   const color = random().toHsv();
   return <Color hsv={color} />;
