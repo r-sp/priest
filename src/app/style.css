@@ -119,7 +119,7 @@ code {
 }
 .color-info::after {
   background-color: var(--priest-900);
-  border-bottom: 1px solid var(--priest-800);
+  border-bottom: 1px solid var(--priest-700);
   bottom: 0;
   content: "";
   pointer-events: none;
