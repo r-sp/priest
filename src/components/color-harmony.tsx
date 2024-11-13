@@ -7,7 +7,7 @@ import clsx from "clsx";
 import harmoniesPlugin from "colord/plugins/harmonies";
 extend([harmoniesPlugin]);
 
-type ColorHarmony =
+type Color =
   | "analogous"
   | "complementary"
   | "double-split-complementary"
@@ -17,7 +17,7 @@ type ColorHarmony =
   | "triadic";
 
 export default function ColorHarmony(props: { hex: string }) {
-  const [content, setContent] = useState<ColorHarmony>("double-split-complementary");
+  const [content, setContent] = useState<Color>("double-split-complementary");
 
   const color = colord(props.hex);
   const harmony = useMemo(() => {
@@ -56,12 +56,7 @@ export default function ColorHarmony(props: { hex: string }) {
   );
 }
 
-function TabButton(props: {
-  current: ColorHarmony;
-  state: ColorHarmony;
-  action: Dispatch<SetStateAction<ColorHarmony>>;
-  name: string;
-}) {
+function TabButton(props: { current: Color; state: Color; action: Dispatch<SetStateAction<Color>>; name: string }) {
   return (
     <button
       className={clsx("color-tab-option btn", props.current === props.state && "active")}
@@ -72,7 +67,7 @@ function TabButton(props: {
   );
 }
 
-function TabContent(props: { current: ColorHarmony; state: ColorHarmony; color: string[] }) {
+function TabContent(props: { current: Color; state: Color; color: string[] }) {
   if (props.current === props.state) {
     return (
       <div className="color-harmony">

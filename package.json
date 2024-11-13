@@ -4,8 +4,7 @@
   "private": true,
   "type": "module",
   "engines": {
-    "node": ">=20.x",
-    "pnpm": "9.x"
+    "node": ">=20.x"
   },
   "packageManager": "pnpm@9.12.3",
   "browserslist": "defaults, not ie <= 11",
