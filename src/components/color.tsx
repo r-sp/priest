@@ -2,14 +2,14 @@
 
 import { useState, useDeferredValue } from "react";
 import { useColor } from "~/lib/color";
-import { type HslaColor } from "~/lib/types";
+import { type CustomColor } from "~/lib/types";
 import ColorPicker from "./color-picker";
 import ColorDetails from "./color-details";
 import ColorOptions from "./color-options";
 import ColorHarmony from "./color-harmony";
 
-export default function Color(props: { raw: HslaColor }) {
-  const [color, setColor] = useState<HslaColor>(props.raw);
+export default function Color(props: { raw: CustomColor }) {
+  const [color, setColor] = useState<CustomColor>(props.raw);
   const deferredColor = useDeferredValue(color);
 
   const raw = useColor(deferredColor);

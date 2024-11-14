@@ -2,15 +2,15 @@
 
 import { useState, Dispatch, SetStateAction } from "react";
 import { useColor } from "~/lib/color";
-import type { HsvaColor, HslaColor } from "~/lib/types";
+import type { CustomColor, HsvaColor } from "~/lib/types";
 import clsx from "clsx";
 import Hue from "@uiw/react-color-hue";
 import Saturation from "@uiw/react-color-saturation";
 import ShadeSlider from "@uiw/react-color-shade-slider";
 
 export default function ColorPicker(props: {
-  color: { rgb: string; raw: HslaColor };
-  action: Dispatch<SetStateAction<HslaColor>>;
+  color: { rgb: string; raw: CustomColor };
+  action: Dispatch<SetStateAction<CustomColor>>;
 }) {
   const [colorPicker, setColorPicker] = useState<boolean>(false);
   const [colorHSV, setColorHSV] = useState<HsvaColor>(useColor(props.color.raw).toHsv());
@@ -33,7 +33,7 @@ export default function ColorPicker(props: {
         aria-haspopup="dialog"
         aria-expanded={colorPicker ? true : false}
         aria-controls="color-dialog"
-        aria-label={clsx(colorPicker ? "close color picker" : "open color picker")}
+        aria-label={colorPicker ? "close color picker" : "open color picker"}
         style={{ backgroundColor: colorRGB }}
         tabIndex={0}
         onClick={handleColorPicker}
