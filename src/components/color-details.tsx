@@ -2,16 +2,16 @@
 
 import { type ReactNode, Dispatch, SetStateAction } from "react";
 import { getRandomColor } from "~/lib/color";
-import { type HslaColor } from "~/lib/types";
+import { type CustomColor } from "~/lib/types";
 
 export default function ColorDetails(props: {
   color: { hex: string; hsl: string };
-  action: Dispatch<SetStateAction<HslaColor>>;
+  action: Dispatch<SetStateAction<CustomColor>>;
   children: ReactNode;
 }) {
   const colorHEX = props.color.hex;
   const colorHSL = props.color.hsl;
-  const randomColor = () => props.action(getRandomColor().toHsl());
+  const randomColor = () => props.action(getRandomColor().toHex());
 
   return (
     <div className="color-details" role="none">

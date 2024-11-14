@@ -38,3 +38,5 @@ export type RgbaColor = {
   b: number;
   a: number;
 };
+
+export type CustomColor = HexColor | HslColor | HslaColor | HsvColor | HsvaColor | RgbColor | RgbaColor;
