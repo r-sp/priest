@@ -31,9 +31,6 @@ button {
   -webkit-tap-highlight-color: transparent;
   cursor: pointer;
 }
-code {
-  font-family: var(--font-geist-mono);
-}
 
 .site-header,
 .site-footer {
@@ -108,7 +105,7 @@ code {
   top: 0;
   z-index: 1;
 }
-.color-info {
+.color-details {
   background-color: var(--priest-900);
   display: flex;
   gap: 1rem;
@@ -117,7 +114,7 @@ code {
   top: 0;
   z-index: 2;
 }
-.color-info::after {
+.color-details::after {
   background-color: var(--priest-900);
   border-bottom: 1px solid var(--priest-700);
   bottom: 0;
@@ -127,7 +124,7 @@ code {
   top: 0;
   z-index: -1;
 }
-.color-metadata {
+.color-summary {
   display: flex;
   flex-direction: column;
   flex-grow: 1;
@@ -149,10 +146,14 @@ code {
 .color-hex,
 .color-hsl {
   display: inline-flex;
+  font-family: var(--font-geist-mono);
 }
 .color-tool {
-  flex-grow: 0;
+  display: flex;
+  flex-direction: row;
+  gap: 1rem;
 }
+.color-edit,
 .color-random {
   align-items: center;
   background: 0px center;
@@ -220,11 +221,16 @@ code {
 }
 .color-name {
   color: var(--priest-300);
+  font-family: var(--font-geist-mono);
   font-size: 1rem;
   font-weight: 400;
   line-height: 1rem;
 }
 
+.color-preview,
+.w-color-interactive {
+  outline: 1px solid transparent;
+}
 .btn:hover,
 .btn:focus {
   background-color: var(--priest-800);
@@ -234,7 +240,9 @@ code {
   background-color: var(--priest-700);
   outline-color: var(--priest-600);
 }
-.btn:focus-visible {
+.btn:focus-visible,
+.color-preview:focus-visible,
+.w-color-interactive:focus-visible {
   outline-color: var(--priest-400);
 }
 @media (prefers-reduced-motion: no-preference) {
@@ -243,6 +251,24 @@ code {
   }
 }
 
+@media (min-width: 16em) {
+  .color-details {
+    flex-direction: row;
+  }
+}
+@media (max-width: 16em) {
+  .color-details {
+    flex-direction: column;
+  }
+}
+@media (max-width: 18em) {
+  .color-edit {
+    padding: 0.25rem;
+  }
+  .color-edit > span {
+    display: none;
+  }
+}
 @media (min-width: 22em) {
   .color-box {
     height: 24rem;
@@ -254,9 +280,6 @@ code {
   .color-hue,
   .color-lightness {
     width: 16rem;
-  }
-  .color-info {
-    flex-direction: row;
   }
 }
 @media (max-width: 22em) {
@@ -271,9 +294,6 @@ code {
   .color-lightness {
     width: calc(100vw - 2rem);
   }
-  .color-info {
-    flex-direction: column;
-  }
 }
 @media (min-width: 32em) {
   .color-harmony {
@@ -286,15 +306,21 @@ code {
     flex-direction: column;
     gap: 1rem;
   }
+  .color-random {
+    padding: 0.25rem;
+  }
+  .color-random > span {
+    display: none;
+  }
 }
 @media (min-width: 80em) {
-  .color-info::after {
+  .color-details::after {
     left: 0;
     right: 0;
   }
 }
 @media (max-width: 80em) {
-  .color-info::after {
+  .color-details::after {
     left: -1rem;
     right: -1rem;
   }
