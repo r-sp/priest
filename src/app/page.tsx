@@ -1,5 +1,5 @@
 import { type Metadata } from "next";
-import { random } from "colord";
+import { getRandomColor } from "~/lib/color";
 import Color from "~/components/color";
 
 export const metadata: Metadata = {
@@ -10,6 +10,7 @@ export const metadata: Metadata = {
 export const dynamic = "force-dynamic";
 
 export default function HomePage() {
-  const color = random().toHsv();
-  return <Color hsv={color} />;
+  const random = getRandomColor().toHsl();
+
+  return <Color raw={random} />;
 }

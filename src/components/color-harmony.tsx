@@ -1,11 +1,8 @@
 "use client";
 
 import { useState, useMemo, Dispatch, SetStateAction } from "react";
-import { colord, extend } from "colord";
+import { useColor } from "~/lib/color";
 import clsx from "clsx";
-
-import harmoniesPlugin from "colord/plugins/harmonies";
-extend([harmoniesPlugin]);
 
 type Color =
   | "analogous"
@@ -16,10 +13,10 @@ type Color =
   | "tetradic"
   | "triadic";
 
-export default function ColorHarmony(props: { hex: string }) {
+export default function ColorHarmony(props: { raw: string }) {
   const [content, setContent] = useState<Color>("double-split-complementary");
 
-  const color = colord(props.hex);
+  const color = useColor(props.raw);
   const harmony = useMemo(() => {
     return {
       analogous: color.harmonies("analogous").map((c) => c.toHex()),
