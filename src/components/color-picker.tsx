@@ -33,7 +33,7 @@ export default function ColorPicker(props: {
         aria-haspopup="dialog"
         aria-expanded={colorPicker ? true : false}
         aria-controls="color-dialog"
-        aria-label={clsx(colorPicker ? "close color picker" : "open color picker")}
+        aria-label={colorPicker ? "close color picker" : "open color picker"}
         style={{ backgroundColor: colorRGB }}
         tabIndex={0}
         onClick={handleColorPicker}
