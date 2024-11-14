@@ -1,40 +1,72 @@
 "use client";
 
-import { useState, Dispatch, SetStateAction, ChangeEvent } from "react";
+import { useState, useRef, Dispatch, SetStateAction, ChangeEvent } from "react";
 import { createPortal } from "react-dom";
 import { useColor, getFormatColor } from "~/lib/color";
-import { type HslaColor } from "~/lib/types";
+import { type CustomColor } from "~/lib/types";
 
-export default function ColorOptions(props: { color: { hex: string }; action: Dispatch<SetStateAction<HslaColor>> }) {
+export default function ColorOptions(props: { color: { hex: string }; action: Dispatch<SetStateAction<CustomColor>> }) {
   const [showModal, setShowModal] = useState<boolean>(false);
+  const [focusInput, setFocusInput] = useState<boolean>(true);
+  const colorRef = useRef(props.color.hex);
 
   const colorHEX = props.color.hex;
   const getColor = useColor;
 
-  const updateColor = (e: ChangeEvent<HTMLInputElement>) => {
+  const inputColor = (e: ChangeEvent<HTMLInputElement>) => {
     const newColor = getColor(e.target.value);
     const validColor = newColor.isValid();
     const formatColor = getFormatColor(e.target.value);
 
     if (validColor === true) {
-      console.log("the color is valid, should be change");
-      console.log(formatColor, newColor.minify({ alphaHex: true }));
-    } else if (validColor === false) {
-      console.log("the color is not valid, should not be change");
+      colorRef.current = e.target.value;
+      // console.log("the color is valid, should be change");
+
+      if (formatColor === "hex") {
+        props.action(newColor.toHex());
+      } else if (formatColor === "hsl") {
+        props.action(newColor.toHsl());
+      } else if (formatColor === "hsv") {
+        props.action(newColor.toHsv());
+      } else if (formatColor === "rgb") {
+        props.action(newColor.toRgb());
+      } else {
+        props.action(newColor.toHex());
+      }
+    } else {
+      // console.log("the color is not valid, should not be change");
     }
+
+    if (focusInput === false) setFocusInput(true);
   };
 
   const ModalContent = () => {
     return (
-      <div className="color-options" style={{ display: "none" }}>
-        <form>
-          <input defaultValue={colorHEX} onChange={updateColor} name="hex" />
-          <button type="reset">Reset</button>
-        </form>
+      <div className="color-options">
+        <label htmlFor="color-input">Edit Color</label>
+        <input
+          id="color-input"
+          type="text"
+          autoFocus={focusInput}
+          autoCorrect="false"
+          autoComplete="false"
+          defaultValue={colorRef.current}
+          onChange={inputColor}
+          onBlur={() => setFocusInput(false)}
+        />
       </div>
     );
   };
-  const handleModalContent = () => setShowModal(!showModal);
+  const handleModalContent = () => {
+    setShowModal(!showModal);
+
+    if (showModal === false) {
+      colorRef.current = colorHEX;
+      setFocusInput(true);
+    } else {
+      setFocusInput(false);
+    }
+  };
 
   return (
     <>

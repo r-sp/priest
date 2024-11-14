@@ -227,6 +227,19 @@ button {
   line-height: 1rem;
 }
 
+.color-options {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  margin: 0 auto;
+  max-width: 50em;
+  padding: 2rem 1rem 4rem;
+}
+
+.color-options > input {
+  max-width: 100%;
+}
+
 .color-preview,
 .w-color-interactive {
   outline: 1px solid transparent;
