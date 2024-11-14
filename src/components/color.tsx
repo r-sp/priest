@@ -1,27 +1,29 @@
 "use client";
 
 import { useState, useDeferredValue } from "react";
-import { type HsvaColor, colord } from "colord";
-import clsx from "clsx";
-import chroma from "chroma-js";
+import { useColor } from "~/lib/color";
+import { type HslaColor } from "~/lib/types";
 import ColorPicker from "./color-picker";
-import ColorInfo from "./color-info";
+import ColorDetails from "./color-details";
+import ColorOptions from "./color-options";
 import ColorHarmony from "./color-harmony";
 
-export default function Color(props: { hsv: { h: number; s: number; v: number; a: number } }) {
-  const [hsv, setHsv] = useState<HsvaColor>(props.hsv);
-  const deferredColor = useDeferredValue(hsv);
+export default function Color(props: { raw: HslaColor }) {
+  const [color, setColor] = useState<HslaColor>(props.raw);
+  const deferredColor = useDeferredValue(color);
 
-  const colorHSV = colord(deferredColor);
-  const colorHEX = colorHSV.toHex();
-  const colorRGB = colorHSV.toRgbString();
-  const colorHSL = chroma(colorHEX).css("hsl");
+  const raw = useColor(deferredColor);
+  const colorHEX = raw.toHex();
+  const colorRGB = raw.toRgbString();
+  const colorHSL = raw.toHslString();
 
   return (
-    <section className="color" aria-label={clsx("color", colorHEX)}>
-      <ColorPicker rgb={colorRGB} hsva={deferredColor} action={setHsv} />
-      <ColorInfo hex={colorHEX} hsl={colorHSL} action={setHsv} />
-      <ColorHarmony hex={colorHEX} />
+    <section className="color">
+      <ColorPicker color={{ rgb: colorRGB, raw: deferredColor }} action={setColor} />
+      <ColorDetails color={{ hex: colorHEX, hsl: colorHSL }} action={setColor}>
+        <ColorOptions color={{ hex: colorHEX }} action={setColor} />
+      </ColorDetails>
+      <ColorHarmony raw={colorHEX} />
     </section>
   );
 }
