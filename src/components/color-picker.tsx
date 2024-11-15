@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, Dispatch, SetStateAction } from "react";
+import { createPortal } from "react-dom";
 import { useColor } from "~/lib/color";
 import type { CustomColor, HsvaColor } from "~/lib/types";
 import clsx from "clsx";
@@ -15,13 +16,13 @@ export default function ColorPicker(props: {
   const [colorPicker, setColorPicker] = useState<boolean>(false);
   const [colorHSV, setColorHSV] = useState<HsvaColor>(useColor(props.color.raw).toHsv());
 
-  const colorRGB = props.color.rgb;
+  const previewColor = props.color.rgb;
   const setColor = props.action;
   const getColor = useColor;
 
   const newColor = (color: HsvaColor | { h: number } | { v: number }) => {
     setColorHSV({ ...colorHSV, ...color });
-    setColor(getColor(colorHSV).toHsl());
+    setColor(getColor(colorHSV).toRgb());
   };
 
   const handleColorPicker = () => setColorPicker(!colorPicker);
@@ -34,7 +35,7 @@ export default function ColorPicker(props: {
         aria-expanded={colorPicker ? true : false}
         aria-controls="color-dialog"
         aria-label={colorPicker ? "close color picker" : "open color picker"}
-        style={{ backgroundColor: colorRGB }}
+        style={{ backgroundColor: previewColor }}
         tabIndex={0}
         onClick={handleColorPicker}
       ></button>
@@ -56,7 +57,8 @@ export default function ColorPicker(props: {
           <ShadeSlider hsva={colorHSV} onChange={newColor} onBlur={handleColorPicker} />
         </div>
       </div>
-      <div className="color-overlay" aria-hidden="true" onClick={handleColorPicker}></div>
+      {colorPicker &&
+        createPortal(<div className="color-overlay" aria-hidden="true" onClick={handleColorPicker} />, document.body)}
     </div>
   );
 }
