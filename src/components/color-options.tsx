@@ -2,37 +2,25 @@
 
 import { useState, useRef, Dispatch, SetStateAction, ChangeEvent } from "react";
 import { createPortal } from "react-dom";
-import { useColor, getFormatColor } from "~/lib/color";
+import { useColor } from "~/lib/color";
 import { type CustomColor } from "~/lib/types";
 
-export default function ColorOptions(props: { color: { hex: string }; action: Dispatch<SetStateAction<CustomColor>> }) {
+export default function ColorOptions(props: { raw: string; action: Dispatch<SetStateAction<CustomColor>> }) {
   const [showModal, setShowModal] = useState<boolean>(false);
   const [focusInput, setFocusInput] = useState<boolean>(true);
-  const colorRef = useRef(props.color.hex);
+  const colorRef = useRef(props.raw);
 
-  const colorHEX = props.color.hex;
+  const currentColor = props.raw;
   const getColor = useColor;
 
   const inputColor = (e: ChangeEvent<HTMLInputElement>) => {
     const newColor = getColor(e.target.value);
     const validColor = newColor.isValid();
-    const formatColor = getFormatColor(e.target.value);
 
     if (validColor === true) {
       colorRef.current = e.target.value;
       // console.log("the color is valid, should be change");
-
-      if (formatColor === "hex") {
-        props.action(newColor.toHex());
-      } else if (formatColor === "hsl") {
-        props.action(newColor.toHsl());
-      } else if (formatColor === "hsv") {
-        props.action(newColor.toHsv());
-      } else if (formatColor === "rgb") {
-        props.action(newColor.toRgb());
-      } else {
-        props.action(newColor.toHex());
-      }
+      props.action(newColor.toRgb());
     } else {
       // console.log("the color is not valid, should not be change");
     }
@@ -61,7 +49,7 @@ export default function ColorOptions(props: { color: { hex: string }; action: Di
     setShowModal(!showModal);
 
     if (showModal === false) {
-      colorRef.current = colorHEX;
+      colorRef.current = currentColor;
       setFocusInput(true);
     } else {
       setFocusInput(false);
