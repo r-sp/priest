@@ -2,7 +2,7 @@
 
 import { useState, useDeferredValue } from "react";
 import { useColor } from "~/lib/color";
-import { type CustomColor } from "~/lib/types";
+import type { CustomColor } from "~/lib/types";
 import ColorPicker from "./color-picker";
 import ColorDetails from "./color-details";
 import ColorOptions from "./color-options";

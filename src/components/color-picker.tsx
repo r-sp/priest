@@ -1,8 +1,9 @@
 "use client";
 
-import { useState, Dispatch, SetStateAction } from "react";
+import { useState } from "react";
 import { createPortal } from "react-dom";
 import { useColor } from "~/lib/color";
+import type { Dispatch, SetStateAction } from "react";
 import type { CustomColor, HsvaColor } from "~/lib/types";
 import clsx from "clsx";
 import Hue from "@uiw/react-color-hue";

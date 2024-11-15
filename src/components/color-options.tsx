@@ -1,9 +1,10 @@
 "use client";
 
-import { useState, useRef, Dispatch, SetStateAction, ChangeEvent } from "react";
+import { useState, useRef } from "react";
 import { createPortal } from "react-dom";
 import { useColor } from "~/lib/color";
-import { type CustomColor } from "~/lib/types";
+import type { Dispatch, SetStateAction, ChangeEvent } from "react";
+import type { CustomColor } from "~/lib/types";
 
 export default function ColorOptions(props: { raw: string; action: Dispatch<SetStateAction<CustomColor>> }) {
   const [showModal, setShowModal] = useState<boolean>(false);

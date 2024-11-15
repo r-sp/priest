@@ -1,8 +1,8 @@
 "use client";
 
-import { type ReactNode, Dispatch, SetStateAction } from "react";
+import type { ReactNode, Dispatch, SetStateAction } from "react";
+import type { CustomColor } from "~/lib/types";
 import { getRandomColor } from "~/lib/color";
-import { type CustomColor } from "~/lib/types";
 
 export default function ColorDetails(props: {
   color: { hex: string; hsl: string };

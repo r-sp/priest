@@ -1,8 +1,9 @@
 "use client";
 
-import { useState, useMemo, Dispatch, SetStateAction } from "react";
+import { useState, useMemo } from "react";
 import { useColor } from "~/lib/color";
-import { type CustomColor } from "~/lib/types";
+import type { Dispatch, SetStateAction } from "react";
+import type { CustomColor } from "~/lib/types";
 import clsx from "clsx";
 
 type Color =
