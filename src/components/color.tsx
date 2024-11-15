@@ -9,20 +9,16 @@ import ColorOptions from "./color-options";
 import ColorHarmony from "./color-harmony";
 
 export default function Color(props: { raw: CustomColor }) {
-  const [color, setColor] = useState<CustomColor>(props.raw);
-  const deferredColor = useDeferredValue(color);
+  const [rawColor, setRawColor] = useState<CustomColor>(props.raw);
 
-  const raw = useColor(deferredColor);
-  const colorHEX = raw.toHex();
-  const colorHSV = raw.toHsv();
-  const colorRGB = raw.toRgbString();
-  const colorHSL = raw.toHslString();
+  const deferredColor = useDeferredValue(rawColor);
+  const color = useColor(deferredColor);
 
   return (
     <section className="color">
-      <ColorPicker color={{ rgb: colorRGB, raw: colorHSV }} action={setColor} />
-      <ColorDetails color={{ hex: colorHEX, hsl: colorHSL }} action={setColor}>
-        <ColorOptions raw={colorHEX} action={setColor} />
+      <ColorPicker color={{ rgb: color.toRgbString(), raw: color.toHsv() }} action={setRawColor} />
+      <ColorDetails color={{ hex: color.toHex(), hsl: color.toHslString() }} action={setRawColor}>
+        <ColorOptions color={{ hex: color.toHex(), rgb: color.toRgbString(), raw: color.toHsl() }} action={setRawColor} />
       </ColorDetails>
       <ColorHarmony raw={deferredColor} />
     </section>
