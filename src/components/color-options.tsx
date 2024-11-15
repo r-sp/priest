@@ -1,60 +1,143 @@
 "use client";
 
-import { useState, useRef, Dispatch, SetStateAction, ChangeEvent } from "react";
+import { useState, useRef, useMemo } from "react";
 import { createPortal } from "react-dom";
 import { useColor } from "~/lib/color";
-import { type CustomColor } from "~/lib/types";
+import type { Dispatch, SetStateAction, ChangeEvent } from "react";
+import type { CustomColor, HslaColor } from "~/lib/types";
 
-export default function ColorOptions(props: { raw: string; action: Dispatch<SetStateAction<CustomColor>> }) {
+export default function ColorOptions(props: {
+  color: { hex: string; rgb: string; raw: HslaColor };
+  action: Dispatch<SetStateAction<CustomColor>>;
+}) {
   const [showModal, setShowModal] = useState<boolean>(false);
-  const [focusInput, setFocusInput] = useState<boolean>(true);
-  const colorRef = useRef(props.raw);
+  const [focusInput, setFocusInput] = useState<boolean>(false);
+  const [focusHue, setFocusHue] = useState<boolean>(false);
+  const [focusSaturation, setFocusSaturation] = useState<boolean>(false);
+  const [focusLightness, setFocusLightness] = useState<boolean>(false);
 
-  const currentColor = props.raw;
+  const currentHexColor = props.color.hex;
+  const currentHslColor = props.color.raw;
+  const colorPreview = props.color.rgb;
+  const colorHex = useRef(currentHexColor);
+  const colorHsl = useRef(currentHslColor);
   const getColor = useColor;
 
-  const inputColor = (e: ChangeEvent<HTMLInputElement>) => {
+  const updateInputColor = (e: ChangeEvent<HTMLInputElement>) => {
     const newColor = getColor(e.target.value);
     const validColor = newColor.isValid();
 
     if (validColor === true) {
-      colorRef.current = e.target.value;
+      colorHex.current = e.target.value;
       // console.log("the color is valid, should be change");
       props.action(newColor.toRgb());
+      colorHsl.current = newColor.toHsl();
     } else {
       // console.log("the color is not valid, should not be change");
     }
 
-    if (focusInput === false) setFocusInput(true);
+    setFocusInput(true);
+  };
+  const updateHslColor = (color: { h?: number; s?: number; l?: number; a?: number }) => {
+    colorHsl.current = {
+      ...colorHsl.current,
+      ...color,
+    };
+    const newColor = getColor(colorHsl.current);
+
+    props.action(newColor.toRgb());
+    colorHex.current = newColor.toHex();
   };
 
   const ModalContent = () => {
     return (
-      <div className="color-options">
-        <label htmlFor="color-input">Edit Color</label>
-        <input
-          id="color-input"
-          type="text"
-          autoFocus={focusInput}
-          autoCorrect="false"
-          autoComplete="false"
-          defaultValue={colorRef.current}
-          onChange={inputColor}
-          onBlur={() => setFocusInput(false)}
-        />
-      </div>
+      <aside className="color-options">
+        <div style={{ backgroundColor: colorPreview, height: "3rem", width: "3rem" }}></div>
+        <div>
+          <label htmlFor="color-input">Edit Color</label>
+          <input
+            id="color-input"
+            type="text"
+            autoCorrect="false"
+            autoComplete="false"
+            autoFocus={focusInput}
+            defaultValue={colorHex.current}
+            onChange={updateInputColor}
+            onBlur={() => setFocusInput(false)}
+          />
+        </div>
+        <div>
+          <label htmlFor="color-input-hue">Hue</label>
+          <input
+            id="color-input-hue"
+            type="number"
+            autoFocus={focusHue}
+            defaultValue={colorHsl.current.h}
+            min={0}
+            max={360}
+            onChange={(e) => {
+              updateHslColor({ h: e.target.valueAsNumber });
+              setFocusHue(true);
+            }}
+            onBlur={() => setFocusHue(false)}
+          />
+        </div>
+        <div>
+          <label htmlFor="color-input-saturation">Saturation</label>
+          <input
+            id="color-input-saturation"
+            type="number"
+            autoFocus={focusSaturation}
+            defaultValue={colorHsl.current.s}
+            min={0}
+            max={100}
+            onChange={(e) => {
+              updateHslColor({ s: e.target.valueAsNumber });
+              setFocusSaturation(true);
+            }}
+            onBlur={() => setFocusSaturation(false)}
+          />
+        </div>
+        <div>
+          <label htmlFor="color-input-lightness">Lightness</label>
+          <input
+            id="color-input-lightness"
+            type="number"
+            autoFocus={focusLightness}
+            defaultValue={colorHsl.current.l}
+            min={0}
+            max={100}
+            onChange={(e) => {
+              updateHslColor({ l: e.target.valueAsNumber });
+              setFocusLightness(true);
+            }}
+            onBlur={() => setFocusLightness(false)}
+          />
+        </div>
+        <div>
+          <span>Alpha: {colorHsl.current.a}</span>
+        </div>
+      </aside>
     );
   };
-  const handleModalContent = () => {
-    setShowModal(!showModal);
+  const handleModalContent = () => setShowModal(!showModal);
 
-    if (showModal === false) {
-      colorRef.current = currentColor;
-      setFocusInput(true);
-    } else {
-      setFocusInput(false);
+  useMemo(() => {
+    if (showModal === true) {
+      if (colorHex.current !== currentHexColor && focusInput === false) {
+        colorHex.current = currentHexColor;
+      }
+      if (colorHsl.current !== currentHslColor) {
+        if (focusHue === false) {
+          colorHsl.current = currentHslColor;
+        } else if (focusSaturation === false) {
+          colorHsl.current = currentHslColor;
+        } else if (focusLightness === false) {
+          colorHsl.current = currentHslColor;
+        }
+      }
     }
-  };
+  }, [colorHex, colorHsl, currentHexColor, currentHslColor, showModal, focusInput, focusHue, focusSaturation, focusLightness]);
 
   return (
     <>
@@ -67,7 +150,7 @@ export default function ColorOptions(props: { raw: string; action: Dispatch<SetS
         </svg>
         <span>Edit</span>
       </button>
-      {showModal && createPortal(<ModalContent />, document.body)}
+      {showModal === true && createPortal(<ModalContent />, document.body)}
     </>
   );
 }
