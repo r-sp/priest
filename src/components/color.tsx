@@ -21,9 +21,9 @@ export default function Color(props: { raw: CustomColor }) {
     <section className="color">
       <ColorPicker color={{ rgb: colorRGB, raw: deferredColor }} action={setColor} />
       <ColorDetails color={{ hex: colorHEX, hsl: colorHSL }} action={setColor}>
-        <ColorOptions color={{ hex: colorHEX }} action={setColor} />
+        <ColorOptions raw={colorHEX} action={setColor} />
       </ColorDetails>
-      <ColorHarmony raw={colorHEX} />
+      <ColorHarmony raw={deferredColor} />
     </section>
   );
 }
