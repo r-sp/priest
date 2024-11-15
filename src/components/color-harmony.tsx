@@ -2,6 +2,7 @@
 
 import { useState, useMemo, Dispatch, SetStateAction } from "react";
 import { useColor } from "~/lib/color";
+import { type CustomColor } from "~/lib/types";
 import clsx from "clsx";
 
 type Color =
@@ -13,8 +14,8 @@ type Color =
   | "tetradic"
   | "triadic";
 
-export default function ColorHarmony(props: { raw: string }) {
-  const [content, setContent] = useState<Color>("double-split-complementary");
+export default function ColorHarmony(props: { raw: CustomColor }) {
+  const [content, setContent] = useState<Color>("rectangle");
 
   const color = useColor(props.raw);
   const harmony = useMemo(() => {
