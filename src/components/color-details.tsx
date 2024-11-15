@@ -11,7 +11,7 @@ export default function ColorDetails(props: {
 }) {
   const colorHEX = props.color.hex;
   const colorHSL = props.color.hsl;
-  const randomColor = () => props.action(getRandomColor().toHex());
+  const randomColor = () => props.action(getRandomColor().toHsl());
 
   return (
     <div className="color-details" role="none">
