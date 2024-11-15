@@ -14,12 +14,13 @@ export default function Color(props: { raw: CustomColor }) {
 
   const raw = useColor(deferredColor);
   const colorHEX = raw.toHex();
+  const colorHSV = raw.toHsv();
   const colorRGB = raw.toRgbString();
   const colorHSL = raw.toHslString();
 
   return (
     <section className="color">
-      <ColorPicker color={{ rgb: colorRGB, raw: deferredColor }} action={setColor} />
+      <ColorPicker color={{ rgb: colorRGB, raw: colorHSV }} action={setColor} />
       <ColorDetails color={{ hex: colorHEX, hsl: colorHSL }} action={setColor}>
         <ColorOptions raw={colorHEX} action={setColor} />
       </ColorDetails>

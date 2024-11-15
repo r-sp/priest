@@ -2,7 +2,6 @@
 
 import { useState } from "react";
 import { createPortal } from "react-dom";
-import { useColor } from "~/lib/color";
 import type { Dispatch, SetStateAction } from "react";
 import type { CustomColor, HsvaColor } from "~/lib/types";
 import clsx from "clsx";
@@ -11,19 +10,16 @@ import Saturation from "@uiw/react-color-saturation";
 import ShadeSlider from "@uiw/react-color-shade-slider";
 
 export default function ColorPicker(props: {
-  color: { rgb: string; raw: CustomColor };
+  color: { rgb: string; raw: HsvaColor };
   action: Dispatch<SetStateAction<CustomColor>>;
 }) {
   const [colorPicker, setColorPicker] = useState<boolean>(false);
-  const [colorHSV, setColorHSV] = useState<HsvaColor>(useColor(props.color.raw).toHsv());
 
+  const colorRaw = props.color.raw;
   const previewColor = props.color.rgb;
-  const setColor = props.action;
-  const getColor = useColor;
 
-  const newColor = (color: HsvaColor | { h: number } | { v: number }) => {
-    setColorHSV({ ...colorHSV, ...color });
-    setColor(getColor(colorHSV).toRgb());
+  const updateColor = (color: HsvaColor | { h: number } | { v: number }) => {
+    props.action({ ...colorRaw, ...color });
   };
 
   const handleColorPicker = () => setColorPicker(!colorPicker);
@@ -49,13 +45,13 @@ export default function ColorPicker(props: {
         id="color-dialog"
       >
         <div className="color-saturation" role="toolbar" aria-label="color saturation">
-          <Saturation hsva={colorHSV} hue={colorHSV.h} style={{ height: "100%", width: "100%" }} onChange={newColor} />
+          <Saturation hsva={colorRaw} hue={colorRaw.h} style={{ height: "100%", width: "100%" }} onChange={updateColor} />
         </div>
         <div className="color-hue" role="toolbar" aria-label="color hue" aria-orientation="horizontal">
-          <Hue hue={colorHSV.h} onChange={newColor} />
+          <Hue hue={colorRaw.h} onChange={updateColor} />
         </div>
         <div className="color-lightness" role="toolbar" aria-label="color lightness" aria-orientation="horizontal">
-          <ShadeSlider hsva={colorHSV} onChange={newColor} onBlur={handleColorPicker} />
+          <ShadeSlider hsva={colorRaw} onChange={updateColor} onBlur={handleColorPicker} />
         </div>
       </div>
       {colorPicker &&
