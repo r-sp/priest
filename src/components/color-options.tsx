@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useRef } from "react";
+import { useState, useRef, useMemo } from "react";
 import { createPortal } from "react-dom";
 import { useColor } from "~/lib/color";
 import type { Dispatch, SetStateAction, ChangeEvent, MutableRefObject } from "react";
@@ -20,10 +20,8 @@ export default function ColorOptions(props: {
   const currentHslColor = props.color.raw;
   const colorPreview = props.color.rgb;
   const colorHex = useRef(currentHexColor);
-  const colorHsl = useRef(currentHslColor);
   const getColor = useColor;
 
-  const currentColorPreview = useColor(colorHsl.current).toRgbString();
   const colorHue = useRef(currentHslColor.h);
   const colorSaturation = useRef(currentHslColor.s);
   const colorLightness = useRef(currentHslColor.l);
@@ -40,8 +38,6 @@ export default function ColorOptions(props: {
     } else {
       // console.log("the color is not valid, should not be change");
     }
-
-    setFocusInput(true);
   };
 
   const updateHslColor = (color: { h?: number; s?: number; l?: number; a?: number }) => {
@@ -68,7 +64,6 @@ export default function ColorOptions(props: {
 
       req.current = range;
       props.action(newColor);
-      colorHsl.current = newColor;
       colorHex.current = getColor(newColor).toHex();
       return newColor;
     };
@@ -84,13 +79,36 @@ export default function ColorOptions(props: {
     }
   };
 
+  const modalRef = useRef<HTMLElement>(null);
+
   const ModalContent = () => {
+    const colorInput = useMemo(() => {
+      if (colorHex.current !== currentHexColor && focusInput === false) {
+        colorHex.current = currentHexColor;
+      }
+      if (colorHue.current !== currentHslColor.h && focusHue === false) {
+        colorHue.current = currentHslColor.h;
+      }
+      if (colorSaturation.current !== currentHslColor.s && focusSaturation === false) {
+        colorSaturation.current = currentHslColor.s;
+      }
+      if (colorLightness.current !== currentHslColor.l && focusLightness === false) {
+        colorLightness.current = currentHslColor.l;
+      }
+      // if (colorAlpha.current !== currentHslColor.a && focusAlpha === false) {
+      //   colorAlpha.current = currentHslColor.a;
+      // }
+
+      return {
+        hex: colorHex.current,
+        hsl: { h: colorHue.current, s: colorSaturation.current, l: colorLightness.current, a: colorAlpha.current },
+        rgb: colorPreview,
+      };
+    }, []);
+
     return (
-      <aside className="color-options">
-        <div style={{ display: "flex", flexDirection: "row", gap: "1rem" }}>
-          <div style={{ backgroundColor: colorPreview, height: "3rem", width: "3rem" }}></div>
-          <div style={{ backgroundColor: currentColorPreview, height: "3rem", width: "3rem", borderRadius: "1.5rem" }}></div>
-        </div>
+      <aside className="color-options" tabIndex={0} ref={modalRef}>
+        <div style={{ backgroundColor: colorInput.rgb, height: "3rem", width: "3rem" }}></div>
         <div>
           <label htmlFor="color-input">Edit Color</label>
           <input
@@ -99,8 +117,11 @@ export default function ColorOptions(props: {
             autoCorrect="false"
             autoComplete="false"
             autoFocus={focusInput}
-            defaultValue={colorHex.current}
-            onChange={updateInputColor}
+            defaultValue={colorInput.hex}
+            onChange={(e) => {
+              updateInputColor(e);
+              setFocusInput(true);
+            }}
             onBlur={() => setFocusInput(false)}
           />
         </div>
@@ -110,7 +131,7 @@ export default function ColorOptions(props: {
             id="color-input-hue"
             type="number"
             autoFocus={focusHue}
-            defaultValue={colorHue.current}
+            defaultValue={colorInput.hsl.h}
             min={0}
             max={360}
             onChange={(e) => {
@@ -126,7 +147,7 @@ export default function ColorOptions(props: {
             id="color-input-saturation"
             type="number"
             autoFocus={focusSaturation}
-            defaultValue={colorSaturation.current}
+            defaultValue={colorInput.hsl.s}
             min={0}
             max={100}
             onChange={(e) => {
@@ -142,7 +163,7 @@ export default function ColorOptions(props: {
             id="color-input-lightness"
             type="number"
             autoFocus={focusLightness}
-            defaultValue={colorLightness.current}
+            defaultValue={colorInput.hsl.l}
             min={0}
             max={100}
             onChange={(e) => {
@@ -153,12 +174,20 @@ export default function ColorOptions(props: {
           />
         </div>
         <div>
-          <span>Alpha: {colorAlpha.current}</span>
+          <span>Alpha: {colorInput.hsl.a}</span>
         </div>
       </aside>
     );
   };
-  const handleModalContent = () => setShowModal(!showModal);
+
+  const handleModalContent = () => {
+    setShowModal(!showModal);
+
+    if (showModal && typeof window !== "undefined") {
+      const editButton = document.querySelector<HTMLButtonElement>(".color-edit");
+      editButton?.focus();
+    }
+  };
 
   return (
     <>
@@ -173,7 +202,16 @@ export default function ColorOptions(props: {
       </button>
       {showModal && createPortal(<ModalContent />, document.body)}
       {showModal &&
-        createPortal(<div className="color-overlay options" aria-hidden="true" onClick={handleModalContent} />, document.body)}
+        createPortal(
+          <div
+            className="color-overlay options"
+            aria-hidden="true"
+            tabIndex={0}
+            onClick={handleModalContent}
+            onFocus={handleModalContent}
+          />,
+          document.body,
+        )}
     </>
   );
 }
