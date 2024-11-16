@@ -55,7 +55,7 @@ export default function ColorPicker(props: {
         </div>
       </div>
       {colorPicker &&
-        createPortal(<div className="color-overlay" aria-hidden="true" onClick={handleColorPicker} />, document.body)}
+        createPortal(<div className="color-overlay picker" aria-hidden="true" onClick={handleColorPicker} />, document.body)}
     </div>
   );
 }
