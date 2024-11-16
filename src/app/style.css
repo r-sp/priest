@@ -220,11 +220,16 @@ button {
 }
 
 .color-options {
+  background-color: var(--priest-900);
   display: grid;
   gap: 1rem;
+  left: 1rem;
   margin: 0 auto;
   max-width: 50em;
-  padding: 2rem 1rem 4rem;
+  padding: 2rem 1rem;
+  position: fixed;
+  right: 1rem;
+  z-index: 6;
 }
 
 .color-overlay {
@@ -233,7 +238,14 @@ button {
   position: fixed;
   right: 0;
   top: 0;
+}
+.color-overlay.picker {
   z-index: 3;
+}
+.color-overlay.options {
+  background-color: var(--priest-800);
+  opacity: 0.9;
+  z-index: 5;
 }
 
 .color-preview,
@@ -309,6 +321,10 @@ button {
     flex-direction: row;
     gap: 0.75rem;
   }
+  .color-options {
+    border-radius: 0 0 0.5rem 0.5rem;
+    top: 3rem;
+  }
 }
 @media (max-width: 32em) {
   .color-harmony {
@@ -320,6 +336,10 @@ button {
   }
   .color-random > span {
     display: none;
+  }
+  .color-options {
+    border-radius: 0.5rem 0.5rem 0 0;
+    bottom: 0;
   }
 }
 @media (min-width: 80em) {
