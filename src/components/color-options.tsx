@@ -4,11 +4,11 @@ import { useState, useRef, useMemo } from "react";
 import { createPortal } from "react-dom";
 import { useColor } from "~/lib/color";
 import type { Dispatch, SetStateAction, ChangeEvent } from "react";
-import type { CustomColor, HslaColor } from "~/lib/types";
+import type { AnyColor, HslaColor } from "~/lib/types";
 
 export default function ColorOptions(props: {
   color: { hex: string; rgb: string; raw: HslaColor };
-  action: Dispatch<SetStateAction<CustomColor>>;
+  action: Dispatch<SetStateAction<AnyColor>>;
 }) {
   const [showModal, setShowModal] = useState<boolean>(false);
   const [focusInput, setFocusInput] = useState<boolean>(false);

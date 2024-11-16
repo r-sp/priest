@@ -3,20 +3,11 @@
 import { useState, useMemo } from "react";
 import { useColor } from "~/lib/color";
 import type { Dispatch, SetStateAction } from "react";
-import type { CustomColor } from "~/lib/types";
+import type { AnyColor, HarmonyColor } from "~/lib/types";
 import clsx from "clsx";
 
-type Color =
-  | "analogous"
-  | "complementary"
-  | "double-split-complementary"
-  | "rectangle"
-  | "split-complementary"
-  | "tetradic"
-  | "triadic";
-
-export default function ColorHarmony(props: { raw: CustomColor }) {
-  const [content, setContent] = useState<Color>("rectangle");
+export default function ColorHarmony(props: { raw: AnyColor }) {
+  const [content, setContent] = useState<HarmonyColor>("rectangle");
 
   const color = useColor(props.raw);
   const harmony = useMemo(() => {
@@ -55,7 +46,12 @@ export default function ColorHarmony(props: { raw: CustomColor }) {
   );
 }
 
-function TabButton(props: { current: Color; state: Color; action: Dispatch<SetStateAction<Color>>; name: string }) {
+function TabButton(props: {
+  current: HarmonyColor;
+  state: HarmonyColor;
+  action: Dispatch<SetStateAction<HarmonyColor>>;
+  name: string;
+}) {
   return (
     <button
       className={clsx("color-tab-option btn", props.current === props.state && "active")}
@@ -66,7 +62,7 @@ function TabButton(props: { current: Color; state: Color; action: Dispatch<SetSt
   );
 }
 
-function TabContent(props: { current: Color; state: Color; color: string[] }) {
+function TabContent(props: { current: HarmonyColor; state: HarmonyColor; color: string[] }) {
   if (props.current === props.state) {
     return (
       <div className="color-harmony">
