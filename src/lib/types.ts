@@ -1,42 +1,30 @@
-export type HexColor = string;
-
-export type HslColor = {
-  h: number;
-  s: number;
-  l: number;
+type Color = {
+  hsl: { h: number; s: number; l: number };
+  hsv: { h: number; s: number; v: number };
+  rgb: { r: number; g: number; b: number };
 };
 
-export type HslaColor = {
-  h: number;
-  s: number;
-  l: number;
+type Format = "hsl" | "hsv" | "rgb";
+type Alpha<T extends Format> = Color[T] & {
   a: number;
 };
 
-export type HsvColor = {
-  h: number;
-  s: number;
-  v: number;
-};
+export type HslColor = Color["hsl"];
+export type HslaColor = Alpha<"hsl">;
 
-export type HsvaColor = {
-  h: number;
-  s: number;
-  v: number;
-  a: number;
-};
+export type HsvColor = Color["hsv"];
+export type HsvaColor = Alpha<"hsv">;
 
-export type RgbColor = {
-  r: number;
-  g: number;
-  b: number;
-};
+export type RgbColor = Color["rgb"];
+export type RgbaColor = Alpha<"rgb">;
 
-export type RgbaColor = {
-  r: number;
-  g: number;
-  b: number;
-  a: number;
-};
+export type AnyColor = string | HslColor | HsvColor | RgbColor | HslaColor | HsvaColor | RgbaColor;
 
-export type CustomColor = HexColor | HslColor | HslaColor | HsvColor | HsvaColor | RgbColor | RgbaColor;
+export type HarmonyColor =
+  | "analogous"
+  | "complementary"
+  | "double-split-complementary"
+  | "rectangle"
+  | "split-complementary"
+  | "tetradic"
+  | "triadic";

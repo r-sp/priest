@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { createPortal } from "react-dom";
 import type { Dispatch, SetStateAction } from "react";
-import type { CustomColor, HsvaColor } from "~/lib/types";
+import type { AnyColor, HsvaColor } from "~/lib/types";
 import clsx from "clsx";
 import Hue from "@uiw/react-color-hue";
 import Saturation from "@uiw/react-color-saturation";
@@ -11,7 +11,7 @@ import ShadeSlider from "@uiw/react-color-shade-slider";
 
 export default function ColorPicker(props: {
   color: { rgb: string; raw: HsvaColor };
-  action: Dispatch<SetStateAction<CustomColor>>;
+  action: Dispatch<SetStateAction<AnyColor>>;
 }) {
   const [colorPicker, setColorPicker] = useState<boolean>(false);
 
@@ -55,7 +55,7 @@ export default function ColorPicker(props: {
         </div>
       </div>
       {colorPicker &&
-        createPortal(<div className="color-overlay" aria-hidden="true" onClick={handleColorPicker} />, document.body)}
+        createPortal(<div className="color-overlay picker" aria-hidden="true" onClick={handleColorPicker} />, document.body)}
     </div>
   );
 }

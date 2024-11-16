@@ -1,14 +1,14 @@
 "use client";
 
-import { useState, useRef, useMemo } from "react";
+import { useState, useRef } from "react";
 import { createPortal } from "react-dom";
 import { useColor } from "~/lib/color";
-import type { Dispatch, SetStateAction, ChangeEvent } from "react";
-import type { CustomColor, HslaColor } from "~/lib/types";
+import type { Dispatch, SetStateAction, ChangeEvent, MutableRefObject } from "react";
+import type { AnyColor, HslaColor } from "~/lib/types";
 
 export default function ColorOptions(props: {
   color: { hex: string; rgb: string; raw: HslaColor };
-  action: Dispatch<SetStateAction<CustomColor>>;
+  action: Dispatch<SetStateAction<AnyColor>>;
 }) {
   const [showModal, setShowModal] = useState<boolean>(false);
   const [focusInput, setFocusInput] = useState<boolean>(false);
@@ -23,6 +23,12 @@ export default function ColorOptions(props: {
   const colorHsl = useRef(currentHslColor);
   const getColor = useColor;
 
+  const currentColorPreview = useColor(colorHsl.current).toRgbString();
+  const colorHue = useRef(currentHslColor.h);
+  const colorSaturation = useRef(currentHslColor.s);
+  const colorLightness = useRef(currentHslColor.l);
+  const colorAlpha = useRef(currentHslColor.a);
+
   const updateInputColor = (e: ChangeEvent<HTMLInputElement>) => {
     const newColor = getColor(e.target.value);
     const validColor = newColor.isValid();
@@ -31,28 +37,60 @@ export default function ColorOptions(props: {
       colorHex.current = e.target.value;
       // console.log("the color is valid, should be change");
       props.action(newColor.toRgb());
-      colorHsl.current = newColor.toHsl();
     } else {
       // console.log("the color is not valid, should not be change");
     }
 
     setFocusInput(true);
   };
-  const updateHslColor = (color: { h?: number; s?: number; l?: number; a?: number }) => {
-    colorHsl.current = {
-      ...colorHsl.current,
-      ...color,
-    };
-    const newColor = getColor(colorHsl.current);
 
-    props.action(newColor.toRgb());
-    colorHex.current = newColor.toHex();
+  const updateHslColor = (color: { h?: number; s?: number; l?: number; a?: number }) => {
+    const partial = Object.getOwnPropertyNames(color)[0];
+
+    const update = (req: MutableRefObject<number>, range: number, space: "h" | "s" | "l") => {
+      const currentColor = {
+        h: colorHue.current,
+        s: colorSaturation.current,
+        l: colorLightness.current,
+        a: colorAlpha.current,
+      };
+
+      let newColor: HslaColor;
+      if (space === "h") {
+        newColor = { ...currentColor, h: range };
+      } else if (space === "s") {
+        newColor = { ...currentColor, s: range };
+      } else if (space === "l") {
+        newColor = { ...currentColor, l: range };
+      } else {
+        newColor = currentColor;
+      }
+
+      req.current = range;
+      props.action(newColor);
+      colorHsl.current = newColor;
+      colorHex.current = getColor(newColor).toHex();
+      return newColor;
+    };
+
+    if (partial !== undefined) {
+      if (partial === "h") {
+        update(colorHue, color.h!, partial);
+      } else if (partial === "s") {
+        update(colorSaturation, color.s!, partial);
+      } else if (partial === "l") {
+        update(colorLightness, color.l!, partial);
+      }
+    }
   };
 
   const ModalContent = () => {
     return (
       <aside className="color-options">
-        <div style={{ backgroundColor: colorPreview, height: "3rem", width: "3rem" }}></div>
+        <div style={{ display: "flex", flexDirection: "row", gap: "1rem" }}>
+          <div style={{ backgroundColor: colorPreview, height: "3rem", width: "3rem" }}></div>
+          <div style={{ backgroundColor: currentColorPreview, height: "3rem", width: "3rem", borderRadius: "1.5rem" }}></div>
+        </div>
         <div>
           <label htmlFor="color-input">Edit Color</label>
           <input
@@ -72,7 +110,7 @@ export default function ColorOptions(props: {
             id="color-input-hue"
             type="number"
             autoFocus={focusHue}
-            defaultValue={colorHsl.current.h}
+            defaultValue={colorHue.current}
             min={0}
             max={360}
             onChange={(e) => {
@@ -88,7 +126,7 @@ export default function ColorOptions(props: {
             id="color-input-saturation"
             type="number"
             autoFocus={focusSaturation}
-            defaultValue={colorHsl.current.s}
+            defaultValue={colorSaturation.current}
             min={0}
             max={100}
             onChange={(e) => {
@@ -104,7 +142,7 @@ export default function ColorOptions(props: {
             id="color-input-lightness"
             type="number"
             autoFocus={focusLightness}
-            defaultValue={colorHsl.current.l}
+            defaultValue={colorLightness.current}
             min={0}
             max={100}
             onChange={(e) => {
@@ -115,29 +153,12 @@ export default function ColorOptions(props: {
           />
         </div>
         <div>
-          <span>Alpha: {colorHsl.current.a}</span>
+          <span>Alpha: {colorAlpha.current}</span>
         </div>
       </aside>
     );
   };
   const handleModalContent = () => setShowModal(!showModal);
-
-  useMemo(() => {
-    if (showModal === true) {
-      if (colorHex.current !== currentHexColor && focusInput === false) {
-        colorHex.current = currentHexColor;
-      }
-      if (colorHsl.current !== currentHslColor) {
-        if (focusHue === false) {
-          colorHsl.current = currentHslColor;
-        } else if (focusSaturation === false) {
-          colorHsl.current = currentHslColor;
-        } else if (focusLightness === false) {
-          colorHsl.current = currentHslColor;
-        }
-      }
-    }
-  }, [colorHex, colorHsl, currentHexColor, currentHslColor, showModal, focusInput, focusHue, focusSaturation, focusLightness]);
 
   return (
     <>
@@ -150,7 +171,9 @@ export default function ColorOptions(props: {
         </svg>
         <span>Edit</span>
       </button>
-      {showModal === true && createPortal(<ModalContent />, document.body)}
+      {showModal && createPortal(<ModalContent />, document.body)}
+      {showModal &&
+        createPortal(<div className="color-overlay options" aria-hidden="true" onClick={handleModalContent} />, document.body)}
     </>
   );
 }
