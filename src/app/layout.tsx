@@ -1,16 +1,16 @@
 import { type ReactNode } from "react";
 import { HostGrotesk } from "~/components/font";
-import Header from "~/components/header";
-import Footer from "~/components/footer";
+import BaseLayout from "~/components/base";
 import "./style.css";
 
 export default function RootLayout(props: Readonly<{ children: ReactNode }>) {
   return (
     <html lang="en" className={HostGrotesk.variable}>
       <body>
-        <Header />
-        <main>{props.children}</main>
-        <Footer />
+        <div id="root" role="none">
+          <BaseLayout>{props.children}</BaseLayout>
+          <div id="portal" role="none"></div>
+        </div>
       </body>
     </html>
   );
