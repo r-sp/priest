@@ -7,6 +7,7 @@ import ColorPicker from "./color-picker";
 import ColorDetails from "./color-details";
 import ColorOptions from "./color-options";
 import ColorHarmony from "./color-harmony";
+import ColorToolkit from "./color/toolkit";
 
 export default function Color(props: { raw: AnyColor }) {
   const [rawColor, setRawColor] = useState<AnyColor>(props.raw);
@@ -21,6 +22,7 @@ export default function Color(props: { raw: AnyColor }) {
         <ColorOptions color={{ hex: color.toHex(), rgb: color.toRgbString(), raw: color.toHsl() }} action={setRawColor} />
       </ColorDetails>
       <ColorHarmony raw={deferredColor} />
+      <ColorToolkit color={{ hex: color.toHex(), rgb: color.toRgbString(), raw: color.toHsl() }} action={setRawColor} />
     </section>
   );
 }
