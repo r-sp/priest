@@ -3,7 +3,7 @@
 import { useState, useRef } from "react";
 import type { ChangeEventHandler, ComponentPropsWithoutRef } from "react";
 
-export default function ColorInput({
+export default function Input({
   value,
   update,
   focus,

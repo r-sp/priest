@@ -4,7 +4,7 @@ import { create } from "zustand";
 import { useColor as getColor } from "~/lib/color";
 import type { Dispatch, SetStateAction } from "react";
 import type { AnyColor, HslaColor } from "~/lib/types";
-import ColorInput from "./input";
+import Input from "./input";
 
 type ColorState = {
   hex: string;
@@ -33,7 +33,7 @@ const useColorStore = (initValue: ColorState) => {
   }));
 };
 
-export default function ColorToolkit(props: { color: ColorState; action: Dispatch<SetStateAction<AnyColor>> }) {
+export default function Toolkit(props: { color: ColorState; action: Dispatch<SetStateAction<AnyColor>> }) {
   const { hex, raw, setHex, setRaw } = useColorStore(props.color)((state) => state);
 
   const updateHex = (color: string) => {
@@ -57,10 +57,10 @@ export default function ColorToolkit(props: { color: ColorState; action: Dispatc
   const updateAlpha = (alpha: number) => setRaw((currentColor) => updateHsl({ ...currentColor, a: alpha }));
 
   return (
-    <div>
+    <div style={{ display: "grid", gap: "1rem" }}>
       <div className="hex">
         <label htmlFor="hex">Hex</label>
-        <ColorInput
+        <Input
           type="text"
           name="hex"
           id="hex"
@@ -68,6 +68,11 @@ export default function ColorToolkit(props: { color: ColorState; action: Dispatc
           autoComplete="false"
           value={hex}
           update={(e) => updateHex(e.target.value)}
+          leave={(e) => {
+            if (hex !== e.target.value) {
+              e.target.value = hex;
+            }
+          }}
         />
       </div>
       <div className="hue">
