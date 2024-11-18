@@ -23,9 +23,6 @@ html {
   font-family: var(--font-sans);
   font-size: 100%;
 }
-main {
-  min-height: 80svh;
-}
 a,
 button {
   -webkit-tap-highlight-color: transparent;
