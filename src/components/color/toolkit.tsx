@@ -2,15 +2,10 @@
 
 import { create } from "zustand";
 import { useColor as getColor } from "~/lib/color";
-import type { Dispatch, SetStateAction } from "react";
-import type { AnyColor, HslaColor } from "~/lib/types";
+import { type ColorToolkitProps } from "./types";
 import Input from "./input";
 
-type ColorState = {
-  hex: string;
-  rgb: string;
-  raw: HslaColor;
-};
+type ColorState = ColorToolkitProps["color"];
 
 type ColorActions = {
   setHex: (newColor: ColorState["hex"] | ((currentColor: ColorState["hex"]) => ColorState["hex"])) => void;
@@ -33,8 +28,8 @@ const useColorStore = (initValue: ColorState) => {
   }));
 };
 
-export default function Toolkit(props: { color: ColorState; action: Dispatch<SetStateAction<AnyColor>> }) {
-  const { hex, raw, setHex, setRaw } = useColorStore(props.color)((state) => state);
+export default function Toolkit({ color, action }: ColorToolkitProps) {
+  const { hex, raw, setHex, setRaw } = useColorStore(color)((state) => state);
 
   const updateHex = (color: string) => {
     const currentColor = getColor(color);
@@ -42,13 +37,13 @@ export default function Toolkit(props: { color: ColorState; action: Dispatch<Set
 
     if (isValidColor) {
       setHex(color);
-      props.action(currentColor.minify({ alphaHex: true }));
+      action(currentColor.minify({ alphaHex: true }));
     }
     return color;
   };
 
-  const updateHsl = (hsl: HslaColor) => {
-    props.action(hsl);
+  const updateHsl = (hsl: typeof color.raw) => {
+    action(hsl);
     return hsl;
   };
   const updateHue = (hue: number) => setRaw((currentColor) => updateHsl({ ...currentColor, h: hue }));

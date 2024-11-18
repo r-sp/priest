@@ -2,12 +2,12 @@
 
 import { useState } from "react";
 import { useColor } from "~/lib/color";
-import type { AnyColor } from "~/lib/types";
+import { type ColorProps } from "./types";
 import Toolkit from "./toolkit";
 import Picker from "./picker";
 
-export default function Color(props: { raw: AnyColor }) {
-  const [rawColor, setRawColor] = useState<AnyColor>(props.raw);
+export default function Color({ raw }: ColorProps) {
+  const [rawColor, setRawColor] = useState<typeof raw>(raw);
   const color = useColor(rawColor);
 
   return (
