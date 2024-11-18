@@ -57,9 +57,11 @@ export default function Toolkit(props: { color: ColorState; action: Dispatch<Set
   const updateAlpha = (alpha: number) => setRaw((currentColor) => updateHsl({ ...currentColor, a: alpha }));
 
   return (
-    <div style={{ display: "grid", gap: "1rem" }}>
-      <div className="hex">
-        <label htmlFor="hex">Hex</label>
+    <div className="inline-grid gap-4">
+      <div className="input-hex">
+        <label htmlFor="hex" className="sr-only">
+          Hex
+        </label>
         <Input
           type="text"
           name="hex"
@@ -73,56 +75,71 @@ export default function Toolkit(props: { color: ColorState; action: Dispatch<Set
               e.target.value = hex;
             }
           }}
+          className="bg-holy-900 text-xl font-medium text-holy-200"
         />
       </div>
-      <div className="hue">
-        <label htmlFor="hue">Hue</label>
-        <input
-          type="number"
-          name="hsl"
-          id="hue"
-          min={0}
-          max={360}
-          value={raw.h}
-          onChange={(e) => updateHue(e.target.valueAsNumber)}
-        />
-      </div>
-      <div className="saturation">
-        <label htmlFor="saturation">Saturation</label>
-        <input
-          type="number"
-          name="hsl"
-          id="saturation"
-          min={0}
-          max={100}
-          value={raw.s}
-          onChange={(e) => updateSaturation(e.target.valueAsNumber)}
-        />
-      </div>
-      <div className="lightness">
-        <label htmlFor="lightness">Lightness</label>
-        <input
-          type="number"
-          name="hsl"
-          id="lightness"
-          min={0}
-          max={100}
-          value={raw.l}
-          onChange={(e) => updateLightness(e.target.valueAsNumber)}
-        />
-      </div>
-      <div className="alpha">
-        <label htmlFor="alpha">Alpha</label>
-        <input
-          type="number"
-          name="hsl"
-          id="alpha"
-          min={0}
-          max={1}
-          step={0.01}
-          value={raw.a}
-          onChange={(e) => updateAlpha(e.target.valueAsNumber)}
-        />
+      <div className="input-hsl flex flex-row gap-4">
+        <div className="inline-flex flex-col gap-2">
+          <label htmlFor="hue" className="text-sm font-medium text-holy-300">
+            Hue
+          </label>
+          <input
+            type="number"
+            name="hsl"
+            id="hue"
+            min={0}
+            max={360}
+            value={raw.h}
+            className="rounded-md bg-holy-800 px-2 py-1 text-base font-normal text-holy-100"
+            onChange={(e) => updateHue(e.target.valueAsNumber)}
+          />
+        </div>
+        <div className="inline-flex flex-col gap-2">
+          <label htmlFor="saturation" className="text-sm font-normal text-holy-300">
+            Saturation
+          </label>
+          <input
+            type="number"
+            name="hsl"
+            id="saturation"
+            min={0}
+            max={100}
+            value={raw.s}
+            className="rounded-md bg-holy-800 px-2 py-1 text-base font-normal text-holy-100"
+            onChange={(e) => updateSaturation(e.target.valueAsNumber)}
+          />
+        </div>
+        <div className="inline-flex flex-col gap-2">
+          <label htmlFor="lightness" className="text-sm font-normal text-holy-200">
+            Lightness
+          </label>
+          <input
+            type="number"
+            name="hsl"
+            id="lightness"
+            min={0}
+            max={100}
+            value={raw.l}
+            className="rounded-md bg-holy-800 px-2 py-1 text-base font-normal text-holy-100"
+            onChange={(e) => updateLightness(e.target.valueAsNumber)}
+          />
+        </div>
+        <div className="inline-flex flex-col gap-2">
+          <label htmlFor="alpha" className="text-sm font-normal text-holy-200">
+            Alpha
+          </label>
+          <input
+            type="number"
+            name="hsl"
+            id="alpha"
+            min={0}
+            max={1}
+            step={0.01}
+            value={raw.a}
+            className="rounded-md bg-holy-800 px-2 py-1 text-base font-normal text-holy-100"
+            onChange={(e) => updateAlpha(e.target.valueAsNumber)}
+          />
+        </div>
       </div>
     </div>
   );

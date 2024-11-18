@@ -18,7 +18,9 @@ export type HsvaColor = Alpha<"hsv">;
 export type RgbColor = Color["rgb"];
 export type RgbaColor = Alpha<"rgb">;
 
-export type AnyColor = string | HslColor | HsvColor | RgbColor | HslaColor | HsvaColor | RgbaColor;
+type AnyColorWithAlpha = HslaColor | HsvaColor | RgbaColor;
+
+export type AnyColor = string | HslColor | HsvColor | RgbColor | AnyColorWithAlpha;
 
 export type HarmonyColor =
   | "analogous"
