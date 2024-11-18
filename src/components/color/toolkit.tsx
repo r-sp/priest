@@ -9,7 +9,8 @@ type ColorState = ColorToolkitProps["color"];
 
 type ColorActions = {
   setHex: (newColor: ColorState["hex"] | ((currentColor: ColorState["hex"]) => ColorState["hex"])) => void;
-  setRaw: (newColor: ColorState["raw"] | ((currentColor: ColorState["raw"]) => ColorState["raw"])) => void;
+  setHsl: (newColor: ColorState["hsl"] | ((currentColor: ColorState["hsl"]) => ColorState["hsl"])) => void;
+  setRgb: (newColor: ColorState["rgb"] | ((currentColor: ColorState["rgb"]) => ColorState["rgb"])) => void;
 };
 
 type ColorStore = ColorState & ColorActions;
@@ -21,38 +22,49 @@ const useColorStore = (initValue: ColorState) => {
       set((state) => ({
         hex: typeof newColor === "function" ? newColor(state.hex) : newColor,
       })),
-    setRaw: (newColor) =>
+    setHsl: (newColor) =>
       set((state) => ({
-        raw: typeof newColor === "function" ? newColor(state.raw) : newColor,
+        hsl: typeof newColor === "function" ? newColor(state.hsl) : newColor,
+      })),
+    setRgb: (newColor) =>
+      set((state) => ({
+        rgb: typeof newColor === "function" ? newColor(state.rgb) : newColor,
       })),
   }));
 };
 
 export default function Toolkit({ color, action }: ColorToolkitProps) {
-  const { hex, raw, setHex, setRaw } = useColorStore(color)((state) => state);
+  const { hex, hsl, rgb, setHex, setHsl, setRgb } = useColorStore(color)((state) => state);
 
-  const updateHex = (color: string) => {
-    const currentColor = getColor(color);
+  const updateHex = (value: string) => {
+    const currentColor = getColor(value);
     const isValidColor = currentColor.isValid();
 
     if (isValidColor) {
-      setHex(color);
+      setHex(value);
       action(currentColor.minify({ alphaHex: true }));
     }
-    return color;
+    return value;
   };
 
-  const updateHsl = (hsl: typeof color.raw) => {
-    action(hsl);
-    return hsl;
-  };
-  const updateHue = (hue: number) => setRaw((currentColor) => updateHsl({ ...currentColor, h: hue }));
-  const updateSaturation = (saturation: number) => setRaw((currentColor) => updateHsl({ ...currentColor, s: saturation }));
-  const updateLightness = (lightness: number) => setRaw((currentColor) => updateHsl({ ...currentColor, l: lightness }));
-  const updateAlpha = (alpha: number) => setRaw((currentColor) => updateHsl({ ...currentColor, a: alpha }));
+  const updateHsl = (value: Partial<typeof color.hsl>) =>
+    setHsl((currentColor) => {
+      const newColor = { ...currentColor, ...value };
+
+      action(newColor);
+      return newColor;
+    });
+
+  const updateRgb = (value: Partial<typeof color.rgb>) =>
+    setRgb((currentColor) => {
+      const newColor = { ...currentColor, ...value };
+
+      action(newColor);
+      return newColor;
+    });
 
   return (
-    <div className="inline-grid gap-4">
+    <div className="inline-grid gap-8 xs:max-w-sm">
       <div className="input-hex">
         <label htmlFor="hex" className="sr-only">
           Hex
@@ -73,66 +85,129 @@ export default function Toolkit({ color, action }: ColorToolkitProps) {
           className="bg-holy-900 text-xl font-medium text-holy-200"
         />
       </div>
-      <div className="input-hsl flex flex-row gap-4">
-        <div className="inline-flex flex-col gap-2">
-          <label htmlFor="hue" className="text-sm font-medium text-holy-300">
+      <div className="input-hsl flex flex-row gap-4 max-sm:justify-between">
+        <div className="inline-flex w-1/4 flex-col gap-2">
+          <label htmlFor="input-hsl-hue" className="text-sm font-medium text-holy-300">
             Hue
           </label>
           <input
             type="number"
             name="hsl"
-            id="hue"
+            id="input-hsl-hue"
             min={0}
             max={360}
-            value={raw.h}
+            value={hsl.h}
             className="rounded-md bg-holy-800 px-2 py-1 text-base font-normal text-holy-100"
-            onChange={(e) => updateHue(e.target.valueAsNumber)}
+            onChange={(e) => updateHsl({ h: e.target.valueAsNumber })}
           />
         </div>
-        <div className="inline-flex flex-col gap-2">
-          <label htmlFor="saturation" className="text-sm font-normal text-holy-300">
+        <div className="inline-flex w-1/4 flex-col gap-2">
+          <label htmlFor="input-hsl-saturation" className="text-sm font-normal text-holy-300">
             Saturation
           </label>
           <input
             type="number"
             name="hsl"
-            id="saturation"
+            id="input-hsl-saturation"
             min={0}
             max={100}
-            value={raw.s}
+            value={hsl.s}
             className="rounded-md bg-holy-800 px-2 py-1 text-base font-normal text-holy-100"
-            onChange={(e) => updateSaturation(e.target.valueAsNumber)}
+            onChange={(e) => updateHsl({ s: e.target.valueAsNumber })}
           />
         </div>
-        <div className="inline-flex flex-col gap-2">
-          <label htmlFor="lightness" className="text-sm font-normal text-holy-200">
+        <div className="inline-flex w-1/4 flex-col gap-2">
+          <label htmlFor="input-hsl-lightness" className="text-sm font-normal text-holy-200">
             Lightness
           </label>
           <input
             type="number"
             name="hsl"
-            id="lightness"
+            id="input-hsl-lightness"
             min={0}
             max={100}
-            value={raw.l}
+            value={hsl.l}
             className="rounded-md bg-holy-800 px-2 py-1 text-base font-normal text-holy-100"
-            onChange={(e) => updateLightness(e.target.valueAsNumber)}
+            onChange={(e) => updateHsl({ l: e.target.valueAsNumber })}
           />
         </div>
-        <div className="inline-flex flex-col gap-2">
-          <label htmlFor="alpha" className="text-sm font-normal text-holy-200">
+        <div className="inline-flex w-1/4 flex-col gap-2">
+          <label htmlFor="input-hsl-alpha" className="text-sm font-normal text-holy-200">
             Alpha
           </label>
           <input
             type="number"
             name="hsl"
-            id="alpha"
+            id="input-hsl-alpha"
             min={0}
             max={1}
             step={0.01}
-            value={raw.a}
+            value={hsl.a}
             className="rounded-md bg-holy-800 px-2 py-1 text-base font-normal text-holy-100"
-            onChange={(e) => updateAlpha(e.target.valueAsNumber)}
+            onChange={(e) => updateHsl({ a: e.target.valueAsNumber })}
+          />
+        </div>
+      </div>
+      <div className="input-rgb flex flex-row gap-4 max-sm:justify-between">
+        <div className="inline-flex w-1/4 flex-col gap-2">
+          <label htmlFor="input-rgb-red" className="text-sm font-medium text-holy-300">
+            Red
+          </label>
+          <input
+            type="number"
+            name="rgb"
+            id="input-rgb-red"
+            min={0}
+            max={255}
+            value={rgb.r}
+            className="rounded-md bg-holy-800 px-2 py-1 text-base font-normal text-holy-100"
+            onChange={(e) => updateRgb({ r: e.target.valueAsNumber })}
+          />
+        </div>
+        <div className="inline-flex w-1/4 flex-col gap-2">
+          <label htmlFor="input-rgb-green" className="text-sm font-medium text-holy-300">
+            Green
+          </label>
+          <input
+            type="number"
+            name="rgb"
+            id="input-rgb-green"
+            min={0}
+            max={255}
+            value={rgb.g}
+            className="rounded-md bg-holy-800 px-2 py-1 text-base font-normal text-holy-100"
+            onChange={(e) => updateRgb({ g: e.target.valueAsNumber })}
+          />
+        </div>
+        <div className="inline-flex w-1/4 flex-col gap-2">
+          <label htmlFor="input-rgb-blue" className="text-sm font-medium text-holy-300">
+            Blue
+          </label>
+          <input
+            type="number"
+            name="rgb"
+            id="input-rgb-blue"
+            min={0}
+            max={255}
+            value={rgb.b}
+            className="rounded-md bg-holy-800 px-2 py-1 text-base font-normal text-holy-100"
+            onChange={(e) => updateRgb({ b: e.target.valueAsNumber })}
+          />
+        </div>
+        <div className="inline-flex w-1/4 flex-col gap-2">
+          <label htmlFor="input-rgb-alpha" className="text-sm font-medium text-holy-300">
+            Alpha
+          </label>
+          <input
+            type="number"
+            name="rgb"
+            id="input-rgb-alpha"
+            min={0}
+            max={1}
+            step={0.01}
+            value={rgb.a}
+            className="rounded-md bg-holy-800 px-2 py-1 text-base font-normal text-holy-100"
+            onChange={(e) => updateRgb({ a: e.target.valueAsNumber })}
           />
         </div>
       </div>

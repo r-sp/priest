@@ -1,4 +1,4 @@
-import type { AnyColor, HslaColor, HsvaColor } from "~/lib/types";
+import type { AnyColor, HslaColor, HsvaColor, RgbaColor } from "~/lib/types";
 import type { ChangeEventHandler, ComponentPropsWithoutRef, Dispatch, SetStateAction } from "react";
 
 export type ColorProps = {
@@ -19,8 +19,8 @@ export type ColorPickerProps = {
 export type ColorToolkitProps = {
   color: {
     hex: string;
-    rgb: string;
-    raw: HslaColor;
+    hsl: HslaColor;
+    rgb: RgbaColor;
   };
   action: Dispatch<SetStateAction<AnyColor>>;
 };
