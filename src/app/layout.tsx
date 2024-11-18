@@ -9,7 +9,7 @@ export default function RootLayout(props: Readonly<{ children: ReactNode }>) {
       <body>
         <div id="root" role="none">
           <BaseLayout>{props.children}</BaseLayout>
-          <div id="portal" role="none"></div>
+          <div id="portal" role="none" className="flex"></div>
         </div>
       </body>
     </html>
