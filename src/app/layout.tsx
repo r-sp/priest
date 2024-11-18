@@ -1,6 +1,6 @@
 import { type ReactNode } from "react";
 import { HostGrotesk } from "~/components/font";
-import BaseLayout from "~/components/base";
+import Priest from "~/components/ui/priest";
 import "./style.css";
 
 export default function RootLayout(props: Readonly<{ children: ReactNode }>) {
@@ -8,7 +8,7 @@ export default function RootLayout(props: Readonly<{ children: ReactNode }>) {
     <html lang="en" className={HostGrotesk.variable}>
       <body>
         <div id="root" role="none">
-          <BaseLayout>{props.children}</BaseLayout>
+          <Priest>{props.children}</Priest>
           <div id="portal" role="none" className="flex"></div>
         </div>
       </body>

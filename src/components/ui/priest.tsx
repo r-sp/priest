@@ -1,6 +1,6 @@
 import { type ReactNode } from "react";
 
-export default function BaseLayout(props: Readonly<{ children: ReactNode }>) {
+export default function Priest(props: Readonly<{ children: ReactNode }>) {
   return (
     <div id="priest" role="none" className="grid">
       <header>
