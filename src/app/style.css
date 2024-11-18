@@ -70,8 +70,17 @@ ul {
     .pick-lightness {
       width: calc(100vw - 2rem);
     }
-    .input-hsl.flex-row {
+    .input-hsl.flex-row,
+    .input-rgb.flex-row {
       flex-direction: column;
+    }
+    .input-hex input,
+    .input-hsl input,
+    .input-rgb input,
+    .input-hex .w-1\/4,
+    .input-hsl .w-1\/4,
+    .input-rgb .w-1\/4 {
+      width: 100%;
     }
   }
 }
