@@ -1,11 +1,12 @@
 import { type ReactNode } from "react";
-import { HostGrotesk } from "~/components/font";
+import { Geist, GeistMono } from "~/components/font";
 import Priest from "~/components/ui/priest";
+import clsx from "clsx";
 import "./style.css";
 
 export default function RootLayout(props: Readonly<{ children: ReactNode }>) {
   return (
-    <html lang="en" className={HostGrotesk.variable}>
+    <html lang="en" className={clsx(Geist.variable, GeistMono.variable)}>
       <body>
         <div id="root" role="none">
           <Priest>{props.children}</Priest>

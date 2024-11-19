@@ -12,7 +12,7 @@ html {
   background-color: #121314;
   color: #f2f3f4;
   color-scheme: dark;
-  font-family: var(--font-sans);
+  font-family: var(--geist-sans);
   font-size: 100%;
   text-rendering: optimizelegibility;
   -webkit-font-smoothing: antialiased;

@@ -7,5 +7,6 @@ import minifyPlugin from "colord/plugins/minify";
 extend([harmoniesPlugin, minifyPlugin]);
 
 export const useColor: (input: AnyColor) => Colord = colord;
+export const convertColor: (input: AnyColor) => Colord = colord;
 export const getRandomColor = random;
 export const getFormatColor = getFormat;
