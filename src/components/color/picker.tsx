@@ -11,14 +11,14 @@ export default function Picker({ raw, action }: ColorPickerProps) {
   };
 
   return (
-    <div className="flex flex-col gap-4">
-      <div className="pick-saturation" role="toolbar" aria-label="color saturation">
+    <div role="toolbar" aria-label="Color picker" className="flex flex-col gap-4">
+      <div className="pick-saturation">
         <Saturation hsva={raw} hue={raw.h} style={{ height: "100%", width: "100%" }} onChange={updateColor} />
       </div>
-      <div className="pick-hue" role="toolbar" aria-label="color hue" aria-orientation="horizontal">
+      <div className="pick-hue">
         <Hue hue={raw.h} onChange={updateColor} />
       </div>
-      <div className="pick-lightness" role="toolbar" aria-label="color lightness" aria-orientation="horizontal">
+      <div className="pick-lightness">
         <ShadeSlider hsva={raw} onChange={updateColor} />
       </div>
     </div>
