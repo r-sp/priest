@@ -5,7 +5,7 @@ export default function Priest(props: Readonly<{ children: ReactNode }>) {
     <div id="priest" role="none" className="grid">
       <header>
         <div className="flex h-12 items-center px-4 xl:mx-auto xl:max-w-screen-xl" role="none">
-          <h1 className="text-xl font-medium text-holy-300" id="site-name">
+          <h1 className="text-base font-medium text-holy-300" id="site-name">
             Priest
           </h1>
         </div>
