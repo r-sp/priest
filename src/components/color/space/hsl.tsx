@@ -50,7 +50,7 @@ export default function ColorHsl({ raw, action }: ColorHslProps) {
           min={0}
           max={360}
           value={hsl.h}
-          className="rounded-md bg-holy-800 px-2 py-1 text-base font-normal text-holy-100"
+          className="font-mono rounded-md bg-holy-800 px-2 py-1 text-base font-normal text-holy-100"
           onChange={(e) => updateHsl({ h: e.target.valueAsNumber })}
         />
       </div>
@@ -65,7 +65,7 @@ export default function ColorHsl({ raw, action }: ColorHslProps) {
           min={0}
           max={100}
           value={hsl.s}
-          className="rounded-md bg-holy-800 px-2 py-1 text-base font-normal text-holy-100"
+          className="font-mono rounded-md bg-holy-800 px-2 py-1 text-base font-normal text-holy-100"
           onChange={(e) => updateHsl({ s: e.target.valueAsNumber })}
         />
       </div>
@@ -80,7 +80,7 @@ export default function ColorHsl({ raw, action }: ColorHslProps) {
           min={0}
           max={100}
           value={hsl.l}
-          className="rounded-md bg-holy-800 px-2 py-1 text-base font-normal text-holy-100"
+          className="font-mono rounded-md bg-holy-800 px-2 py-1 text-base font-normal text-holy-100"
           onChange={(e) => updateHsl({ l: e.target.valueAsNumber })}
         />
       </div>
@@ -96,7 +96,7 @@ export default function ColorHsl({ raw, action }: ColorHslProps) {
           max={1}
           step={0.01}
           value={hsl.a}
-          className="rounded-md bg-holy-800 px-2 py-1 text-base font-normal text-holy-100"
+          className="font-mono rounded-md bg-holy-800 px-2 py-1 text-base font-normal text-holy-100"
           onChange={(e) => updateHsl({ a: e.target.valueAsNumber })}
         />
       </div>

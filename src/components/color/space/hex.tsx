@@ -55,7 +55,7 @@ export default function ColorHex({ raw, action }: ColorHexProps) {
             e.target.value = hex;
           }
         }}
-        className="bg-holy-900 text-xl font-medium text-holy-200"
+        className="font-mono bg-holy-900 text-2xl font-medium text-holy-200 outline-0"
       />
     </div>
   );

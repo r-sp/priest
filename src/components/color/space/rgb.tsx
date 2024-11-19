@@ -50,7 +50,7 @@ export default function ColorRgb({ raw, action }: ColorRgbProps) {
           min={0}
           max={255}
           value={rgb.r}
-          className="rounded-md bg-holy-800 px-2 py-1 text-base font-normal text-holy-100"
+          className="font-mono rounded-md bg-holy-800 px-2 py-1 text-base font-normal text-holy-100"
           onChange={(e) => updateRgb({ r: e.target.valueAsNumber })}
         />
       </div>
@@ -65,7 +65,7 @@ export default function ColorRgb({ raw, action }: ColorRgbProps) {
           min={0}
           max={255}
           value={rgb.g}
-          className="rounded-md bg-holy-800 px-2 py-1 text-base font-normal text-holy-100"
+          className="font-mono rounded-md bg-holy-800 px-2 py-1 text-base font-normal text-holy-100"
           onChange={(e) => updateRgb({ g: e.target.valueAsNumber })}
         />
       </div>
@@ -80,7 +80,7 @@ export default function ColorRgb({ raw, action }: ColorRgbProps) {
           min={0}
           max={255}
           value={rgb.b}
-          className="rounded-md bg-holy-800 px-2 py-1 text-base font-normal text-holy-100"
+          className="font-mono rounded-md bg-holy-800 px-2 py-1 text-base font-normal text-holy-100"
           onChange={(e) => updateRgb({ b: e.target.valueAsNumber })}
         />
       </div>
@@ -96,7 +96,7 @@ export default function ColorRgb({ raw, action }: ColorRgbProps) {
           max={1}
           step={0.01}
           value={rgb.a}
-          className="rounded-md bg-holy-800 px-2 py-1 text-base font-normal text-holy-100"
+          className="font-mono rounded-md bg-holy-800 px-2 py-1 text-base font-normal text-holy-100"
           onChange={(e) => updateRgb({ a: e.target.valueAsNumber })}
         />
       </div>
