@@ -22,7 +22,10 @@ export type ColorRgbProps = {
 } & ColorActionProps;
 
 export type ColorPickerProps = {
-  raw: HsvaColor;
+  color: {
+    hsv: HsvaColor;
+    rgb: string;
+  };
 } & ColorActionProps;
 
 export type ColorInputProps = {
