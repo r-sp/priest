@@ -26,7 +26,8 @@ export default {
       },
     },
     fontFamily: {
-      sans: ["var(--font-sans)"],
+      sans: ["var(--geist-sans)"],
+      mono: ["var(--geist-mono)"],
     },
     fontSize: {
       xs: [rem(12), { lineHeight: rem(16) }],
