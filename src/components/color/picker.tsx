@@ -6,7 +6,7 @@ import Saturation from "@uiw/react-color-saturation";
 import ShadeSlider from "@uiw/react-color-shade-slider";
 
 export default function Picker({ raw, action }: ColorPickerProps) {
-  const updateColor = (color: typeof raw | { h: number } | { v: number }) => {
+  const updateColor = (color: typeof raw | Partial<typeof raw>) => {
     action({ ...raw, ...color });
   };
 
