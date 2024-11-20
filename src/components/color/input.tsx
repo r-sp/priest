@@ -1,9 +1,19 @@
 "use client";
 
 import { useState, useRef } from "react";
-import { type ColorInputProps } from "./types";
+import type { ChangeEventHandler, ComponentPropsWithoutRef } from "react";
 
-export default function Input({ value, update, focus, leave, ...rest }: ColorInputProps) {
+export default function Input({
+  value,
+  update,
+  focus,
+  leave,
+  ...rest
+}: {
+  update?: ChangeEventHandler<HTMLInputElement>;
+  focus?: ChangeEventHandler<HTMLInputElement>;
+  leave?: ChangeEventHandler<HTMLInputElement>;
+} & ComponentPropsWithoutRef<"input">) {
   const [color, setColor] = useState<typeof value>(value);
   const ref = useRef<boolean>(false);
 
