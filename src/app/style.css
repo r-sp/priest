@@ -93,4 +93,7 @@ ul {
     right: 0;
     top: 0;
   }
+  .no-outline {
+    outline: 0;
+  }
 }

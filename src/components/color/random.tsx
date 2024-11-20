@@ -1,14 +1,15 @@
 "use client";
 
-import type { ColorActionProps } from "./types";
 import { getRandomColor } from "~/lib/color";
+import { useColorProvider } from "./provider";
 
-export default function RandomColor({ action }: ColorActionProps) {
+export default function RandomColor() {
+  const { setHsl } = useColorProvider();
   return (
     <button
       aria-label="Generate random color"
-      className="flex max-w-max items-center justify-center gap-1 rounded-lg py-2 pl-2 pr-3 text-holy-300 outline outline-1 outline-holy-700"
-      onClick={() => action(getRandomColor().toHsl())}
+      className="flex max-w-max items-center justify-center gap-1 rounded-lg border border-solid border-holy-700 py-2 pl-2 pr-3 text-holy-300"
+      onClick={() => setHsl(getRandomColor().toHsl())}
     >
       <svg role="img" height="24" width="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
         <path

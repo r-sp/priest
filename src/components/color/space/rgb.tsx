@@ -1,36 +1,11 @@
 "use client";
 
-import { create } from "zustand";
-import { type ColorRgbProps } from "../types";
+import { useColorProvider } from "../provider";
 
-type ColorSpace = {
-  rgb: ColorRgbProps["raw"];
-};
-type ColorAction = {
-  setRgb: (newColor: ColorSpace["rgb"] | ((currentColor: ColorSpace["rgb"]) => ColorSpace["rgb"])) => void;
-};
-type ColorState = ColorSpace & ColorAction;
+export default function ColorRgb() {
+  const { rgb, setRgb } = useColorProvider();
 
-const useColorState = (initValue: ColorSpace) => {
-  return create<ColorState>()((set) => ({
-    ...initValue,
-    setRgb: (newColor) =>
-      set((state) => ({
-        rgb: typeof newColor === "function" ? newColor(state.rgb) : newColor,
-      })),
-  }));
-};
-
-export default function ColorRgb({ raw, action }: ColorRgbProps) {
-  const { rgb, setRgb } = useColorState({ rgb: raw })((state) => state);
-
-  const updateRgb = (value: Partial<typeof raw>) =>
-    setRgb((currentColor) => {
-      const newColor = { ...currentColor, ...value };
-
-      action(newColor);
-      return newColor;
-    });
+  const updateRgb = (newColor: Partial<typeof rgb>) => setRgb({ ...rgb, ...newColor });
 
   return (
     <div
@@ -50,7 +25,7 @@ export default function ColorRgb({ raw, action }: ColorRgbProps) {
           min={0}
           max={255}
           value={rgb.r}
-          className="font-mono rounded-md bg-holy-800 px-2 py-1 text-base font-normal text-holy-100"
+          className="rounded-md bg-holy-800 px-2 py-1 font-mono text-base font-normal text-holy-100"
           onChange={(e) => updateRgb({ r: e.target.valueAsNumber })}
         />
       </div>
@@ -65,7 +40,7 @@ export default function ColorRgb({ raw, action }: ColorRgbProps) {
           min={0}
           max={255}
           value={rgb.g}
-          className="font-mono rounded-md bg-holy-800 px-2 py-1 text-base font-normal text-holy-100"
+          className="rounded-md bg-holy-800 px-2 py-1 font-mono text-base font-normal text-holy-100"
           onChange={(e) => updateRgb({ g: e.target.valueAsNumber })}
         />
       </div>
@@ -80,7 +55,7 @@ export default function ColorRgb({ raw, action }: ColorRgbProps) {
           min={0}
           max={255}
           value={rgb.b}
-          className="font-mono rounded-md bg-holy-800 px-2 py-1 text-base font-normal text-holy-100"
+          className="rounded-md bg-holy-800 px-2 py-1 font-mono text-base font-normal text-holy-100"
           onChange={(e) => updateRgb({ b: e.target.valueAsNumber })}
         />
       </div>
@@ -96,7 +71,7 @@ export default function ColorRgb({ raw, action }: ColorRgbProps) {
           max={1}
           step={0.01}
           value={rgb.a}
-          className="font-mono rounded-md bg-holy-800 px-2 py-1 text-base font-normal text-holy-100"
+          className="rounded-md bg-holy-800 px-2 py-1 font-mono text-base font-normal text-holy-100"
           onChange={(e) => updateRgb({ a: e.target.valueAsNumber })}
         />
       </div>
