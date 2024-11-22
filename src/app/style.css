@@ -28,6 +28,9 @@ input[type="button"],
 input[type="reset"],
 input[type="submit"] {
   appearance: button;
+}
+button,
+input {
   background-color: transparent;
 }
 ol,
@@ -38,6 +41,10 @@ ul {
   cursor: default;
 }
 [hidden] {
+  display: none;
+}
+::-webkit-inner-spin-button,
+::-webkit-outer-spin-button {
   display: none;
 }
 
@@ -51,37 +58,33 @@ ul {
       scroll-behavior: smooth;
     }
   }
-  @media (min-width: 24em) {
+  @media (min-width: 20em) {
     .pick-saturation {
-      height: 16rem;
-      width: 16rem;
+      height: 10rem;
+      width: 18rem;
     }
     .pick-hue,
     .pick-lightness {
-      width: 16rem;
+      width: 12rem;
     }
   }
-  @media (max-width: 24em) {
+  @media (max-width: 20em) {
     .pick-saturation {
-      height: calc(100vw - 2rem);
+      height: calc(60vw - 2rem);
       width: calc(100vw - 2rem);
     }
     .pick-hue,
     .pick-lightness {
-      width: calc(100vw - 2rem);
+      width: calc(100vw - 4rem);
     }
-    .input-hsl.flex-row,
-    .input-rgb.flex-row {
-      flex-direction: column;
-    }
-    .input-hex input,
-    .input-hsl input,
-    .input-rgb input,
-    .input-hex .w-1\/4,
-    .input-hsl .w-1\/4,
-    .input-rgb .w-1\/4 {
-      width: 100%;
-    }
+  }
+  .pick-hue,
+  .pick-lightness {
+    cursor: crosshair;
+  }
+  .pick-hue .w-color-alpha-fill,
+  .pick-lightness .w-color-alpha-fill {
+    cursor: e-resize;
   }
 }
 
@@ -95,5 +98,10 @@ ul {
   }
   .no-outline {
     outline: 0;
+  }
+  @media (max-width: 20em) {
+    .unresponsive {
+      display: none;
+    }
   }
 }
