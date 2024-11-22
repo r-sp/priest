@@ -45,6 +45,24 @@ export function useColorProvider() {
     });
   };
 
+  const stringifyHsl = (hsla: typeof store.hsl) => {
+    const { h, s, l, a } = hsla;
+    if (a < 1) {
+      return `hsla(${h}, ${s}%, ${l}%, ${a})`;
+    } else {
+      return `hsl(${h}, ${s}%, ${l}%)`;
+    }
+  };
+
+  const stringifyRgb = (rgba: typeof store.rgb) => {
+    const { r, g, b, a } = rgba;
+    if (a < 1) {
+      return `rgba(${r}, ${g}, ${b}, ${a})`;
+    } else {
+      return `rgb(${r}, ${g}, ${b})`;
+    }
+  };
+
   return {
     raw: store.raw,
     hex: store.hex,
@@ -56,5 +74,10 @@ export function useColorProvider() {
     setHsl: (newColor: typeof store.hsl) => updateColor(newColor),
     setHsv: (newColor: typeof store.hsv) => updateColor(newColor),
     setRgb: (newColor: typeof store.rgb) => updateColor(newColor),
+    css: {
+      hex: store.hex,
+      hsl: stringifyHsl(store.hsl),
+      rgb: stringifyRgb(store.rgb),
+    },
   };
 }

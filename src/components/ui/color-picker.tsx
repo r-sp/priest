@@ -12,13 +12,12 @@ import ShadeSlider from "@uiw/react-color-shade-slider";
 
 export default function ColorPicker() {
   const [showModal, setShowModal] = useState<boolean>(false);
-  const { rgb } = useColorProvider();
-  const previewColor = convertColor(rgb).toRgbString();
+  const { css } = useColorProvider();
 
   return (
     <div className="relative">
       <button className="flex overflow-hidden rounded-3xl" onClick={() => setShowModal(!showModal)}>
-        <span className="inline-flex h-svh w-screen" style={{ backgroundColor: previewColor }}></span>
+        <span className="inline-flex h-svh w-screen" style={{ backgroundColor: css.rgb }}></span>
       </button>
       <div id="color-picker-portal"></div>
       {showModal ? createPortal(<ColorHsv />, document.getElementById("color-picker-portal") || document.body) : null}
@@ -33,17 +32,12 @@ export default function ColorPicker() {
 }
 
 export function ColorHsv() {
-  const { hsv, setHsv } = useColorProvider();
+  const { hsv, setHsv, css } = useColorProvider();
 
   const [format, setFormat] = useState<"hex" | "hsl" | "rgb">("hex");
   const [colorFormat, setColorFormat] = useState<boolean>(false);
 
   const updateHsv = (newColor: typeof hsv | Partial<typeof hsv>) => setHsv({ ...hsv, ...newColor });
-
-  const color = convertColor(hsv);
-  const colorHex = color.toHex();
-  const colorHsl = color.toHslString();
-  const colorRgb = color.toRgbString();
 
   return (
     <div className="absolute left-4 right-4 top-8 z-30 mx-auto max-w-72 overflow-hidden rounded border border-solid border-holy-700 bg-holy-900">
@@ -53,7 +47,7 @@ export function ColorHsv() {
       <div className="relative p-4">
         <div className="flex flex-row gap-4">
           <div className="unresponsive flex">
-            <span className="inline-flex h-12 w-12 rounded-3xl" style={{ backgroundColor: colorRgb }}></span>
+            <span className="inline-flex h-12 w-12 rounded-3xl" style={{ backgroundColor: css.rgb }}></span>
           </div>
           <div className="flex flex-col gap-4">
             <div className="pick-hue">
@@ -92,7 +86,7 @@ export function ColorHsv() {
                     className="px-4 py-1 text-center font-mono text-xs font-normal text-holy-200 hover:bg-holy-800"
                     onClick={() => setFormat("hex")}
                   >
-                    {colorHex}
+                    {css.hex}
                   </button>
                 ) : null}
                 {format !== "hsl" ? (
@@ -100,7 +94,7 @@ export function ColorHsv() {
                     className="px-4 py-1 text-center font-mono text-xs font-normal text-holy-200 hover:bg-holy-800"
                     onClick={() => setFormat("hsl")}
                   >
-                    {colorHsl}
+                    {css.hsl}
                   </button>
                 ) : null}
                 {format !== "rgb" ? (
@@ -108,7 +102,7 @@ export function ColorHsv() {
                     className="px-4 py-1 text-center font-mono text-xs font-normal text-holy-200 hover:bg-holy-800"
                     onClick={() => setFormat("rgb")}
                   >
-                    {colorRgb}
+                    {css.rgb}
                   </button>
                 ) : null}
               </div>,
