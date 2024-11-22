@@ -13,7 +13,7 @@ export default function Priest(props: Readonly<{ children: ReactNode }>) {
   };
 
   return (
-    <div id="priest" role="none" className="grid">
+    <div id="priest" role="none">
       <ColorProvider initValue={random}>
         <header>
           <div className="flex h-12 items-center px-4 xl:mx-auto xl:max-w-screen-xl" role="none">
