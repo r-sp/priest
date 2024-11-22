@@ -1,19 +1,22 @@
 "use client";
 
 import { type ReactNode, createContext, useRef, useContext } from "react";
-import { type ColorState, createColorStore, initColorStore } from "./store";
+import type { ColorSpace, ColorAction } from "~/lib/types";
 import { convertColor } from "~/lib/color";
+import { createColorStore } from "./store";
 import { useStore } from "zustand";
+
+type ColorState = ColorSpace & ColorAction;
 
 export type ColorApi = ReturnType<typeof createColorStore>;
 
 export const ColorContext = createContext<ColorApi | undefined>(undefined);
 
-export function ColorProvider({ children }: { children: ReactNode }) {
+export function ColorProvider({ children, initValue }: { children: ReactNode; initValue: ColorSpace }) {
   const storeRef = useRef<ColorApi>();
 
   if (!storeRef.current) {
-    storeRef.current = createColorStore(initColorStore());
+    storeRef.current = createColorStore(initValue);
   }
 
   return <ColorContext.Provider value={storeRef.current}>{children}</ColorContext.Provider>;
