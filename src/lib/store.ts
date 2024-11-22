@@ -1,10 +1,8 @@
-import { createStore } from "zustand";
 import type { ColorSpace, ColorAction } from "~/lib/types";
-
-type ColorState = ColorSpace & ColorAction;
+import { createStore } from "zustand";
 
 export function createColorStore(initValue: ColorSpace) {
-  return createStore<ColorState>()((set) => ({
+  return createStore<ColorSpace & ColorAction>()((set) => ({
     ...initValue,
     update: (newColor) =>
       set((state) => ({
