@@ -14,18 +14,18 @@ export default function Input({
   focus?: ChangeEventHandler<HTMLInputElement>;
   leave?: ChangeEventHandler<HTMLInputElement>;
 } & ComponentPropsWithoutRef<"input">) {
-  const [color, setColor] = useState<typeof value>(value);
+  const [currentValue, setCurrentValue] = useState<typeof value>(value);
   const ref = useRef<boolean>(false);
 
-  if (color !== value && ref.current === false) {
-    setColor(value);
+  if (currentValue !== value && ref.current === false) {
+    setCurrentValue(value);
   }
 
   return (
     <input
-      value={color}
+      value={currentValue}
       onChange={(e) => {
-        setColor(e.target.value);
+        setCurrentValue(e.target.value);
         if (update) {
           update(e);
         }
