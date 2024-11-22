@@ -1,5 +1,5 @@
 import { type ReactNode } from "react";
-import { ColorProvider } from "../color/provider";
+import { ColorProvider } from "~/lib/provider";
 import { getRandomColor } from "~/lib/color";
 
 export default function Priest(props: Readonly<{ children: ReactNode }>) {
