@@ -1,5 +1,5 @@
 import { type Metadata } from "next";
-import Color from "~/components/color";
+import ColorPicker from "~/components/ui/color-picker";
 
 export const metadata: Metadata = {
   title: "Priest",
@@ -7,5 +7,5 @@ export const metadata: Metadata = {
 };
 
 export default function HomePage() {
-  return <Color />;
+  return <ColorPicker />;
 }
