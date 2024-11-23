@@ -38,6 +38,8 @@ export type ColorAction = {
   update: (newColor: Partial<ColorSpace>) => void;
 };
 
+export type ColorState = ColorSpace & ColorAction;
+
 export type HarmonyColor =
   | "analogous"
   | "complementary"

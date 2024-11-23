@@ -61,6 +61,9 @@ export default {
         "screen-lg": em(1024 + 32),
         "screen-xl": em(1280 + 32),
       },
+      gridTemplateColumns: {
+        picker: "minmax(auto, 1fr) 2rem",
+      },
     },
   },
   corePlugins: {

@@ -24,6 +24,10 @@ label {
   cursor: pointer;
 }
 button,
+label {
+  user-select: none;
+}
+button,
 input[type="button"],
 input[type="reset"],
 input[type="submit"] {
