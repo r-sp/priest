@@ -1,8 +1,8 @@
 import { type ReactNode } from "react";
-import { ColorProvider } from "~/lib/provider";
-import { getRandomColor } from "~/lib/color";
+import { ColorProvider } from "../provider";
+import { getRandomColor } from "~/lib/utils";
 
-export default function Priest(props: Readonly<{ children: ReactNode }>) {
+export default function Layout(props: Readonly<{ children: ReactNode }>) {
   const color = getRandomColor();
   const random = {
     raw: color.toRgb(),

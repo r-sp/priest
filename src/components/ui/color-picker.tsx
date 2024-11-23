@@ -2,8 +2,8 @@
 
 import { useState } from "react";
 import { createPortal } from "react-dom";
-import { useColorProvider } from "~/lib/provider";
-import { convertColor } from "~/lib/color";
+import { useColorProvider } from "../provider";
+import { convertColor } from "~/lib/utils";
 
 import Input from "../input";
 import Hue from "@uiw/react-color-hue";
