@@ -6,8 +6,19 @@ import minifyPlugin from "colord/plugins/minify";
 extend([minifyPlugin]);
 
 export const convertColor: (input: AnyColor) => Colord = colord;
-export const getRandomColor = random;
 export const getFormatColor = getFormat;
+
+export const getRandomColor = () => {
+  const color = random();
+  const space = {
+    raw: color.toRgb(),
+    hex: color.toHex(),
+    hsl: color.toHsl(),
+    hsv: color.toHsv(),
+    rgb: color.toRgb(),
+  };
+  return space;
+};
 
 export const stringifyHsl = (hsla: HslaColor) => {
   const { h, s, l, a } = hsla;

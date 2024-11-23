@@ -4,17 +4,10 @@ import { getRandomColor } from "~/lib/utils";
 
 export default function Layout(props: Readonly<{ children: ReactNode }>) {
   const color = getRandomColor();
-  const random = {
-    raw: color.toRgb(),
-    hex: color.toHex(),
-    hsl: color.toHsl(),
-    hsv: color.toHsv(),
-    rgb: color.toRgb(),
-  };
 
   return (
     <div id="priest" role="none">
-      <ColorProvider initValue={random}>
+      <ColorProvider initValue={color}>
         <header>
           <div className="flex h-12 items-center px-4 xl:mx-auto xl:max-w-screen-xl" role="none">
             <h1 className="text-base font-medium text-holy-300" id="site-name">
