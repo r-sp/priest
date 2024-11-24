@@ -37,3 +37,13 @@ export const stringifyRgb = (rgba: RgbaColor) => {
     return `rgb(${r}, ${g}, ${b})`;
   }
 };
+
+export const writeClipboardText = async (text: string) => {
+  try {
+    await navigator.clipboard.writeText(text);
+    return "success";
+  } catch (e) {
+    console.error(e);
+    return "failed";
+  }
+};
