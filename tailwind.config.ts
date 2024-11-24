@@ -67,6 +67,12 @@ export default {
       gridTemplateColumns: {
         rail: "auto minmax(auto, 1fr)",
       },
+      zIndex: {
+        "2": "2",
+        "4": "4",
+        "6": "6",
+        "8": "8",
+      },
     },
   },
   corePlugins: {
