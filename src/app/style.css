@@ -36,10 +36,14 @@ input[type="submit"] {
 button,
 input {
   background-color: transparent;
+  border: 1px solid transparent;
 }
 ol,
 ul {
   list-style: none;
+}
+a {
+  text-decoration: none;
 }
 :disabled {
   cursor: default;
@@ -74,12 +78,12 @@ ul {
   }
   @media (max-width: 20em) {
     .pick-saturation {
-      height: calc(60vw - 2rem);
-      width: calc(100vw - 2rem);
+      height: calc(60vw - 1rem);
+      width: calc(100vw - 1rem);
     }
     .pick-hue,
     .pick-lightness {
-      width: calc(100vw - 4rem);
+      width: calc(100vw - 3rem);
     }
   }
   .pick-hue,
