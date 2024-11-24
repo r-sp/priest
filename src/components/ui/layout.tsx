@@ -9,9 +9,9 @@ export default function Layout(props: Readonly<{ children: ReactNode }>) {
   const color = getRandomColor();
 
   return (
-    <div id="priest" className="sm:grid-cols-rail xl:max-w-screen-2xl min-h-svh sm:grid xl:mx-auto" role="none">
+    <div id="priest" className="min-h-svh sm:grid sm:grid-cols-rail xl:mx-auto xl:max-w-screen-2xl" role="none">
       <ColorProvider initValue={color}>
-        <nav className="p-2 sm:px-4 max-sm:sticky max-sm:left-0 max-sm:right-0 max-sm:top-0 max-sm:z-20">
+        <nav className="p-2 sm:z-10 sm:px-4 max-sm:sticky max-sm:left-0 max-sm:right-0 max-sm:top-0 max-sm:z-20">
           <div
             className="flex gap-4 sm:sticky sm:left-0 sm:top-2 sm:flex-col max-sm:flex-row max-sm:justify-between"
             role="none"
@@ -23,7 +23,7 @@ export default function Layout(props: Readonly<{ children: ReactNode }>) {
         <div className="sm:border-l sm:border-solid sm:border-l-holy-800 sm:px-2" role="none">
           <header>
             <div
-              className="max-sm:z-8 flex h-12 items-center px-2 xl:mx-auto xl:max-w-screen-xl max-sm:pointer-events-none max-sm:relative max-sm:justify-center"
+              className="flex h-12 items-center px-2 xl:mx-auto xl:max-w-screen-xl max-sm:pointer-events-none max-sm:relative max-sm:z-8 max-sm:-mt-12 max-sm:justify-center"
               role="none"
             >
               <Link href="/" className="text-base font-medium text-holy-100 max-sm:pointer-events-auto">

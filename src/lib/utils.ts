@@ -2,8 +2,12 @@ import type { Colord } from "colord";
 import type { AnyColor, HslaColor, RgbaColor } from "./types";
 import { colord, extend, random, getFormat } from "colord";
 
+import a11yPlugin from "colord/plugins/a11y";
 import minifyPlugin from "colord/plugins/minify";
-extend([minifyPlugin]);
+import harmoniesPlugin from "colord/plugins/harmonies";
+import mixPlugin from "colord/plugins/mix";
+
+extend([a11yPlugin, minifyPlugin, harmoniesPlugin, mixPlugin]);
 
 export const convertColor: (input: AnyColor) => Colord = colord;
 export const getFormatColor = getFormat;
