@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { createPortal } from "react-dom";
 import { useColorProvider } from "../provider";
-import { convertColor, getRandomColor } from "~/lib/utils";
+import { convertColor } from "~/lib/utils";
 
 import Input from "../input";
 import Hue from "@uiw/react-color-hue";
@@ -12,66 +12,25 @@ import ShadeSlider from "@uiw/react-color-shade-slider";
 
 export default function ColorPicker() {
   const [showModal, setShowModal] = useState<boolean>(false);
-  const { hex, setHex, css } = useColorProvider();
-
-  const updateRaw = (value: string) => {
-    const currentColor = convertColor(value);
-    const isValidColor = currentColor.isValid();
-
-    if (isValidColor) {
-      const newColor = currentColor.minify({ alphaHex: true });
-
-      setHex(newColor);
-    }
-
-    return value;
-  };
-
-  const randomColor = () => {
-    const color = getRandomColor();
-
-    setHex(color.hex);
-  };
+  const { css } = useColorProvider();
 
   return (
-    <div className="relative">
-      <div className="grid-cols-picker relative grid max-w-screen-xs gap-1">
-        <button
-          className="absolute left-0 top-0 z-10 flex overflow-hidden rounded-2xl"
-          tabIndex={-1}
-          onClick={() => setShowModal(!showModal)}
-        >
-          <span className="pointer-events-none inline-flex size-8" style={{ backgroundColor: css.rgb }}></span>
-        </button>
-        <div className="input-raw relative flex h-8 w-full">
-          <label htmlFor="raw" className="sr-only">
-            Edit Color
-          </label>
-          <Input
-            type="text"
-            name="raw"
-            id="raw"
-            autoCorrect="false"
-            autoComplete="false"
-            value={hex}
-            update={(e) => updateRaw(e.target.value)}
-            className="absolute bottom-0 left-0 right-0 top-0 rounded-2xl border border-solid border-holy-700 pl-10 pr-4 text-left font-mono text-sm font-normal text-holy-100 hover:bg-holy-800 focus:z-10 focus:hover:bg-inherit"
-          />
-        </div>
-        <button className="flex size-8 items-center justify-center rounded-2xl text-holy-300" onClick={randomColor}>
-          <svg className="size-6" viewBox="0 0 24 24" fill="none">
-            <path
-              fill="currentColor"
-              d="M5.16725 15.627C4.86475 15.0642 4.63625 14.4831 4.48175 13.8838C4.32725 13.2843 4.25 12.673 4.25 12.05C4.25 9.88717 5.00258 8.0465 6.50775 6.528C8.01292 5.00933 9.84367 4.25 12 4.25H12.7808L10.9308 2.4L11.9845 1.34625L15.6385 5L11.9845 8.65375L10.9308 7.6L12.7808 5.75H12C10.2628 5.75 8.78683 6.3615 7.572 7.5845C6.35733 8.80767 5.75 10.2962 5.75 12.05C5.75 12.4642 5.79517 12.8779 5.8855 13.2912C5.976 13.7047 6.11158 14.1083 6.29225 14.502L5.16725 15.627ZM12.0155 22.6538L8.3615 19L12.0155 15.3462L13.0693 16.4L11.2192 18.25H12C13.7372 18.25 15.2132 17.6385 16.428 16.4155C17.6427 15.1923 18.25 13.7038 18.25 11.95C18.25 11.5358 18.2048 11.1221 18.1145 10.7087C18.024 10.2952 17.8884 9.89167 17.7078 9.498L18.8328 8.373C19.1353 8.93583 19.3637 9.51692 19.5182 10.1163C19.6727 10.7158 19.75 11.327 19.75 11.95C19.75 14.1128 18.9974 15.9535 17.4923 17.472C15.9871 18.9907 14.1563 19.75 12 19.75H11.2192L13.0693 21.6L12.0155 22.6538Z"
-            />
-          </svg>
-        </button>
-      </div>
-      <div id="color-picker-portal"></div>
+    <div className="relative" role="none">
+      <button
+        aria-expanded={showModal}
+        aria-controls="color-picker-modal"
+        aria-haspopup="dialog"
+        className="flex size-8 items-center justify-center rounded-2xl"
+        style={{ backgroundColor: css.rgb }}
+        onClick={() => setShowModal(!showModal)}
+      >
+        <span className="sr-only">{showModal ? "close color picker" : "open color picker"}</span>
+      </button>
+      <div role="dialog" aria-modal="true" aria-hidden={!showModal} aria-label="color picker" id="color-picker-portal"></div>
       {showModal ? createPortal(<ColorHsv />, document.getElementById("color-picker-portal") || document.body) : null}
       {showModal
         ? createPortal(
-            <span className="overlay z-20" tabIndex={0} onFocus={() => setShowModal(false)}></span>,
+            <span aria-hidden="true" className="overlay z-20" tabIndex={0} onFocus={() => setShowModal(false)}></span>,
             document.getElementById("color-picker-portal") || document.body,
           )
         : null}
@@ -88,20 +47,23 @@ export function ColorHsv() {
   const updateHsv = (newColor: typeof hsv | Partial<typeof hsv>) => setHsv({ ...hsv, ...newColor });
 
   return (
-    <div className="absolute left-0 top-0 z-30 max-w-72 overflow-hidden rounded border border-solid border-holy-700 bg-holy-900">
-      <div className="pick-saturation">
+    <div
+      className="absolute left-0 top-0 z-30 max-w-72 overflow-hidden rounded border border-solid border-holy-800 bg-holy-900"
+      role="none"
+    >
+      <div role="toolbar" aria-label="saturation" className="pick-saturation">
         <Saturation hsva={hsv} hue={hsv.h} style={{ height: "100%", width: "100%" }} onChange={updateHsv} />
       </div>
-      <div className="relative p-4">
+      <div className="relative p-4" role="none">
         <div className="flex flex-row gap-4">
           <div className="unresponsive flex">
             <span className="inline-flex h-12 w-12 rounded-3xl" style={{ backgroundColor: css.rgb }}></span>
           </div>
           <div className="flex flex-col gap-4">
-            <div className="pick-hue">
+            <div role="toolbar" aria-label="hue" className="pick-hue">
               <Hue hue={hsv.h} onChange={updateHsv} />
             </div>
-            <div className="pick-lightness">
+            <div role="toolbar" aria-label="lightness" className="pick-lightness">
               <ShadeSlider hsva={hsv} onChange={updateHsv} />
             </div>
           </div>
@@ -160,6 +122,7 @@ export function ColorHsv() {
         {colorFormat
           ? createPortal(
               <span
+                aria-hidden="true"
                 className="absolute bottom-0 left-0 right-0 top-0 z-40 bg-holy-900 opacity-90"
                 tabIndex={0}
                 onFocus={() => setColorFormat(false)}
