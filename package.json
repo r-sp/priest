@@ -10,7 +10,7 @@
   "browserslist": "defaults, not ie <= 11",
   "scripts": {
     "build": "next build",
-    "dev": "next dev --turbo",
+    "dev": "next dev --turbopack",
     "lint": "next lint",
     "format": "prettier --write .",
     "clean": "rimraf .next"
