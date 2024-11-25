@@ -27,7 +27,7 @@ export default function ColorHarmony() {
         <button
           className={clsx(
             section === "complementary" ? "text-holy-100" : "text-holy-300",
-            "rounded border-holy-700 px-2 py-1 text-sm font-normal hover:bg-holy-800 focus:bg-holy-800 active:border-holy-600 active:bg-holy-700",
+            "rounded-md border-holy-700 px-2 py-1 text-sm font-normal hover:bg-holy-800 focus:bg-holy-800 active:border-holy-600 active:bg-holy-700",
           )}
           onClick={() => setSection("complementary")}
         >
@@ -36,7 +36,7 @@ export default function ColorHarmony() {
         <button
           className={clsx(
             section === "analogous" ? "text-holy-100" : "text-holy-300",
-            "rounded border-holy-700 px-2 py-1 text-sm font-normal hover:bg-holy-800 focus:bg-holy-800 active:border-holy-600 active:bg-holy-700",
+            "rounded-md border-holy-700 px-2 py-1 text-sm font-normal hover:bg-holy-800 focus:bg-holy-800 active:border-holy-600 active:bg-holy-700",
           )}
           onClick={() => setSection("analogous")}
         >
@@ -45,7 +45,7 @@ export default function ColorHarmony() {
         <button
           className={clsx(
             section === "triadic" ? "text-holy-100" : "text-holy-300",
-            "rounded border-holy-700 px-2 py-1 text-sm font-normal hover:bg-holy-800 focus:bg-holy-800 active:border-holy-600 active:bg-holy-700",
+            "rounded-md border-holy-700 px-2 py-1 text-sm font-normal hover:bg-holy-800 focus:bg-holy-800 active:border-holy-600 active:bg-holy-700",
           )}
           onClick={() => setSection("triadic")}
         >
@@ -54,7 +54,7 @@ export default function ColorHarmony() {
         <button
           className={clsx(
             section === "split-complementary" ? "text-holy-100" : "text-holy-300",
-            "rounded border-holy-700 px-2 py-1 text-sm font-normal hover:bg-holy-800 focus:bg-holy-800 active:border-holy-600 active:bg-holy-700",
+            "rounded-md border-holy-700 px-2 py-1 text-sm font-normal hover:bg-holy-800 focus:bg-holy-800 active:border-holy-600 active:bg-holy-700",
           )}
           onClick={() => setSection("split-complementary")}
         >
@@ -63,7 +63,7 @@ export default function ColorHarmony() {
         <button
           className={clsx(
             section === "tetradic" ? "text-holy-100" : "text-holy-300",
-            "rounded border-holy-700 px-2 py-1 text-sm font-normal hover:bg-holy-800 focus:bg-holy-800 active:border-holy-600 active:bg-holy-700",
+            "rounded-md border-holy-700 px-2 py-1 text-sm font-normal hover:bg-holy-800 focus:bg-holy-800 active:border-holy-600 active:bg-holy-700",
           )}
           onClick={() => setSection("tetradic")}
         >
@@ -72,7 +72,7 @@ export default function ColorHarmony() {
         <button
           className={clsx(
             section === "rectangle" ? "text-holy-100" : "text-holy-300",
-            "rounded border-holy-700 px-2 py-1 text-sm font-normal hover:bg-holy-800 focus:bg-holy-800 active:border-holy-600 active:bg-holy-700",
+            "rounded-md border-holy-700 px-2 py-1 text-sm font-normal hover:bg-holy-800 focus:bg-holy-800 active:border-holy-600 active:bg-holy-700",
           )}
           onClick={() => setSection("rectangle")}
         >
@@ -81,7 +81,7 @@ export default function ColorHarmony() {
         <button
           className={clsx(
             section === "double-split-complementary" ? "text-holy-100" : "text-holy-300",
-            "rounded border-holy-700 px-2 py-1 text-sm font-normal hover:bg-holy-800 focus:bg-holy-800 active:border-holy-600 active:bg-holy-700",
+            "rounded-md border-holy-700 px-2 py-1 text-sm font-normal hover:bg-holy-800 focus:bg-holy-800 active:border-holy-600 active:bg-holy-700",
           )}
           onClick={() => setSection("double-split-complementary")}
         >
@@ -102,7 +102,7 @@ export default function ColorHarmony() {
         )}
       >
         {harmony.map((c, i) => (
-          <ColorCard color={c} key={i} preview={{ className: "min-h-48" }} />
+          <ColorCard color={c} key={i} />
         ))}
       </aside>
     </div>
