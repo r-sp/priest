@@ -26,20 +26,6 @@ type AnyColorWithAlpha = HslaColor | HsvaColor | RgbaColor;
 
 export type AnyColor = HexColor | HslColor | HsvColor | RgbColor | AnyColorWithAlpha;
 
-export type ColorSpace = {
-  raw: AnyColor;
-  hex: HexColor;
-  hsl: HslaColor;
-  hsv: HsvaColor;
-  rgb: RgbaColor;
-};
-
-export type ColorAction = {
-  update: (newColor: Partial<ColorSpace>) => void;
-};
-
-export type ColorState = ColorSpace & ColorAction;
-
 export type HarmonyColor =
   | "analogous"
   | "complementary"
@@ -48,3 +34,19 @@ export type HarmonyColor =
   | "split-complementary"
   | "tetradic"
   | "triadic";
+
+export type ColorSpace = {
+  raw: AnyColor;
+  hex: HexColor;
+  hsl: HslaColor;
+  hsv: HsvaColor;
+  rgb: RgbaColor;
+  harmony: HarmonyColor;
+};
+
+export type ColorAction = {
+  update: (newColor: Partial<ColorSpace>) => void;
+  setHarmony: (type: HarmonyColor) => void;
+};
+
+export type ColorState = ColorSpace & ColorAction;

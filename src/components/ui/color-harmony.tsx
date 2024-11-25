@@ -1,14 +1,15 @@
 "use client";
 
 import { useState, useMemo } from "react";
-import { useColorProvider } from "../provider";
+import { useColorProvider, useColorStore } from "../provider";
 import { convertColor } from "~/lib/utils";
 import { type HarmonyColor } from "~/lib/types";
 import ColorCard from "./color-card";
 import clsx from "clsx";
 
 export default function ColorHarmony() {
-  const [section, setSection] = useState<HarmonyColor>("rectangle");
+  const store = useColorStore((state) => state);
+  const [section, setSection] = useState<HarmonyColor>(store.harmony);
   const { rgb } = useColorProvider();
 
   const color = convertColor(rgb);
@@ -20,6 +21,11 @@ export default function ColorHarmony() {
     return variety;
   }, [section, color]);
 
+  const updateSection = (type: HarmonyColor) => {
+    setSection(type);
+    store.setHarmony(type);
+  };
+
   return (
     <div className="py-6" role="none">
       <h2 className="text-3xl font-semibold text-holy-100">Color Harmony</h2>
@@ -29,7 +35,7 @@ export default function ColorHarmony() {
             section === "complementary" ? "text-holy-100" : "text-holy-300",
             "rounded-md border-holy-700 px-2 py-1 text-sm font-normal hover:bg-holy-800 focus:bg-holy-800 active:border-holy-600 active:bg-holy-700",
           )}
-          onClick={() => setSection("complementary")}
+          onClick={() => updateSection("complementary")}
         >
           <span>Complementary</span>
         </button>
@@ -38,7 +44,7 @@ export default function ColorHarmony() {
             section === "analogous" ? "text-holy-100" : "text-holy-300",
             "rounded-md border-holy-700 px-2 py-1 text-sm font-normal hover:bg-holy-800 focus:bg-holy-800 active:border-holy-600 active:bg-holy-700",
           )}
-          onClick={() => setSection("analogous")}
+          onClick={() => updateSection("analogous")}
         >
           <span>Analogous</span>
         </button>
@@ -47,7 +53,7 @@ export default function ColorHarmony() {
             section === "triadic" ? "text-holy-100" : "text-holy-300",
             "rounded-md border-holy-700 px-2 py-1 text-sm font-normal hover:bg-holy-800 focus:bg-holy-800 active:border-holy-600 active:bg-holy-700",
           )}
-          onClick={() => setSection("triadic")}
+          onClick={() => updateSection("triadic")}
         >
           <span>Triadic</span>
         </button>
@@ -56,7 +62,7 @@ export default function ColorHarmony() {
             section === "split-complementary" ? "text-holy-100" : "text-holy-300",
             "rounded-md border-holy-700 px-2 py-1 text-sm font-normal hover:bg-holy-800 focus:bg-holy-800 active:border-holy-600 active:bg-holy-700",
           )}
-          onClick={() => setSection("split-complementary")}
+          onClick={() => updateSection("split-complementary")}
         >
           Split Complementary<span></span>
         </button>
@@ -65,7 +71,7 @@ export default function ColorHarmony() {
             section === "tetradic" ? "text-holy-100" : "text-holy-300",
             "rounded-md border-holy-700 px-2 py-1 text-sm font-normal hover:bg-holy-800 focus:bg-holy-800 active:border-holy-600 active:bg-holy-700",
           )}
-          onClick={() => setSection("tetradic")}
+          onClick={() => updateSection("tetradic")}
         >
           <span>Tetradic</span>
         </button>
@@ -74,7 +80,7 @@ export default function ColorHarmony() {
             section === "rectangle" ? "text-holy-100" : "text-holy-300",
             "rounded-md border-holy-700 px-2 py-1 text-sm font-normal hover:bg-holy-800 focus:bg-holy-800 active:border-holy-600 active:bg-holy-700",
           )}
-          onClick={() => setSection("rectangle")}
+          onClick={() => updateSection("rectangle")}
         >
           <span>Rectangle</span>
         </button>
@@ -83,7 +89,7 @@ export default function ColorHarmony() {
             section === "double-split-complementary" ? "text-holy-100" : "text-holy-300",
             "rounded-md border-holy-700 px-2 py-1 text-sm font-normal hover:bg-holy-800 focus:bg-holy-800 active:border-holy-600 active:bg-holy-700",
           )}
-          onClick={() => setSection("double-split-complementary")}
+          onClick={() => updateSection("double-split-complementary")}
         >
           <span>Double Split Complementary</span>
         </button>
