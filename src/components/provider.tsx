@@ -14,6 +14,7 @@ const createColorStore = (initValue: ColorSpace) => {
         ...state,
         ...newColor,
       })),
+    setHarmony: (type) => set(() => ({ harmony: type })),
   }));
 };
 
@@ -31,7 +32,7 @@ export function ColorProvider({ children, initValue }: { children: ReactNode; in
   return <ColorContext.Provider value={storeRef.current}>{children}</ColorContext.Provider>;
 }
 
-function useColorStore<T>(selector: (store: ColorState) => T) {
+export function useColorStore<T>(selector: (store: ColorState) => T) {
   const colorContext = useContext(ColorContext);
 
   if (!colorContext) {
