@@ -1,4 +1,5 @@
 import { type ReactNode } from "react";
+import { type HarmonyColor } from "~/lib/types";
 import { ColorProvider } from "../provider";
 import { getRandomColor } from "~/lib/utils";
 import Link from "next/link";
@@ -6,7 +7,9 @@ import ColorPicker from "./color-picker";
 import ColorRandom from "./color-random";
 
 export default function Layout(props: Readonly<{ children: ReactNode }>) {
-  const color = getRandomColor();
+  const random = getRandomColor();
+  const harmony: HarmonyColor = "rectangle";
+  const color = { ...random, harmony: harmony };
 
   return (
     <div id="priest" className="min-h-svh sm:grid sm:grid-cols-rail xl:mx-auto xl:max-w-screen-2xl" role="none">

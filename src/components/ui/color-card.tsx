@@ -5,6 +5,7 @@ import { createPortal } from "react-dom";
 import { stringifyRgb, writeClipboardText } from "~/lib/utils";
 import { type RgbaColor } from "~/lib/types";
 import clsx from "clsx";
+import Link from "next/link";
 
 export default function ColorCard({ color }: { color: { hex: string; rgb: RgbaColor } }) {
   const [clipboard, setClipboard] = useState<string>("");
@@ -51,7 +52,9 @@ export default function ColorCard({ color }: { color: { hex: string; rgb: RgbaCo
           </div>
         ) : null}
       </div>
-      <code className={clsx("inline-flex font-mono text-base", status ? "text-holy-400" : "text-holy-200")}>{hex}</code>
+      <Link href={"/color?hex=" + hex.replace("#", "")} className="inline-flex">
+        <code className={clsx("font-mono text-base", status ? "text-holy-400" : "text-holy-200")}>{hex}</code>
+      </Link>
       {screen
         ? createPortal(
             <span
