@@ -3,7 +3,7 @@
 import type { ReactNode } from "react";
 import type { ColorState, ColorSpace } from "../lib/types";
 import { createContext, useRef, useContext, useCallback, useMemo } from "react";
-import { convertColor, stringifyHsl, stringifyRgb } from "../lib/utils";
+import { convertColor } from "../lib/utils";
 import { createStore, useStore } from "zustand";
 
 const createColorStore = (initValue: ColorSpace) => {
@@ -67,16 +67,12 @@ export const useColorProvider = () => {
       hsl: store.hsl,
       hsv: store.hsv,
       rgb: store.rgb,
-      css: {
-        hex: store.hex,
-        hsl: stringifyHsl(store.hsl),
-        rgb: stringifyRgb(store.rgb),
-      },
       setRaw: (newColor: typeof store.raw) => updateColor(newColor),
       setHex: (newColor: typeof store.hex) => updateColor(newColor),
       setHsl: (newColor: typeof store.hsl) => updateColor(newColor),
       setHsv: (newColor: typeof store.hsv) => updateColor(newColor),
       setRgb: (newColor: typeof store.rgb) => updateColor(newColor),
+      convert: (newColor: typeof store.raw) => convertColor(newColor),
     };
   }, [store, updateColor]);
 
