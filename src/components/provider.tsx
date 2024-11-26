@@ -5,6 +5,7 @@ import type { ColorState, ColorSpace } from "../lib/types";
 import { createContext, useRef, useContext, useCallback, useMemo } from "react";
 import { convertColor } from "../lib/utils";
 import { createStore, useStore } from "zustand";
+import { useQueryState, parseAsString } from "nuqs";
 
 const createColorStore = (initValue: ColorSpace) => {
   return createStore<ColorState>()((set) => ({
@@ -60,6 +61,8 @@ export const useColorProvider = () => {
     [store],
   );
 
+  const [requestedHex] = useQueryState("hex", parseAsString.withDefault("undefined"));
+
   const color = useMemo(() => {
     return {
       raw: store.raw,
@@ -73,8 +76,9 @@ export const useColorProvider = () => {
       setHsv: (newColor: typeof store.hsv) => updateColor(newColor),
       setRgb: (newColor: typeof store.rgb) => updateColor(newColor),
       convert: (newColor: typeof store.raw) => convertColor(newColor),
+      reqHex: requestedHex,
     };
-  }, [store, updateColor]);
+  }, [store, updateColor, requestedHex]);
 
   return color;
 };
