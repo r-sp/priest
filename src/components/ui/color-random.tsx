@@ -9,7 +9,7 @@ export default function ColorRandom() {
   return (
     <button
       aria-label="generate random color"
-      className="flex size-8 items-center justify-center rounded-2xl border-holy-700 bg-holy-900 text-holy-300 hover:bg-holy-800 focus:bg-holy-800 active:border-holy-600 active:bg-holy-700"
+      className="flex size-8 items-center justify-center rounded-2xl border-holy-700 bg-holy-900 text-holy-300 hover:bg-holy-800 focus:bg-holy-800 active:border-holy-600 active:bg-holy-700 max-sm:pointer-events-auto"
       onClick={() => {
         setRgb(getRandomColor().rgb);
       }}
