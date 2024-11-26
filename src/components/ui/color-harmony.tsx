@@ -31,8 +31,10 @@ export default function ColorHarmony() {
       <nav aria-label="color combinations" className="mt-4 flex flex-wrap gap-2">
         <button
           className={clsx(
-            section === "complementary" ? "text-holy-100" : "text-holy-300",
-            "rounded-md border-holy-700 px-2 py-1 text-sm font-normal hover:bg-holy-800 focus:bg-holy-800 active:border-holy-600 active:bg-holy-700",
+            section === "complementary"
+              ? "bg-holy-800 text-holy-200"
+              : "border-holy-700 text-holy-300 hover:bg-holy-800 focus:bg-holy-800 active:border-holy-600 active:bg-holy-700",
+            "rounded-md px-2 py-1 text-sm font-normal",
           )}
           onClick={() => updateSection("complementary")}
         >
@@ -40,8 +42,10 @@ export default function ColorHarmony() {
         </button>
         <button
           className={clsx(
-            section === "analogous" ? "text-holy-100" : "text-holy-300",
-            "rounded-md border-holy-700 px-2 py-1 text-sm font-normal hover:bg-holy-800 focus:bg-holy-800 active:border-holy-600 active:bg-holy-700",
+            section === "analogous"
+              ? "bg-holy-800 text-holy-200"
+              : "border-holy-700 text-holy-300 hover:bg-holy-800 focus:bg-holy-800 active:border-holy-600 active:bg-holy-700",
+            "rounded-md px-2 py-1 text-sm font-normal",
           )}
           onClick={() => updateSection("analogous")}
         >
@@ -49,8 +53,10 @@ export default function ColorHarmony() {
         </button>
         <button
           className={clsx(
-            section === "triadic" ? "text-holy-100" : "text-holy-300",
-            "rounded-md border-holy-700 px-2 py-1 text-sm font-normal hover:bg-holy-800 focus:bg-holy-800 active:border-holy-600 active:bg-holy-700",
+            section === "triadic"
+              ? "bg-holy-800 text-holy-200"
+              : "border-holy-700 text-holy-300 hover:bg-holy-800 focus:bg-holy-800 active:border-holy-600 active:bg-holy-700",
+            "rounded-md px-2 py-1 text-sm font-normal",
           )}
           onClick={() => updateSection("triadic")}
         >
@@ -58,8 +64,10 @@ export default function ColorHarmony() {
         </button>
         <button
           className={clsx(
-            section === "split-complementary" ? "text-holy-100" : "text-holy-300",
-            "rounded-md border-holy-700 px-2 py-1 text-sm font-normal hover:bg-holy-800 focus:bg-holy-800 active:border-holy-600 active:bg-holy-700",
+            section === "split-complementary"
+              ? "bg-holy-800 text-holy-200"
+              : "border-holy-700 text-holy-300 hover:bg-holy-800 focus:bg-holy-800 active:border-holy-600 active:bg-holy-700",
+            "rounded-md px-2 py-1 text-sm font-normal",
           )}
           onClick={() => updateSection("split-complementary")}
         >
@@ -67,8 +75,10 @@ export default function ColorHarmony() {
         </button>
         <button
           className={clsx(
-            section === "tetradic" ? "text-holy-100" : "text-holy-300",
-            "rounded-md border-holy-700 px-2 py-1 text-sm font-normal hover:bg-holy-800 focus:bg-holy-800 active:border-holy-600 active:bg-holy-700",
+            section === "tetradic"
+              ? "bg-holy-800 text-holy-200"
+              : "border-holy-700 text-holy-300 hover:bg-holy-800 focus:bg-holy-800 active:border-holy-600 active:bg-holy-700",
+            "rounded-md px-2 py-1 text-sm font-normal",
           )}
           onClick={() => updateSection("tetradic")}
         >
@@ -76,8 +86,10 @@ export default function ColorHarmony() {
         </button>
         <button
           className={clsx(
-            section === "rectangle" ? "text-holy-100" : "text-holy-300",
-            "rounded-md border-holy-700 px-2 py-1 text-sm font-normal hover:bg-holy-800 focus:bg-holy-800 active:border-holy-600 active:bg-holy-700",
+            section === "rectangle"
+              ? "bg-holy-800 text-holy-200"
+              : "border-holy-700 text-holy-300 hover:bg-holy-800 focus:bg-holy-800 active:border-holy-600 active:bg-holy-700",
+            "rounded-md px-2 py-1 text-sm font-normal",
           )}
           onClick={() => updateSection("rectangle")}
         >
@@ -85,8 +97,10 @@ export default function ColorHarmony() {
         </button>
         <button
           className={clsx(
-            section === "double-split-complementary" ? "text-holy-100" : "text-holy-300",
-            "rounded-md border-holy-700 px-2 py-1 text-sm font-normal hover:bg-holy-800 focus:bg-holy-800 active:border-holy-600 active:bg-holy-700",
+            section === "double-split-complementary"
+              ? "bg-holy-800 text-holy-200"
+              : "border-holy-700 text-holy-300 hover:bg-holy-800 focus:bg-holy-800 active:border-holy-600 active:bg-holy-700",
+            "rounded-md px-2 py-1 text-sm font-normal",
           )}
           onClick={() => updateSection("double-split-complementary")}
         >
