@@ -15,7 +15,7 @@ export default function ColorPicker() {
   const { rgb } = useColorProvider();
 
   return (
-    <div className="relative" role="none">
+    <div className="relative max-sm:pointer-events-auto" role="none">
       <button
         aria-expanded={showModal}
         aria-controls="color-picker-modal"

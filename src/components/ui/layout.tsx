@@ -14,7 +14,7 @@ export default function Layout(props: Readonly<{ children: ReactNode }>) {
   return (
     <div id="priest" className="min-h-svh sm:grid sm:grid-cols-rail xl:mx-auto xl:max-w-screen-2xl" role="none">
       <ColorProvider initValue={color}>
-        <nav className="p-2 sm:z-10 sm:px-4 max-sm:sticky max-sm:left-0 max-sm:right-0 max-sm:top-0 max-sm:z-20">
+        <nav className="p-2 sm:z-10 sm:px-4 max-sm:pointer-events-none max-sm:sticky max-sm:left-0 max-sm:right-0 max-sm:top-0 max-sm:z-20">
           <div
             className="flex gap-4 sm:sticky sm:left-0 sm:top-2 sm:flex-col max-sm:flex-row max-sm:justify-between"
             role="none"
@@ -41,7 +41,7 @@ export default function Layout(props: Readonly<{ children: ReactNode }>) {
           </main>
           <footer>
             <div className="mt-4 px-2 py-8 xl:mx-auto xl:max-w-screen-xl max-sm:text-center" role="none">
-              <Link href="/" className="text-sm font-medium text-holy-300">
+              <Link href="/color" className="text-sm font-medium text-holy-300">
                 <span>The Holy Colors</span>
               </Link>
             </div>
