@@ -93,7 +93,7 @@ export default function ColorHarmony() {
           <span>Double Split Complementary</span>
         </button>
       </nav>
-      <aside
+      <section
         aria-label={section.replaceAll("-", " ")}
         className={clsx(
           "mt-6 grid gap-4",
@@ -107,9 +107,9 @@ export default function ColorHarmony() {
         )}
       >
         {harmony.map((c, i) => (
-          <ColorCard color={c} key={i} />
+          <ColorCard color={c} key={i} options={{ copyColor: false, colorName: true }} />
         ))}
-      </aside>
+      </section>
     </div>
   );
 }
