@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import { useQueryState, parseAsString } from "nuqs";
 import { useColorProvider } from "../provider";
 import { stringifyRgb } from "~/lib/utils";
 import clsx from "clsx";
@@ -8,7 +9,8 @@ import ColorCard from "./color-card";
 
 export default function ColorDetails() {
   const [preview, setPreview] = useState<"light" | "dark">("dark");
-  const { hex, rgb, convert, setRgb, reqHex } = useColorProvider();
+  const [reqHex] = useQueryState("hex", parseAsString.withDefault("undefined"));
+  const { hex, rgb, convert, setRgb } = useColorProvider();
 
   const hexColor = reqHex === "undefined" ? hex : `#${reqHex}`;
   const previewColor = reqHex === "undefined" ? rgb : convert(`#${reqHex}`).toRgb();
