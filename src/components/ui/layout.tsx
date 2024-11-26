@@ -41,7 +41,7 @@ export default function Layout(props: Readonly<{ children: ReactNode }>) {
           </main>
           <footer>
             <div className="mt-4 px-2 py-8 xl:mx-auto xl:max-w-screen-xl max-sm:text-center" role="none">
-              <Link href="/" className="text-sm font-medium text-holy-300">
+              <Link href="/color" className="text-sm font-medium text-holy-300">
                 <span>The Holy Colors</span>
               </Link>
             </div>
