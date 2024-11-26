@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { createPortal } from "react-dom";
 import { useColorProvider } from "../provider";
-import { convertColor } from "~/lib/utils";
+import { stringifyHsl, stringifyRgb } from "~/lib/utils";
 
 import Input from "../input";
 import Hue from "@uiw/react-color-hue";
@@ -12,7 +12,7 @@ import ShadeSlider from "@uiw/react-color-shade-slider";
 
 export default function ColorPicker() {
   const [showModal, setShowModal] = useState<boolean>(false);
-  const { css } = useColorProvider();
+  const { rgb } = useColorProvider();
 
   return (
     <div className="relative" role="none">
@@ -21,7 +21,7 @@ export default function ColorPicker() {
         aria-controls="color-picker-modal"
         aria-haspopup="dialog"
         className="flex size-8 items-center justify-center rounded-2xl"
-        style={{ backgroundColor: css.rgb }}
+        style={{ backgroundColor: stringifyRgb(rgb) }}
         onClick={() => setShowModal(!showModal)}
       >
         <span className="sr-only">{showModal ? "close color picker" : "open color picker"}</span>
@@ -39,7 +39,7 @@ export default function ColorPicker() {
 }
 
 export function ColorHsv() {
-  const { hsv, setHsv, css } = useColorProvider();
+  const { hsv, setHsv, hex, hsl, rgb } = useColorProvider();
 
   const [format, setFormat] = useState<"hex" | "hsl" | "rgb">("hex");
   const [colorFormat, setColorFormat] = useState<boolean>(false);
@@ -57,7 +57,7 @@ export function ColorHsv() {
       <div className="relative p-4" role="none">
         <div className="flex flex-row gap-4">
           <div className="unresponsive flex">
-            <span className="inline-flex h-12 w-12 rounded-3xl" style={{ backgroundColor: css.rgb }}></span>
+            <span className="inline-flex h-12 w-12 rounded-3xl" style={{ backgroundColor: stringifyRgb(rgb) }}></span>
           </div>
           <div className="flex flex-col gap-4">
             <div role="toolbar" aria-label="hue" className="pick-hue">
@@ -96,7 +96,7 @@ export function ColorHsv() {
                     className="px-4 py-1 text-center font-mono text-xs font-normal text-holy-200 hover:bg-holy-800"
                     onClick={() => setFormat("hex")}
                   >
-                    {css.hex}
+                    {hex}
                   </button>
                 ) : null}
                 {format !== "hsl" ? (
@@ -104,7 +104,7 @@ export function ColorHsv() {
                     className="px-4 py-1 text-center font-mono text-xs font-normal text-holy-200 hover:bg-holy-800"
                     onClick={() => setFormat("hsl")}
                   >
-                    {css.hsl}
+                    {stringifyHsl(hsl)}
                   </button>
                 ) : null}
                 {format !== "rgb" ? (
@@ -112,7 +112,7 @@ export function ColorHsv() {
                     className="px-4 py-1 text-center font-mono text-xs font-normal text-holy-200 hover:bg-holy-800"
                     onClick={() => setFormat("rgb")}
                   >
-                    {css.rgb}
+                    {stringifyRgb(rgb)}
                   </button>
                 ) : null}
               </div>,
@@ -136,10 +136,10 @@ export function ColorHsv() {
 }
 
 export function ColorHex() {
-  const { hex, setHex } = useColorProvider();
+  const { hex, setHex, convert } = useColorProvider();
 
   const updateHex = (value: string) => {
-    const currentColor = convertColor(value);
+    const currentColor = convert(value);
     const isValidColor = currentColor.isValid();
 
     if (isValidColor) {

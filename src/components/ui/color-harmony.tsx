@@ -2,7 +2,6 @@
 
 import { useState, useMemo } from "react";
 import { useColorProvider, useColorStore } from "../provider";
-import { convertColor } from "~/lib/utils";
 import { type HarmonyColor } from "~/lib/types";
 import ColorCard from "./color-card";
 import clsx from "clsx";
@@ -10,9 +9,9 @@ import clsx from "clsx";
 export default function ColorHarmony() {
   const store = useColorStore((state) => state);
   const [section, setSection] = useState<HarmonyColor>(store.harmony);
-  const { rgb } = useColorProvider();
+  const { rgb, convert } = useColorProvider();
 
-  const color = convertColor(rgb);
+  const color = convert(rgb);
   const harmony = useMemo(() => {
     const variety = color.harmonies(section).map((c) => {
       return { hex: c.toHex(), rgb: c.toRgb() };
