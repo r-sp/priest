@@ -8,16 +8,16 @@ import Link from "next/link";
 
 export default function ColorCard({
   color,
-  options = { copyColor: true, colorName: false, colorLink: false },
+  options = { copyColor: true, colorName: false, colorLink: false, colorLabel: false },
 }: {
-  color: { hex: string; rgb: RgbaColor };
-  options?: { copyColor: boolean; colorName?: boolean; colorLink?: boolean };
+  color: { hex: string; rgb: RgbaColor; label?: string };
+  options?: { copyColor: boolean; colorName?: boolean; colorLink?: boolean; colorLabel?: boolean };
 }) {
   const [clipboard, setClipboard] = useState<string>("");
   const [status, setStatus] = useState<boolean>(false);
   const [screen, setScreen] = useState<boolean>(false);
 
-  const { hex, rgb } = color;
+  const { hex, rgb, label } = color;
 
   const copyCurrentColor = () => {
     const copy = writeClipboardText(hex);
@@ -75,7 +75,14 @@ export default function ColorCard({
             className="inline-flex h-36 rounded-lg md:h-48 lg:h-60 xl:h-80 max-sm:h-48"
             style={{ backgroundColor: previewColor }}
           ></span>
-          {options.colorName ? <code className="inline-flex font-mono text-base text-holy-200">{hex}</code> : null}
+          {options.colorLabel ? (
+            <p className="flex flex-col">
+              <span className="inline-flex text-base text-holy-100">{label}</span>
+              {options.colorName ? <code className="inline-flex font-mono text-sm text-holy-300">{hex}</code> : null}
+            </p>
+          ) : options.colorName ? (
+            <code className="inline-flex font-mono text-base text-holy-200">{hex}</code>
+          ) : null}
         </Link>
       )}
       {screen
