@@ -50,3 +50,9 @@ export type ColorAction = {
 };
 
 export type ColorState = ColorSpace & ColorAction;
+
+export type ColorShadeList = {
+  hex: HexColor;
+  rgb: RgbaColor;
+  label?: string;
+}[];
