@@ -31,6 +31,7 @@ export default function ColorDetails() {
   const updateRgb = (newColor: Partial<typeof rgb>) => setRgb({ ...rgb, ...newColor });
 
   const color = convert(previewColor);
+  const colorHsl = color.toHsl();
   const colorHue = `${color.hue()} deg`;
   const colorBrightness = `${Math.round(color.brightness() * 100)}% (${color.isDark() ? "Dark" : "Light"})`;
   const colorLuminance = `${Math.round(color.luminance() * 100)}%`;
@@ -51,11 +52,23 @@ export default function ColorDetails() {
 
   const textPreview = "What's your favorite color and why?";
 
-  return (
-    <div className="grid gap-4" role="none">
-      <ColorCard color={{ hex: hexColor, rgb: previewColor }} />
+  const limitHue = (deg: number) => {
+    const hue = Math.round(deg + color.hue());
 
-      <div className="grid gap-4">
+    return ((hue % 360) + 360) % 360;
+  };
+
+  const relatedHue = [limitHue(45), limitHue(90), limitHue(135), limitHue(180)];
+  const relatedColor = relatedHue.map((c) => {
+    const related = convert({ ...colorHsl, h: c });
+
+    return { hex: related.toHex(), rgb: related.toRgb() };
+  });
+
+  return (
+    <div className="grid gap-12" role="none">
+      <div className="grid gap-4" role="none">
+        <ColorCard color={{ hex: hexColor, rgb: previewColor }} />
         <p className="inline-grid">
           <span className="text-sm font-medium text-holy-300">Hex</span>
           <code className="font-mono text-base text-holy-100">{hexColor}</code>
@@ -139,24 +152,30 @@ export default function ColorDetails() {
             {(preview === "light" ? whiteLargeAAA : blackLargeAAA) ? "Pass" : "Fail"}
           </code>
         </p>
+
+        {reqHex !== "undefined" ? (
+          <div className="mt-6" role="none">
+            {hex !== `#${reqHex}` ? (
+              <button
+                className="rounded-md border-holy-700 px-4 py-2 text-sm text-holy-300 hover:bg-holy-800 focus:bg-holy-800 active:border-holy-600 active:bg-holy-700"
+                onClick={() => updateRgb(previewColor)}
+              >
+                <span>Promote</span>
+              </button>
+            ) : (
+              <button className="rounded-md bg-holy-800 px-4 py-2 text-sm text-holy-300 opacity-50" disabled>
+                <span>Promote</span>
+              </button>
+            )}
+          </div>
+        ) : null}
       </div>
 
-      {reqHex !== "undefined" ? (
-        <div className="mt-6" role="none">
-          {hex !== `#${reqHex}` ? (
-            <button
-              className="rounded-md border-holy-700 px-4 py-2 text-sm text-holy-300 hover:bg-holy-800 focus:bg-holy-800 active:border-holy-600 active:bg-holy-700"
-              onClick={() => updateRgb(previewColor)}
-            >
-              <span>Promote</span>
-            </button>
-          ) : (
-            <button className="rounded-md bg-holy-800 px-4 py-2 text-sm text-holy-300 opacity-50" disabled>
-              <span>Promote</span>
-            </button>
-          )}
-        </div>
-      ) : null}
+      <div className="grid gap-4 sm:grid-cols-4">
+        {relatedColor.map((c, i) => (
+          <ColorCard color={c} key={i} options={{ copyColor: false, colorName: true }} />
+        ))}
+      </div>
     </div>
   );
 }
