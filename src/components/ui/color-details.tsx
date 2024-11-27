@@ -16,16 +16,10 @@ export default function ColorDetails() {
   const previewColor = reqHex === "undefined" ? rgb : convert(`#${reqHex}`).toRgb();
 
   useEffect(() => {
-    const title = document.title;
-
     const pageTitle = document.querySelector("title");
     if (pageTitle && reqHex !== "undefined") {
-      pageTitle.textContent = `${title}: ${hexColor}`;
+      pageTitle.textContent = `Color: ${hexColor}`;
     }
-
-    return () => {
-      document.title = title;
-    };
   });
 
   const updateRgb = (newColor: Partial<typeof rgb>) => setRgb({ ...rgb, ...newColor });
