@@ -316,7 +316,30 @@ const colorGreen: ColorShadeList = [
   { hex: "#55dd33", rgb: { r: 85, g: 221, b: 51 }, label: "SGBUS Green" },
 ];
 
-const colorCyan: ColorShadeList = [];
+const colorCyan: ColorShadeList = [
+  { hex: "#00ffff", rgb: { r: 0, g: 255, b: 255 }, label: "Cyan" },
+  { hex: "#0d98ba", rgb: { r: 13, g: 152, b: 186 }, label: "Blue Green" },
+  { hex: "#006d6f", rgb: { r: 0, g: 109, b: 111 }, label: "Caribbean Current" },
+  { hex: "#b2ffff", rgb: { r: 178, g: 255, b: 255 }, label: "Caleste" },
+  { hex: "#232b2b", rgb: { r: 35, g: 43, b: 43 }, label: "Charleston Green" },
+  { hex: "#008b8b", rgb: { r: 0, g: 139, b: 139 }, label: "Dark Cyan" },
+  { hex: "#7df9ff", rgb: { r: 125, g: 249, b: 255 }, label: "Electric Blue" },
+  { hex: "#3ab09e", rgb: { r: 58, g: 176, b: 158 }, label: "Keppel" },
+  { hex: "#e0ffff", rgb: { r: 224, g: 255, b: 255 }, label: "Light Cyan" },
+  { hex: "#20b2aa", rgb: { r: 32, g: 178, b: 170 }, label: "Light Sea Green" },
+  { hex: "#004953", rgb: { r: 0, g: 73, b: 83 }, label: "Midnight Green" },
+  { hex: "#3aa8c1", rgb: { r: 58, g: 168, b: 193 }, label: "Moonstone" },
+  { hex: "#317873", rgb: { r: 49, g: 120, b: 115 }, label: "Myrtle Green" },
+  { hex: "#004958", rgb: { r: 0, g: 73, b: 88 }, label: "Peacock Blue" },
+  { hex: "#00cccc", rgb: { r: 0, g: 204, b: 204 }, label: "Robin Egg Blue" },
+  { hex: "#007474", rgb: { r: 0, g: 116, b: 116 }, label: "Skobeloff" },
+  { hex: "#80daeb", rgb: { r: 128, g: 218, b: 235 }, label: "Sky Blue (Crayola)" },
+  { hex: "#008080", rgb: { r: 0, g: 128, b: 128 }, label: "Teal" },
+  { hex: "#81d8d0", rgb: { r: 129, g: 216, b: 208 }, label: "Tiffany Blue" },
+  { hex: "#40e0d0", rgb: { r: 64, g: 224, b: 208 }, label: "Turqoise" },
+  { hex: "#43b3ae", rgb: { r: 67, g: 179, b: 174 }, label: "Verdigris" },
+  { hex: "#39a78d", rgb: { r: 57, g: 167, b: 141 }, label: "Zomp" },
+];
 
 const colorBlue: ColorShadeList = [];
 
