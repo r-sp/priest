@@ -1,5 +1,5 @@
 import type { Colord } from "colord";
-import type { AnyColor, HslaColor, RgbaColor } from "./types";
+import type { AnyColor } from "./types";
 import { colord, extend, random, getFormat } from "colord";
 
 import a11yPlugin from "colord/plugins/a11y";
@@ -24,18 +24,18 @@ export const getRandomColor = () => {
   return space;
 };
 
-export const stringifyHsl = (hsla: HslaColor) => {
+export const stringifyHsl = (hsla: { h: number; s: number; l: number; a?: number }) => {
   const { h, s, l, a } = hsla;
-  if (a < 1) {
+  if (a && a < 1) {
     return `hsla(${h}, ${s}%, ${l}%, ${a})`;
   } else {
     return `hsl(${h}, ${s}%, ${l}%)`;
   }
 };
 
-export const stringifyRgb = (rgba: RgbaColor) => {
+export const stringifyRgb = (rgba: { r: number; g: number; b: number; a?: number }) => {
   const { r, g, b, a } = rgba;
-  if (a < 1) {
+  if (a && a < 1) {
     return `rgba(${r}, ${g}, ${b}, ${a})`;
   } else {
     return `rgb(${r}, ${g}, ${b})`;

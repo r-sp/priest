@@ -3,14 +3,13 @@
 import { useState } from "react";
 import { createPortal } from "react-dom";
 import { stringifyRgb, writeClipboardText } from "~/lib/utils";
-import { type RgbaColor } from "~/lib/types";
 import Link from "next/link";
 
 export default function ColorCard({
   color,
   options = { copyColor: true, colorName: false, colorLink: false, colorLabel: false },
 }: {
-  color: { hex: string; rgb: RgbaColor; label?: string };
+  color: { hex: string; rgb: { r: number; g: number; b: number; a?: number }; label?: string };
   options?: { copyColor: boolean; colorName?: boolean; colorLink?: boolean; colorLabel?: boolean };
 }) {
   const [clipboard, setClipboard] = useState<string>("");

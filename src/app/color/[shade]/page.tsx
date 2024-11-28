@@ -5,7 +5,22 @@ import ColorShade from "~/components/ui/color-shade";
 export const dynamicParams = false;
 
 export async function generateStaticParams(): Promise<{ shade: ColorShadeName }[]> {
-  return [{ shade: "black" }, { shade: "gray" }, { shade: "white" }, { shade: "red" }];
+  return [
+    { shade: "black" },
+    { shade: "gray" },
+    { shade: "white" },
+    { shade: "red" },
+    { shade: "orange" },
+    { shade: "yellow" },
+    { shade: "green" },
+    { shade: "cyan" },
+    { shade: "blue" },
+    { shade: "violet" },
+    { shade: "purple" },
+    { shade: "magenta" },
+    { shade: "pink" },
+    { shade: "brown" },
+  ];
 }
 
 export async function generateMetadata({ params }: { params: { shade: ColorShadeName } }): Promise<Metadata> {

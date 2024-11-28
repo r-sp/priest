@@ -7,10 +7,20 @@ import Link from "next/link";
 
 export default function ColorShade({ color }: { color: ColorShadeList }) {
   const list: ColorShadeList = [
-    { hex: "#000000", rgb: { r: 0, g: 0, b: 0, a: 1 }, label: "Black" },
-    { hex: "#808080", rgb: { r: 128, g: 128, b: 128, a: 1 }, label: "Gray" },
-    { hex: "#ffffff", rgb: { r: 255, g: 255, b: 255, a: 1 }, label: "White" },
-    { hex: "#ff0000", rgb: { r: 255, g: 0, b: 0, a: 1 }, label: "Red" },
+    { hex: "#000000", rgb: { r: 0, g: 0, b: 0 }, label: "Black" },
+    { hex: "#808080", rgb: { r: 128, g: 128, b: 128 }, label: "Gray" },
+    { hex: "#ffffff", rgb: { r: 255, g: 255, b: 255 }, label: "White" },
+    { hex: "#ff0000", rgb: { r: 255, g: 0, b: 0 }, label: "Red" },
+    { hex: "#ffa500", rgb: { r: 255, g: 165, b: 0 }, label: "Orange" },
+    { hex: "#ffff00", rgb: { r: 255, g: 255, b: 0 }, label: "Yellow" },
+    { hex: "#00ff00", rgb: { r: 0, g: 255, b: 0 }, label: "Green" },
+    { hex: "#00ffff", rgb: { r: 0, g: 255, b: 255 }, label: "Cyan" },
+    { hex: "#0000ff", rgb: { r: 0, g: 0, b: 255 }, label: "Blue" },
+    { hex: "#8000ff", rgb: { r: 128, g: 0, b: 255 }, label: "Violet" },
+    { hex: "#800080", rgb: { r: 128, g: 0, b: 128 }, label: "Purple" },
+    { hex: "#ff00ff", rgb: { r: 255, g: 0, b: 255 }, label: "Magenta" },
+    { hex: "#ffc0cb", rgb: { r: 255, g: 192, b: 203 }, label: "Pink" },
+    { hex: "#964b00", rgb: { r: 150, g: 75, b: 0 }, label: "Brown" },
   ];
 
   return (
