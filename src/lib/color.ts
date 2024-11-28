@@ -240,7 +240,26 @@ const colorOrange: ColorShadeList = [
   { hex: "#f8c8b0", rgb: { r: 248, g: 200, b: 176 }, label: "Apricot Peach" },
 ];
 
-const colorYellow: ColorShadeList = [];
+const colorYellow: ColorShadeList = [
+  { hex: "#ffff00", rgb: { r: 255, g: 255, b: 0 }, label: "Yellow" },
+  { hex: "#ffd300", rgb: { r: 255, g: 211, b: 0 }, label: "Yellow (NCS)" },
+  { hex: "#ffdb00", rgb: { r: 255, g: 219, b: 0 }, label: "Yellow (Munsell)" },
+  { hex: "#fedf00", rgb: { r: 254, g: 223, b: 0 }, label: "Yellow (Pantone)" },
+  { hex: "#ffffe0", rgb: { r: 255, g: 255, b: 224 }, label: "Light Yellow" },
+  { hex: "#ffffcc", rgb: { r: 255, g: 255, b: 204 }, label: "Cream" },
+  { hex: "#fffacd", rgb: { r: 255, g: 250, b: 205 }, label: "Lemon Chiffon" },
+  { hex: "#fdff00", rgb: { r: 253, g: 255, b: 0 }, label: "Lemon (Crayola)" },
+  { hex: "#f8de7e", rgb: { r: 248, g: 222, b: 126 }, label: "Mellow Yellow" },
+  { hex: "#fada5e", rgb: { r: 250, g: 218, b: 94 }, label: "Royal Yellow" },
+  { hex: "#ffd700", rgb: { r: 255, g: 215, b: 0 }, label: "Gold (Golden)" },
+  { hex: "#ffd300", rgb: { r: 255, g: 211, b: 0 }, label: "Cyber Yellow" },
+  { hex: "#eed202", rgb: { r: 238, g: 210, b: 2 }, label: "Safety Yellow" },
+  { hex: "#eeea62", rgb: { r: 238, g: 234, b: 98 }, label: "Greenish Yellow" },
+  { hex: "#dfff00", rgb: { r: 223, g: 255, b: 0 }, label: "Chartreuse Yellow" },
+  { hex: "#d1e231", rgb: { r: 223, g: 255, b: 0 }, label: "Pear" },
+  { hex: "#dadd98", rgb: { r: 218, g: 221, b: 152 }, label: "Green Earth" },
+  { hex: "#ffe4b5", rgb: { r: 255, g: 228, b: 181 }, label: "Moccasin" },
+];
 
 const colorGreen: ColorShadeList = [];
 
