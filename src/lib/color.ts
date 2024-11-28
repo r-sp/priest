@@ -415,7 +415,43 @@ const colorMagenta: ColorShadeList = [
   { hex: "#683068", rgb: { r: 108, g: 48, b: 104 }, label: "Finn" },
 ];
 
-const colorPink: ColorShadeList = [];
+const colorPink: ColorShadeList = [
+  { hex: "#ffc0cb", rgb: { r: 255, g: 192, b: 203 }, label: "Pink" },
+  { hex: "#ffb6c1", rgb: { r: 255, g: 182, b: 193 }, label: "Light Pink" },
+  { hex: "#ff69b4", rgb: { r: 255, g: 105, b: 180 }, label: "Hot Pink" },
+  { hex: "#ff1493", rgb: { r: 255, g: 20, b: 146 }, label: "Deep Pink" },
+  { hex: "#ffd1dc", rgb: { r: 255, g: 209, b: 220 }, label: "Pastel Pink" },
+  { hex: "#ffddf4", rgb: { r: 255, g: 221, b: 244 }, label: "Pink Lace" },
+  { hex: "#f9ccca", rgb: { r: 249, g: 204, b: 202 }, label: "Pale Pink" },
+  { hex: "#f4c2c2", rgb: { r: 244, g: 194, b: 194 }, label: "Baby Pink" },
+  { hex: "#efbbcc", rgb: { r: 139, g: 187, b: 204 }, label: "Cameo Pink" },
+  { hex: "#ffb7c5", rgb: { r: 255, g: 183, b: 197 }, label: "Cherry Blossom Pink" },
+  { hex: "#ffb3de", rgb: { r: 255, g: 179, b: 22 }, label: "Light Hot Pink" },
+  { hex: "#f19cbb", rgb: { r: 241, g: 156, b: 187 }, label: "Amaranth Pink" },
+  { hex: "#e68fac", rgb: { r: 230, g: 143, b: 172 }, label: "Charm Pink" },
+  { hex: "#ff66cc", rgb: { r: 255, g: 102, b: 204 }, label: "Rose Pink" },
+  { hex: "#ff5ccd", rgb: { r: 255, g: 92, b: 205 }, label: "Light Deep Pink" },
+  { hex: "#fc0fc0", rgb: { r: 252, g: 15, b: 192 }, label: "Shocking Pink" },
+  { hex: "#ed7a9b", rgb: { r: 237, g: 122, b: 155 }, label: "Rose Pompadour" },
+  { hex: "#f58092", rgb: { r: 245, g: 128, b: 146 }, label: "Bubblegum Pink" },
+  { hex: "#ffcccc", rgb: { r: 255, g: 204, b: 204 }, label: "Lusty Gallant" },
+  { hex: "#f1ddcf", rgb: { r: 241, g: 221, b: 207 }, label: "Champagne Pink" },
+  { hex: "#f2c1d1", rgb: { r: 242, g: 193, b: 209 }, label: "Fairy Tale" },
+  { hex: "#de5285", rgb: { r: 222, g: 82, b: 133 }, label: "Fandango Pink" },
+  { hex: "#f2bdcd", rgb: { r: 242, g: 189, b: 205 }, label: "Orchid Pink" },
+  { hex: "#edcdc2", rgb: { r: 237, g: 205, b: 194 }, label: "Pale Dogwood" },
+  { hex: "#e63e62", rgb: { r: 230, g: 62, b: 98 }, label: "Paradise Pink" },
+  { hex: "#d74894", rgb: { r: 215, g: 72, b: 148 }, label: "Pink (Pantone)" },
+  { hex: "#dbb2d1", rgb: { r: 219, g: 178, b: 209 }, label: "Pink Lavender" },
+  { hex: "#cf6ba9", rgb: { r: 207, g: 107, b: 169 }, label: "Super Pink" },
+  { hex: "#fb607f", rgb: { r: 251, g: 96, b: 127 }, label: "Brick Pink" },
+  { hex: "#ffb7d5", rgb: { r: 255, g: 183, b: 213 }, label: "Cotton Candy" },
+  { hex: "#ffa6c9", rgb: { r: 255, g: 166, b: 201 }, label: "Carnation Pink" },
+  { hex: "#fddde6", rgb: { r: 253, g: 221, b: 230 }, label: "Piggy Pink" },
+  { hex: "#cc33cc", rgb: { r: 204, g: 51, b: 204 }, label: "Steel Pink" },
+  { hex: "#fc89ac", rgb: { r: 252, g: 137, b: 172 }, label: "Tickle Me Pink" },
+  { hex: "#ff6fff", rgb: { r: 255, g: 111, b: 255 }, label: "Ultra Pink" },
+];
 
 const colorBrown: ColorShadeList = [];
 
