@@ -399,7 +399,21 @@ const colorPurple: ColorShadeList = [
   { hex: "#72246c", rgb: { r: 48, g: 25, b: 152 }, label: "Dark Purple" },
 ];
 
-const colorMagenta: ColorShadeList = [];
+const colorMagenta: ColorShadeList = [
+  { hex: "#ff00ff", rgb: { r: 255, g: 0, b: 255 }, label: "Magenta" },
+  { hex: "#d0417e", rgb: { r: 208, g: 65, b: 126 }, label: "Magenta (Pantone)" },
+  { hex: "#f653a6", rgb: { r: 246, g: 83, b: 166 }, label: "Magenta (Crayola)" },
+  { hex: "#8b008b", rgb: { r: 139, g: 0, b: 139 }, label: "Dark Magenta" },
+  { hex: "#ff1dce", rgb: { r: 255, g: 29, b: 206 }, label: "Hot Magenta" },
+  { hex: "#9f4576", rgb: { r: 159, g: 69, b: 118 }, label: "Magenta Haze" },
+  { hex: "#bf3981", rgb: { r: 191, g: 57, b: 129 }, label: "Magnetic Magenta" },
+  { hex: "#9a114f", rgb: { r: 154, g: 17, b: 79 }, label: "Quinacridone Magenta" },
+  { hex: "#cf71af", rgb: { r: 207, g: 113, b: 175 }, label: "Sky Magenta" },
+  { hex: "#cf3476", rgb: { r: 207, g: 52, b: 118 }, label: "Telemagenta" },
+  { hex: "#ab274f", rgb: { r: 171, g: 39, b: 79 }, label: "Amaranth Purple" },
+  { hex: "#843179", rgb: { r: 132, g: 49, b: 121 }, label: "Plum (Crayola)" },
+  { hex: "#683068", rgb: { r: 108, g: 48, b: 104 }, label: "Finn" },
+];
 
 const colorPink: ColorShadeList = [];
 
