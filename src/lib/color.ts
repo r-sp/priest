@@ -453,7 +453,35 @@ const colorPink: ColorShadeList = [
   { hex: "#ff6fff", rgb: { r: 255, g: 111, b: 255 }, label: "Ultra Pink" },
 ];
 
-const colorBrown: ColorShadeList = [];
+const colorBrown: ColorShadeList = [
+  { hex: "#964b00", rgb: { r: 150, g: 75, b: 0 }, label: "Brown" },
+  { hex: "#bc8f8f", rgb: { r: 188, g: 143, b: 143 }, label: "Rosy Brown" },
+  { hex: "#8a3324", rgb: { r: 138, g: 51, b: 36 }, label: "Burnt Umber" },
+  { hex: "#645452", rgb: { r: 100, g: 84, b: 82 }, label: "Wenge" },
+  { hex: "#954535", rgb: { r: 149, g: 69, b: 53 }, label: "Chestnut" },
+  { hex: "#800000", rgb: { r: 128, g: 0, b: 0 }, label: "Maroon" },
+  { hex: "#832a0d", rgb: { r: 131, g: 42, b: 13 }, label: "Smokey Topaz" },
+  { hex: "#6d4f4b", rgb: { r: 109, g: 79, b: 75 }, label: "Cigar Brown" },
+  { hex: "#edc9af", rgb: { r: 237, g: 201, b: 175 }, label: "Desert Sand" },
+  { hex: "#5c4033", rgb: { r: 92, g: 64, b: 51 }, label: "Dark Brown" },
+  { hex: "#9f8170", rgb: { r: 159, g: 129, b: 112 }, label: "Beaver" },
+  { hex: "#d2691e", rgb: { r: 210, g: 105, b: 30 }, label: "Cocoa Brown" },
+  { hex: "#80461b", rgb: { r: 128, g: 70, b: 27 }, label: "Russet" },
+  { hex: "#daa06d", rgb: { r: 218, g: 160, b: 109 }, label: "Buff" },
+  { hex: "#6b4423", rgb: { r: 107, g: 68, b: 35 }, label: "Kobicha" },
+  { hex: "#f4a460", rgb: { r: 244, g: 164, b: 96 }, label: "Sandy Brown" },
+  { hex: "#483c32", rgb: { r: 72, g: 60, b: 50 }, label: "Taupe" },
+  { hex: "#5c5248", rgb: { r: 92, g: 82, b: 72 }, label: "Walnut Brown" },
+  { hex: "#7b3f00", rgb: { r: 123, g: 63, b: 0 }, label: "Chocolate" },
+  { hex: "#826644", rgb: { r: 130, g: 102, b: 68 }, label: "Raw Umber" },
+  { hex: "#c19a6b", rgb: { r: 193, g: 154, b: 107 }, label: "Wood Brown" },
+  { hex: "#d2b48c", rgb: { r: 210, g: 180, b: 140 }, label: "Tan" },
+  { hex: "#704214", rgb: { r: 112, g: 66, b: 20 }, label: "Sepia" },
+  { hex: "#c3b091", rgb: { r: 195, g: 176, b: 145 }, label: "Khaki" },
+  { hex: "#f5f5dc", rgb: { r: 245, g: 245, b: 220 }, label: "Beige" },
+  { hex: "#8b4513", rgb: { r: 139, g: 69, b: 19 }, label: "Saddle Brown" },
+  { hex: "#f8c898", rgb: { r: 248, g: 200, b: 152 }, label: "Manhattan" },
+];
 
 export const getColorShade = (name: ColorShadeName): ColorShadeList => {
   switch (name) {
