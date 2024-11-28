@@ -64,19 +64,19 @@ export default function ColorDetails() {
       <div className="grid gap-4" role="none">
         <ColorCard color={{ hex: hexColor, rgb: previewColor }} />
         <p className="inline-grid">
-          <span className="text-sm font-medium text-holy-300">Hex</span>
+          <span className="text-sm font-medium text-holy-400">Hex</span>
           <code className="font-mono text-base text-holy-100">{hexColor}</code>
         </p>
         <p className="inline-grid">
-          <span className="text-sm font-medium text-holy-300">Hue {`(0-360)`}</span>
+          <span className="text-sm font-medium text-holy-400">Hue {`(0-360)`}</span>
           <code className="text-base text-holy-100">{colorHue}</code>
         </p>
         <p className="inline-grid">
-          <span className="text-sm font-medium text-holy-300">Brightness</span>
+          <span className="text-sm font-medium text-holy-400">Brightness</span>
           <code className="text-base text-holy-100">{colorBrightness}</code>
         </p>
         <p className="inline-grid">
-          <span className="text-sm font-medium text-holy-300">Luminance</span>
+          <span className="text-sm font-medium text-holy-400">Luminance</span>
           <code className="text-base text-holy-100">{colorLuminance}</code>
         </p>
       </div>
@@ -86,8 +86,8 @@ export default function ColorDetails() {
           className="flex h-36 items-center justify-center rounded-lg px-4 py-2 text-center text-lg md:h-48 lg:h-60 xl:h-80 max-sm:h-48"
           style={
             preview === "light"
-              ? { backgroundColor: colorWhite, color: colorRgb }
-              : { backgroundColor: colorBlack, color: colorRgb }
+              ? { backgroundColor: colorWhite, color: colorRgb, border: "1px solid" }
+              : { backgroundColor: colorBlack, color: colorRgb, border: "1px solid" }
           }
         >
           {textPreview}
@@ -98,7 +98,7 @@ export default function ColorDetails() {
             className={clsx(
               preview === "light"
                 ? "bg-holy-800 text-holy-200"
-                : "border-holy-700 text-holy-300 hover:bg-holy-800 focus:bg-holy-800 active:border-holy-600 active:bg-holy-700",
+                : "border-holy-700 text-holy-400 hover:bg-holy-800 focus:bg-holy-800 active:border-holy-600 active:bg-holy-700",
               "rounded-md px-2 py-1 text-sm font-normal",
             )}
             onClick={() => setPreview("light")}
@@ -110,7 +110,7 @@ export default function ColorDetails() {
             className={clsx(
               preview === "dark"
                 ? "bg-holy-800 text-holy-200"
-                : "border-holy-700 text-holy-300 hover:bg-holy-800 focus:bg-holy-800 active:border-holy-600 active:bg-holy-700",
+                : "border-holy-700 text-holy-400 hover:bg-holy-800 focus:bg-holy-800 active:border-holy-600 active:bg-holy-700",
               "rounded-md px-2 py-1 text-sm font-normal",
             )}
             onClick={() => setPreview("dark")}
@@ -119,29 +119,29 @@ export default function ColorDetails() {
           </button>
         </div>
         <p className="inline-grid">
-          <span className="text-sm font-medium text-holy-300">Contrast Ratio</span>
+          <span className="text-sm font-medium text-holy-400">Contrast Ratio</span>
           <code className="font-mono text-base text-holy-100">{preview === "light" ? whiteContrast : blackContrast}</code>
         </p>
         <p className="inline-grid">
-          <span className="text-sm font-medium text-holy-300">WCAG AA {`(Normal)`}</span>
+          <span className="text-sm font-medium text-holy-400">WCAG AA {`(Normal)`}</span>
           <code className="font-mono text-base text-holy-100">
             {(preview === "light" ? whiteNormalAA : blackNormalAA) ? "Pass" : "Fail"}
           </code>
         </p>
         <p className="inline-grid">
-          <span className="text-sm font-medium text-holy-300">WCAG AAA {`(Normal)`}</span>
+          <span className="text-sm font-medium text-holy-400">WCAG AAA {`(Normal)`}</span>
           <code className="font-mono text-base text-holy-100">
             {(preview === "light" ? whiteNormalAAA : blackNormalAAA) ? "Pass" : "Fail"}
           </code>
         </p>
         <p className="inline-grid">
-          <span className="text-sm font-medium text-holy-300">WCAG AA {`(Large)`}</span>
+          <span className="text-sm font-medium text-holy-400">WCAG AA {`(Large)`}</span>
           <code className="font-mono text-base text-holy-100">
             {(preview === "light" ? whiteLargeAA : blackLargeAA) ? "Pass" : "Fail"}
           </code>
         </p>
         <p className="inline-grid">
-          <span className="text-sm font-medium text-holy-300">WCAG AAA {`(Large)`}</span>
+          <span className="text-sm font-medium text-holy-400">WCAG AAA {`(Large)`}</span>
           <code className="font-mono text-base text-holy-100">
             {(preview === "light" ? whiteLargeAAA : blackLargeAAA) ? "Pass" : "Fail"}
           </code>

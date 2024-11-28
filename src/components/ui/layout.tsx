@@ -29,7 +29,7 @@ export default function Layout(props: Readonly<{ children: ReactNode }>) {
               className="flex h-12 items-center px-2 xl:mx-auto xl:max-w-screen-xl max-sm:pointer-events-none max-sm:relative max-sm:z-8 max-sm:-mt-12 max-sm:justify-center"
               role="none"
             >
-              <Link href="/" className="text-base font-medium text-holy-100 max-sm:pointer-events-auto">
+              <Link href="/" className="text-base font-medium text-holy-300 max-sm:pointer-events-auto">
                 <span>Priest</span>
               </Link>
             </div>
@@ -41,7 +41,7 @@ export default function Layout(props: Readonly<{ children: ReactNode }>) {
           </main>
           <footer>
             <div className="mt-4 px-2 py-8 xl:mx-auto xl:max-w-screen-xl max-sm:text-center" role="none">
-              <Link href="/color" className="text-sm font-medium text-holy-300">
+              <Link href="/color" className="text-sm font-medium text-holy-400">
                 <span>The Holy Colors</span>
               </Link>
             </div>
