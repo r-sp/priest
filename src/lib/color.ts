@@ -396,7 +396,7 @@ const colorPurple: ColorShadeList = [
   { hex: "#9a4eae", rgb: { r: 154, g: 78, b: 174 }, label: "Purpureus" },
   { hex: "#702963", rgb: { r: 112, g: 41, b: 99 }, label: "Byzantium" },
   { hex: "#78184a", rgb: { r: 120, g: 24, b: 74 }, label: "Pansy Purple" },
-  { hex: "#72246c", rgb: { r: 48, g: 25, b: 152 }, label: "Dark Purple" },
+  { hex: "#72246c", rgb: { r: 48, g: 25, b: 52 }, label: "Dark Purple" },
 ];
 
 const colorMagenta: ColorShadeList = [
@@ -424,9 +424,9 @@ const colorPink: ColorShadeList = [
   { hex: "#ffddf4", rgb: { r: 255, g: 221, b: 244 }, label: "Pink Lace" },
   { hex: "#f9ccca", rgb: { r: 249, g: 204, b: 202 }, label: "Pale Pink" },
   { hex: "#f4c2c2", rgb: { r: 244, g: 194, b: 194 }, label: "Baby Pink" },
-  { hex: "#efbbcc", rgb: { r: 139, g: 187, b: 204 }, label: "Cameo Pink" },
+  { hex: "#efbbcc", rgb: { r: 239, g: 187, b: 204 }, label: "Cameo Pink" },
   { hex: "#ffb7c5", rgb: { r: 255, g: 183, b: 197 }, label: "Cherry Blossom Pink" },
-  { hex: "#ffb3de", rgb: { r: 255, g: 179, b: 22 }, label: "Light Hot Pink" },
+  { hex: "#ffb3de", rgb: { r: 255, g: 179, b: 222 }, label: "Light Hot Pink" },
   { hex: "#f19cbb", rgb: { r: 241, g: 156, b: 187 }, label: "Amaranth Pink" },
   { hex: "#e68fac", rgb: { r: 230, g: 143, b: 172 }, label: "Charm Pink" },
   { hex: "#ff66cc", rgb: { r: 255, g: 102, b: 204 }, label: "Rose Pink" },
