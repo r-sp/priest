@@ -33,7 +33,7 @@ export default function ColorHarmony() {
           className={clsx(
             section === "complementary"
               ? "bg-holy-800 text-holy-200"
-              : "border-holy-700 text-holy-300 hover:bg-holy-800 focus:bg-holy-800 active:border-holy-600 active:bg-holy-700",
+              : "border-holy-700 text-holy-400 hover:bg-holy-800 focus:bg-holy-800 active:border-holy-600 active:bg-holy-700",
             "rounded-md px-2 py-1 text-sm font-normal",
           )}
           onClick={() => updateSection("complementary")}
@@ -44,7 +44,7 @@ export default function ColorHarmony() {
           className={clsx(
             section === "analogous"
               ? "bg-holy-800 text-holy-200"
-              : "border-holy-700 text-holy-300 hover:bg-holy-800 focus:bg-holy-800 active:border-holy-600 active:bg-holy-700",
+              : "border-holy-700 text-holy-400 hover:bg-holy-800 focus:bg-holy-800 active:border-holy-600 active:bg-holy-700",
             "rounded-md px-2 py-1 text-sm font-normal",
           )}
           onClick={() => updateSection("analogous")}
@@ -55,7 +55,7 @@ export default function ColorHarmony() {
           className={clsx(
             section === "triadic"
               ? "bg-holy-800 text-holy-200"
-              : "border-holy-700 text-holy-300 hover:bg-holy-800 focus:bg-holy-800 active:border-holy-600 active:bg-holy-700",
+              : "border-holy-700 text-holy-400 hover:bg-holy-800 focus:bg-holy-800 active:border-holy-600 active:bg-holy-700",
             "rounded-md px-2 py-1 text-sm font-normal",
           )}
           onClick={() => updateSection("triadic")}
@@ -66,7 +66,7 @@ export default function ColorHarmony() {
           className={clsx(
             section === "split-complementary"
               ? "bg-holy-800 text-holy-200"
-              : "border-holy-700 text-holy-300 hover:bg-holy-800 focus:bg-holy-800 active:border-holy-600 active:bg-holy-700",
+              : "border-holy-700 text-holy-400 hover:bg-holy-800 focus:bg-holy-800 active:border-holy-600 active:bg-holy-700",
             "rounded-md px-2 py-1 text-sm font-normal",
           )}
           onClick={() => updateSection("split-complementary")}
@@ -77,7 +77,7 @@ export default function ColorHarmony() {
           className={clsx(
             section === "tetradic"
               ? "bg-holy-800 text-holy-200"
-              : "border-holy-700 text-holy-300 hover:bg-holy-800 focus:bg-holy-800 active:border-holy-600 active:bg-holy-700",
+              : "border-holy-700 text-holy-400 hover:bg-holy-800 focus:bg-holy-800 active:border-holy-600 active:bg-holy-700",
             "rounded-md px-2 py-1 text-sm font-normal",
           )}
           onClick={() => updateSection("tetradic")}
@@ -88,7 +88,7 @@ export default function ColorHarmony() {
           className={clsx(
             section === "rectangle"
               ? "bg-holy-800 text-holy-200"
-              : "border-holy-700 text-holy-300 hover:bg-holy-800 focus:bg-holy-800 active:border-holy-600 active:bg-holy-700",
+              : "border-holy-700 text-holy-400 hover:bg-holy-800 focus:bg-holy-800 active:border-holy-600 active:bg-holy-700",
             "rounded-md px-2 py-1 text-sm font-normal",
           )}
           onClick={() => updateSection("rectangle")}
@@ -99,7 +99,7 @@ export default function ColorHarmony() {
           className={clsx(
             section === "double-split-complementary"
               ? "bg-holy-800 text-holy-200"
-              : "border-holy-700 text-holy-300 hover:bg-holy-800 focus:bg-holy-800 active:border-holy-600 active:bg-holy-700",
+              : "border-holy-700 text-holy-400 hover:bg-holy-800 focus:bg-holy-800 active:border-holy-600 active:bg-holy-700",
             "rounded-md px-2 py-1 text-sm font-normal",
           )}
           onClick={() => updateSection("double-split-complementary")}
