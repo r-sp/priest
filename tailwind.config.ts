@@ -13,16 +13,18 @@ export default {
   content: ["./src/app/**/*.{js,ts,jsx,tsx}", "./src/components/**/*.{js,ts,jsx,tsx}"],
   theme: {
     colors: {
-      inherit: "inherit",
       holy: {
+        50: "#ffffff",
         100: "#f2f3f4",
         200: "#c2c3c4",
         300: "#a4a5a6",
-        400: "#727374",
-        600: "#545556",
+        400: "#858687",
+        500: "#565758",
+        600: "#454647",
         700: "#343536",
         800: "#242526",
         900: "#121314",
+        950: "#000000",
       },
     },
     fontFamily: {
