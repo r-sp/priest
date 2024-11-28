@@ -373,7 +373,31 @@ const colorViolet: ColorShadeList = [
   { hex: "#c9a0dc", rgb: { r: 201, g: 160, b: 220 }, label: "Wisteria" },
 ];
 
-const colorPurple: ColorShadeList = [];
+const colorPurple: ColorShadeList = [
+  { hex: "#800080", rgb: { r: 128, g: 0, b: 128 }, label: "Purple" },
+  { hex: "#a020f0", rgb: { r: 160, g: 32, b: 240 }, label: "Purple (X11)" },
+  { hex: "#cc00ff", rgb: { r: 102, g: 33, b: 99 }, label: "Purple (Munsell)" },
+  { hex: "#bf00ff", rgb: { r: 191, g: 0, b: 255 }, label: "Electric Purple" },
+  { hex: "#663399", rgb: { r: 102, g: 33, b: 99 }, label: "Rebecca Purple" },
+  { hex: "#7851a9", rgb: { r: 120, g: 81, b: 169 }, label: "Royal Purple" },
+  { hex: "#c71585", rgb: { r: 199, g: 21, b: 133 }, label: "Red Violet" },
+  { hex: "#66023c", rgb: { r: 102, g: 2, b: 60 }, label: "Tyrian Purple" },
+  { hex: "#9370db", rgb: { r: 147, g: 112, b: 219 }, label: "Medium Purple" },
+  { hex: "#b57edc", rgb: { r: 181, g: 126, b: 220 }, label: "Lavender" },
+  { hex: "#e0b0ff", rgb: { r: 224, g: 176, b: 255 }, label: "Mauve (Mallow)" },
+  { hex: "#d8bfd8", rgb: { r: 216, g: 191, b: 216 }, label: "Thistle" },
+  { hex: "#da70d6", rgb: { r: 218, g: 112, b: 214 }, label: "Orchid" },
+  { hex: "#df73ff", rgb: { r: 223, g: 115, b: 255 }, label: "Heliotrope" },
+  { hex: "#df00ff", rgb: { r: 223, g: 0, b: 255 }, label: "Psychedelic Purple (Phlox)" },
+  { hex: "#fe4eda", rgb: { r: 254, g: 78, b: 218 }, label: "Purple Pizzazz" },
+  { hex: "#de6fa1", rgb: { r: 222, g: 111, b: 161 }, label: "Liseran Purple" },
+  { hex: "#c54b8c", rgb: { r: 197, g: 75, b: 140 }, label: "Mulberry" },
+  { hex: "#b768a2", rgb: { r: 183, g: 104, b: 162 }, label: "Pearly Purple" },
+  { hex: "#9a4eae", rgb: { r: 154, g: 78, b: 174 }, label: "Purpureus" },
+  { hex: "#702963", rgb: { r: 112, g: 41, b: 99 }, label: "Byzantium" },
+  { hex: "#78184a", rgb: { r: 120, g: 24, b: 74 }, label: "Pansy Purple" },
+  { hex: "#72246c", rgb: { r: 48, g: 25, b: 152 }, label: "Dark Purple" },
+];
 
 const colorMagenta: ColorShadeList = [];
 
