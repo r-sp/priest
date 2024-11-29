@@ -1,6 +1,5 @@
 import { type Metadata } from "next";
-
-import ColorDetails from "~/components/ui/color-details";
+import { ColorDetail } from "~/components/color";
 
 export const metadata: Metadata = {
   title: "Color",
@@ -10,9 +9,5 @@ export const metadata: Metadata = {
 export const dynamic = "force-dynamic";
 
 export default function ColorPage() {
-  return (
-    <section aria-label="color">
-      <ColorDetails />
-    </section>
-  );
+  return <ColorDetail />;
 }
