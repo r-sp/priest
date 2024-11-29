@@ -51,13 +51,6 @@ a {
 [hidden] {
   display: none;
 }
-input[type="number"] {
-  -moz-appearance: textfield;
-}
-::-webkit-inner-spin-button,
-::-webkit-outer-spin-button {
-  display: none;
-}
 
 /** @tailwind base; **/
 @tailwind components;
@@ -69,33 +62,27 @@ input[type="number"] {
       scroll-behavior: smooth;
     }
   }
-  @media (min-width: 20em) {
-    .pick-saturation {
-      height: 10rem;
-      width: 18rem;
-    }
-    .pick-hue,
-    .pick-lightness {
-      width: 12rem;
-    }
+  .input-slider,
+  .input-slider::-webkit-slider-runnable-track,
+  .input-slider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    border: 0;
   }
-  @media (max-width: 20em) {
-    .pick-saturation {
-      height: calc(60vw - 1rem);
-      width: calc(100vw - 1rem);
-    }
-    .pick-hue,
-    .pick-lightness {
-      width: calc(100vw - 3rem);
-    }
-  }
-  .pick-hue,
-  .pick-lightness {
+  .input-slider::-webkit-slider-runnable-track {
     cursor: crosshair;
   }
-  .pick-hue .w-color-alpha-fill,
-  .pick-lightness .w-color-alpha-fill {
+  .input-slider::-webkit-slider-thumb {
+    background-color: currentColor;
+    border-radius: 50%;
     cursor: e-resize;
+    height: 1.5rem;
+    width: 1.5rem;
+  }
+  .input-slider:focus-visible + div {
+    bottom: 0;
+    top: 0;
   }
 }
 

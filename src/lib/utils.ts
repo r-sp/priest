@@ -1,6 +1,6 @@
 import type { Colord } from "colord";
 import type { AnyColor } from "./types";
-import { colord, extend, random, getFormat } from "colord";
+import { colord, extend, getFormat } from "colord";
 
 import a11yPlugin from "colord/plugins/a11y";
 import minifyPlugin from "colord/plugins/minify";
@@ -9,20 +9,30 @@ import mixPlugin from "colord/plugins/mix";
 
 extend([a11yPlugin, minifyPlugin, harmoniesPlugin, mixPlugin]);
 
-export const convertColor: (input: AnyColor) => Colord = colord;
+export type ColorConverter = Colord;
+
+export const convertColor: (input: AnyColor) => ColorConverter = colord;
 export const getFormatColor = getFormat;
 
 export const getRandomColor = () => {
-  const color = random();
+  const range = (min: number, max: number) => {
+    return Math.floor(Math.random() * (max - min + 1)) + min;
+  };
+  const color = convertColor({
+    h: range(0, 360),
+    s: range(50, 100),
+    l: range(24, 64),
+  });
   const space = {
     raw: color.toRgb(),
     hex: color.toHex(),
     hsl: color.toHsl(),
-    hsv: color.toHsv(),
     rgb: color.toRgb(),
   };
   return space;
 };
+
+export const isValidColor = (input: AnyColor) => convertColor(input).isValid();
 
 export const stringifyHsl = (hsla: { h: number; s: number; l: number; a?: number }) => {
   const { h, s, l, a } = hsla;

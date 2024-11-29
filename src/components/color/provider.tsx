@@ -1,9 +1,9 @@
 "use client";
 
 import type { ReactNode } from "react";
-import type { ColorState, ColorSpace } from "../lib/types";
+import type { ColorState, ColorSpace } from "~/lib/types";
 import { createContext, useRef, useContext, useCallback, useMemo } from "react";
-import { convertColor } from "../lib/utils";
+import { convertColor } from "~/lib/utils";
 import { createStore, useStore } from "zustand";
 
 const createColorStore = (initValue: ColorSpace) => {
@@ -14,7 +14,6 @@ const createColorStore = (initValue: ColorSpace) => {
         ...state,
         ...newColor,
       })),
-    setHarmony: (type) => set(() => ({ harmony: type })),
   }));
 };
 
@@ -53,7 +52,6 @@ export const useColorProvider = () => {
         raw: newColor,
         hex: color.toHex(),
         hsl: color.toHsl(),
-        hsv: color.toHsv(),
         rgb: color.toRgb(),
       });
     },
@@ -65,12 +63,10 @@ export const useColorProvider = () => {
       raw: store.raw,
       hex: store.hex,
       hsl: store.hsl,
-      hsv: store.hsv,
       rgb: store.rgb,
       setRaw: (newColor: typeof store.raw) => updateColor(newColor),
       setHex: (newColor: typeof store.hex) => updateColor(newColor),
       setHsl: (newColor: typeof store.hsl) => updateColor(newColor),
-      setHsv: (newColor: typeof store.hsv) => updateColor(newColor),
       setRgb: (newColor: typeof store.rgb) => updateColor(newColor),
       convert: (newColor: typeof store.raw) => convertColor(newColor),
     };
