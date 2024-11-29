@@ -1,6 +1,5 @@
 import { type Metadata } from "next";
-
-import ColorHarmony from "~/components/ui/color-harmony";
+import { ColorFeed } from "~/components/color";
 
 export const metadata: Metadata = {
   title: "Priest",
@@ -10,9 +9,5 @@ export const metadata: Metadata = {
 export const dynamic = "force-dynamic";
 
 export default function HomePage() {
-  return (
-    <section aria-label="color">
-      <ColorHarmony />
-    </section>
-  );
+  return <ColorFeed />;
 }
