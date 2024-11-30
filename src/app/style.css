@@ -64,21 +64,13 @@ a {
   }
   .input-slider,
   .input-slider::-webkit-slider-runnable-track,
-  .input-slider::-webkit-slider-thumb,
-  .input-slider::-moz-range-track,
-  .input-slider::-moz-range-thumb {
+  .input-slider::-webkit-slider-thumb {
     -webkit-appearance: none;
-    -moz-appearance: none;
     appearance: none;
     border: 0;
-  }
-  .input-slider,
-  .input-slider::-webkit-slider-runnable-track,
-  .input-slider::-moz-range-track {
     cursor: crosshair;
   }
-  .input-slider::-webkit-slider-thumb,
-  .input-slider::-moz-range-thumb {
+  .input-slider::-webkit-slider-thumb {
     background-color: currentColor;
     border-radius: 50%;
     cursor: e-resize;
@@ -88,6 +80,18 @@ a {
   .input-slider:focus-visible + div {
     bottom: 0;
     top: 0;
+  }
+  .input-slider::-moz-range-track,
+  .input-slider::-moz-range-thumb {
+    -moz-appearance: none;
+    cursor: crosshair;
+  }
+  .input-slider::-moz-range-thumb {
+    background-color: currentColor;
+    border-radius: 50%;
+    cursor: e-resize;
+    height: 1.5rem;
+    width: 1.5rem;
   }
 }
 
