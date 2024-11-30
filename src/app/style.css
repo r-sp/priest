@@ -64,16 +64,21 @@ a {
   }
   .input-slider,
   .input-slider::-webkit-slider-runnable-track,
-  .input-slider::-webkit-slider-thumb {
+  .input-slider::-webkit-slider-thumb,
+  .input-slider::-moz-range-track,
+  .input-slider::-moz-range-thumb {
     -webkit-appearance: none;
     -moz-appearance: none;
     appearance: none;
     border: 0;
   }
-  .input-slider::-webkit-slider-runnable-track {
+  .input-slider,
+  .input-slider::-webkit-slider-runnable-track,
+  .input-slider::-moz-range-track {
     cursor: crosshair;
   }
-  .input-slider::-webkit-slider-thumb {
+  .input-slider::-webkit-slider-thumb,
+  .input-slider::-moz-range-thumb {
     background-color: currentColor;
     border-radius: 50%;
     cursor: e-resize;
