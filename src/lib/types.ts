@@ -32,7 +32,6 @@ export type HarmonyColor =
   | "triadic";
 
 export type ColorSpace = {
-  raw: AnyColor;
   hex: HexColor;
   hsl: HslaColor;
   rgb: RgbaColor;

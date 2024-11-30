@@ -1,7 +1,7 @@
 "use client";
 
 import type { ReactNode } from "react";
-import type { ColorState, ColorSpace } from "~/lib/types";
+import type { ColorState, ColorSpace, AnyColor } from "~/lib/types";
 import { createContext, useRef, useContext, useCallback, useMemo } from "react";
 import { convertColor } from "~/lib/utils";
 import { createStore, useStore } from "zustand";
@@ -46,11 +46,10 @@ export const useColorProvider = () => {
   const store = useColorStore((state) => state);
 
   const updateColor = useCallback(
-    (newColor: typeof store.raw) => {
+    (newColor: AnyColor) => {
       const color = convertColor(newColor);
 
       return store.update({
-        raw: newColor,
         hex: color.toHex(),
         hsl: color.toHsl(),
         rgb: color.toRgb(),
@@ -61,15 +60,13 @@ export const useColorProvider = () => {
 
   const color = useMemo(() => {
     return {
-      raw: store.raw,
       hex: store.hex,
       hsl: store.hsl,
       rgb: store.rgb,
-      setRaw: (newColor: typeof store.raw) => updateColor(newColor),
       setHex: (newColor: typeof store.hex) => updateColor(newColor),
       setHsl: (newColor: typeof store.hsl) => updateColor(newColor),
       setRgb: (newColor: typeof store.rgb) => updateColor(newColor),
-      convert: (newColor: typeof store.raw) => convertColor(newColor),
+      convert: (newColor: AnyColor) => convertColor(newColor),
     };
   }, [store, updateColor]);
 

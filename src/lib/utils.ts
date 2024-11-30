@@ -20,7 +20,6 @@ export const getRandomColor = () => {
     l: range(24, 64),
   });
   const space = {
-    raw: color.toRgb(),
     hex: color.toHex(),
     hsl: color.toHsl(),
     rgb: color.toRgb(),
@@ -40,18 +39,18 @@ export const isValidColor = (input: AnyColor) => convertColor(input).isValid();
 export const stringifyHsl = (hsla: { h: number; s: number; l: number; a?: number }) => {
   const { h, s, l, a } = hsla;
   if (a && a < 1) {
-    return `hsla(${h}, ${s}%, ${l}%, ${a})`;
+    return `hsla(${h},${s}%,${l}% ${a})`;
   } else {
-    return `hsl(${h}, ${s}%, ${l}%)`;
+    return `hsl(${h},${s}%,${l}%)`;
   }
 };
 
 export const stringifyRgb = (rgba: { r: number; g: number; b: number; a?: number }) => {
   const { r, g, b, a } = rgba;
   if (a && a < 1) {
-    return `rgba(${r}, ${g}, ${b}, ${a})`;
+    return `rgba(${r},${g},${b},${a})`;
   } else {
-    return `rgb(${r}, ${g}, ${b})`;
+    return `rgb(${r},${g},${b})`;
   }
 };
 
