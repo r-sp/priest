@@ -125,25 +125,25 @@ function ColorAnalysis({ rgb, color }: { rgb: string; color: ColorConverter }) {
         <code className="font-mono text-base text-holy-100">{preview === "light" ? whiteContrast : blackContrast}</code>
       </p>
       <p className="inline-grid" tabIndex={0}>
-        <span className="text-sm font-medium text-holy-400">WCAG AA {`(Normal)`}</span>
+        <span className="text-sm font-medium text-holy-400">{`WCAG AA (Normal)`}</span>
         <code className="font-mono text-base text-holy-100">
           {(preview === "light" ? whiteNormalAA : blackNormalAA) ? "Pass" : "Fail"}
         </code>
       </p>
       <p className="inline-grid" tabIndex={0}>
-        <span className="text-sm font-medium text-holy-400">WCAG AAA {`(Normal)`}</span>
+        <span className="text-sm font-medium text-holy-400">{`WCAG AAA (Normal)`}</span>
         <code className="font-mono text-base text-holy-100">
           {(preview === "light" ? whiteNormalAAA : blackNormalAAA) ? "Pass" : "Fail"}
         </code>
       </p>
       <p className="inline-grid" tabIndex={0}>
-        <span className="text-sm font-medium text-holy-400">WCAG AA {`(Large)`}</span>
+        <span className="text-sm font-medium text-holy-400">{`WCAG AA (Large)`}</span>
         <code className="font-mono text-base text-holy-100">
           {(preview === "light" ? whiteLargeAA : blackLargeAA) ? "Pass" : "Fail"}
         </code>
       </p>
       <p className="inline-grid" tabIndex={0}>
-        <span className="text-sm font-medium text-holy-400">WCAG AAA {`(Large)`}</span>
+        <span className="text-sm font-medium text-holy-400">{`WCAG AAA (Large)`}</span>
         <code className="font-mono text-base text-holy-100">
           {(preview === "light" ? whiteLargeAAA : blackLargeAAA) ? "Pass" : "Fail"}
         </code>
