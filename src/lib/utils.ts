@@ -1,13 +1,9 @@
 import type { Colord } from "colord";
-import type { AnyColor } from "./types";
+import type { AnyColor, ColorSpace } from "./types";
 import { colord, extend, getFormat } from "colord";
 
 import a11yPlugin from "colord/plugins/a11y";
-import minifyPlugin from "colord/plugins/minify";
-import harmoniesPlugin from "colord/plugins/harmonies";
-import mixPlugin from "colord/plugins/mix";
-
-extend([a11yPlugin, minifyPlugin, harmoniesPlugin, mixPlugin]);
+extend([a11yPlugin]);
 
 export type ColorConverter = Colord;
 
@@ -30,6 +26,13 @@ export const getRandomColor = () => {
     rgb: color.toRgb(),
   };
   return space;
+};
+
+export const initColorProvider = (): ColorSpace => {
+  const color = getRandomColor();
+  const provider: ColorSpace = { ...color, harmony: "complementary" };
+
+  return provider;
 };
 
 export const isValidColor = (input: AnyColor) => convertColor(input).isValid();
