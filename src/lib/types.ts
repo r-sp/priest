@@ -22,15 +22,26 @@ type AnyColorWithAlpha = HslaColor | RgbaColor;
 
 export type AnyColor = HexColor | HslColor | RgbColor | AnyColorWithAlpha;
 
+export type HarmonyColor =
+  | "analogous"
+  | "complementary"
+  | "double-split-complementary"
+  | "rectangle"
+  | "split-complementary"
+  | "tetradic"
+  | "triadic";
+
 export type ColorSpace = {
   raw: AnyColor;
   hex: HexColor;
   hsl: HslaColor;
   rgb: RgbaColor;
+  harmony: HarmonyColor;
 };
 
 export type ColorAction = {
   update: (newColor: Partial<ColorSpace>) => void;
+  setHarmony: (type: HarmonyColor) => void;
 };
 
 export type ColorState = ColorSpace & ColorAction;

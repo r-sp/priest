@@ -14,6 +14,7 @@ const createColorStore = (initValue: ColorSpace) => {
         ...state,
         ...newColor,
       })),
+    setHarmony: (type) => set(() => ({ harmony: type })),
   }));
 };
 
