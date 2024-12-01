@@ -71,7 +71,7 @@ a {
     cursor: crosshair;
   }
   .input-slider::-webkit-slider-thumb {
-    background-color: currentColor;
+    background-color: #ffffff;
     border-radius: 50%;
     cursor: e-resize;
     height: 1.5rem;
@@ -87,7 +87,7 @@ a {
     cursor: crosshair;
   }
   .input-slider::-moz-range-thumb {
-    background-color: currentColor;
+    background-color: #ffffff;
     border-radius: 50%;
     cursor: e-resize;
     height: 1.5rem;
