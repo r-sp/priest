@@ -1,6 +1,6 @@
 "use client";
 
-import { ColorSlider } from "../color";
+import { ColorSlider, ColorInput, ColorRandom } from "../color";
 import Link from "next/link";
 
 export default function Header() {
@@ -11,6 +11,12 @@ export default function Header() {
           <span>Priest</span>
         </Link>
         <ColorSlider />
+        <div className="mt-8 flex flex-row gap-2" role="none">
+          <div className="flex-grow" role="none">
+            <ColorInput />
+          </div>
+          <ColorRandom />
+        </div>
       </div>
     </header>
   );
