@@ -48,7 +48,7 @@ export default function ColorFeed() {
 
   return (
     <div className="grid gap-4 px-2 py-4 xl:mx-auto xl:max-w-screen-xl" role="none">
-      <Link href={`/color/${hex.replace("#", "")}`} className="flex flex-col gap-2 rounded-lg" title={hex}>
+      <Link aria-label={`Color: ${hex}`} href={`/color/${hex.replace("#", "")}`} className="flex flex-col gap-2 rounded-lg">
         <span
           role="presentation"
           className="inline-flex h-36 rounded-lg md:h-48 lg:h-60 xl:h-80 max-sm:h-48"
@@ -59,7 +59,7 @@ export default function ColorFeed() {
       <ul aria-label={`related color of ${hex}`} className="grid gap-4 sm:grid-cols-4">
         {color.map((c, i) => (
           <li key={i} aria-label={c.hex} className="inline-grid">
-            <Link href={`/color/${c.hex.replace("#", "")}`} className="flex rounded-lg" title={c.hex}>
+            <Link aria-label={`Color: ${c.hex}`} href={`/color/${c.hex.replace("#", "")}`} className="flex rounded-lg">
               <span
                 role="presentation"
                 className="inline-flex h-36 w-full rounded-lg md:h-48 lg:h-60 xl:h-80 max-sm:h-48"
