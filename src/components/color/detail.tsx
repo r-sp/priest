@@ -93,14 +93,15 @@ function ColorAnalysis({ rgb, color }: { rgb: string; color: ColorConverter }) {
         </Tab>
       </TabList>
       <TabPanel>
+        <style>{`.color-scheme-preview::selection{color:${preview === "light" ? colorWhite : colorBlack};background-color:${rgb}}`}</style>
         <div className="grid gap-4">
           <p
-            className="flex h-36 items-center justify-center rounded-lg px-4 py-2 text-center text-lg md:h-48 lg:h-60 xl:h-80 max-sm:h-48"
-            style={
-              preview === "light"
-                ? { backgroundColor: colorWhite, color: rgb, border: "1px solid currentColor" }
-                : { backgroundColor: colorBlack, color: rgb, border: "1px solid currentColor" }
-            }
+            className="color-scheme-preview flex h-36 items-center justify-center rounded-lg px-4 py-2 text-center text-lg md:h-48 lg:h-60 xl:h-80 max-sm:h-48"
+            style={{
+              backgroundColor: `${preview === "light" ? colorWhite : colorBlack}`,
+              color: rgb,
+              border: "1px solid currentColor",
+            }}
             tabIndex={0}
           >
             {textPreview}

@@ -3,7 +3,7 @@
 import type { ReactNode } from "react";
 import type { ColorState, ColorSpace, AnyColor } from "~/lib/types";
 import { createContext, useRef, useContext, useCallback, useMemo } from "react";
-import { convertColor } from "~/lib/utils";
+import { convertColor, stringifyRaw } from "~/lib/utils";
 import { createStore, useStore } from "zustand";
 
 const createColorStore = (initValue: ColorSpace) => {
@@ -15,6 +15,7 @@ const createColorStore = (initValue: ColorSpace) => {
         ...newColor,
       })),
     setHarmony: (type) => set(() => ({ harmony: type })),
+    setMode: (type) => set(() => ({ mode: type })),
   }));
 };
 
@@ -50,6 +51,7 @@ export const useColorProvider = () => {
       const color = convertColor(newColor);
 
       return store.update({
+        raw: stringifyRaw(newColor),
         hex: color.toHex(),
         hsl: color.toHsl(),
         rgb: color.toRgb(),
@@ -60,6 +62,7 @@ export const useColorProvider = () => {
 
   const color = useMemo(() => {
     return {
+      raw: store.raw,
       hex: store.hex,
       hsl: store.hsl,
       rgb: store.rgb,

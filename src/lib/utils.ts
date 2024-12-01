@@ -20,6 +20,7 @@ export const getRandomColor = () => {
     l: range(24, 64),
   });
   const space = {
+    raw: color.toHex(),
     hex: color.toHex(),
     hsl: color.toHsl(),
     rgb: color.toRgb(),
@@ -29,28 +30,59 @@ export const getRandomColor = () => {
 
 export const initColorProvider = (): ColorSpace => {
   const color = getRandomColor();
-  const provider: ColorSpace = { ...color, harmony: "complementary" };
+  const provider: ColorSpace = { ...color, harmony: "complementary", mode: "hex" };
 
   return provider;
 };
 
 export const isValidColor = (input: AnyColor) => convertColor(input).isValid();
 
-export const stringifyHsl = (hsla: { h: number; s: number; l: number; a?: number }) => {
+export const stringifyHsl = (hsla: { h: number; s: number; l: number; a?: number }, readable?: boolean) => {
   const { h, s, l, a } = hsla;
-  if (a && a < 1) {
-    return `hsla(${h},${s}%,${l}% ${a})`;
+  if (readable) {
+    if (a && a < 1) {
+      return `hsla(${h}, ${s}%, ${l}%, ${a})`;
+    } else {
+      return `hsl(${h}, ${s}%, ${l}%)`;
+    }
   } else {
-    return `hsl(${h},${s}%,${l}%)`;
+    if (a && a < 1) {
+      return `hsla(${h},${s}%,${l}%,${a})`;
+    } else {
+      return `hsl(${h},${s}%,${l}%)`;
+    }
   }
 };
 
-export const stringifyRgb = (rgba: { r: number; g: number; b: number; a?: number }) => {
+export const stringifyRgb = (rgba: { r: number; g: number; b: number; a?: number }, readable?: boolean) => {
   const { r, g, b, a } = rgba;
-  if (a && a < 1) {
-    return `rgba(${r},${g},${b},${a})`;
+  if (readable) {
+    if (a && a < 1) {
+      return `rgba(${r}, ${g}, ${b}, ${a})`;
+    } else {
+      return `rgb(${r}, ${g}, ${b})`;
+    }
   } else {
-    return `rgb(${r},${g},${b})`;
+    if (a && a < 1) {
+      return `rgba(${r},${g},${b},${a})`;
+    } else {
+      return `rgb(${r},${g},${b})`;
+    }
+  }
+};
+
+export const stringifyRaw = (color: AnyColor): string => {
+  const convert = convertColor(color);
+  const format = getFormatColor(color);
+  switch (format) {
+    case "hsl":
+      return stringifyHsl(convert.toHsl(), true);
+      break;
+    case "rgb":
+      return stringifyRgb(convert.toRgb());
+      break;
+    default:
+      return convert.toHex();
   }
 };
 
