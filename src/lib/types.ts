@@ -31,16 +31,21 @@ export type HarmonyColor =
   | "tetradic"
   | "triadic";
 
+export type ColorMode = "hex" | "hsl" | "rgb";
+
 export type ColorSpace = {
+  raw: AnyColor;
   hex: HexColor;
   hsl: HslaColor;
   rgb: RgbaColor;
   harmony: HarmonyColor;
+  mode: ColorMode;
 };
 
 export type ColorAction = {
   update: (newColor: Partial<ColorSpace>) => void;
   setHarmony: (type: HarmonyColor) => void;
+  setMode: (type: ColorMode) => void;
 };
 
 export type ColorState = ColorSpace & ColorAction;
