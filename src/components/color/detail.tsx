@@ -5,6 +5,7 @@ import { type ColorConverter, stringifyHsl, stringifyRgb } from "~/lib/utils";
 import type { AnyColor, HarmonyColor } from "~/lib/types";
 import { useColorProvider, useColorStore } from "./provider";
 import { Tabs, TabList, Tab, TabPanel } from "../ui/tabs";
+import ColorPromote from "./promote";
 import Link from "next/link";
 import clsx from "clsx";
 
@@ -18,6 +19,7 @@ export default function ColorDetail(props: { hex?: string | undefined }) {
 
   return (
     <div className="grid gap-8 px-2 py-4 xl:mx-auto xl:max-w-screen-xl" role="none">
+      {props.hex ? <ColorPromote color={colorRgb} /> : null}
       <ColorConversion hex={colorHex} color={colorDisplay} />
       <ColorAnalysis rgb={stringifyRgb(colorRgb)} color={colorDisplay} />
       <ColorHarmony color={colorDisplay} convert={convert} />
