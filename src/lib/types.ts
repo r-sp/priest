@@ -1,3 +1,5 @@
+import type { Colord } from "colord";
+
 type Color = {
   hex: string;
   hsl: { h: number; s: number; l: number };
@@ -49,3 +51,5 @@ export type ColorAction = {
 };
 
 export type ColorState = ColorSpace & ColorAction;
+
+export type ColorConverter = Colord;

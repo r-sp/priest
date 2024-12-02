@@ -1,11 +1,8 @@
-import type { Colord } from "colord";
-import type { AnyColor, ColorSpace } from "./types";
+import type { AnyColor, ColorConverter, ColorSpace } from "./types";
 import { colord, extend, getFormat } from "colord";
 
 import a11yPlugin from "colord/plugins/a11y";
 extend([a11yPlugin]);
-
-export type ColorConverter = Colord;
 
 export const convertColor: (input: AnyColor) => ColorConverter = colord;
 export const getFormatColor = getFormat;
