@@ -112,9 +112,4 @@ a {
   .no-outline {
     outline: 0;
   }
-  @media (max-width: 20em) {
-    .unresponsive {
-      display: none;
-    }
-  }
 }
