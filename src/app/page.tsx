@@ -1,13 +1,15 @@
 import { type Metadata } from "next";
-import { ColorFeed } from "~/components/color";
 
 export const metadata: Metadata = {
   title: "Priest",
   description: "The Holy Colors",
 };
 
-export const dynamic = "force-dynamic";
-
 export default function HomePage() {
-  return <ColorFeed />;
+  return (
+    <article className="flex h-svh flex-col items-center justify-center">
+      <h1>Priest</h1>
+      <p>The Holy Colors</p>
+    </article>
+  );
 }

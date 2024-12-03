@@ -13,7 +13,9 @@ const compat = new FlatCompat({
   allConfig: js.configs.all,
 });
 
-const patchedConfig = fixupConfigRules([...compat.extends("next/core-web-vitals")]);
+const patchedConfig = fixupConfigRules([
+  ...compat.extends("next/core-web-vitals"),
+]);
 
 const config = [
   ...patchedConfig,
@@ -25,7 +27,7 @@ const config = [
         tsconfigDirName: __dirname,
       },
     },
-    ignores: [".next/*", "eslint.config.mjs"],
+    ignores: [".next/*"],
   },
 ];
 
