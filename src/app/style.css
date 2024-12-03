@@ -1,64 +1,11 @@
-*,
-::before,
-::after {
-  box-sizing: border-box;
-}
-* {
-  border: 0;
-  margin: 0;
-  padding: 0;
-}
-html {
-  background-color: #ffffff;
-  color: #000000;
-  color-scheme: dark;
-  font-size: 100%;
-  text-rendering: optimizelegibility;
-  -webkit-font-smoothing: antialiased;
-}
-a,
-button,
-label {
-  -webkit-tap-highlight-color: transparent;
-  cursor: pointer;
-}
-button,
-label {
-  user-select: none;
-}
-button,
-input[type="button"],
-input[type="reset"],
-input[type="submit"] {
-  appearance: button;
-}
-button,
-input {
-  background-color: transparent;
-  border: 1px solid transparent;
-}
-ol,
-ul {
-  list-style: none;
-}
-a {
-  text-decoration: none;
-}
-:focus-visible {
-  outline: 2px solid #000000;
-}
-:disabled {
-  cursor: default;
-}
-[hidden] {
-  display: none;
-}
-@media (prefers-reduced-motion: no-preference) {
-  html {
-    scroll-behavior: smooth;
+@import "tailwindcss";
+
+@variant dark (&:where(.dark, .dark *));
+
+@layer base {
+  @media (prefers-reduced-motion: no-preference) {
+    html {
+      scroll-behavior: smooth;
+    }
   }
 }
-
-/** @tailwind base; **/
-@tailwind components;
-@tailwind utilities;
