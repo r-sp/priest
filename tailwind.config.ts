@@ -10,7 +10,10 @@ const rem = (px: number) => `${round(px / 16)}rem`;
 const em = (px: number) => `${round(px / 16)}em`;
 
 export default {
-  content: ["./src/app/**/*.{js,ts,jsx,tsx}", "./src/components/**/*.{js,ts,jsx,tsx}"],
+  content: [
+    "./src/app/**/*.{js,ts,jsx,tsx}",
+    "./src/components/**/*.{js,ts,jsx,tsx}",
+  ],
   theme: {
     colors: {
       holy: {
@@ -26,10 +29,6 @@ export default {
         900: "#121314",
         950: "#000000",
       },
-    },
-    fontFamily: {
-      sans: ["var(--geist-sans)"],
-      mono: ["var(--geist-mono)"],
     },
     fontSize: {
       xs: [rem(12), { lineHeight: rem(16) }],
@@ -56,25 +55,6 @@ export default {
       "max-lg": { raw: `(max-width: ${em(1024)})` },
       "max-xl": { raw: `(max-width: ${em(1280)})` },
       "max-2xl": { raw: `(max-width: ${em(1536)})` },
-    },
-    extend: {
-      maxWidth: {
-        "screen-xs": em(512 + 16),
-        "screen-sm": em(640 + 16),
-        "screen-md": em(768 + 16),
-        "screen-lg": em(1024 + 16),
-        "screen-xl": em(1280 + 16),
-        "screen-2xl": em(1536 + 16),
-      },
-      gridTemplateColumns: {
-        rail: "auto minmax(auto, 1fr)",
-      },
-      zIndex: {
-        "2": "2",
-        "4": "4",
-        "6": "6",
-        "8": "8",
-      },
     },
   },
   corePlugins: {

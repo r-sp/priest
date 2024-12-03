@@ -9,10 +9,9 @@
   padding: 0;
 }
 html {
-  background-color: #000000;
-  color: #ffffff;
+  background-color: #ffffff;
+  color: #000000;
   color-scheme: dark;
-  font-family: var(--geist-sans);
   font-size: 100%;
   text-rendering: optimizelegibility;
   -webkit-font-smoothing: antialiased;
@@ -38,12 +37,6 @@ input {
   background-color: transparent;
   border: 1px solid transparent;
 }
-a:focus-visible,
-button:focus-visible,
-input:focus-visible,
-[tabindex]:focus-visible {
-  outline: 2px solid #ffffff;
-}
 ol,
 ul {
   list-style: none;
@@ -51,65 +44,21 @@ ul {
 a {
   text-decoration: none;
 }
+:focus-visible {
+  outline: 2px solid #000000;
+}
 :disabled {
   cursor: default;
 }
 [hidden] {
   display: none;
 }
+@media (prefers-reduced-motion: no-preference) {
+  html {
+    scroll-behavior: smooth;
+  }
+}
 
 /** @tailwind base; **/
 @tailwind components;
 @tailwind utilities;
-
-@layer components {
-  @media (prefers-reduced-motion: no-preference) {
-    html {
-      scroll-behavior: smooth;
-    }
-  }
-  .input-slider,
-  .input-slider::-webkit-slider-runnable-track,
-  .input-slider::-webkit-slider-thumb {
-    -webkit-appearance: none;
-    appearance: none;
-    border: 0;
-    cursor: crosshair;
-  }
-  .input-slider::-webkit-slider-thumb {
-    background-color: #ffffff;
-    border-radius: 50%;
-    cursor: e-resize;
-    height: 1.5rem;
-    width: 1.5rem;
-  }
-  .input-slider:focus-visible + div {
-    bottom: 0;
-    top: 0;
-  }
-  .input-slider::-moz-range-track,
-  .input-slider::-moz-range-thumb {
-    -moz-appearance: none;
-    cursor: crosshair;
-  }
-  .input-slider::-moz-range-thumb {
-    background-color: #ffffff;
-    border-radius: 50%;
-    cursor: e-resize;
-    height: 1.5rem;
-    width: 1.5rem;
-  }
-}
-
-@layer utilities {
-  .overlay {
-    bottom: 0;
-    left: 0;
-    position: fixed;
-    right: 0;
-    top: 0;
-  }
-  .no-outline {
-    outline: 0;
-  }
-}
