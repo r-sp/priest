@@ -1,3 +1,1 @@
-# Priest
-
-The Holy Colors
+# Priest: The Holy Colors
