@@ -21,7 +21,8 @@
     "next": "15.0.4-canary.34",
     "react": "19.0.0-rc-b01722d5-20241114",
     "react-dom": "19.0.0-rc-b01722d5-20241114",
-    "tailwindcss": "4.0.0-beta.4"
+    "tailwindcss": "4.0.0-beta.4",
+    "zustand": "^5.0.2"
   },
   "devDependencies": {
     "@eslint/compat": "^1.2.2",

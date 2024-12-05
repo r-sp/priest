@@ -1,21 +1,25 @@
 "use client";
 
-import { useState } from "react";
-import { Oklab, Css, Hex } from "~/lib/color";
+import { useColorStore } from "./provider";
+import { stringifyColor } from "~/lib/color";
 
 export default function InputOklab() {
-  const [color, setColor] = useState({ l: 0.85, a: -0.15, b: 0.11 });
+  const { oklab, setOklab } = useColorStore((state) => state);
 
-  const input = Oklab(color);
-  const css = Css(input);
-  const hex = Hex(css);
+  const updateColor = (newColor: Partial<typeof oklab.color>) => {
+    return setOklab({ ...oklab.color, ...newColor });
+  };
 
-  const trackLightnessLeft = Css(Oklab({ ...color, l: 0 }));
-  const trackLightnessRight = Css(Oklab({ ...color, l: 1 }));
-  const trackGreenRedLeft = Css(Oklab({ ...color, a: -0.4 }));
-  const trackGreenRedRight = Css(Oklab({ ...color, a: 0.4 }));
-  const trackBlueYellowLeft = Css(Oklab({ ...color, b: -0.4 }));
-  const trackBlueYellowRight = Css(Oklab({ ...color, b: 0.4 }));
+  const previewColor = (newColor: Partial<typeof oklab.color>) => {
+    return stringifyColor({ mode: "oklab", ...oklab.color, ...newColor });
+  };
+
+  const trackLightnessLeft = previewColor({ l: 0 });
+  const trackLightnessRight = previewColor({ l: 1 });
+  const trackGreenRedLeft = previewColor({ a: -0.4 });
+  const trackGreenRedRight = previewColor({ a: 0.4 });
+  const trackBlueYellowLeft = previewColor({ b: -0.4 });
+  const trackBlueYellowRight = previewColor({ b: 0.4 });
 
   return (
     <section
@@ -23,15 +27,14 @@ export default function InputOklab() {
       className="mx-auto grid w-full max-w-3xl gap-4 border-t border-t-neutral-400 pt-8 dark:border-t-neutral-700"
     >
       <h2 id="color-oklab">
-        <code>
-          <span className="text-neutral-700 dark:text-neutral-300">{css}</span>{" "}
-          | <span>{hex}</span>
+        <code className="text-neutral-700 dark:text-neutral-300">
+          {oklab.css}
         </code>
       </h2>
       <span
         role="presentation"
         className="h-svh-1/2 inline-grid"
-        style={{ backgroundColor: css }}
+        style={{ backgroundColor: oklab.css }}
       ></span>
       <div className="relative inline-grid">
         <input
@@ -40,9 +43,9 @@ export default function InputOklab() {
           min={0}
           max={1}
           step={0.001}
-          value={color.l}
+          value={oklab.color.l}
           className="color-slider relative z-2 text-neutral-400"
-          onChange={(e) => setColor({ ...color, l: e.target.valueAsNumber })}
+          onChange={(e) => updateColor({ l: e.target.valueAsNumber })}
         />
         <span
           role="presentation"
@@ -59,9 +62,9 @@ export default function InputOklab() {
           min={-0.4}
           max={0.4}
           step={0.001}
-          value={color.a}
+          value={oklab.color.a}
           className="color-slider relative z-2 text-neutral-400"
-          onChange={(e) => setColor({ ...color, a: e.target.valueAsNumber })}
+          onChange={(e) => updateColor({ a: e.target.valueAsNumber })}
         />
         <span
           role="presentation"
@@ -78,9 +81,9 @@ export default function InputOklab() {
           min={-0.4}
           max={0.4}
           step={0.001}
-          value={color.b}
+          value={oklab.color.b}
           className="color-slider relative z-2 text-neutral-400"
-          onChange={(e) => setColor({ ...color, b: e.target.valueAsNumber })}
+          onChange={(e) => updateColor({ b: e.target.valueAsNumber })}
         />
         <span
           role="presentation"

@@ -1,5 +1,6 @@
 import { type Metadata } from "next";
 import { Roboto_Flex } from "next/font/google";
+import { ColorProvider } from "~/components/color/provider";
 import "./style.css";
 
 export const metadata: Metadata = {
@@ -22,10 +23,12 @@ export default function RootLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <html lang="en" className={RobotoFlex.className}>
-      <body className="bg-neutral-50 text-neutral-500 antialiased dark:bg-neutral-900 dark:text-neutral-400">
-        <main>{children}</main>
-      </body>
-    </html>
+    <ColorProvider>
+      <html lang="en" className={RobotoFlex.className}>
+        <body className="bg-neutral-50 text-neutral-500 antialiased dark:bg-neutral-900 dark:text-neutral-400">
+          <main>{children}</main>
+        </body>
+      </html>
+    </ColorProvider>
   );
 }

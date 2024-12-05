@@ -1,18 +1,22 @@
 "use client";
 
-import { useState } from "react";
-import { Hsl, Css, Hex } from "~/lib/color";
+import { useColorStore } from "./provider";
+import { stringifyColor } from "~/lib/color";
 
 export default function InputHsl() {
-  const [color, setColor] = useState({ h: 119.5, s: 0.7595, l: 0.6902 });
+  const { hsl, setHsl } = useColorStore((state) => state);
 
-  const input = Hsl(color);
-  const css = Css(input);
-  const hex = Hex(css);
+  const updateColor = (newColor: Partial<typeof hsl.color>) => {
+    return setHsl({ ...hsl.color, ...newColor });
+  };
 
-  const trackSaturationLeft = Css(Hsl({ ...color, s: 0 }));
-  const trackSaturationRight = Css(Hsl({ ...color, s: 1 }));
-  const trackLightnessCenter = Css(Hsl({ ...color, s: 1, l: 0.5 }));
+  const previewColor = (newColor: Partial<typeof hsl.color>) => {
+    return stringifyColor({ mode: "hsl", ...hsl.color, ...newColor });
+  };
+
+  const trackSaturationLeft = previewColor({ s: 0 });
+  const trackSaturationRight = previewColor({ s: 1 });
+  const trackLightnessCenter = previewColor({ s: 1, l: 0.5 });
 
   return (
     <section
@@ -20,15 +24,14 @@ export default function InputHsl() {
       className="mx-auto grid w-full max-w-3xl gap-4 border-t border-t-neutral-400 pt-8 dark:border-t-neutral-700"
     >
       <h2 id="color-hsl">
-        <code>
-          <span className="text-neutral-700 dark:text-neutral-300">{css}</span>{" "}
-          | <span>{hex}</span>
+        <code className="text-neutral-700 dark:text-neutral-300">
+          {hsl.css}
         </code>
       </h2>
       <span
         role="presentation"
         className="h-svh-1/2 inline-grid"
-        style={{ backgroundColor: css }}
+        style={{ backgroundColor: hsl.css }}
       ></span>
       <div className="relative inline-grid">
         <input
@@ -37,9 +40,9 @@ export default function InputHsl() {
           min={0}
           max={360}
           step={0.01}
-          value={color.h}
+          value={hsl.color.h}
           className="color-slider relative z-2 text-neutral-400"
-          onChange={(e) => setColor({ ...color, h: e.target.valueAsNumber })}
+          onChange={(e) => updateColor({ h: e.target.valueAsNumber })}
         />
         <span
           role="presentation"
@@ -57,9 +60,9 @@ export default function InputHsl() {
           min={0}
           max={1}
           step={0.0001}
-          value={color.s}
+          value={hsl.color.s}
           className="color-slider relative z-2 text-neutral-400"
-          onChange={(e) => setColor({ ...color, s: e.target.valueAsNumber })}
+          onChange={(e) => updateColor({ s: e.target.valueAsNumber })}
         />
         <span
           role="presentation"
@@ -76,9 +79,9 @@ export default function InputHsl() {
           min={0}
           max={1}
           step={0.0001}
-          value={color.l}
+          value={hsl.color.l}
           className="color-slider relative z-2 text-neutral-400"
-          onChange={(e) => setColor({ ...color, l: e.target.valueAsNumber })}
+          onChange={(e) => updateColor({ l: e.target.valueAsNumber })}
         />
         <span
           role="presentation"
