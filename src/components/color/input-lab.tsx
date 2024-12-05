@@ -1,17 +1,20 @@
 "use client";
 
+import { useState } from "react";
 import { useColorStore } from "./provider";
 import { stringifyColor } from "~/lib/color";
 
 export default function InputLab() {
   const { lab, setLab } = useColorStore((state) => state);
+  const [color, setColor] = useState<typeof lab.color>(lab.color);
 
   const updateColor = (newColor: Partial<typeof lab.color>) => {
-    return setLab({ ...lab.color, ...newColor });
+    setLab({ ...color, ...newColor });
+    setColor({ ...color, ...newColor });
   };
 
   const previewColor = (newColor: Partial<typeof lab.color>) => {
-    return stringifyColor({ mode: "lab", ...lab.color, ...newColor });
+    return stringifyColor({ mode: "lab", ...color, ...newColor });
   };
 
   const trackLightnessLeft = previewColor({ l: 0 });
@@ -43,7 +46,7 @@ export default function InputLab() {
           min={0}
           max={100}
           step={0.01}
-          value={lab.color.l}
+          value={color.l}
           className="color-slider relative z-2 text-neutral-400"
           onChange={(e) => updateColor({ l: e.target.valueAsNumber })}
         />
@@ -62,7 +65,7 @@ export default function InputLab() {
           min={-100}
           max={100}
           step={0.01}
-          value={lab.color.a}
+          value={color.a}
           className="color-slider relative z-2 text-neutral-400"
           onChange={(e) => updateColor({ a: e.target.valueAsNumber })}
         />
@@ -81,7 +84,7 @@ export default function InputLab() {
           min={-100}
           max={100}
           step={0.01}
-          value={lab.color.b}
+          value={color.b}
           className="color-slider relative z-2 text-neutral-400"
           onChange={(e) => updateColor({ b: e.target.valueAsNumber })}
         />

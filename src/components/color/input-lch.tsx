@@ -1,17 +1,20 @@
 "use client";
 
+import { useState } from "react";
 import { useColorStore } from "./provider";
 import { stringifyColor } from "~/lib/color";
 
 export default function InputLch() {
   const { lch, setLch } = useColorStore((state) => state);
+  const [color, setColor] = useState<typeof lch.color>(lch.color);
 
   const updateColor = (newColor: Partial<typeof lch.color>) => {
-    return setLch({ ...lch.color, ...newColor });
+    setLch({ ...color, ...newColor });
+    setColor({ ...color, ...newColor });
   };
 
   const previewColor = (newColor: Partial<typeof lch.color>) => {
-    return stringifyColor({ mode: "lch", ...lch.color, ...newColor });
+    return stringifyColor({ mode: "lch", ...color, ...newColor });
   };
 
   const trackLightnessLeft = previewColor({ l: 0 });
@@ -48,7 +51,7 @@ export default function InputLch() {
           min={0}
           max={100}
           step={0.01}
-          value={lch.color.l}
+          value={color.l}
           className="color-slider relative z-2 text-neutral-400"
           onChange={(e) => updateColor({ l: e.target.valueAsNumber })}
         />
@@ -67,7 +70,7 @@ export default function InputLch() {
           min={0}
           max={150}
           step={0.01}
-          value={lch.color.c}
+          value={color.c}
           className="color-slider relative z-2 text-neutral-400"
           onChange={(e) => updateColor({ c: e.target.valueAsNumber })}
         />
@@ -86,7 +89,7 @@ export default function InputLch() {
           min={0}
           max={360}
           step={0.01}
-          value={lch.color.h}
+          value={color.h}
           className="color-slider relative z-2 text-neutral-400"
           onChange={(e) => updateColor({ h: e.target.valueAsNumber })}
         />

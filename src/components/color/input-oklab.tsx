@@ -1,17 +1,20 @@
 "use client";
 
+import { useState } from "react";
 import { useColorStore } from "./provider";
 import { stringifyColor } from "~/lib/color";
 
 export default function InputOklab() {
   const { oklab, setOklab } = useColorStore((state) => state);
+  const [color, setColor] = useState<typeof oklab.color>(oklab.color);
 
   const updateColor = (newColor: Partial<typeof oklab.color>) => {
-    return setOklab({ ...oklab.color, ...newColor });
+    setOklab({ ...color, ...newColor });
+    setColor({ ...color, ...newColor });
   };
 
   const previewColor = (newColor: Partial<typeof oklab.color>) => {
-    return stringifyColor({ mode: "oklab", ...oklab.color, ...newColor });
+    return stringifyColor({ mode: "oklab", ...color, ...newColor });
   };
 
   const trackLightnessLeft = previewColor({ l: 0 });
@@ -43,7 +46,7 @@ export default function InputOklab() {
           min={0}
           max={1}
           step={0.001}
-          value={oklab.color.l}
+          value={color.l}
           className="color-slider relative z-2 text-neutral-400"
           onChange={(e) => updateColor({ l: e.target.valueAsNumber })}
         />
@@ -62,7 +65,7 @@ export default function InputOklab() {
           min={-0.4}
           max={0.4}
           step={0.001}
-          value={oklab.color.a}
+          value={color.a}
           className="color-slider relative z-2 text-neutral-400"
           onChange={(e) => updateColor({ a: e.target.valueAsNumber })}
         />
@@ -81,7 +84,7 @@ export default function InputOklab() {
           min={-0.4}
           max={0.4}
           step={0.001}
-          value={oklab.color.b}
+          value={color.b}
           className="color-slider relative z-2 text-neutral-400"
           onChange={(e) => updateColor({ b: e.target.valueAsNumber })}
         />
