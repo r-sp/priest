@@ -9,6 +9,8 @@ import InputOklab from "../color/input-oklab";
 import InputLch from "../color/input-lch";
 import InputOklch from "../color/input-oklch";
 
+import ColorFeed from "../color/feed";
+
 export default function Playground() {
   const [themeDark, setThemeDark] = useState<boolean>(true);
 
@@ -43,6 +45,7 @@ export default function Playground() {
       <InputOklab />
       <InputLch />
       <InputOklch />
+      <ColorFeed />
     </article>
   );
 }
