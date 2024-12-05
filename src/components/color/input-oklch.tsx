@@ -1,26 +1,30 @@
 "use client";
 
-import { useState } from "react";
-import { Oklch, Css, Hex } from "~/lib/color";
+import { useColorStore } from "./provider";
+import { stringifyColor } from "~/lib/color";
 
 export default function InputOklch() {
-  const [color, setColor] = useState({ l: 0.85, c: 0.19, h: 143.48 });
+  const { oklch, setOklch } = useColorStore((state) => state);
 
-  const format = Oklch(color);
-  const css = Css(format);
-  const hex = Hex(css);
+  const updateColor = (newColor: Partial<typeof oklch.color>) => {
+    return setOklch({ ...oklch.color, ...newColor });
+  };
 
-  const trackLightnessLeft = Css(Oklch({ ...color, l: 0 }));
-  const trackLightnessRight = Css(Oklch({ ...color, l: 1 }));
-  const trackChromaLeft = Css(Oklch({ ...color, c: 0 }));
-  const trackChromaRight = Css(Oklch({ ...color, c: 0.4 }));
-  const trackHueLeft = Css(Oklch({ ...color, h: 0 }));
-  const trackHueRed = Css(Oklch({ ...color, h: 60 }));
-  const trackHueGreen = Css(Oklch({ ...color, h: 120 }));
-  const trackHueCenter = Css(Oklch({ ...color, h: 180 }));
-  const trackHueBlue = Css(Oklch({ ...color, h: 240 }));
-  const trackHuePurple = Css(Oklch({ ...color, h: 300 }));
-  const trackHueRight = Css(Oklch({ ...color, h: 360 }));
+  const previewColor = (newColor: Partial<typeof oklch.color>) => {
+    return stringifyColor({ mode: "oklch", ...oklch.color, ...newColor });
+  };
+
+  const trackLightnessLeft = previewColor({ l: 0 });
+  const trackLightnessRight = previewColor({ l: 1 });
+  const trackChromaLeft = previewColor({ c: 0 });
+  const trackChromaRight = previewColor({ c: 0.4 });
+  const trackHueLeft = previewColor({ h: 0 });
+  const trackHueRed = previewColor({ h: 60 });
+  const trackHueGreen = previewColor({ h: 120 });
+  const trackHueCenter = previewColor({ h: 180 });
+  const trackHueBlue = previewColor({ h: 240 });
+  const trackHuePurple = previewColor({ h: 300 });
+  const trackHueRight = previewColor({ h: 360 });
 
   return (
     <section
@@ -28,15 +32,14 @@ export default function InputOklch() {
       className="mx-auto grid w-full max-w-3xl gap-4 border-t border-t-neutral-400 pt-8 dark:border-t-neutral-700"
     >
       <h2 id="color-oklch">
-        <code>
-          <span className="text-neutral-700 dark:text-neutral-300">{css}</span>{" "}
-          | <span>{hex}</span>
+        <code className="text-neutral-700 dark:text-neutral-300">
+          {oklch.css}
         </code>
       </h2>
       <span
         role="presentation"
         className="h-svh-1/2 inline-grid"
-        style={{ backgroundColor: css }}
+        style={{ backgroundColor: oklch.css }}
       ></span>
       <div className="relative inline-grid">
         <input
@@ -45,9 +48,9 @@ export default function InputOklch() {
           min={0}
           max={1}
           step={0.001}
-          value={color.l}
+          value={oklch.color.l}
           className="color-slider relative z-2 text-neutral-400"
-          onChange={(e) => setColor({ ...color, l: e.target.valueAsNumber })}
+          onChange={(e) => updateColor({ l: e.target.valueAsNumber })}
         />
         <span
           role="presentation"
@@ -64,9 +67,9 @@ export default function InputOklch() {
           min={0}
           max={0.4}
           step={0.001}
-          value={color.c}
+          value={oklch.color.c}
           className="color-slider relative z-2 text-neutral-400"
-          onChange={(e) => setColor({ ...color, c: e.target.valueAsNumber })}
+          onChange={(e) => updateColor({ c: e.target.valueAsNumber })}
         />
         <span
           role="presentation"
@@ -83,9 +86,9 @@ export default function InputOklch() {
           min={0}
           max={360}
           step={0.01}
-          value={color.h}
+          value={oklch.color.h}
           className="color-slider relative z-2 text-neutral-400"
-          onChange={(e) => setColor({ ...color, h: e.target.valueAsNumber })}
+          onChange={(e) => updateColor({ h: e.target.valueAsNumber })}
         />
         <span
           role="presentation"

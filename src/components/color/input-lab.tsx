@@ -1,21 +1,25 @@
 "use client";
 
-import { useState } from "react";
-import { Lab, Css, Hex } from "~/lib/color";
+import { useColorStore } from "./provider";
+import { stringifyColor } from "~/lib/color";
 
 export default function InputLab() {
-  const [color, setColor] = useState({ l: 85, a: -52.74, b: 46.91 });
+  const { lab, setLab } = useColorStore((state) => state);
 
-  const input = Lab(color);
-  const css = Css(input);
-  const hex = Hex(css);
+  const updateColor = (newColor: Partial<typeof lab.color>) => {
+    return setLab({ ...lab.color, ...newColor });
+  };
 
-  const trackLightnessLeft = Css(Lab({ ...color, l: 0 }));
-  const trackLightnessRight = Css(Lab({ ...color, l: 100 }));
-  const trackGreenRedLeft = Css(Lab({ ...color, a: -100 }));
-  const trackGreenRedRight = Css(Lab({ ...color, a: 100 }));
-  const trackBlueYellowLeft = Css(Lab({ ...color, b: -100 }));
-  const trackBlueYellowRight = Css(Lab({ ...color, b: 100 }));
+  const previewColor = (newColor: Partial<typeof lab.color>) => {
+    return stringifyColor({ mode: "lab", ...lab.color, ...newColor });
+  };
+
+  const trackLightnessLeft = previewColor({ l: 0 });
+  const trackLightnessRight = previewColor({ l: 100 });
+  const trackGreenRedLeft = previewColor({ a: -100 });
+  const trackGreenRedRight = previewColor({ a: 100 });
+  const trackBlueYellowLeft = previewColor({ b: -100 });
+  const trackBlueYellowRight = previewColor({ b: 100 });
 
   return (
     <section
@@ -23,15 +27,14 @@ export default function InputLab() {
       className="mx-auto grid w-full max-w-3xl gap-4 border-t border-t-neutral-400 pt-8 dark:border-t-neutral-700"
     >
       <h2 id="color-lab">
-        <code>
-          <span className="text-neutral-700 dark:text-neutral-300">{css}</span>{" "}
-          | <span>{hex}</span>
+        <code className="text-neutral-700 dark:text-neutral-300">
+          {lab.css}
         </code>
       </h2>
       <span
         role="presentation"
         className="h-svh-1/2 inline-grid"
-        style={{ backgroundColor: css }}
+        style={{ backgroundColor: lab.css }}
       ></span>
       <div className="relative inline-grid">
         <input
@@ -40,9 +43,9 @@ export default function InputLab() {
           min={0}
           max={100}
           step={0.01}
-          value={color.l}
+          value={lab.color.l}
           className="color-slider relative z-2 text-neutral-400"
-          onChange={(e) => setColor({ ...color, l: e.target.valueAsNumber })}
+          onChange={(e) => updateColor({ l: e.target.valueAsNumber })}
         />
         <span
           role="presentation"
@@ -59,9 +62,9 @@ export default function InputLab() {
           min={-100}
           max={100}
           step={0.01}
-          value={color.a}
+          value={lab.color.a}
           className="color-slider relative z-2 text-neutral-400"
-          onChange={(e) => setColor({ ...color, a: e.target.valueAsNumber })}
+          onChange={(e) => updateColor({ a: e.target.valueAsNumber })}
         />
         <span
           role="presentation"
@@ -78,9 +81,9 @@ export default function InputLab() {
           min={-100}
           max={100}
           step={0.01}
-          value={color.b}
+          value={lab.color.b}
           className="color-slider relative z-2 text-neutral-400"
-          onChange={(e) => setColor({ ...color, b: e.target.valueAsNumber })}
+          onChange={(e) => updateColor({ b: e.target.valueAsNumber })}
         />
         <span
           role="presentation"

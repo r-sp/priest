@@ -1,26 +1,30 @@
 "use client";
 
-import { useState } from "react";
-import { Lch, Css, Hex } from "~/lib/color";
+import { useColorStore } from "./provider";
+import { stringifyColor } from "~/lib/color";
 
 export default function InputLch() {
-  const [color, setColor] = useState({ l: 85, c: 69.47, h: 138.42 });
+  const { lch, setLch } = useColorStore((state) => state);
 
-  const input = Lch(color);
-  const css = Css(input);
-  const hex = Hex(css);
+  const updateColor = (newColor: Partial<typeof lch.color>) => {
+    return setLch({ ...lch.color, ...newColor });
+  };
 
-  const trackLightnessLeft = Css(Lch({ ...color, l: 0 }));
-  const trackLightnessRight = Css(Lch({ ...color, l: 100 }));
-  const trackChromaLeft = Css(Lch({ ...color, c: 0 }));
-  const trackChromaRight = Css(Lch({ ...color, c: 150 }));
-  const trackHueLeft = Css(Lch({ ...color, h: 0 }));
-  const trackHueRed = Css(Lch({ ...color, h: 60 }));
-  const trackHueGreen = Css(Lch({ ...color, h: 120 }));
-  const trackHueCenter = Css(Lch({ ...color, h: 180 }));
-  const trackHueBlue = Css(Lch({ ...color, h: 240 }));
-  const trackHuePurple = Css(Lch({ ...color, h: 300 }));
-  const trackHueRight = Css(Lch({ ...color, h: 360 }));
+  const previewColor = (newColor: Partial<typeof lch.color>) => {
+    return stringifyColor({ mode: "lch", ...lch.color, ...newColor });
+  };
+
+  const trackLightnessLeft = previewColor({ l: 0 });
+  const trackLightnessRight = previewColor({ l: 100 });
+  const trackChromaLeft = previewColor({ c: 0 });
+  const trackChromaRight = previewColor({ c: 150 });
+  const trackHueLeft = previewColor({ h: 0 });
+  const trackHueRed = previewColor({ h: 60 });
+  const trackHueGreen = previewColor({ h: 120 });
+  const trackHueCenter = previewColor({ h: 180 });
+  const trackHueBlue = previewColor({ h: 240 });
+  const trackHuePurple = previewColor({ h: 300 });
+  const trackHueRight = previewColor({ h: 360 });
 
   return (
     <section
@@ -28,15 +32,14 @@ export default function InputLch() {
       className="mx-auto grid w-full max-w-3xl gap-4 border-t border-t-neutral-400 pt-8 dark:border-t-neutral-700"
     >
       <h2 id="color-lch">
-        <code>
-          <span className="text-neutral-700 dark:text-neutral-300">{css}</span>{" "}
-          | <span>{hex}</span>
+        <code className="text-neutral-700 dark:text-neutral-300">
+          {lch.css}
         </code>
       </h2>
       <span
         role="presentation"
         className="h-svh-1/2 inline-grid"
-        style={{ backgroundColor: css }}
+        style={{ backgroundColor: lch.css }}
       ></span>
       <div className="relative inline-grid">
         <input
@@ -45,9 +48,9 @@ export default function InputLch() {
           min={0}
           max={100}
           step={0.01}
-          value={color.l}
+          value={lch.color.l}
           className="color-slider relative z-2 text-neutral-400"
-          onChange={(e) => setColor({ ...color, l: e.target.valueAsNumber })}
+          onChange={(e) => updateColor({ l: e.target.valueAsNumber })}
         />
         <span
           role="presentation"
@@ -64,9 +67,9 @@ export default function InputLch() {
           min={0}
           max={150}
           step={0.01}
-          value={color.c}
+          value={lch.color.c}
           className="color-slider relative z-2 text-neutral-400"
-          onChange={(e) => setColor({ ...color, c: e.target.valueAsNumber })}
+          onChange={(e) => updateColor({ c: e.target.valueAsNumber })}
         />
         <span
           role="presentation"
@@ -83,9 +86,9 @@ export default function InputLch() {
           min={0}
           max={360}
           step={0.01}
-          value={color.h}
+          value={lch.color.h}
           className="color-slider relative z-2 text-neutral-400"
-          onChange={(e) => setColor({ ...color, h: e.target.valueAsNumber })}
+          onChange={(e) => updateColor({ h: e.target.valueAsNumber })}
         />
         <span
           role="presentation"

@@ -1,21 +1,25 @@
 "use client";
 
-import { useState } from "react";
-import { Rgb, Css, Hex } from "~/lib/color";
+import { useColorStore } from "./provider";
+import { stringifyColor } from "~/lib/color";
 
 export default function InputRgb() {
-  const [color, setColor] = useState({ r: 0.457, g: 0.927, b: 0.456 });
+  const { rgb, setRgb } = useColorStore((state) => state);
 
-  const input = Rgb(color);
-  const css = Css(input);
-  const hex = Hex(css);
+  const updateColor = (newColor: Partial<typeof rgb.color>) => {
+    return setRgb({ ...rgb.color, ...newColor });
+  };
 
-  const trackRedLeft = Css(Rgb({ ...color, r: 0 }));
-  const trackRedRight = Css(Rgb({ ...color, r: 255 }));
-  const trackGreenLeft = Css(Rgb({ ...color, g: 0 }));
-  const trackGreenRight = Css(Rgb({ ...color, g: 255 }));
-  const trackBlueLeft = Css(Rgb({ ...color, b: 0 }));
-  const trackBlueRight = Css(Rgb({ ...color, b: 255 }));
+  const previewColor = (newColor: Partial<typeof rgb.color>) => {
+    return stringifyColor({ mode: "rgb", ...rgb.color, ...newColor });
+  };
+
+  const trackRedLeft = previewColor({ r: 0 });
+  const trackRedRight = previewColor({ r: 1 });
+  const trackGreenLeft = previewColor({ g: 0 });
+  const trackGreenRight = previewColor({ g: 1 });
+  const trackBlueLeft = previewColor({ b: 0 });
+  const trackBlueRight = previewColor({ b: 1 });
 
   return (
     <section
@@ -23,15 +27,14 @@ export default function InputRgb() {
       className="mx-auto grid w-full max-w-3xl gap-4 border-t border-t-neutral-400 pt-8 dark:border-t-neutral-700"
     >
       <h2 id="color-rgb">
-        <code>
-          <span className="text-neutral-700 dark:text-neutral-300">{css}</span>{" "}
-          | <span>{hex}</span>
+        <code className="text-neutral-700 dark:text-neutral-300">
+          {rgb.css}
         </code>
       </h2>
       <span
         role="presentation"
         className="h-svh-1/2 inline-grid"
-        style={{ backgroundColor: css }}
+        style={{ backgroundColor: rgb.css }}
       ></span>
       <div className="relative inline-grid">
         <input
@@ -39,10 +42,10 @@ export default function InputRgb() {
           id="rgb-red"
           min={0}
           max={1}
-          step={0.001}
-          value={color.r}
+          step={0.0045}
+          value={rgb.color.r}
           className="color-slider relative z-2 text-neutral-400"
-          onChange={(e) => setColor({ ...color, r: e.target.valueAsNumber })}
+          onChange={(e) => updateColor({ r: e.target.valueAsNumber })}
         />
         <span
           role="presentation"
@@ -58,10 +61,10 @@ export default function InputRgb() {
           id="rgb-green"
           min={0}
           max={1}
-          step={0.001}
-          value={color.g}
+          step={0.0045}
+          value={rgb.color.g}
           className="color-slider relative z-2 text-neutral-400"
-          onChange={(e) => setColor({ ...color, g: e.target.valueAsNumber })}
+          onChange={(e) => updateColor({ g: e.target.valueAsNumber })}
         />
         <span
           role="presentation"
@@ -77,10 +80,10 @@ export default function InputRgb() {
           id="rgb-blue"
           min={0}
           max={1}
-          step={0.001}
-          value={color.b}
+          step={0.0045}
+          value={rgb.color.b}
           className="color-slider relative z-2 text-neutral-400"
-          onChange={(e) => setColor({ ...color, b: e.target.valueAsNumber })}
+          onChange={(e) => updateColor({ b: e.target.valueAsNumber })}
         />
         <span
           role="presentation"
