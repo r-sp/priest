@@ -1,17 +1,20 @@
 "use client";
 
+import { useState } from "react";
 import { useColorStore } from "./provider";
 import { stringifyColor } from "~/lib/color";
 
 export default function InputHsl() {
   const { hsl, setHsl } = useColorStore((state) => state);
+  const [color, setColor] = useState<typeof hsl.color>(hsl.color);
 
   const updateColor = (newColor: Partial<typeof hsl.color>) => {
-    return setHsl({ ...hsl.color, ...newColor });
+    setHsl({ ...color, ...newColor });
+    setColor({ ...color, ...newColor });
   };
 
   const previewColor = (newColor: Partial<typeof hsl.color>) => {
-    return stringifyColor({ mode: "hsl", ...hsl.color, ...newColor });
+    return stringifyColor({ mode: "hsl", ...color, ...newColor });
   };
 
   const trackSaturationLeft = previewColor({ s: 0 });
@@ -40,7 +43,7 @@ export default function InputHsl() {
           min={0}
           max={360}
           step={0.01}
-          value={hsl.color.h}
+          value={color.h}
           className="color-slider relative z-2 text-neutral-400"
           onChange={(e) => updateColor({ h: e.target.valueAsNumber })}
         />
@@ -60,7 +63,7 @@ export default function InputHsl() {
           min={0}
           max={1}
           step={0.0001}
-          value={hsl.color.s}
+          value={color.s}
           className="color-slider relative z-2 text-neutral-400"
           onChange={(e) => updateColor({ s: e.target.valueAsNumber })}
         />
@@ -79,7 +82,7 @@ export default function InputHsl() {
           min={0}
           max={1}
           step={0.0001}
-          value={hsl.color.l}
+          value={color.l}
           className="color-slider relative z-2 text-neutral-400"
           onChange={(e) => updateColor({ l: e.target.valueAsNumber })}
         />

@@ -10,6 +10,7 @@ import {
   modeOklch,
   useMode as setMode,
 } from "culori/fn";
+export { formatCss, formatRgb, formatHsl, formatHex } from "culori/fn";
 
 import { createStore } from "zustand";
 
@@ -56,27 +57,27 @@ export type AnyColorMode =
   | OklabColorMode
   | OklchColorMode;
 
-const colorRgb = (newColor: RgbColor): RgbColorMode => {
+export const colorRgb = (newColor: RgbColor): RgbColorMode => {
   const rgb = setMode(modeRgb);
   return rgb({ mode: "rgb", ...newColor });
 };
-const colorHsl = (newColor: HslColor): HslColorMode => {
+export const colorHsl = (newColor: HslColor): HslColorMode => {
   const hsl = setMode(modeHsl);
   return hsl({ mode: "hsl", ...newColor });
 };
-const colorLab = (newColor: LabColor): LabColorMode => {
+export const colorLab = (newColor: LabColor): LabColorMode => {
   const lab = setMode(modeLab);
   return lab({ mode: "lab", ...newColor });
 };
-const colorLch = (newColor: LchColor): LchColorMode => {
+export const colorLch = (newColor: LchColor): LchColorMode => {
   const lch = setMode(modeLch);
   return lch({ mode: "lch", ...newColor });
 };
-const colorOklab = (newColor: OklabColor): OklabColorMode => {
+export const colorOklab = (newColor: OklabColor): OklabColorMode => {
   const oklab = setMode(modeOklab);
   return oklab({ mode: "oklab", ...newColor });
 };
-const colorOklch = (newColor: OklchColor): OklchColorMode => {
+export const colorOklch = (newColor: OklchColor): OklchColorMode => {
   const oklch = setMode(modeOklch);
   return oklch({ mode: "oklch", ...newColor });
 };

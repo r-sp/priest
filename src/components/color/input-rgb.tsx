@@ -1,17 +1,20 @@
 "use client";
 
+import { useState } from "react";
 import { useColorStore } from "./provider";
 import { stringifyColor } from "~/lib/color";
 
 export default function InputRgb() {
   const { rgb, setRgb } = useColorStore((state) => state);
+  const [color, setColor] = useState<typeof rgb.color>(rgb.color);
 
   const updateColor = (newColor: Partial<typeof rgb.color>) => {
-    return setRgb({ ...rgb.color, ...newColor });
+    setRgb({ ...color, ...newColor });
+    setColor({ ...color, ...newColor });
   };
 
   const previewColor = (newColor: Partial<typeof rgb.color>) => {
-    return stringifyColor({ mode: "rgb", ...rgb.color, ...newColor });
+    return stringifyColor({ mode: "rgb", ...color, ...newColor });
   };
 
   const trackRedLeft = previewColor({ r: 0 });
@@ -43,7 +46,7 @@ export default function InputRgb() {
           min={0}
           max={1}
           step={0.0045}
-          value={rgb.color.r}
+          value={color.r}
           className="color-slider relative z-2 text-neutral-400"
           onChange={(e) => updateColor({ r: e.target.valueAsNumber })}
         />
@@ -62,7 +65,7 @@ export default function InputRgb() {
           min={0}
           max={1}
           step={0.0045}
-          value={rgb.color.g}
+          value={color.g}
           className="color-slider relative z-2 text-neutral-400"
           onChange={(e) => updateColor({ g: e.target.valueAsNumber })}
         />
@@ -81,7 +84,7 @@ export default function InputRgb() {
           min={0}
           max={1}
           step={0.0045}
-          value={rgb.color.b}
+          value={color.b}
           className="color-slider relative z-2 text-neutral-400"
           onChange={(e) => updateColor({ b: e.target.valueAsNumber })}
         />

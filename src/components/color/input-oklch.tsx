@@ -1,17 +1,20 @@
 "use client";
 
+import { useState } from "react";
 import { useColorStore } from "./provider";
 import { stringifyColor } from "~/lib/color";
 
 export default function InputOklch() {
   const { oklch, setOklch } = useColorStore((state) => state);
+  const [color, setColor] = useState<typeof oklch.color>(oklch.color);
 
   const updateColor = (newColor: Partial<typeof oklch.color>) => {
-    return setOklch({ ...oklch.color, ...newColor });
+    setOklch({ ...color, ...newColor });
+    setColor({ ...color, ...newColor });
   };
 
   const previewColor = (newColor: Partial<typeof oklch.color>) => {
-    return stringifyColor({ mode: "oklch", ...oklch.color, ...newColor });
+    return stringifyColor({ mode: "oklch", ...color, ...newColor });
   };
 
   const trackLightnessLeft = previewColor({ l: 0 });
@@ -48,7 +51,7 @@ export default function InputOklch() {
           min={0}
           max={1}
           step={0.001}
-          value={oklch.color.l}
+          value={color.l}
           className="color-slider relative z-2 text-neutral-400"
           onChange={(e) => updateColor({ l: e.target.valueAsNumber })}
         />
@@ -67,7 +70,7 @@ export default function InputOklch() {
           min={0}
           max={0.4}
           step={0.001}
-          value={oklch.color.c}
+          value={color.c}
           className="color-slider relative z-2 text-neutral-400"
           onChange={(e) => updateColor({ c: e.target.valueAsNumber })}
         />
@@ -86,7 +89,7 @@ export default function InputOklch() {
           min={0}
           max={360}
           step={0.01}
-          value={oklch.color.h}
+          value={color.h}
           className="color-slider relative z-2 text-neutral-400"
           onChange={(e) => updateColor({ h: e.target.valueAsNumber })}
         />
