@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useMemo } from "react";
 import { useColorStore } from "./provider";
 import { stringifyColor } from "~/lib/color";
 
@@ -29,6 +29,12 @@ export default function InputLch() {
   const trackHuePurple = previewColor({ h: 300 });
   const trackHueRight = previewColor({ h: 360 });
 
+  useMemo(() => {
+    if (color !== lch.color) {
+      setColor(lch.color);
+    }
+  }, [color, lch]);
+
   return (
     <section
       aria-labelledby="color-lch"
@@ -41,7 +47,7 @@ export default function InputLch() {
       </h2>
       <span
         role="presentation"
-        className="h-svh-1/2 inline-grid"
+        className="h-svh-1/2 inline-grid rounded-md"
         style={{ backgroundColor: lch.css }}
       ></span>
       <div className="relative inline-grid">

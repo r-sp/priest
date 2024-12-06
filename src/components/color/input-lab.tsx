@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useMemo } from "react";
 import { useColorStore } from "./provider";
 import { stringifyColor } from "~/lib/color";
 
@@ -24,6 +24,12 @@ export default function InputLab() {
   const trackBlueYellowLeft = previewColor({ b: -100 });
   const trackBlueYellowRight = previewColor({ b: 100 });
 
+  useMemo(() => {
+    if (color !== lab.color) {
+      setColor(lab.color);
+    }
+  }, [color, lab]);
+
   return (
     <section
       aria-labelledby="color-lab"
@@ -36,7 +42,7 @@ export default function InputLab() {
       </h2>
       <span
         role="presentation"
-        className="h-svh-1/2 inline-grid"
+        className="h-svh-1/2 inline-grid rounded-md"
         style={{ backgroundColor: lab.css }}
       ></span>
       <div className="relative inline-grid">
