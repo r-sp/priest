@@ -5,6 +5,8 @@ export const metadata: Metadata = {
   title: "Playground",
 };
 
+export const dynamic = "force-dynamic";
+
 export default function PlaygroundPage() {
   return <Playground />;
 }

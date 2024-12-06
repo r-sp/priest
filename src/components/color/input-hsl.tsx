@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useMemo } from "react";
 import { useColorStore } from "./provider";
 import { stringifyColor } from "~/lib/color";
 
@@ -21,6 +21,12 @@ export default function InputHsl() {
   const trackSaturationRight = previewColor({ s: 1 });
   const trackLightnessCenter = previewColor({ s: 1, l: 0.5 });
 
+  useMemo(() => {
+    if (color !== hsl.color) {
+      setColor(hsl.color);
+    }
+  }, [color, hsl]);
+
   return (
     <section
       aria-labelledby="color-hsl"
@@ -33,7 +39,7 @@ export default function InputHsl() {
       </h2>
       <span
         role="presentation"
-        className="h-svh-1/2 inline-grid"
+        className="h-svh-1/2 inline-grid rounded-md"
         style={{ backgroundColor: hsl.css }}
       ></span>
       <div className="relative inline-grid">

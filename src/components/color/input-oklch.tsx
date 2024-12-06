@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useMemo } from "react";
 import { useColorStore } from "./provider";
 import { stringifyColor } from "~/lib/color";
 
@@ -29,6 +29,12 @@ export default function InputOklch() {
   const trackHuePurple = previewColor({ h: 300 });
   const trackHueRight = previewColor({ h: 360 });
 
+  useMemo(() => {
+    if (color !== oklch.color) {
+      setColor(oklch.color);
+    }
+  }, [color, oklch]);
+
   return (
     <section
       aria-labelledby="color-oklch"
@@ -41,7 +47,7 @@ export default function InputOklch() {
       </h2>
       <span
         role="presentation"
-        className="h-svh-1/2 inline-grid"
+        className="h-svh-1/2 inline-grid rounded-md"
         style={{ backgroundColor: oklch.css }}
       ></span>
       <div className="relative inline-grid">
