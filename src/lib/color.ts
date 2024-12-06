@@ -1,18 +1,6 @@
-import {
-  formatCss,
-  formatRgb,
-  formatHsl,
-  modeRgb,
-  modeHsl,
-  modeLab,
-  modeLch,
-  modeOklab,
-  modeOklch,
-  useMode as setMode,
-} from "culori/fn";
-export { formatCss, formatRgb, formatHsl, formatHex } from "culori/fn";
-
+import { rgb, hsl, lab, lch, oklab, oklch } from "culori";
 import { createStore } from "zustand";
+import { round } from "./utils";
 
 export type ColorSpace = {
   rgb: { r: number; g: number; b: number };
@@ -57,31 +45,6 @@ export type AnyColorMode =
   | OklabColorMode
   | OklchColorMode;
 
-export const colorRgb = (newColor: RgbColor): RgbColorMode => {
-  const rgb = setMode(modeRgb);
-  return rgb({ mode: "rgb", ...newColor });
-};
-export const colorHsl = (newColor: HslColor): HslColorMode => {
-  const hsl = setMode(modeHsl);
-  return hsl({ mode: "hsl", ...newColor });
-};
-export const colorLab = (newColor: LabColor): LabColorMode => {
-  const lab = setMode(modeLab);
-  return lab({ mode: "lab", ...newColor });
-};
-export const colorLch = (newColor: LchColor): LchColorMode => {
-  const lch = setMode(modeLch);
-  return lch({ mode: "lch", ...newColor });
-};
-export const colorOklab = (newColor: OklabColor): OklabColorMode => {
-  const oklab = setMode(modeOklab);
-  return oklab({ mode: "oklab", ...newColor });
-};
-export const colorOklch = (newColor: OklchColor): OklchColorMode => {
-  const oklch = setMode(modeOklch);
-  return oklch({ mode: "oklch", ...newColor });
-};
-
 export type ColorState = {
   rgb: { color: RgbColor; css: string };
   hsl: { color: HslColor; css: string };
@@ -101,6 +64,74 @@ export type ColorAction = {
 };
 
 export type ColorStore = ColorState & ColorAction;
+
+export const colorRgb = (newColor: RgbColor): RgbColorMode => {
+  return rgb({ mode: "rgb", ...newColor });
+};
+export const colorHsl = (newColor: HslColor): HslColorMode => {
+  return hsl({ mode: "hsl", ...newColor });
+};
+export const colorLab = (newColor: LabColor): LabColorMode => {
+  return lab({ mode: "lab", ...newColor });
+};
+export const colorLch = (newColor: LchColor): LchColorMode => {
+  return lch({ mode: "lch", ...newColor });
+};
+export const colorOklab = (newColor: OklabColor): OklabColorMode => {
+  return oklab({ mode: "oklab", ...newColor });
+};
+export const colorOklch = (newColor: OklchColor): OklchColorMode => {
+  return oklch({ mode: "oklch", ...newColor });
+};
+
+export const formatRgb = (newColor: RgbColor | RgbColorMode): string => {
+  const { r, g, b } = newColor;
+  const red = round(r * 255);
+  const green = round(g * 255);
+  const blue = round(b * 255);
+
+  return `rgb(${red} ${green} ${blue})`;
+};
+export const formatHsl = (newColor: HslColor | HslColorMode): string => {
+  const { h, s, l } = newColor;
+  const hue = round(h || 0, 2);
+  const saturation = round(s * 100, 2);
+  const lightness = round(l * 100, 2);
+
+  return `hsl(${hue} ${saturation}% ${lightness}%)`;
+};
+export const formatLab = (newColor: LabColor | LabColorMode): string => {
+  const { l, a, b } = newColor;
+  const lightness = round(l, 3);
+  const greenRed = round(a, 3);
+  const blueYellow = round(b, 3);
+
+  return `lab(${lightness} ${greenRed} ${blueYellow})`;
+};
+export const formatLch = (newColor: LchColor | LchColorMode): string => {
+  const { l, c, h } = newColor;
+  const lightness = round(l, 3);
+  const chroma = round(c, 3);
+  const hue = round(h || 0, 2);
+
+  return `lch(${lightness} ${chroma} ${hue})`;
+};
+export const formatOklab = (newColor: OklabColor | OklabColorMode): string => {
+  const { l, a, b } = newColor;
+  const lightness = round(l, 3);
+  const greenRed = round(a, 3);
+  const blueYellow = round(b, 3);
+
+  return `oklab(${lightness} ${greenRed} ${blueYellow})`;
+};
+export const formatOklch = (newColor: OklchColor | OklchColorMode): string => {
+  const { l, c, h } = newColor;
+  const lightness = round(l, 3);
+  const chroma = round(c, 3);
+  const hue = round(h || 0, 2);
+
+  return `oklch(${lightness} ${chroma} ${hue})`;
+};
 
 export const createColorStore = (initValue: ColorState) => {
   return createStore<ColorStore>()((set) => ({
@@ -131,7 +162,7 @@ export const createColorStore = (initValue: ColorState) => {
         return {
           lab: {
             color: { l: color.l, a: color.a, b: color.b },
-            css: formatCss(color),
+            css: formatLab(color),
           },
         };
       }),
@@ -141,7 +172,7 @@ export const createColorStore = (initValue: ColorState) => {
         return {
           lch: {
             color: { l: color.l, c: color.c, h: color.h },
-            css: formatCss(color),
+            css: formatLch(color),
           },
         };
       }),
@@ -151,7 +182,7 @@ export const createColorStore = (initValue: ColorState) => {
         return {
           oklab: {
             color: { l: color.l, a: color.a, b: color.b },
-            css: formatCss(color),
+            css: formatOklab(color),
           },
         };
       }),
@@ -161,7 +192,7 @@ export const createColorStore = (initValue: ColorState) => {
         return {
           oklch: {
             color: { l: color.l, c: color.c, h: color.h },
-            css: formatCss(color),
+            css: formatOklch(color),
           },
         };
       }),
@@ -171,21 +202,52 @@ export const createColorStore = (initValue: ColorState) => {
 export const stringifyColor = (newColor: AnyColorMode): string => {
   switch (newColor.mode) {
     case "rgb":
-      return formatRgb(colorRgb(newColor));
+      return formatRgb(rgb(newColor));
       break;
     case "hsl":
-      return formatHsl(colorHsl(newColor));
+      return formatHsl(hsl(newColor));
       break;
     case "lab":
-      return formatCss(colorLab(newColor));
+      return formatLab(lab(newColor));
       break;
     case "lch":
-      return formatCss(colorLch(newColor));
+      return formatLch(lch(newColor));
       break;
     case "oklab":
-      return formatCss(colorOklab(newColor));
+      return formatOklab(oklab(newColor));
       break;
     case "oklch":
-      return formatCss(colorOklch(newColor));
+      return formatOklch(oklch(newColor));
   }
+};
+
+export const initColorStore = () => {
+  const limiter = (min: number, max: number) => {
+    return min + Math.random() * (max - min);
+  };
+
+  const red = limiter(0, 1);
+  const green = limiter(0, 1);
+  const blue = limiter(0, 1);
+
+  const color = rgb({ mode: "rgb", r: red, g: green, b: blue });
+
+  const _rgb = color;
+  const _hsl = hsl(color);
+  const _lab = lab(color);
+  const _lch = lch(color);
+  const _oklab = oklab(color);
+  const _oklch = oklch(color);
+
+  // prettier-ignore
+  const store = {
+    rgb: { color: { r: _rgb.r, g: _rgb.g, b: _rgb.b }, css: formatRgb(_rgb) },
+    hsl: { color: { h: _hsl.h, s: _hsl.s, l: _hsl.l }, css: formatHsl(_hsl) },
+    lab: { color: { l: _lab.l, a: _lab.a, b: _lab.b }, css: formatLab(_lab) },
+    lch: { color: { l: _lch.l, c: _lch.c, h: _lch.h}, css: formatLch(_lch) },
+    oklab: { color: { l: _oklab.l, a: _oklab.a, b: _oklab.b }, css: formatOklab(_oklab) },
+    oklch: { color: { l: _oklch.l, c: _oklch.c, h: _oklch.h}, css: formatOklch(_oklch) },
+  };
+
+  return store;
 };
