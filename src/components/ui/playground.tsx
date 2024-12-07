@@ -3,18 +3,22 @@
 import { useState, useEffect } from "react";
 import { useColorStore } from "../color/provider";
 import { initColorStore } from "~/lib/color";
+import { ColorInput } from "../color";
 import clsx from "clsx";
 import Link from "next/link";
-import InputRgb from "../color/input-rgb";
-import InputHsl from "../color/input-hsl";
-import InputLab from "../color/input-lab";
-import InputOklab from "../color/input-oklab";
-import InputLch from "../color/input-lch";
-import InputOklch from "../color/input-oklch";
 
 export default function Playground() {
   const [themeDark, setThemeDark] = useState<boolean>(true);
   const store = useColorStore((state) => state);
+
+  const colorHex = store.hex;
+  const colorRgb = store.rgb.css;
+  const colorHsl = store.hsl.css;
+  const colorHwb = store.hwb.css;
+  const colorLch = store.lch.css;
+  const colorLab = store.lab.css;
+  const colorOklch = store.oklch.css;
+  const colorOklab = store.oklab.css;
 
   useEffect(() => {
     const html = document.documentElement;
@@ -28,8 +32,10 @@ export default function Playground() {
   const randomColor = () => {
     const random = initColorStore();
 
+    store.setHex(random.rgb.color);
     store.setRgb(random.rgb.color);
     store.setHsl(random.hsl.color);
+    store.setHwb(random.hwb.color);
     store.setLab(random.lab.color);
     store.setLch(random.lch.color);
     store.setOklab(random.oklab.color);
@@ -51,14 +57,133 @@ export default function Playground() {
             Color Space
           </Link>
         </h1>
+        <div className="mt-4 flex items-center gap-2">
+          <span
+            role="presentation"
+            className="block size-10 rounded-sm"
+            style={{ backgroundColor: colorHex }}
+          ></span>
+          <Link href={`/color/${colorHex.replace("#", "")}`}>
+            <code className="text-lg">{colorHex}</code>
+          </Link>
+        </div>
       </header>
-      <InputRgb />
-      <InputHsl />
-      <InputLab />
-      <InputOklab />
-      <InputLch />
-      <InputOklch />
-      <aside className="pointer-events-none fixed inset-0 z-2 mx-auto flex w-full max-w-4xl items-end justify-end px-4 pb-8">
+      <section
+        aria-labelledby="color-rgb"
+        className="mx-auto grid w-full max-w-3xl gap-4 border-t border-t-neutral-400 pt-8 dark:border-t-neutral-700"
+      >
+        <span
+          role="presentation"
+          className="h-svh-1/2 inline-grid rounded-md"
+          style={{ backgroundColor: colorRgb }}
+        ></span>
+        <h2 id="color-rgb">
+          <code className="text-neutral-700 dark:text-neutral-300">
+            {colorRgb}
+          </code>
+        </h2>
+        <ColorInput.Rgb />
+      </section>
+      <section
+        aria-labelledby="color-hsl"
+        className="mx-auto grid w-full max-w-3xl gap-4 border-t border-t-neutral-400 pt-8 dark:border-t-neutral-700"
+      >
+        <span
+          role="presentation"
+          className="h-svh-1/2 inline-grid rounded-md"
+          style={{ backgroundColor: colorHsl }}
+        ></span>
+        <h2 id="color-hsl">
+          <code className="text-neutral-700 dark:text-neutral-300">
+            {colorHsl}
+          </code>
+        </h2>
+        <ColorInput.Hsl />
+      </section>
+      <section
+        aria-labelledby="color-hwb"
+        className="mx-auto grid w-full max-w-3xl gap-4 border-t border-t-neutral-400 pt-8 dark:border-t-neutral-700"
+      >
+        <span
+          role="presentation"
+          className="h-svh-1/2 inline-grid rounded-md"
+          style={{ backgroundColor: colorHwb }}
+        ></span>
+        <h2 id="color-hwb">
+          <code className="text-neutral-700 dark:text-neutral-300">
+            {colorHwb}
+          </code>
+        </h2>
+        <ColorInput.Hwb />
+      </section>
+      <section
+        aria-labelledby="color-lch"
+        className="mx-auto grid w-full max-w-3xl gap-4 border-t border-t-neutral-400 pt-8 dark:border-t-neutral-700"
+      >
+        <span
+          role="presentation"
+          className="h-svh-1/2 inline-grid rounded-md"
+          style={{ backgroundColor: colorLch }}
+        ></span>
+        <h2 id="color-lch">
+          <code className="text-neutral-700 dark:text-neutral-300">
+            {colorLch}
+          </code>
+        </h2>
+        <ColorInput.Lch />
+      </section>
+      <section
+        aria-labelledby="color-oklch"
+        className="mx-auto grid w-full max-w-3xl gap-4 border-t border-t-neutral-400 pt-8 dark:border-t-neutral-700"
+      >
+        <span
+          role="presentation"
+          className="h-svh-1/2 inline-grid rounded-md"
+          style={{ backgroundColor: colorOklch }}
+        ></span>
+        <h2 id="color-oklch">
+          <code className="text-neutral-700 dark:text-neutral-300">
+            {colorOklch}
+          </code>
+        </h2>
+        <ColorInput.Oklch />
+      </section>
+      <section
+        aria-labelledby="color-lab"
+        className="mx-auto grid w-full max-w-3xl gap-4 border-t border-t-neutral-400 pt-8 dark:border-t-neutral-700"
+      >
+        <span
+          role="presentation"
+          className="h-svh-1/2 inline-grid rounded-md"
+          style={{ backgroundColor: colorLab }}
+        ></span>
+        <h2 id="color-lab">
+          <code className="text-neutral-700 dark:text-neutral-300">
+            {colorLab}
+          </code>
+        </h2>
+        <ColorInput.Lab />
+      </section>
+      <section
+        aria-labelledby="color-oklab"
+        className="mx-auto grid w-full max-w-3xl gap-4 border-t border-t-neutral-400 pt-8 dark:border-t-neutral-700"
+      >
+        <span
+          role="presentation"
+          className="h-svh-1/2 inline-grid rounded-md"
+          style={{ backgroundColor: colorOklab }}
+        ></span>
+        <h2 id="color-oklab">
+          <code className="text-neutral-700 dark:text-neutral-300">
+            {colorOklab}
+          </code>
+        </h2>
+        <ColorInput.Oklab />
+      </section>
+      <div
+        role="none"
+        className="pointer-events-none fixed inset-0 z-2 mx-auto flex w-full max-w-5xl items-end justify-end px-4 pb-8"
+      >
         <button
           aria-label="generate random color"
           className={clsx(
@@ -82,7 +207,7 @@ export default function Playground() {
             />
           </svg>
         </button>
-      </aside>
+      </div>
     </article>
   );
 }

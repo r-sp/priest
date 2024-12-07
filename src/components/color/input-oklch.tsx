@@ -36,28 +36,16 @@ export default function InputOklch() {
   }, [color, oklch]);
 
   return (
-    <section
-      aria-labelledby="color-oklch"
-      className="mx-auto grid w-full max-w-3xl gap-4 border-t border-t-neutral-400 pt-8 dark:border-t-neutral-700"
-    >
-      <h2 id="color-oklch">
-        <code className="text-neutral-700 dark:text-neutral-300">
-          {oklch.css}
-        </code>
-      </h2>
-      <span
-        role="presentation"
-        className="h-svh-1/2 inline-grid rounded-md"
-        style={{ backgroundColor: oklch.css }}
-      ></span>
-      <div className="relative inline-grid">
+    <div role="form" aria-label="oklch color" className="grid gap-4">
+      <div role="none" className="relative inline-grid">
         <input
+          aria-label="lightness"
           type="range"
-          id="oklch-lightness"
           min={0}
           max={1}
           step={0.001}
           value={color.l}
+          id="oklch-lightness"
           className="color-slider relative z-2 text-neutral-400"
           onChange={(e) => updateColor({ l: e.target.valueAsNumber })}
         />
@@ -69,14 +57,15 @@ export default function InputOklch() {
           }}
         ></span>
       </div>
-      <div className="relative inline-grid">
+      <div role="none" className="relative inline-grid">
         <input
+          aria-label="chroma"
           type="range"
-          id="oklch-chroma"
           min={0}
           max={0.4}
           step={0.001}
           value={color.c}
+          id="oklch-chroma"
           className="color-slider relative z-2 text-neutral-400"
           onChange={(e) => updateColor({ c: e.target.valueAsNumber })}
         />
@@ -88,14 +77,15 @@ export default function InputOklch() {
           }}
         ></span>
       </div>
-      <div className="relative inline-grid">
+      <div role="none" className="relative inline-grid">
         <input
+          aria-label="hue"
           type="range"
-          id="oklch-hue"
           min={0}
           max={360}
           step={0.01}
           value={color.h}
+          id="oklch-hue"
           className="color-slider relative z-2 text-neutral-400"
           onChange={(e) => updateColor({ h: e.target.valueAsNumber })}
         />
@@ -107,6 +97,6 @@ export default function InputOklch() {
           }}
         ></span>
       </div>
-    </section>
+    </div>
   );
 }

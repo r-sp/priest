@@ -31,28 +31,16 @@ export default function InputOklab() {
   }, [color, oklab]);
 
   return (
-    <section
-      aria-labelledby="color-oklab"
-      className="mx-auto grid w-full max-w-3xl gap-4 border-t border-t-neutral-400 pt-8 dark:border-t-neutral-700"
-    >
-      <h2 id="color-oklab">
-        <code className="text-neutral-700 dark:text-neutral-300">
-          {oklab.css}
-        </code>
-      </h2>
-      <span
-        role="presentation"
-        className="h-svh-1/2 inline-grid rounded-md"
-        style={{ backgroundColor: oklab.css }}
-      ></span>
-      <div className="relative inline-grid">
+    <div role="form" aria-label="oklab color" className="grid gap-4">
+      <div role="none" className="relative inline-grid">
         <input
+          aria-label="lightness"
           type="range"
-          id="oklab-lightness"
           min={0}
           max={1}
           step={0.001}
           value={color.l}
+          id="oklab-lightness"
           className="color-slider relative z-2 text-neutral-400"
           onChange={(e) => updateColor({ l: e.target.valueAsNumber })}
         />
@@ -64,14 +52,15 @@ export default function InputOklab() {
           }}
         ></span>
       </div>
-      <div className="relative inline-grid">
+      <div role="none" className="relative inline-grid">
         <input
+          aria-label="green red"
           type="range"
-          id="oklab-green-red"
           min={-0.4}
           max={0.4}
           step={0.001}
           value={color.a}
+          id="oklab-green-red"
           className="color-slider relative z-2 text-neutral-400"
           onChange={(e) => updateColor({ a: e.target.valueAsNumber })}
         />
@@ -83,14 +72,15 @@ export default function InputOklab() {
           }}
         ></span>
       </div>
-      <div className="relative inline-grid">
+      <div role="none" className="relative inline-grid">
         <input
+          aria-label="blue yellow"
           type="range"
-          id="oklab-blue-yellow"
           min={-0.4}
           max={0.4}
           step={0.001}
           value={color.b}
+          id="oklab-blue-yellow"
           className="color-slider relative z-2 text-neutral-400"
           onChange={(e) => updateColor({ b: e.target.valueAsNumber })}
         />
@@ -102,6 +92,6 @@ export default function InputOklab() {
           }}
         ></span>
       </div>
-    </section>
+    </div>
   );
 }
