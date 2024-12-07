@@ -1,15 +1,15 @@
 import { type Metadata } from "next";
 import { permanentRedirect } from "next/navigation";
 import { ColorDetail } from "~/components/color";
-import { isValidColor, parseColorName } from "~/lib/color";
+import { isValidColor, isValidHex } from "~/lib/color";
 
 export async function generateMetadata({
   params,
 }: {
   params: { hex: string };
 }): Promise<Metadata> {
-  const hex = (await params).hex;
-  const name = parseColorName(hex);
+  const color = (await params).hex;
+  const name = isValidHex(color);
 
   return {
     title: `Color: ${name}`,

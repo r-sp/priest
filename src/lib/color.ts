@@ -1,6 +1,6 @@
 import { parse, rgb, hsl, hwb, lab, lch, oklab, oklch } from "culori";
 import { createStore } from "zustand";
-import { round } from "./utils";
+import { round, floor } from "./utils";
 
 export type ColorSpace = {
   rgb: { r: number; g: number; b: number };
@@ -69,6 +69,7 @@ export type ColorState = {
 };
 
 export type ColorAction = {
+  setAll: (color: ColorState) => void;
   setHex: (color: RgbColor) => void;
   setRgb: (color: RgbColor) => void;
   setHsl: (color: HslColor) => void;
@@ -173,6 +174,7 @@ export const formatOklch = (newColor: OklchColor | OklchColorMode): string => {
 export const createColorStore = (initValue: ColorState) => {
   return createStore<ColorStore>()((set) => ({
     ...initValue,
+    setAll: (newColor) => set((state) => ({ ...state, ...newColor })),
     setHex: (newColor) =>
       set(() => {
         const color = colorRgb(newColor);
@@ -352,7 +354,7 @@ export const isValidColor = (newColor: string): boolean => {
   }
 };
 
-export const parseColorName = (newColor: string): string => {
+export const isValidHex = (newColor: string): string => {
   const colorName = newColor.replace("#", "");
   const color = parse(colorName);
 
@@ -363,13 +365,85 @@ export const parseColorName = (newColor: string): string => {
   }
 };
 
-export const parseHex = (newColor: string): string => {
-  const colorName = newColor.replace("#", "");
-  const color = parse(colorName);
+interface ReadabilityColor {
+  level: "AA" | "AAA";
+  size: "normal" | "large";
+}
 
-  if (typeof color === "object") {
-    return formatHex(rgb(color));
+export const getBrightness = (newColor: RgbColor): number => {
+  const { r, g, b } = newColor;
+
+  const red = round(r * 255);
+  const green = round(g * 255);
+  const blue = round(b * 255);
+
+  return (red * 299 + green * 587 + blue * 114) / 1000 / 255;
+};
+export const getLuminance = (newColor: RgbColor): number => {
+  const linear = (value: number) => {
+    const ratio = value / 255;
+    return ratio < 0.04045
+      ? ratio / 12.92
+      : Math.pow((ratio + 0.055) / 1.055, 2.4);
+  };
+
+  const { r, g, b } = newColor;
+
+  const red = linear(r * 255);
+  const green = linear(g * 255);
+  const blue = linear(b * 255);
+
+  return 0.2126 * red + 0.7152 * green + 0.0722 * blue;
+};
+export const getContrast = (
+  foreground: RgbColor,
+  background: RgbColor,
+): number => {
+  const fg = getLuminance(foreground);
+  const bg = getLuminance(background);
+
+  return fg > bg ? (fg + 0.05) / (bg + 0.05) : (bg + 0.05) / (fg + 0.05);
+};
+export const getMinimalContrast = ({
+  level = "AA",
+  size = "normal",
+}: ReadabilityColor): number => {
+  if (level === "AAA" && size === "normal") return 7;
+  if (level === "AA" && size === "large") return 3;
+  return 4.5;
+};
+
+export const brightness = (newColor: RgbColor): string => {
+  const color = round(getBrightness(newColor), 2);
+  const level = round(color * 100);
+
+  if (color >= 0.5) {
+    return `${level}% (Light)`;
   } else {
-    return newColor;
+    return `${level}% (Dark)`;
   }
+};
+export const luminance = (newColor: RgbColor): string => {
+  const color = round(getLuminance(newColor), 2);
+  const level = round(color * 100);
+
+  return `${level}%`;
+};
+export const contrast = (
+  foreground: RgbColor,
+  background: RgbColor,
+): string => {
+  const color = floor(getContrast(foreground, background), 2);
+
+  return `${color}:1`;
+};
+export const isReadable = (
+  foreground: RgbColor,
+  background: RgbColor,
+  options: ReadabilityColor,
+): boolean => {
+  const contrast = floor(getContrast(foreground, background), 2);
+  const readable = getMinimalContrast(options);
+
+  return contrast >= readable;
 };

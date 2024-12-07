@@ -9,16 +9,16 @@ import Link from "next/link";
 
 export default function Playground() {
   const [themeDark, setThemeDark] = useState<boolean>(true);
-  const store = useColorStore((state) => state);
+  const color = useColorStore((state) => state);
 
-  const colorHex = store.hex;
-  const colorRgb = store.rgb.css;
-  const colorHsl = store.hsl.css;
-  const colorHwb = store.hwb.css;
-  const colorLch = store.lch.css;
-  const colorLab = store.lab.css;
-  const colorOklch = store.oklch.css;
-  const colorOklab = store.oklab.css;
+  const colorHex = color.hex;
+  const colorRgb = color.rgb.css;
+  const colorHsl = color.hsl.css;
+  const colorHwb = color.hwb.css;
+  const colorLch = color.lch.css;
+  const colorLab = color.lab.css;
+  const colorOklch = color.oklch.css;
+  const colorOklab = color.oklab.css;
 
   useEffect(() => {
     const html = document.documentElement;
@@ -31,15 +31,7 @@ export default function Playground() {
 
   const randomColor = () => {
     const random = initColorStore();
-
-    store.setHex(random.rgb.color);
-    store.setRgb(random.rgb.color);
-    store.setHsl(random.hsl.color);
-    store.setHwb(random.hwb.color);
-    store.setLab(random.lab.color);
-    store.setLch(random.lch.color);
-    store.setOklab(random.oklab.color);
-    store.setOklch(random.oklch.color);
+    color.setAll(random);
   };
 
   return (
