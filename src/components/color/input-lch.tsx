@@ -36,28 +36,16 @@ export default function InputLch() {
   }, [color, lch]);
 
   return (
-    <section
-      aria-labelledby="color-lch"
-      className="mx-auto grid w-full max-w-3xl gap-4 border-t border-t-neutral-400 pt-8 dark:border-t-neutral-700"
-    >
-      <h2 id="color-lch">
-        <code className="text-neutral-700 dark:text-neutral-300">
-          {lch.css}
-        </code>
-      </h2>
-      <span
-        role="presentation"
-        className="h-svh-1/2 inline-grid rounded-md"
-        style={{ backgroundColor: lch.css }}
-      ></span>
-      <div className="relative inline-grid">
+    <div role="form" aria-label="lch color" className="grid gap-4">
+      <div role="none" className="relative inline-grid">
         <input
+          aria-label="lightness"
           type="range"
-          id="lch-lightness"
           min={0}
           max={100}
           step={0.01}
           value={color.l}
+          id="lch-lightness"
           className="color-slider relative z-2 text-neutral-400"
           onChange={(e) => updateColor({ l: e.target.valueAsNumber })}
         />
@@ -69,14 +57,15 @@ export default function InputLch() {
           }}
         ></span>
       </div>
-      <div className="relative inline-grid">
+      <div role="none" className="relative inline-grid">
         <input
+          aria-label="chroma"
           type="range"
-          id="lch-chroma"
           min={0}
           max={150}
           step={0.01}
           value={color.c}
+          id="lch-chroma"
           className="color-slider relative z-2 text-neutral-400"
           onChange={(e) => updateColor({ c: e.target.valueAsNumber })}
         />
@@ -88,14 +77,15 @@ export default function InputLch() {
           }}
         ></span>
       </div>
-      <div className="relative inline-grid">
+      <div role="none" className="relative inline-grid">
         <input
+          aria-label="hue"
           type="range"
-          id="lch-hue"
           min={0}
           max={360}
           step={0.01}
           value={color.h}
+          id="lch-hue"
           className="color-slider relative z-2 text-neutral-400"
           onChange={(e) => updateColor({ h: e.target.valueAsNumber })}
         />
@@ -107,6 +97,6 @@ export default function InputLch() {
           }}
         ></span>
       </div>
-    </section>
+    </div>
   );
 }

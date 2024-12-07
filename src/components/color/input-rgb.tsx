@@ -31,28 +31,16 @@ export default function InputRgb() {
   }, [color, rgb]);
 
   return (
-    <section
-      aria-labelledby="color-rgb"
-      className="mx-auto grid w-full max-w-3xl gap-4 border-t border-t-neutral-400 pt-8 dark:border-t-neutral-700"
-    >
-      <h2 id="color-rgb">
-        <code className="text-neutral-700 dark:text-neutral-300">
-          {rgb.css}
-        </code>
-      </h2>
-      <span
-        role="presentation"
-        className="h-svh-1/2 inline-grid rounded-md"
-        style={{ backgroundColor: rgb.css }}
-      ></span>
-      <div className="relative inline-grid">
+    <div role="form" aria-label="rgb color" className="grid gap-4">
+      <div role="none" className="relative inline-grid">
         <input
+          aria-label="red"
           type="range"
-          id="rgb-red"
           min={0}
           max={1}
           step={0.0045}
           value={color.r}
+          id="rgb-red"
           className="color-slider relative z-2 text-neutral-400"
           onChange={(e) => updateColor({ r: e.target.valueAsNumber })}
         />
@@ -64,14 +52,15 @@ export default function InputRgb() {
           }}
         ></span>
       </div>
-      <div className="relative inline-grid">
+      <div role="none" className="relative inline-grid">
         <input
+          aria-label="green"
           type="range"
-          id="rgb-green"
           min={0}
           max={1}
           step={0.0045}
           value={color.g}
+          id="rgb-green"
           className="color-slider relative z-2 text-neutral-400"
           onChange={(e) => updateColor({ g: e.target.valueAsNumber })}
         />
@@ -83,14 +72,15 @@ export default function InputRgb() {
           }}
         ></span>
       </div>
-      <div className="relative inline-grid">
+      <div role="none" className="relative inline-grid">
         <input
+          aria-label="blue"
           type="range"
-          id="rgb-blue"
           min={0}
           max={1}
           step={0.0045}
           value={color.b}
+          id="rgb-blue"
           className="color-slider relative z-2 text-neutral-400"
           onChange={(e) => updateColor({ b: e.target.valueAsNumber })}
         />
@@ -102,6 +92,6 @@ export default function InputRgb() {
           }}
         ></span>
       </div>
-    </section>
+    </div>
   );
 }
