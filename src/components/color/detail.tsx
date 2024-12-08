@@ -58,11 +58,9 @@ export default function ColorDetail(props: { hex?: string }) {
   return (
     <article className="grid gap-8 px-4 py-8">
       <header className="mx-auto w-full max-w-3xl">
-        <span
-          role="presentation"
-          className="h-svh-1/2 grid rounded-md"
-          style={{ backgroundColor: colorRgb }}
-        ></span>
+        <div role="presentation" className="frame rounded-lg">
+          <span style={{ backgroundColor: colorRgb }}></span>
+        </div>
         <h1 className="mt-4">
           <code>{colorHex}</code>
         </h1>
