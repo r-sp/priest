@@ -255,31 +255,6 @@ export const createColorStore = (initValue: ColorState) => {
   }));
 };
 
-export const stringifyColor = (newColor: AnyColorMode): string => {
-  switch (newColor.mode) {
-    case "rgb":
-      return formatRgb(rgb(newColor));
-      break;
-    case "hsl":
-      return formatHsl(hsl(newColor));
-      break;
-    case "hwb":
-      return formatHwb(hwb(newColor));
-      break;
-    case "lab":
-      return formatLab(lab(newColor));
-      break;
-    case "lch":
-      return formatLch(lch(newColor));
-      break;
-    case "oklab":
-      return formatOklab(oklab(newColor));
-      break;
-    case "oklch":
-      return formatOklch(oklch(newColor));
-  }
-};
-
 export const initColorStore = (): ColorState => {
   const limiter = (min: number, max: number) => {
     return min + Math.random() * (max - min);
@@ -362,6 +337,35 @@ export const isValidHex = (newColor: string): string => {
     return formatHex(rgb(color));
   } else {
     return `#${newColor}`;
+  }
+};
+
+export const parseHex = (newColor: AnyColorMode): string => {
+  return formatHex(rgb(newColor));
+};
+
+export const stringifyColor = (newColor: AnyColorMode): string => {
+  switch (newColor.mode) {
+    case "rgb":
+      return formatRgb(rgb(newColor));
+      break;
+    case "hsl":
+      return formatHsl(hsl(newColor));
+      break;
+    case "hwb":
+      return formatHwb(hwb(newColor));
+      break;
+    case "lab":
+      return formatLab(lab(newColor));
+      break;
+    case "lch":
+      return formatLch(lch(newColor));
+      break;
+    case "oklab":
+      return formatOklab(oklab(newColor));
+      break;
+    case "oklch":
+      return formatOklch(oklch(newColor));
   }
 };
 
