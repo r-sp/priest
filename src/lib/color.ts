@@ -106,9 +106,13 @@ export const colorOklch = (newColor: OklchColor): OklchColorMode => {
 
 export const formatHex = (newColor: RgbColor | RgbColorMode): string => {
   const { r, g, b } = newColor;
-  const red = round(r * 255);
-  const green = round(g * 255);
-  const blue = round(b * 255);
+
+  const clamp = (value: number) => Math.max(0, Math.min(1, value || 0));
+  const fixup = (value: number) => Math.round(clamp(value) * 255);
+
+  const red = fixup(r);
+  const green = fixup(g);
+  const blue = fixup(b);
 
   return (
     "#" + ((1 << 24) | (red << 16) | (green << 8) | blue).toString(16).slice(1)
@@ -255,6 +259,10 @@ export const createColorStore = (initValue: ColorState) => {
   }));
 };
 
+export const createColorHex = (newColor: string | AnyColorMode): string => {
+  const _rgb = rgb(newColor) || { r: 0, g: 0, b: 0 };
+  return formatHex(_rgb);
+};
 export const createColorRgb = (
   newColor: string,
 ): { color: RgbColor; css: string } => {
@@ -369,12 +377,9 @@ export const isValidHex = (newColor: string): string => {
   }
 };
 
-export const parseHex = (newColor: AnyColorMode): string => {
-  return formatHex(rgb(newColor));
-};
-
 export const parseColor = () => {
   return {
+    hex: createColorHex,
     rgb: createColorRgb,
     hsl: createColorHsl,
     hwb: createColorHwb,
