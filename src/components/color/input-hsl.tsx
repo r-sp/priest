@@ -1,19 +1,25 @@
 "use client";
 
+import { type HslColor, stringifyColor } from "~/lib/color";
 import { useState, useMemo } from "react";
 import { useColorStore } from "./provider";
-import { stringifyColor } from "~/lib/color";
 
-export default function InputHsl() {
+export default function InputHsl(props: {
+  onChange?: (color: HslColor) => void;
+}) {
   const { hsl, setHsl } = useColorStore((state) => state);
-  const [color, setColor] = useState<typeof hsl.color>(hsl.color);
+  const [color, setColor] = useState<HslColor>(hsl.color);
 
-  const updateColor = (newColor: Partial<typeof hsl.color>) => {
+  const updateColor = (newColor: Partial<HslColor>) => {
     setHsl({ ...color, ...newColor });
     setColor({ ...color, ...newColor });
+
+    if (props.onChange) {
+      props.onChange(color);
+    }
   };
 
-  const previewColor = (newColor: Partial<typeof hsl.color>) => {
+  const previewColor = (newColor: Partial<HslColor>) => {
     return stringifyColor({ mode: "hsl", ...color, ...newColor });
   };
 

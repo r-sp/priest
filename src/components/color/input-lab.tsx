@@ -1,19 +1,25 @@
 "use client";
 
+import { type LabColor, stringifyColor } from "~/lib/color";
 import { useState, useMemo } from "react";
 import { useColorStore } from "./provider";
-import { stringifyColor } from "~/lib/color";
 
-export default function InputLab() {
+export default function InputLab(props: {
+  onChange?: (color: LabColor) => void;
+}) {
   const { lab, setLab } = useColorStore((state) => state);
-  const [color, setColor] = useState<typeof lab.color>(lab.color);
+  const [color, setColor] = useState<LabColor>(lab.color);
 
-  const updateColor = (newColor: Partial<typeof lab.color>) => {
+  const updateColor = (newColor: Partial<LabColor>) => {
     setLab({ ...color, ...newColor });
     setColor({ ...color, ...newColor });
+
+    if (props.onChange) {
+      props.onChange(color);
+    }
   };
 
-  const previewColor = (newColor: Partial<typeof lab.color>) => {
+  const previewColor = (newColor: Partial<LabColor>) => {
     return stringifyColor({ mode: "lab", ...color, ...newColor });
   };
 
