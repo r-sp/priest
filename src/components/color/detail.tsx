@@ -9,7 +9,11 @@ import {
   brightness,
   luminance,
   contrast,
+  formatHex,
+  parseColor,
 } from "~/lib/color";
+import InputRgb from "./input-rgb";
+import Link from "next/link";
 
 export default function ColorDetail() {
   const colorBy = useParams<{ hex: string }>();
@@ -61,7 +65,7 @@ export default function ColorDetail() {
   return (
     <article className="grid gap-8 px-4 pt-4 pb-8">
       <header className="mx-auto w-full max-w-3xl">
-        <figure>
+        <Link href="/playground" className="inline-grid">
           <svg
             role="img"
             aria-label="the holy sign"
@@ -76,7 +80,7 @@ export default function ColorDetail() {
               d="M46.1698 194C27.041 106.95 -28.9989 -69.3396 37.9717 43.6711C127.057 194 144 8.97726 144 8.97726C144 8.97726 54.3678 -15.4245 46.1698 194Z"
             />
           </svg>
-        </figure>
+        </Link>
         <div role="presentation" className="frame mt-4 rounded-lg">
           <span style={{ backgroundColor: colorRgb }}></span>
         </div>
@@ -112,6 +116,24 @@ export default function ColorDetail() {
         <p>WCAG Large AA: {colorLargeAA}</p>
         <p>WCAG Large AAA: {colorLargeAAA}</p>
       </header>
+      {!colorBy.hex && (
+        <aside className="mx-auto w-full max-w-3xl">
+          <InputRgb
+            onChange={(c) => {
+              const src = formatHex(c);
+              const parse = parseColor();
+
+              store.setHex(c);
+              store.setHsl(parse.hsl(src).color);
+              store.setHwb(parse.hwb(src).color);
+              store.setLab(parse.lab(src).color);
+              store.setLch(parse.lch(src).color);
+              store.setOklab(parse.oklab(src).color);
+              store.setOklch(parse.oklch(src).color);
+            }}
+          />
+        </aside>
+      )}
     </article>
   );
 }
