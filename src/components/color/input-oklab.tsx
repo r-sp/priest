@@ -1,19 +1,25 @@
 "use client";
 
+import { type OklabColor, stringifyColor } from "~/lib/color";
 import { useState, useMemo } from "react";
 import { useColorStore } from "./provider";
-import { stringifyColor } from "~/lib/color";
 
-export default function InputOklab() {
+export default function InputOklab(props: {
+  onChange?: (color: OklabColor) => void;
+}) {
   const { oklab, setOklab } = useColorStore((state) => state);
-  const [color, setColor] = useState<typeof oklab.color>(oklab.color);
+  const [color, setColor] = useState<OklabColor>(oklab.color);
 
-  const updateColor = (newColor: Partial<typeof oklab.color>) => {
+  const updateColor = (newColor: Partial<OklabColor>) => {
     setOklab({ ...color, ...newColor });
     setColor({ ...color, ...newColor });
+
+    if (props.onChange) {
+      props.onChange(color);
+    }
   };
 
-  const previewColor = (newColor: Partial<typeof oklab.color>) => {
+  const previewColor = (newColor: Partial<OklabColor>) => {
     return stringifyColor({ mode: "oklab", ...color, ...newColor });
   };
 

@@ -1,19 +1,25 @@
 "use client";
 
+import { type LchColor, stringifyColor } from "~/lib/color";
 import { useState, useMemo } from "react";
 import { useColorStore } from "./provider";
-import { stringifyColor } from "~/lib/color";
 
-export default function InputLch() {
+export default function InputLch(props: {
+  onChange?: (color: LchColor) => void;
+}) {
   const { lch, setLch } = useColorStore((state) => state);
-  const [color, setColor] = useState<typeof lch.color>(lch.color);
+  const [color, setColor] = useState<LchColor>(lch.color);
 
-  const updateColor = (newColor: Partial<typeof lch.color>) => {
+  const updateColor = (newColor: Partial<LchColor>) => {
     setLch({ ...color, ...newColor });
     setColor({ ...color, ...newColor });
+
+    if (props.onChange) {
+      props.onChange(color);
+    }
   };
 
-  const previewColor = (newColor: Partial<typeof lch.color>) => {
+  const previewColor = (newColor: Partial<LchColor>) => {
     return stringifyColor({ mode: "lch", ...color, ...newColor });
   };
 

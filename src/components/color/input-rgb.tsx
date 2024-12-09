@@ -1,19 +1,25 @@
 "use client";
 
+import { type RgbColor, stringifyColor } from "~/lib/color";
 import { useState, useMemo } from "react";
 import { useColorStore } from "./provider";
-import { stringifyColor } from "~/lib/color";
 
-export default function InputRgb() {
+export default function InputRgb(props: {
+  onChange?: (color: RgbColor) => void;
+}) {
   const { rgb, setRgb } = useColorStore((state) => state);
-  const [color, setColor] = useState<typeof rgb.color>(rgb.color);
+  const [color, setColor] = useState<RgbColor>(rgb.color);
 
-  const updateColor = (newColor: Partial<typeof rgb.color>) => {
+  const updateColor = (newColor: Partial<RgbColor>) => {
     setRgb({ ...color, ...newColor });
     setColor({ ...color, ...newColor });
+
+    if (props.onChange) {
+      props.onChange(color);
+    }
   };
 
-  const previewColor = (newColor: Partial<typeof rgb.color>) => {
+  const previewColor = (newColor: Partial<RgbColor>) => {
     return stringifyColor({ mode: "rgb", ...color, ...newColor });
   };
 

@@ -1,19 +1,25 @@
 "use client";
 
+import { type OklchColor, stringifyColor } from "~/lib/color";
 import { useState, useMemo } from "react";
 import { useColorStore } from "./provider";
-import { stringifyColor } from "~/lib/color";
 
-export default function InputOklch() {
+export default function InputOklch(props: {
+  onChange?: (color: OklchColor) => void;
+}) {
   const { oklch, setOklch } = useColorStore((state) => state);
-  const [color, setColor] = useState<typeof oklch.color>(oklch.color);
+  const [color, setColor] = useState<OklchColor>(oklch.color);
 
-  const updateColor = (newColor: Partial<typeof oklch.color>) => {
+  const updateColor = (newColor: Partial<OklchColor>) => {
     setOklch({ ...color, ...newColor });
     setColor({ ...color, ...newColor });
+
+    if (props.onChange) {
+      props.onChange(color);
+    }
   };
 
-  const previewColor = (newColor: Partial<typeof oklch.color>) => {
+  const previewColor = (newColor: Partial<OklchColor>) => {
     return stringifyColor({ mode: "oklch", ...color, ...newColor });
   };
 

@@ -1,19 +1,25 @@
 "use client";
 
+import { type HwbColor, stringifyColor } from "~/lib/color";
 import { useState, useMemo } from "react";
 import { useColorStore } from "./provider";
-import { stringifyColor } from "~/lib/color";
 
-export default function InputHwb() {
+export default function InputHwb(props: {
+  onChange?: (color: HwbColor) => void;
+}) {
   const { hwb, setHwb } = useColorStore((state) => state);
-  const [color, setColor] = useState<typeof hwb.color>(hwb.color);
+  const [color, setColor] = useState<HwbColor>(hwb.color);
 
-  const updateColor = (newColor: Partial<typeof hwb.color>) => {
+  const updateColor = (newColor: Partial<HwbColor>) => {
     setHwb({ ...color, ...newColor });
     setColor({ ...color, ...newColor });
+
+    if (props.onChange) {
+      props.onChange(color);
+    }
   };
 
-  const previewColor = (newColor: Partial<typeof hwb.color>) => {
+  const previewColor = (newColor: Partial<HwbColor>) => {
     return stringifyColor({ mode: "hwb", ...color, ...newColor });
   };
 
