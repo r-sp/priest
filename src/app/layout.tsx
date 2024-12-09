@@ -1,7 +1,6 @@
 import clsx from "clsx";
 import { Geist, Geist_Mono } from "next/font/google";
 import { ColorProvider } from "~/components/color/provider";
-import { initColorStore } from "~/lib/color";
 import "./style.css";
 
 const fontSans = Geist({
@@ -23,10 +22,8 @@ const fontMono = Geist_Mono({
 export default function RootLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
-  const color = initColorStore();
-
   return (
-    <ColorProvider initValue={color}>
+    <ColorProvider>
       <html
         lang="en"
         className={clsx(fontSans.variable, fontMono.variable, "dark")}
