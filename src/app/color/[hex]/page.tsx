@@ -25,7 +25,7 @@ export default async function ColorHexPage({
   const valid = isValidColor(`#${hex}`);
 
   if (valid) {
-    return <ColorDetail hex={hex} />;
+    return <ColorDetail />;
   } else {
     return permanentRedirect("/color");
   }
