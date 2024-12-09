@@ -65,7 +65,11 @@ export default function ColorDetail() {
   return (
     <article className="grid gap-8 px-4 pt-4 pb-8">
       <header className="mx-auto w-full max-w-3xl">
-        <Link href="/playground" className="inline-grid">
+        <Link
+          href="/playground"
+          className="inline-grid"
+          style={{ color: colorRgb }}
+        >
           <svg
             role="img"
             aria-label="the holy sign"
@@ -74,7 +78,7 @@ export default function ColorDetail() {
             fill="none"
           >
             <path
-              stroke={colorHex}
+              stroke="currentColor"
               strokeWidth={12}
               strokeLinejoin="round"
               d="M46.1698 194C27.041 106.95 -28.9989 -69.3396 37.9717 43.6711C127.057 194 144 8.97726 144 8.97726C144 8.97726 54.3678 -15.4245 46.1698 194Z"
