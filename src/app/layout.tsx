@@ -19,6 +19,8 @@ const fontMono = Geist_Mono({
   subsets: ["latin", "latin-ext"],
 });
 
+export const revalidate = 86400;
+
 export default function RootLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
