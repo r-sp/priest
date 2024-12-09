@@ -1,8 +1,9 @@
 "use client";
 
+import { useParams } from "next/navigation";
 import { useColorStore } from "./provider";
 import {
-  initColorDetail,
+  createColor,
   isValidHex,
   isReadable,
   brightness,
@@ -10,22 +11,24 @@ import {
   contrast,
 } from "~/lib/color";
 
-export default function ColorDetail(props: { hex?: string }) {
-  const store = useColorStore((state) => state.hex);
-  const detail = initColorDetail(
-    props.hex ? isValidHex(`#${props.hex}`) : store,
-  );
+export default function ColorDetail() {
+  const colorBy = useParams<{ hex: string }>();
+  const store = useColorStore((state) => state);
 
-  const colorHex = detail.hex;
-  const colorRgb = detail.rgb.css;
-  const colorHsl = detail.hsl.css;
-  const colorHwb = detail.hwb.css;
-  const colorLab = detail.lab.css;
-  const colorLch = detail.lch.css;
-  const colorOklab = detail.oklab.css;
-  const colorOklch = detail.oklch.css;
+  const { hex, rgb, hsl, hwb, lab, lch, oklab, oklch } = colorBy.hex
+    ? createColor(isValidHex(colorBy.hex))
+    : store;
 
-  const check = detail.rgb.color;
+  const colorHex = hex;
+  const colorRgb = rgb.css;
+  const colorHsl = hsl.css;
+  const colorHwb = hwb.css;
+  const colorLab = lab.css;
+  const colorLch = lch.css;
+  const colorOklab = oklab.css;
+  const colorOklch = oklch.css;
+
+  const check = rgb.color;
   const colorWhite = { r: 1, g: 1, b: 1 };
   const colorBrightness = brightness(check);
   const colorLuminance = luminance(check);

@@ -1,25 +1,25 @@
 "use client";
 
-import type { ColorStore, ColorState } from "~/lib/color";
+import type { ColorStore } from "~/lib/color";
 import { createContext, useRef, useContext } from "react";
-import { createColorStore } from "~/lib/color";
+import { createColorStore, createColor, isValidHex } from "~/lib/color";
+import { useParams } from "next/navigation";
 import { useStore } from "zustand";
 
 type ColorApi = ReturnType<typeof createColorStore>;
 
 const ColorContext = createContext<ColorApi | undefined>(undefined);
 
-export function ColorProvider({
-  children,
-  initValue,
-}: {
-  children: React.ReactNode;
-  initValue: ColorState;
-}) {
+export function ColorProvider({ children }: { children: React.ReactNode }) {
   const storeRef = useRef<ColorApi>();
+  const colorBy = useParams<{ hex: string }>();
 
   if (!storeRef.current) {
-    storeRef.current = createColorStore(initValue);
+    storeRef.current = createColorStore(
+      colorBy.hex
+        ? createColor(isValidHex(colorBy.hex))
+        : createColor("#696969"),
+    );
   }
 
   return (
