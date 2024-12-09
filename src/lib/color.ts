@@ -255,25 +255,89 @@ export const createColorStore = (initValue: ColorState) => {
   }));
 };
 
-export const createColor = (newColor: string): ColorState => {
+export const createColorRgb = (
+  newColor: string,
+): { color: RgbColor; css: string } => {
   const _rgb = rgb(newColor) || { r: 0, g: 0, b: 0 };
+
+  return { color: { r: _rgb.r, g: _rgb.g, b: _rgb.b }, css: formatRgb(_rgb) };
+};
+export const createColorHsl = (
+  newColor: string,
+): { color: HslColor; css: string } => {
   const _hsl = hsl(newColor) || { h: 0, s: 0, l: 0 };
+
+  return {
+    color: { h: _hsl.h || 0, s: _hsl.s, l: _hsl.l },
+    css: formatHsl(_hsl),
+  };
+};
+export const createColorHwb = (
+  newColor: string,
+): { color: HwbColor; css: string } => {
   const _hwb = hwb(newColor) || { h: 0, w: 0, b: 0 };
+
+  return {
+    color: { h: _hwb.h || 0, w: _hwb.w, b: _hwb.b },
+    css: formatHwb(_hwb),
+  };
+};
+export const createColorLab = (
+  newColor: string,
+): { color: LabColor; css: string } => {
   const _lab = lab(newColor) || { l: 0, a: 0, b: 0 };
+
+  return { color: { l: _lab.l, a: _lab.a, b: _lab.b }, css: formatLab(_lab) };
+};
+export const createColorLch = (
+  newColor: string,
+): { color: LchColor; css: string } => {
   const _lch = lch(newColor) || { l: 0, c: 0, h: 0 };
+
+  return {
+    color: { l: _lch.l, c: _lch.c, h: _lch.h || 0 },
+    css: formatLch(_lch),
+  };
+};
+export const createColorOklab = (
+  newColor: string,
+): { color: OklabColor; css: string } => {
   const _oklab = oklab(newColor) || { l: 0, a: 0, b: 0 };
+
+  return {
+    color: { l: _oklab.l, a: _oklab.a, b: _oklab.b },
+    css: formatOklab(_oklab),
+  };
+};
+export const createColorOklch = (
+  newColor: string,
+): { color: OklchColor; css: string } => {
   const _oklch = oklch(newColor) || { l: 0, c: 0, h: 0 };
 
-  // prettier-ignore
+  return {
+    color: { l: _oklch.l, c: _oklch.c, h: _oklch.h || 0 },
+    css: formatOklch(_oklch),
+  };
+};
+
+export const createColor = (newColor: string): ColorState => {
+  const _rgb = createColorRgb(newColor);
+  const _hsl = createColorHsl(newColor);
+  const _hwb = createColorHwb(newColor);
+  const _lab = createColorLab(newColor);
+  const _lch = createColorLch(newColor);
+  const _oklab = createColorOklab(newColor);
+  const _oklch = createColorOklch(newColor);
+
   const store = {
-    hex: formatHex(_rgb),
-    rgb: { color: { r: _rgb.r, g: _rgb.g, b: _rgb.b }, css: formatRgb(_rgb) },
-    hsl: { color: { h: _hsl.h || 0, s: _hsl.s, l: _hsl.l }, css: formatHsl(_hsl) },
-    hwb: { color: { h: _hwb.h || 0, w: _hwb.w, b: _hwb.b }, css: formatHwb(_hwb) },
-    lab: { color: { l: _lab.l, a: _lab.a, b: _lab.b }, css: formatLab(_lab) },
-    lch: { color: { l: _lch.l, c: _lch.c, h: _lch.h || 0}, css: formatLch(_lch) },
-    oklab: { color: { l: _oklab.l, a: _oklab.a, b: _oklab.b }, css: formatOklab(_oklab) },
-    oklch: { color: { l: _oklch.l, c: _oklch.c, h: _oklch.h || 0}, css: formatOklch(_oklch) },
+    hex: formatHex(_rgb.color),
+    rgb: _rgb,
+    hsl: _hsl,
+    hwb: _hwb,
+    lab: _lab,
+    lch: _lch,
+    oklab: _oklab,
+    oklch: _oklch,
   };
 
   return store;
@@ -307,6 +371,18 @@ export const isValidHex = (newColor: string): string => {
 
 export const parseHex = (newColor: AnyColorMode): string => {
   return formatHex(rgb(newColor));
+};
+
+export const parseColor = () => {
+  return {
+    rgb: createColorRgb,
+    hsl: createColorHsl,
+    hwb: createColorHwb,
+    lab: createColorLab,
+    lch: createColorLch,
+    oklab: createColorOklab,
+    oklch: createColorOklch,
+  };
 };
 
 export const stringifyColor = (newColor: AnyColorMode): string => {
