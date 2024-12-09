@@ -12,7 +12,7 @@ import {
   formatHex,
   parseColor,
 } from "~/lib/color";
-import InputRgb from "./input-rgb";
+import InputRgb from "./input/rgb";
 import Link from "next/link";
 
 export default function ColorDetail() {

@@ -2,7 +2,7 @@
 
 import { type LchColor, stringifyColor } from "~/lib/color";
 import { useState, useMemo } from "react";
-import { useColorStore } from "./provider";
+import { useColorStore } from "../provider";
 
 export default function InputLch(props: {
   onChange?: (color: LchColor) => void;

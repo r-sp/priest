@@ -1,41 +1,42 @@
 "use client";
 
-import { type HslColor, stringifyColor } from "~/lib/color";
+import { type HwbColor, stringifyColor } from "~/lib/color";
 import { useState, useMemo } from "react";
-import { useColorStore } from "./provider";
+import { useColorStore } from "../provider";
 
-export default function InputHsl(props: {
-  onChange?: (color: HslColor) => void;
+export default function InputHwb(props: {
+  onChange?: (color: HwbColor) => void;
 }) {
-  const { hsl, setHsl } = useColorStore((state) => state);
-  const [color, setColor] = useState<HslColor>(hsl.color);
+  const { hwb, setHwb } = useColorStore((state) => state);
+  const [color, setColor] = useState<HwbColor>(hwb.color);
 
-  const updateColor = (newColor: Partial<HslColor>) => {
-    const _hsl = { ...color, ...newColor };
-    setHsl(_hsl);
-    setColor(_hsl);
+  const updateColor = (newColor: Partial<HwbColor>) => {
+    const _hwb = { ...color, ...newColor };
+    setHwb(_hwb);
+    setColor(_hwb);
 
     if (props.onChange) {
-      props.onChange(_hsl);
+      props.onChange(_hwb);
     }
   };
 
-  const previewColor = (newColor: Partial<HslColor>) => {
-    return stringifyColor({ mode: "hsl", ...color, ...newColor });
+  const previewColor = (newColor: Partial<HwbColor>) => {
+    return stringifyColor({ mode: "hwb", ...color, ...newColor });
   };
 
-  const trackSaturationLeft = previewColor({ s: 0 });
-  const trackSaturationRight = previewColor({ s: 1 });
-  const trackLightnessCenter = previewColor({ s: 1, l: 0.5 });
+  const trackWhitenessLeft = previewColor({ w: 0 });
+  const trackWhitenessRight = previewColor({ w: 1 });
+  const trackBlacknessLeft = previewColor({ b: 0 });
+  const trackBlacknessRight = previewColor({ b: 1 });
 
   useMemo(() => {
-    if (color !== hsl.color) {
-      setColor(hsl.color);
+    if (color !== hwb.color) {
+      setColor(hwb.color);
     }
-  }, [color, hsl]);
+  }, [color, hwb]);
 
   return (
-    <div role="form" aria-label="hsl color" className="grid gap-4">
+    <div role="form" aria-label="hwb color" className="grid gap-4">
       <div role="none" className="relative inline-grid">
         <input
           aria-label="hue"
@@ -44,7 +45,7 @@ export default function InputHsl(props: {
           max={360}
           step={0.01}
           value={color.h}
-          id="hsl-hue"
+          id="hwb-hue"
           className="color-slider relative z-2 text-neutral-400"
           onChange={(e) => updateColor({ h: e.target.valueAsNumber })}
         />
@@ -59,41 +60,41 @@ export default function InputHsl(props: {
       </div>
       <div role="none" className="relative inline-grid">
         <input
-          aria-label="saturation"
+          aria-label="whiteness"
           type="range"
           min={0}
           max={1}
           step={0.0001}
-          value={color.s}
-          id="hsl-saturation"
+          value={color.w}
+          id="hwb-whiteness"
           className="color-slider relative z-2 text-neutral-400"
-          onChange={(e) => updateColor({ s: e.target.valueAsNumber })}
+          onChange={(e) => updateColor({ w: e.target.valueAsNumber })}
         />
         <span
           role="presentation"
           className="pointer-events-none absolute top-1 right-0 bottom-1 left-0 z-0 rounded-md"
           style={{
-            backgroundImage: `linear-gradient(to right, ${trackSaturationLeft}, ${trackSaturationRight})`,
+            backgroundImage: `linear-gradient(to right, ${trackWhitenessLeft}, ${trackWhitenessRight})`,
           }}
         ></span>
       </div>
       <div role="none" className="relative inline-grid">
         <input
-          aria-label="lightness"
+          aria-label="blackness"
           type="range"
           min={0}
           max={1}
           step={0.0001}
-          value={color.l}
-          id="hsl-lightness"
+          value={color.b}
+          id="hwb-blackness"
           className="color-slider relative z-2 text-neutral-400"
-          onChange={(e) => updateColor({ l: e.target.valueAsNumber })}
+          onChange={(e) => updateColor({ b: e.target.valueAsNumber })}
         />
         <span
           role="presentation"
           className="pointer-events-none absolute top-1 right-0 bottom-1 left-0 z-0 rounded-md"
           style={{
-            backgroundImage: `linear-gradient(to right, rgb(0,0,0), ${trackLightnessCenter}, rgb(255, 255, 255))`,
+            backgroundImage: `linear-gradient(to right, ${trackBlacknessLeft}, ${trackBlacknessRight})`,
           }}
         ></span>
       </div>

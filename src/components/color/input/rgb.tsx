@@ -2,7 +2,7 @@
 
 import { type RgbColor, stringifyColor } from "~/lib/color";
 import { useState, useMemo } from "react";
-import { useColorStore } from "./provider";
+import { useColorStore } from "../provider";
 
 export default function InputRgb(props: {
   onChange?: (color: RgbColor) => void;

@@ -2,7 +2,7 @@
 
 import { type OklchColor, stringifyColor } from "~/lib/color";
 import { useState, useMemo } from "react";
-import { useColorStore } from "./provider";
+import { useColorStore } from "../provider";
 
 export default function InputOklch(props: {
   onChange?: (color: OklchColor) => void;
