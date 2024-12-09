@@ -18,7 +18,7 @@ export function ColorProvider({ children }: { children: React.ReactNode }) {
     storeRef.current = createColorStore(
       colorBy.hex
         ? createColor(isValidHex(colorBy.hex))
-        : createColor("#696969"),
+        : createColor(generateRandomColorByDate()),
     );
   }
 
@@ -37,4 +37,22 @@ export function useColorStore<T>(selector: (store: ColorStore) => T) {
   }
 
   return useStore(colorContext, selector);
+}
+
+function generateRandomColorByDate(): string {
+  const today = new Date();
+  const year = today.getFullYear();
+  const month = today.getMonth() + 1;
+  const day = today.getDate();
+  const seed = `${year}${month}${day}1234567890`;
+
+  let hash = 0;
+  for (let i = 0; i < seed.length; i++) {
+    hash = ((hash << 5) - hash + seed.charCodeAt(i)) | 0;
+  }
+
+  const randomNum = Math.abs(hash) % 16777215;
+  const hexColor = "#" + randomNum.toString(16).padStart(6, "0");
+
+  return hexColor;
 }
