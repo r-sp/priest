@@ -11,11 +11,12 @@ export default function InputOklch(props: {
   const [color, setColor] = useState<OklchColor>(oklch.color);
 
   const updateColor = (newColor: Partial<OklchColor>) => {
-    setOklch({ ...color, ...newColor });
-    setColor({ ...color, ...newColor });
+    const _oklch = { ...color, ...newColor };
+    setOklch(_oklch);
+    setColor(_oklch);
 
     if (props.onChange) {
-      props.onChange(color);
+      props.onChange(_oklch);
     }
   };
 

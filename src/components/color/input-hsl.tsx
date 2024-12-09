@@ -11,11 +11,12 @@ export default function InputHsl(props: {
   const [color, setColor] = useState<HslColor>(hsl.color);
 
   const updateColor = (newColor: Partial<HslColor>) => {
-    setHsl({ ...color, ...newColor });
-    setColor({ ...color, ...newColor });
+    const _hsl = { ...color, ...newColor };
+    setHsl(_hsl);
+    setColor(_hsl);
 
     if (props.onChange) {
-      props.onChange(color);
+      props.onChange(_hsl);
     }
   };
 

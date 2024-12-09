@@ -11,11 +11,12 @@ export default function InputRgb(props: {
   const [color, setColor] = useState<RgbColor>(rgb.color);
 
   const updateColor = (newColor: Partial<RgbColor>) => {
-    setRgb({ ...color, ...newColor });
-    setColor({ ...color, ...newColor });
+    const _rgb = { ...color, ...newColor };
+    setRgb(_rgb);
+    setColor(_rgb);
 
     if (props.onChange) {
-      props.onChange(color);
+      props.onChange(_rgb);
     }
   };
 

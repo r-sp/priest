@@ -11,11 +11,12 @@ export default function InputLab(props: {
   const [color, setColor] = useState<LabColor>(lab.color);
 
   const updateColor = (newColor: Partial<LabColor>) => {
-    setLab({ ...color, ...newColor });
-    setColor({ ...color, ...newColor });
+    const _lab = { ...color, ...newColor };
+    setLab(_lab);
+    setColor(_lab);
 
     if (props.onChange) {
-      props.onChange(color);
+      props.onChange(_lab);
     }
   };
 

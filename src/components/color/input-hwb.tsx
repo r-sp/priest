@@ -11,11 +11,12 @@ export default function InputHwb(props: {
   const [color, setColor] = useState<HwbColor>(hwb.color);
 
   const updateColor = (newColor: Partial<HwbColor>) => {
-    setHwb({ ...color, ...newColor });
-    setColor({ ...color, ...newColor });
+    const _hwb = { ...color, ...newColor };
+    setHwb(_hwb);
+    setColor(_hwb);
 
     if (props.onChange) {
-      props.onChange(color);
+      props.onChange(_hwb);
     }
   };
 

@@ -11,11 +11,12 @@ export default function InputOklab(props: {
   const [color, setColor] = useState<OklabColor>(oklab.color);
 
   const updateColor = (newColor: Partial<OklabColor>) => {
-    setOklab({ ...color, ...newColor });
-    setColor({ ...color, ...newColor });
+    const _oklab = { ...color, ...newColor };
+    setOklab(_oklab);
+    setColor(_oklab);
 
     if (props.onChange) {
-      props.onChange(color);
+      props.onChange(_oklab);
     }
   };
 
