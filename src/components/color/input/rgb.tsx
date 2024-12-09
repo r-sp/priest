@@ -2,7 +2,7 @@
 
 import { type RgbColor, stringifyColor } from "~/lib/color";
 import { useState, useMemo } from "react";
-import { useColorStore } from "./provider";
+import { useColorStore } from "../provider";
 
 export default function InputRgb(props: {
   onChange?: (color: RgbColor) => void;
@@ -11,11 +11,12 @@ export default function InputRgb(props: {
   const [color, setColor] = useState<RgbColor>(rgb.color);
 
   const updateColor = (newColor: Partial<RgbColor>) => {
-    setRgb({ ...color, ...newColor });
-    setColor({ ...color, ...newColor });
+    const _rgb = { ...color, ...newColor };
+    setRgb(_rgb);
+    setColor(_rgb);
 
     if (props.onChange) {
-      props.onChange(color);
+      props.onChange(_rgb);
     }
   };
 

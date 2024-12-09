@@ -2,7 +2,7 @@
 
 import { type HslColor, stringifyColor } from "~/lib/color";
 import { useState, useMemo } from "react";
-import { useColorStore } from "./provider";
+import { useColorStore } from "../provider";
 
 export default function InputHsl(props: {
   onChange?: (color: HslColor) => void;
@@ -11,11 +11,12 @@ export default function InputHsl(props: {
   const [color, setColor] = useState<HslColor>(hsl.color);
 
   const updateColor = (newColor: Partial<HslColor>) => {
-    setHsl({ ...color, ...newColor });
-    setColor({ ...color, ...newColor });
+    const _hsl = { ...color, ...newColor };
+    setHsl(_hsl);
+    setColor(_hsl);
 
     if (props.onChange) {
-      props.onChange(color);
+      props.onChange(_hsl);
     }
   };
 

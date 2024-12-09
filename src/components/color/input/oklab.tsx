@@ -1,52 +1,53 @@
 "use client";
 
-import { type LabColor, stringifyColor } from "~/lib/color";
+import { type OklabColor, stringifyColor } from "~/lib/color";
 import { useState, useMemo } from "react";
-import { useColorStore } from "./provider";
+import { useColorStore } from "../provider";
 
-export default function InputLab(props: {
-  onChange?: (color: LabColor) => void;
+export default function InputOklab(props: {
+  onChange?: (color: OklabColor) => void;
 }) {
-  const { lab, setLab } = useColorStore((state) => state);
-  const [color, setColor] = useState<LabColor>(lab.color);
+  const { oklab, setOklab } = useColorStore((state) => state);
+  const [color, setColor] = useState<OklabColor>(oklab.color);
 
-  const updateColor = (newColor: Partial<LabColor>) => {
-    setLab({ ...color, ...newColor });
-    setColor({ ...color, ...newColor });
+  const updateColor = (newColor: Partial<OklabColor>) => {
+    const _oklab = { ...color, ...newColor };
+    setOklab(_oklab);
+    setColor(_oklab);
 
     if (props.onChange) {
-      props.onChange(color);
+      props.onChange(_oklab);
     }
   };
 
-  const previewColor = (newColor: Partial<LabColor>) => {
-    return stringifyColor({ mode: "lab", ...color, ...newColor });
+  const previewColor = (newColor: Partial<OklabColor>) => {
+    return stringifyColor({ mode: "oklab", ...color, ...newColor });
   };
 
   const trackLightnessLeft = previewColor({ l: 0 });
-  const trackLightnessRight = previewColor({ l: 100 });
-  const trackGreenRedLeft = previewColor({ a: -100 });
-  const trackGreenRedRight = previewColor({ a: 100 });
-  const trackBlueYellowLeft = previewColor({ b: -100 });
-  const trackBlueYellowRight = previewColor({ b: 100 });
+  const trackLightnessRight = previewColor({ l: 1 });
+  const trackGreenRedLeft = previewColor({ a: -0.4 });
+  const trackGreenRedRight = previewColor({ a: 0.4 });
+  const trackBlueYellowLeft = previewColor({ b: -0.4 });
+  const trackBlueYellowRight = previewColor({ b: 0.4 });
 
   useMemo(() => {
-    if (color !== lab.color) {
-      setColor(lab.color);
+    if (color !== oklab.color) {
+      setColor(oklab.color);
     }
-  }, [color, lab]);
+  }, [color, oklab]);
 
   return (
-    <div role="form" aria-label="lab color" className="grid gap-4">
+    <div role="form" aria-label="oklab color" className="grid gap-4">
       <div role="none" className="relative inline-grid">
         <input
           aria-label="lightness"
           type="range"
           min={0}
-          max={100}
-          step={0.01}
+          max={1}
+          step={0.001}
           value={color.l}
-          id="lab-lightness"
+          id="oklab-lightness"
           className="color-slider relative z-2 text-neutral-400"
           onChange={(e) => updateColor({ l: e.target.valueAsNumber })}
         />
@@ -62,11 +63,11 @@ export default function InputLab(props: {
         <input
           aria-label="green red"
           type="range"
-          min={-100}
-          max={100}
-          step={0.01}
+          min={-0.4}
+          max={0.4}
+          step={0.001}
           value={color.a}
-          id="lab-green-red"
+          id="oklab-green-red"
           className="color-slider relative z-2 text-neutral-400"
           onChange={(e) => updateColor({ a: e.target.valueAsNumber })}
         />
@@ -82,11 +83,11 @@ export default function InputLab(props: {
         <input
           aria-label="blue yellow"
           type="range"
-          min={-100}
-          max={100}
-          step={0.01}
+          min={-0.4}
+          max={0.4}
+          step={0.001}
           value={color.b}
-          id="lab-blue-yellow"
+          id="oklab-blue-yellow"
           className="color-slider relative z-2 text-neutral-400"
           onChange={(e) => updateColor({ b: e.target.valueAsNumber })}
         />

@@ -1,10 +1,10 @@
 import { type Metadata } from "next";
-import Intro from "~/components/ui/intro";
+import DemoPage from "~/components/ui/demo";
 
 export const metadata: Metadata = {
   title: "Priest: The Holy Colors",
 };
 
 export default function HomePage() {
-  return <Intro />;
+  return <DemoPage />;
 }

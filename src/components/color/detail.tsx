@@ -12,7 +12,7 @@ import {
   formatHex,
   parseColor,
 } from "~/lib/color";
-import InputRgb from "./input-rgb";
+import { ColorInput } from "./index";
 import Link from "next/link";
 
 export default function ColorDetail() {
@@ -63,8 +63,8 @@ export default function ColorDetail() {
     : "Fail";
 
   return (
-    <article className="grid gap-8 px-4 pt-4 pb-8">
-      <header className="mx-auto w-full max-w-3xl">
+    <article className="grid gap-8 px-4 pt-4 pb-8 md:grid-cols-2">
+      <header className="mx-auto w-full max-w-3xl md:relative">
         <Link
           href="/playground"
           className="inline-grid"
@@ -85,57 +85,226 @@ export default function ColorDetail() {
             />
           </svg>
         </Link>
-        <div role="presentation" className="frame mt-4 rounded-lg">
-          <span style={{ backgroundColor: colorRgb }}></span>
+        <div role="none" className="md:sticky md:top-4">
+          <div role="presentation" className="frame mt-4 rounded-lg">
+            <span style={{ backgroundColor: colorRgb }}></span>
+          </div>
+          <h1 className="mt-4">
+            <code>{colorHex}</code>
+          </h1>
+          <p>
+            <code>{colorRgb}</code>
+          </p>
+          <p>
+            <code>{colorHsl}</code>
+          </p>
+          <p>
+            <code>{colorHwb}</code>
+          </p>
+          <p>
+            <code>{colorLch}</code>
+          </p>
+          <p>
+            <code>{colorOklch}</code>
+          </p>
+          <p>
+            <code>{colorLab}</code>
+          </p>
+          <p>
+            <code>{colorOklab}</code>
+          </p>
+          <p className="mt-4">Brightness: {colorBrightness}</p>
+          <p>Luminance: {colorLuminance}</p>
+          <p>Contrast: {colorContrast}</p>
+          <p className="mt-4">WCAG Normal AA: {colorNormalAA}</p>
+          <p>WCAG Normal AAA: {colorNormalAAA}</p>
+          <p>WCAG Large AA: {colorLargeAA}</p>
+          <p>WCAG Large AAA: {colorLargeAAA}</p>
         </div>
-        <h1 className="mt-4">
-          <code>{colorHex}</code>
-        </h1>
-        <p>
-          <code>{colorRgb}</code>
-        </p>
-        <p>
-          <code>{colorHsl}</code>
-        </p>
-        <p>
-          <code>{colorHwb}</code>
-        </p>
-        <p>
-          <code>{colorLch}</code>
-        </p>
-        <p>
-          <code>{colorOklch}</code>
-        </p>
-        <p>
-          <code>{colorLab}</code>
-        </p>
-        <p>
-          <code>{colorOklab}</code>
-        </p>
-        <p className="mt-4">Brightness: {colorBrightness}</p>
-        <p>Luminance: {colorLuminance}</p>
-        <p>Contrast: {colorContrast}</p>
-        <p className="mt-4">WCAG Normal AA: {colorNormalAA}</p>
-        <p>WCAG Normal AAA: {colorNormalAAA}</p>
-        <p>WCAG Large AA: {colorLargeAA}</p>
-        <p>WCAG Large AAA: {colorLargeAAA}</p>
       </header>
       {!colorBy.hex && (
-        <aside className="mx-auto w-full max-w-3xl">
-          <InputRgb
-            onChange={(c) => {
-              const src = formatHex(c);
-              const parse = parseColor();
+        <aside className="mx-auto grid w-full max-w-3xl gap-8 md:content-baseline">
+          <section
+            aria-labelledby="color-rgb"
+            className="grid gap-4 border-t-neutral-400 max-md:border-t max-md:pt-8 md:pt-16 dark:border-t-neutral-700"
+          >
+            <h2
+              id="color-rgb"
+              className="text-neutral-700 dark:text-neutral-300"
+            >
+              RGB
+            </h2>
+            <ColorInput.Rgb
+              onChange={(c) => {
+                const parse = parseColor();
+                const src = formatHex(c);
 
-              store.setHex(c);
-              store.setHsl(parse.hsl(src).color);
-              store.setHwb(parse.hwb(src).color);
-              store.setLab(parse.lab(src).color);
-              store.setLch(parse.lch(src).color);
-              store.setOklab(parse.oklab(src).color);
-              store.setOklch(parse.oklch(src).color);
-            }}
-          />
+                store.setHex(c);
+                store.setHsl(parse.hsl(src).color);
+                store.setHwb(parse.hwb(src).color);
+                store.setLab(parse.lab(src).color);
+                store.setLch(parse.lch(src).color);
+                store.setOklab(parse.oklab(src).color);
+                store.setOklch(parse.oklch(src).color);
+              }}
+            />
+          </section>
+          <section
+            aria-labelledby="color-hsl"
+            className="grid gap-4 border-t border-t-neutral-400 pt-8 dark:border-t-neutral-700"
+          >
+            <h2
+              id="color-hsl"
+              className="text-neutral-700 dark:text-neutral-300"
+            >
+              HSL
+            </h2>
+            <ColorInput.Hsl
+              onChange={(c) => {
+                const parse = parseColor();
+                const src = parse.hex({ mode: "hsl", ...c });
+                const _rgb = parse.rgb(src).color;
+
+                store.setHex(_rgb);
+                store.setRgb(_rgb);
+                store.setHwb(parse.hwb(src).color);
+                store.setLab(parse.lab(src).color);
+                store.setLch(parse.lch(src).color);
+                store.setOklab(parse.oklab(src).color);
+                store.setOklch(parse.oklch(src).color);
+              }}
+            />
+          </section>
+          <section
+            aria-labelledby="color-hwb"
+            className="grid gap-4 border-t border-t-neutral-400 pt-8 dark:border-t-neutral-700"
+          >
+            <h2
+              id="color-hwb"
+              className="text-neutral-700 dark:text-neutral-300"
+            >
+              HWB
+            </h2>
+            <ColorInput.Hwb
+              onChange={(c) => {
+                const parse = parseColor();
+                const src = parse.hex({ mode: "hwb", ...c });
+                const _rgb = parse.rgb(src).color;
+
+                store.setHex(_rgb);
+                store.setRgb(_rgb);
+                store.setHsl(parse.hsl(src).color);
+                store.setLab(parse.lab(src).color);
+                store.setLch(parse.lch(src).color);
+                store.setOklab(parse.oklab(src).color);
+                store.setOklch(parse.oklch(src).color);
+              }}
+            />
+          </section>
+          <section
+            aria-labelledby="color-lch"
+            className="grid gap-4 border-t border-t-neutral-400 pt-8 dark:border-t-neutral-700"
+          >
+            <h2
+              id="color-lch"
+              className="text-neutral-700 dark:text-neutral-300"
+            >
+              LCH
+            </h2>
+            <ColorInput.Lch
+              onChange={(c) => {
+                const parse = parseColor();
+                const src = parse.hex({ mode: "lch", ...c });
+                const _rgb = parse.rgb(src).color;
+
+                store.setHex(_rgb);
+                store.setRgb(_rgb);
+                store.setHsl(parse.hsl(src).color);
+                store.setHwb(parse.hwb(src).color);
+                store.setLab(parse.lab(src).color);
+                store.setOklab(parse.oklab(src).color);
+                store.setOklch(parse.oklch(src).color);
+              }}
+            />
+          </section>
+          <section
+            aria-labelledby="color-oklch"
+            className="grid gap-4 border-t border-t-neutral-400 pt-8 dark:border-t-neutral-700"
+          >
+            <h2
+              id="color-oklch"
+              className="text-neutral-700 dark:text-neutral-300"
+            >
+              OKLCH
+            </h2>
+            <ColorInput.Oklch
+              onChange={(c) => {
+                const parse = parseColor();
+                const src = parse.hex({ mode: "oklch", ...c });
+                const _rgb = parse.rgb(src).color;
+
+                store.setHex(_rgb);
+                store.setRgb(_rgb);
+                store.setHsl(parse.hsl(src).color);
+                store.setHwb(parse.hwb(src).color);
+                store.setLab(parse.lab(src).color);
+                store.setLch(parse.lch(src).color);
+                store.setOklab(parse.oklab(src).color);
+              }}
+            />
+          </section>
+          <section
+            aria-labelledby="color-lab"
+            className="grid gap-4 border-t border-t-neutral-400 pt-8 dark:border-t-neutral-700"
+          >
+            <h2
+              id="color-lab"
+              className="text-neutral-700 dark:text-neutral-300"
+            >
+              LAB
+            </h2>
+            <ColorInput.Lab
+              onChange={(c) => {
+                const parse = parseColor();
+                const src = parse.hex({ mode: "lab", ...c });
+                const _rgb = parse.rgb(src).color;
+
+                store.setHex(_rgb);
+                store.setRgb(_rgb);
+                store.setHsl(parse.hsl(src).color);
+                store.setHwb(parse.hwb(src).color);
+                store.setLch(parse.lch(src).color);
+                store.setOklab(parse.oklab(src).color);
+                store.setOklch(parse.oklch(src).color);
+              }}
+            />
+          </section>
+          <section
+            aria-labelledby="color-oklab"
+            className="grid gap-4 border-t border-t-neutral-400 pt-8 dark:border-t-neutral-700"
+          >
+            <h2
+              id="color-oklab"
+              className="text-neutral-700 dark:text-neutral-300"
+            >
+              OKLAB
+            </h2>
+            <ColorInput.Oklab
+              onChange={(c) => {
+                const parse = parseColor();
+                const src = parse.hex({ mode: "oklab", ...c });
+                const _rgb = parse.rgb(src).color;
+
+                store.setHex(_rgb);
+                store.setRgb(_rgb);
+                store.setHsl(parse.hsl(src).color);
+                store.setHwb(parse.hwb(src).color);
+                store.setLab(parse.lab(src).color);
+                store.setLch(parse.lch(src).color);
+                store.setOklch(parse.oklch(src).color);
+              }}
+            />
+          </section>
         </aside>
       )}
     </article>
