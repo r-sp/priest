@@ -33,29 +33,55 @@ export default function ColorDetail() {
   const colorOklch = oklch.css;
 
   const check = rgb.color;
-  const colorWhite = { r: 1, g: 1, b: 1 };
   const colorBrightness = brightness(check);
   const colorLuminance = luminance(check);
-  const colorContrast = contrast(check, colorWhite);
-  const colorNormalAA = isReadable(check, colorWhite, {
+  const colorWhite = { r: 1, g: 1, b: 1 };
+  const whiteContrast = contrast(check, colorWhite);
+  const whiteNormalAA = isReadable(check, colorWhite, {
     level: "AA",
     size: "normal",
   })
     ? "Pass"
     : "Fail";
-  const colorNormalAAA = isReadable(check, colorWhite, {
+  const whiteNormalAAA = isReadable(check, colorWhite, {
     level: "AAA",
     size: "normal",
   })
     ? "Pass"
     : "Fail";
-  const colorLargeAA = isReadable(check, colorWhite, {
+  const whiteLargeAA = isReadable(check, colorWhite, {
     level: "AA",
     size: "large",
   })
     ? "Pass"
     : "Fail";
-  const colorLargeAAA = isReadable(check, colorWhite, {
+  const whiteLargeAAA = isReadable(check, colorWhite, {
+    level: "AAA",
+    size: "large",
+  })
+    ? "Pass"
+    : "Fail";
+  const colorBlack = { r: 0, g: 0, b: 0 };
+  const blackContrast = contrast(check, colorBlack);
+  const blackNormalAA = isReadable(check, colorBlack, {
+    level: "AA",
+    size: "normal",
+  })
+    ? "Pass"
+    : "Fail";
+  const blackNormalAAA = isReadable(check, colorBlack, {
+    level: "AAA",
+    size: "normal",
+  })
+    ? "Pass"
+    : "Fail";
+  const blackLargeAA = isReadable(check, colorBlack, {
+    level: "AA",
+    size: "large",
+  })
+    ? "Pass"
+    : "Fail";
+  const blackLargeAAA = isReadable(check, colorBlack, {
     level: "AAA",
     size: "large",
   })
@@ -63,7 +89,7 @@ export default function ColorDetail() {
     : "Fail";
 
   return (
-    <article className="grid gap-8 px-4 pt-4 pb-8 md:grid-cols-2">
+    <article className="grid gap-x-4 gap-y-8 px-4 pt-4 pb-8 md:grid-cols-2">
       <header className="mx-auto w-full max-w-3xl md:relative">
         <Link
           href="/playground"
@@ -101,7 +127,7 @@ export default function ColorDetail() {
           <p>
             <code>{colorHwb}</code>
           </p>
-          <p>
+          <p className="mt-4">
             <code>{colorLch}</code>
           </p>
           <p>
@@ -115,15 +141,35 @@ export default function ColorDetail() {
           </p>
           <p className="mt-4">Brightness: {colorBrightness}</p>
           <p>Luminance: {colorLuminance}</p>
-          <p>Contrast: {colorContrast}</p>
-          <p className="mt-4">WCAG Normal AA: {colorNormalAA}</p>
-          <p>WCAG Normal AAA: {colorNormalAAA}</p>
-          <p>WCAG Large AA: {colorLargeAA}</p>
-          <p>WCAG Large AAA: {colorLargeAAA}</p>
+          <div className="mt-4 grid grid-cols-2 gap-4">
+            <div className="inline-grid content-baseline">
+              <p className="text-neutral-800 dark:text-neutral-200">
+                Color on White
+              </p>
+              <p>Contrast: {whiteContrast}</p>
+              <p className="mt-2">Normal AA: {whiteNormalAA}</p>
+              <p>Normal AAA: {whiteNormalAAA}</p>
+              <p className="mt-2">Large AA: {whiteLargeAA}</p>
+              <p>Large AAA: {whiteLargeAAA}</p>
+            </div>
+            <div className="inline-grid content-baseline">
+              <p className="text-neutral-800 dark:text-neutral-200">
+                Color on Black
+              </p>
+              <p>Contrast: {blackContrast}</p>
+              <p className="mt-2">Normal AA: {blackNormalAA}</p>
+              <p>Normal AAA: {blackNormalAAA}</p>
+              <p className="mt-2">Large AA: {blackLargeAA}</p>
+              <p>Large AAA: {blackLargeAAA}</p>
+            </div>
+          </div>
         </div>
       </header>
       {!colorBy.hex && (
-        <aside className="mx-auto grid w-full max-w-3xl gap-8 md:content-baseline">
+        <aside
+          aria-label="color input"
+          className="mx-auto grid w-full max-w-3xl gap-8 md:content-baseline"
+        >
           <section
             aria-labelledby="color-rgb"
             className="grid gap-4 border-t-neutral-400 max-md:border-t max-md:pt-8 md:pt-16 dark:border-t-neutral-700"
