@@ -1,6 +1,7 @@
 import clsx from "clsx";
 import { Geist, Geist_Mono } from "next/font/google";
 import { ColorProvider } from "~/components/color/provider";
+import { randomColor } from "~/lib/color";
 import "./style.css";
 
 const fontSans = Geist({
@@ -24,8 +25,10 @@ export const revalidate = 86400;
 export default function RootLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
+  const colorByDate = randomColor();
+
   return (
-    <ColorProvider>
+    <ColorProvider initValue={colorByDate}>
       <html
         lang="en"
         className={clsx(fontSans.variable, fontMono.variable, "dark")}
