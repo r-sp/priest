@@ -1,6 +1,6 @@
 import { parse, rgb, hsl, hwb, lab, lch, oklab, oklch } from "culori";
+import { round, floor, limiter } from "./utils";
 import { createStore } from "zustand";
-import { round, floor } from "./utils";
 
 export type ColorSpace = {
   rgb: { r: number; g: number; b: number };
@@ -375,6 +375,24 @@ export const isValidHex = (newColor: string): string => {
   } else {
     return newColor;
   }
+};
+
+export const randomColor = (): string => {
+  const today = new Date();
+  const year = today.getFullYear();
+  const month = today.getMonth() + 1;
+  const day = today.getDate();
+
+  const hue = round(limiter((day * year) / month, 0, 360), 2);
+  const saturation = round(limiter(month * 12, 0.64, 0.96), 4);
+  const lightness = round(limiter(day * 30, 0.32, 0.64), 4);
+
+  return createColorHex({
+    mode: "hsl",
+    h: hue,
+    s: saturation,
+    l: lightness,
+  });
 };
 
 export const parseColor = () => {
