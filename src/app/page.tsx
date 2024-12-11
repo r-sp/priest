@@ -19,6 +19,11 @@ export default function HomePage() {
             Display
           </Link>
         </li>
+        <li>
+          <Link href="/web" className="text-lg hover:underline">
+            Web
+          </Link>
+        </li>
       </ul>
     </article>
   );
