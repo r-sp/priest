@@ -82,28 +82,6 @@ export type ColorAction = {
 
 export type ColorStore = ColorState & ColorAction;
 
-export const colorRgb = (newColor: RgbColor): RgbColorMode => {
-  return rgb({ mode: "rgb", ...newColor });
-};
-export const colorHsl = (newColor: HslColor): HslColorMode => {
-  return hsl({ mode: "hsl", ...newColor });
-};
-export const colorHwb = (newColor: HwbColor): HwbColorMode => {
-  return hwb({ mode: "hwb", ...newColor });
-};
-export const colorLab = (newColor: LabColor): LabColorMode => {
-  return lab({ mode: "lab", ...newColor });
-};
-export const colorLch = (newColor: LchColor): LchColorMode => {
-  return lch({ mode: "lch", ...newColor });
-};
-export const colorOklab = (newColor: OklabColor): OklabColorMode => {
-  return oklab({ mode: "oklab", ...newColor });
-};
-export const colorOklch = (newColor: OklchColor): OklchColorMode => {
-  return oklch({ mode: "oklch", ...newColor });
-};
-
 export const formatHex = (newColor: RgbColor | RgbColorMode): string => {
   const { r, g, b } = newColor;
 
@@ -181,14 +159,14 @@ export const createColorStore = (initValue: ColorState) => {
     setAll: (newColor) => set((state) => ({ ...state, ...newColor })),
     setHex: (newColor) =>
       set(() => {
-        const color = colorRgb(newColor);
+        const color = rgb({ mode: "rgb", ...newColor });
         return {
           hex: formatHex(color),
         };
       }),
     setRgb: (newColor) =>
       set(() => {
-        const color = colorRgb(newColor);
+        const color = rgb({ mode: "rgb", ...newColor });
         return {
           rgb: {
             color: { r: color.r, g: color.g, b: color.b },
@@ -198,7 +176,7 @@ export const createColorStore = (initValue: ColorState) => {
       }),
     setHsl: (newColor) =>
       set(() => {
-        const color = colorHsl(newColor);
+        const color = hsl({ mode: "hsl", ...newColor });
         return {
           hsl: {
             color: { h: color.h, s: color.s, l: color.l },
@@ -208,7 +186,7 @@ export const createColorStore = (initValue: ColorState) => {
       }),
     setHwb: (newColor) =>
       set(() => {
-        const color = colorHwb(newColor);
+        const color = hwb({ mode: "hwb", ...newColor });
         return {
           hwb: {
             color: { h: color.h, w: color.w, b: color.b },
@@ -218,7 +196,7 @@ export const createColorStore = (initValue: ColorState) => {
       }),
     setLab: (newColor) =>
       set(() => {
-        const color = colorLab(newColor);
+        const color = lab({ mode: "lab", ...newColor });
         return {
           lab: {
             color: { l: color.l, a: color.a, b: color.b },
@@ -228,7 +206,7 @@ export const createColorStore = (initValue: ColorState) => {
       }),
     setLch: (newColor) =>
       set(() => {
-        const color = colorLch(newColor);
+        const color = lch({ mode: "lch", ...newColor });
         return {
           lch: {
             color: { l: color.l, c: color.c, h: color.h },
@@ -238,7 +216,7 @@ export const createColorStore = (initValue: ColorState) => {
       }),
     setOklab: (newColor) =>
       set(() => {
-        const color = colorOklab(newColor);
+        const color = oklab({ mode: "oklab", ...newColor });
         return {
           oklab: {
             color: { l: color.l, a: color.a, b: color.b },
@@ -248,7 +226,7 @@ export const createColorStore = (initValue: ColorState) => {
       }),
     setOklch: (newColor) =>
       set(() => {
-        const color = colorOklch(newColor);
+        const color = oklch({ mode: "oklch", ...newColor });
         return {
           oklch: {
             color: { l: color.l, c: color.c, h: color.h },
@@ -259,20 +237,16 @@ export const createColorStore = (initValue: ColorState) => {
   }));
 };
 
-export const createColorHex = (newColor: string | AnyColorMode): string => {
+const colorHex = (newColor: string | AnyColorMode): string => {
   const _rgb = rgb(newColor) || { r: 0, g: 0, b: 0 };
   return formatHex(_rgb);
 };
-export const createColorRgb = (
-  newColor: string,
-): { color: RgbColor; css: string } => {
+const colorRgb = (newColor: string): { color: RgbColor; css: string } => {
   const _rgb = rgb(newColor) || { r: 0, g: 0, b: 0 };
 
   return { color: { r: _rgb.r, g: _rgb.g, b: _rgb.b }, css: formatRgb(_rgb) };
 };
-export const createColorHsl = (
-  newColor: string,
-): { color: HslColor; css: string } => {
+const colorHsl = (newColor: string): { color: HslColor; css: string } => {
   const _hsl = hsl(newColor) || { h: 0, s: 0, l: 0 };
 
   return {
@@ -280,9 +254,7 @@ export const createColorHsl = (
     css: formatHsl(_hsl),
   };
 };
-export const createColorHwb = (
-  newColor: string,
-): { color: HwbColor; css: string } => {
+const colorHwb = (newColor: string): { color: HwbColor; css: string } => {
   const _hwb = hwb(newColor) || { h: 0, w: 0, b: 0 };
 
   return {
@@ -290,16 +262,12 @@ export const createColorHwb = (
     css: formatHwb(_hwb),
   };
 };
-export const createColorLab = (
-  newColor: string,
-): { color: LabColor; css: string } => {
+const colorLab = (newColor: string): { color: LabColor; css: string } => {
   const _lab = lab(newColor) || { l: 0, a: 0, b: 0 };
 
   return { color: { l: _lab.l, a: _lab.a, b: _lab.b }, css: formatLab(_lab) };
 };
-export const createColorLch = (
-  newColor: string,
-): { color: LchColor; css: string } => {
+const colorLch = (newColor: string): { color: LchColor; css: string } => {
   const _lch = lch(newColor) || { l: 0, c: 0, h: 0 };
 
   return {
@@ -307,9 +275,7 @@ export const createColorLch = (
     css: formatLch(_lch),
   };
 };
-export const createColorOklab = (
-  newColor: string,
-): { color: OklabColor; css: string } => {
+const colorOklab = (newColor: string): { color: OklabColor; css: string } => {
   const _oklab = oklab(newColor) || { l: 0, a: 0, b: 0 };
 
   return {
@@ -317,9 +283,7 @@ export const createColorOklab = (
     css: formatOklab(_oklab),
   };
 };
-export const createColorOklch = (
-  newColor: string,
-): { color: OklchColor; css: string } => {
+const colorOklch = (newColor: string): { color: OklchColor; css: string } => {
   const _oklch = oklch(newColor) || { l: 0, c: 0, h: 0 };
 
   return {
@@ -329,13 +293,13 @@ export const createColorOklch = (
 };
 
 export const createColor = (newColor: string): ColorState => {
-  const _rgb = createColorRgb(newColor);
-  const _hsl = createColorHsl(newColor);
-  const _hwb = createColorHwb(newColor);
-  const _lab = createColorLab(newColor);
-  const _lch = createColorLch(newColor);
-  const _oklab = createColorOklab(newColor);
-  const _oklch = createColorOklch(newColor);
+  const _rgb = colorRgb(newColor);
+  const _hsl = colorHsl(newColor);
+  const _hwb = colorHwb(newColor);
+  const _lab = colorLab(newColor);
+  const _lch = colorLch(newColor);
+  const _oklab = colorOklab(newColor);
+  const _oklch = colorOklch(newColor);
 
   const store = {
     hex: formatHex(_rgb.color),
@@ -387,7 +351,7 @@ export const randomColor = (): string => {
   const saturation = round(limiter(month * 12, 0.64, 0.96), 4);
   const lightness = round(limiter(day * 30, 0.32, 0.64), 4);
 
-  return createColorHex({
+  return colorHex({
     mode: "hsl",
     h: hue,
     s: saturation,
@@ -397,14 +361,14 @@ export const randomColor = (): string => {
 
 export const parseColor = () => {
   return {
-    hex: createColorHex,
-    rgb: createColorRgb,
-    hsl: createColorHsl,
-    hwb: createColorHwb,
-    lab: createColorLab,
-    lch: createColorLch,
-    oklab: createColorOklab,
-    oklch: createColorOklch,
+    hex: colorHex,
+    rgb: colorRgb,
+    hsl: colorHsl,
+    hwb: colorHwb,
+    lab: colorLab,
+    lch: colorLch,
+    oklab: colorOklab,
+    oklch: colorOklch,
   };
 };
 
