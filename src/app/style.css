@@ -7,6 +7,13 @@
   --font-mono: var(--geist-mono);
 }
 
+@layer base {
+  a,
+  button {
+    cursor: pointer;
+  }
+}
+
 @layer utilities {
   .h-svh-1\/2 {
     height: 50svh;
