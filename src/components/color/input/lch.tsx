@@ -6,6 +6,7 @@ import { useColorStore } from "../provider";
 
 export default function InputLch(props: {
   onChange?: (color: LchColor) => void;
+  id?: string;
 }) {
   const { lch, setLch } = useColorStore((state) => state);
   const [color, setColor] = useState<LchColor>(lch.color);
@@ -43,7 +44,12 @@ export default function InputLch(props: {
   }, [color, lch]);
 
   return (
-    <div role="form" aria-label="lch color" className="grid gap-4">
+    <div
+      role="form"
+      aria-label="lch color"
+      className="grid gap-4"
+      id={props.id ? props.id : undefined}
+    >
       <div role="none" className="relative inline-grid">
         <input
           aria-label="lightness"

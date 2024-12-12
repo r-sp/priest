@@ -6,6 +6,7 @@ import { useColorStore } from "../provider";
 
 export default function InputOklch(props: {
   onChange?: (color: OklchColor) => void;
+  id?: string;
 }) {
   const { oklch, setOklch } = useColorStore((state) => state);
   const [color, setColor] = useState<OklchColor>(oklch.color);
@@ -43,7 +44,12 @@ export default function InputOklch(props: {
   }, [color, oklch]);
 
   return (
-    <div role="form" aria-label="oklch color" className="grid gap-4">
+    <div
+      role="form"
+      aria-label="oklch color"
+      className="grid gap-4"
+      id={props.id ? props.id : undefined}
+    >
       <div role="none" className="relative inline-grid">
         <input
           aria-label="lightness"

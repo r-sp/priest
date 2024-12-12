@@ -6,6 +6,7 @@ import { useColorStore } from "../provider";
 
 export default function InputLab(props: {
   onChange?: (color: LabColor) => void;
+  id?: string;
 }) {
   const { lab, setLab } = useColorStore((state) => state);
   const [color, setColor] = useState<LabColor>(lab.color);
@@ -38,7 +39,12 @@ export default function InputLab(props: {
   }, [color, lab]);
 
   return (
-    <div role="form" aria-label="lab color" className="grid gap-4">
+    <div
+      role="form"
+      aria-label="lab color"
+      className="grid gap-4"
+      id={props.id ? props.id : undefined}
+    >
       <div role="none" className="relative inline-grid">
         <input
           aria-label="lightness"
