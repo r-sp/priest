@@ -66,6 +66,7 @@ export type ColorState = {
   lch: { color: LchColor; css: string };
   oklab: { color: OklabColor; css: string };
   oklch: { color: OklchColor; css: string };
+  mode: ColorFormat;
 };
 
 export type ColorAction = {
@@ -78,6 +79,7 @@ export type ColorAction = {
   setLch: (color: LchColor) => void;
   setOklab: (color: OklabColor) => void;
   setOklch: (color: OklchColor) => void;
+  setMode: (color: ColorFormat) => void;
 };
 
 export type ColorStore = ColorState & ColorAction;
@@ -234,6 +236,7 @@ export const createColorStore = (initValue: ColorState) => {
           },
         };
       }),
+    setMode: (newColor) => set(() => ({ mode: newColor })),
   }));
 };
 
@@ -292,7 +295,10 @@ const colorOklch = (newColor: string): { color: OklchColor; css: string } => {
   };
 };
 
-export const createColor = (newColor: string): ColorState => {
+export const createColor = (
+  newColor: string,
+  mode?: ColorFormat,
+): ColorState => {
   const _rgb = colorRgb(newColor);
   const _hsl = colorHsl(newColor);
   const _hwb = colorHwb(newColor);
@@ -301,7 +307,7 @@ export const createColor = (newColor: string): ColorState => {
   const _oklab = colorOklab(newColor);
   const _oklch = colorOklch(newColor);
 
-  const store = {
+  const store: ColorState = {
     hex: formatHex(_rgb.color),
     rgb: _rgb,
     hsl: _hsl,
@@ -310,6 +316,7 @@ export const createColor = (newColor: string): ColorState => {
     lch: _lch,
     oklab: _oklab,
     oklch: _oklch,
+    mode: mode ? mode : "rgb",
   };
 
   return store;
