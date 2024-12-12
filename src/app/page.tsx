@@ -15,6 +15,11 @@ export default function HomePage() {
           </Link>
         </li>
         <li>
+          <Link href="/color/picker" className="text-lg hover:underline">
+            Picker
+          </Link>
+        </li>
+        <li>
           <Link href="/display" className="text-lg hover:underline">
             Display
           </Link>
