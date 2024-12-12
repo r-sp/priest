@@ -2,6 +2,7 @@
 
 import { type ColorStore, parseColor, formatHex } from "~/lib/color";
 import ColorInput from "./input";
+import clsx from "clsx";
 
 export default function ColorSlider(props: { state: ColorStore }) {
   const store = props.state;
@@ -11,13 +12,7 @@ export default function ColorSlider(props: { state: ColorStore }) {
       aria-label="color input"
       className="mx-auto grid w-full max-w-3xl gap-8 md:content-baseline"
     >
-      <section
-        aria-labelledby="color-rgb"
-        className="grid gap-4 border-t-neutral-400 max-md:border-t max-md:pt-8 dark:border-t-neutral-700"
-      >
-        <h2 id="color-rgb" className="text-neutral-700 dark:text-neutral-300">
-          RGB
-        </h2>
+      <Section label="RGB" isFirst={true}>
         <ColorInput.Rgb
           onChange={(c) => {
             const parse = parseColor();
@@ -32,14 +27,8 @@ export default function ColorSlider(props: { state: ColorStore }) {
             store.setOklch(parse.oklch(src).color);
           }}
         />
-      </section>
-      <section
-        aria-labelledby="color-hsl"
-        className="grid gap-4 border-t border-t-neutral-400 pt-8 dark:border-t-neutral-700"
-      >
-        <h2 id="color-hsl" className="text-neutral-700 dark:text-neutral-300">
-          HSL
-        </h2>
+      </Section>
+      <Section label="HSL">
         <ColorInput.Hsl
           onChange={(c) => {
             const parse = parseColor();
@@ -55,14 +44,8 @@ export default function ColorSlider(props: { state: ColorStore }) {
             store.setOklch(parse.oklch(src).color);
           }}
         />
-      </section>
-      <section
-        aria-labelledby="color-hwb"
-        className="grid gap-4 border-t border-t-neutral-400 pt-8 dark:border-t-neutral-700"
-      >
-        <h2 id="color-hwb" className="text-neutral-700 dark:text-neutral-300">
-          HWB
-        </h2>
+      </Section>
+      <Section label="HWB">
         <ColorInput.Hwb
           onChange={(c) => {
             const parse = parseColor();
@@ -78,14 +61,8 @@ export default function ColorSlider(props: { state: ColorStore }) {
             store.setOklch(parse.oklch(src).color);
           }}
         />
-      </section>
-      <section
-        aria-labelledby="color-lch"
-        className="grid gap-4 border-t border-t-neutral-400 pt-8 dark:border-t-neutral-700"
-      >
-        <h2 id="color-lch" className="text-neutral-700 dark:text-neutral-300">
-          LCH
-        </h2>
+      </Section>
+      <Section label="LCH">
         <ColorInput.Lch
           onChange={(c) => {
             const parse = parseColor();
@@ -101,14 +78,8 @@ export default function ColorSlider(props: { state: ColorStore }) {
             store.setOklch(parse.oklch(src).color);
           }}
         />
-      </section>
-      <section
-        aria-labelledby="color-oklch"
-        className="grid gap-4 border-t border-t-neutral-400 pt-8 dark:border-t-neutral-700"
-      >
-        <h2 id="color-oklch" className="text-neutral-700 dark:text-neutral-300">
-          OKLCH
-        </h2>
+      </Section>
+      <Section label="OKLCH">
         <ColorInput.Oklch
           onChange={(c) => {
             const parse = parseColor();
@@ -124,14 +95,8 @@ export default function ColorSlider(props: { state: ColorStore }) {
             store.setOklab(parse.oklab(src).color);
           }}
         />
-      </section>
-      <section
-        aria-labelledby="color-lab"
-        className="grid gap-4 border-t border-t-neutral-400 pt-8 dark:border-t-neutral-700"
-      >
-        <h2 id="color-lab" className="text-neutral-700 dark:text-neutral-300">
-          LAB
-        </h2>
+      </Section>
+      <Section label="LAB">
         <ColorInput.Lab
           onChange={(c) => {
             const parse = parseColor();
@@ -147,14 +112,8 @@ export default function ColorSlider(props: { state: ColorStore }) {
             store.setOklch(parse.oklch(src).color);
           }}
         />
-      </section>
-      <section
-        aria-labelledby="color-oklab"
-        className="grid gap-4 border-t border-t-neutral-400 pt-8 dark:border-t-neutral-700"
-      >
-        <h2 id="color-oklab" className="text-neutral-700 dark:text-neutral-300">
-          OKLAB
-        </h2>
+      </Section>
+      <Section label="OKLAB">
         <ColorInput.Oklab
           onChange={(c) => {
             const parse = parseColor();
@@ -170,7 +129,31 @@ export default function ColorSlider(props: { state: ColorStore }) {
             store.setOklch(parse.oklch(src).color);
           }}
         />
-      </section>
+      </Section>
     </aside>
+  );
+}
+
+function Section(props: {
+  children: React.ReactNode;
+  label: string;
+  isFirst?: boolean;
+}) {
+  const section = `color-${props.label.toLowerCase()}`;
+  const border = props.isFirst ? false : true;
+
+  return (
+    <section
+      aria-labelledby={section}
+      className={clsx(
+        "grid gap-4 border-t-neutral-400 dark:border-t-neutral-700",
+        border ? "border-t pt-8" : "max-md:border-t max-md:pt-8",
+      )}
+    >
+      <h2 id={section} className="text-neutral-700 dark:text-neutral-300">
+        {props.label}
+      </h2>
+      {props.children}
+    </section>
   );
 }
