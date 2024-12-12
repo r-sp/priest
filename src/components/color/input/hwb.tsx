@@ -6,6 +6,7 @@ import { useColorStore } from "../provider";
 
 export default function InputHwb(props: {
   onChange?: (color: HwbColor) => void;
+  id?: string;
 }) {
   const { hwb, setHwb } = useColorStore((state) => state);
   const [color, setColor] = useState<HwbColor>(hwb.color);
@@ -36,7 +37,12 @@ export default function InputHwb(props: {
   }, [color, hwb]);
 
   return (
-    <div role="form" aria-label="hwb color" className="grid gap-4">
+    <div
+      role="form"
+      aria-label="hwb color"
+      className="grid gap-4"
+      id={props.id ? props.id : undefined}
+    >
       <div role="none" className="relative inline-grid">
         <input
           aria-label="hue"

@@ -6,6 +6,7 @@ import { useColorStore } from "../provider";
 
 export default function InputRgb(props: {
   onChange?: (color: RgbColor) => void;
+  id?: string;
 }) {
   const { rgb, setRgb } = useColorStore((state) => state);
   const [color, setColor] = useState<RgbColor>(rgb.color);
@@ -38,7 +39,12 @@ export default function InputRgb(props: {
   }, [color, rgb]);
 
   return (
-    <div role="form" aria-label="rgb color" className="grid gap-4">
+    <div
+      role="form"
+      aria-label="rgb color"
+      className="grid gap-4"
+      id={props.id ? props.id : undefined}
+    >
       <div role="none" className="relative inline-grid">
         <input
           aria-label="red"

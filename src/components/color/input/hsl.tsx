@@ -6,6 +6,7 @@ import { useColorStore } from "../provider";
 
 export default function InputHsl(props: {
   onChange?: (color: HslColor) => void;
+  id?: string;
 }) {
   const { hsl, setHsl } = useColorStore((state) => state);
   const [color, setColor] = useState<HslColor>(hsl.color);
@@ -35,7 +36,12 @@ export default function InputHsl(props: {
   }, [color, hsl]);
 
   return (
-    <div role="form" aria-label="hsl color" className="grid gap-4">
+    <div
+      role="form"
+      aria-label="hsl color"
+      className="grid gap-4"
+      id={props.id ? props.id : undefined}
+    >
       <div role="none" className="relative inline-grid">
         <input
           aria-label="hue"

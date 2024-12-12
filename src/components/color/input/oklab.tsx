@@ -6,6 +6,7 @@ import { useColorStore } from "../provider";
 
 export default function InputOklab(props: {
   onChange?: (color: OklabColor) => void;
+  id?: string;
 }) {
   const { oklab, setOklab } = useColorStore((state) => state);
   const [color, setColor] = useState<OklabColor>(oklab.color);
@@ -38,7 +39,12 @@ export default function InputOklab(props: {
   }, [color, oklab]);
 
   return (
-    <div role="form" aria-label="oklab color" className="grid gap-4">
+    <div
+      role="form"
+      aria-label="oklab color"
+      className="grid gap-4"
+      id={props.id ? props.id : undefined}
+    >
       <div role="none" className="relative inline-grid">
         <input
           aria-label="lightness"

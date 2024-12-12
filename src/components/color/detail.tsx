@@ -11,7 +11,7 @@ export default function ColorDetail() {
   const store = useColorStore((state) => state);
 
   const { hex, rgb, hsl, hwb, lab, lch, oklab, oklch } = colorBy.hex
-    ? createColor(isValidHex(colorBy.hex))
+    ? createColor(isValidHex(colorBy.hex), store.mode)
     : store;
 
   const colorHex = hex;
