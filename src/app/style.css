@@ -7,14 +7,6 @@
   --font-mono: var(--geist-mono);
 }
 
-@layer base {
-  @media (prefers-reduced-motion: no-preference) {
-    html {
-      scroll-behavior: smooth;
-    }
-  }
-}
-
 @layer utilities {
   .h-svh-1\/2 {
     height: 50svh;
