@@ -3,7 +3,7 @@ export type WebColor = {
   hex: string;
 };
 
-export const red: WebColor[] = [
+const red: WebColor[] = [
   { slug: "DarkRed", hex: "8b0000" },
   { slug: "Red", hex: "ff0000" },
   { slug: "Firebrick", hex: "b22222" },
@@ -15,7 +15,7 @@ export const red: WebColor[] = [
   { slug: "LightSalmon", hex: "ffa07a" },
 ];
 
-export const brown: WebColor[] = [
+const brown: WebColor[] = [
   { slug: "Maroon", hex: "800000" },
   { slug: "Brown", hex: "a52a2a" },
   { slug: "SaddleBrown", hex: "8b4513" },
@@ -35,7 +35,7 @@ export const brown: WebColor[] = [
   { slug: "Cornsilk", hex: "fff8dc" },
 ];
 
-export const orange: WebColor[] = [
+const orange: WebColor[] = [
   { slug: "OrangeRed", hex: "ff4500" },
   { slug: "Tomato", hex: "ff6347" },
   { slug: "DarkOrange", hex: "ff8c00" },
@@ -43,7 +43,7 @@ export const orange: WebColor[] = [
   { slug: "Orange", hex: "ffa500" },
 ];
 
-export const yellow: WebColor[] = [
+const yellow: WebColor[] = [
   { slug: "DarkKhaki", hex: "bdb76b" },
   { slug: "Gold", hex: "ffd700" },
   { slug: "Khaki", hex: "f0e68c" },
@@ -57,7 +57,7 @@ export const yellow: WebColor[] = [
   { slug: "LightYellow", hex: "ffffe0" },
 ];
 
-export const green: WebColor[] = [
+const green: WebColor[] = [
   { slug: "DarkGreen", hex: "006400" },
   { slug: "Green", hex: "008000" },
   { slug: "DarkOliveGreen", hex: "556b2f" },
@@ -80,7 +80,7 @@ export const green: WebColor[] = [
   { slug: "PaleGreen", hex: "98fb98" },
 ];
 
-export const cyan: WebColor[] = [
+const cyan: WebColor[] = [
   { slug: "Teal", hex: "008080" },
   { slug: "DarkCyan", hex: "008b8b" },
   { slug: "LightSeaGreen", hex: "20b2aa" },
@@ -95,7 +95,7 @@ export const cyan: WebColor[] = [
   { slug: "LightCyan", hex: "e0ffff" },
 ];
 
-export const blue: WebColor[] = [
+const blue: WebColor[] = [
   { slug: "MidnightBlue", hex: "191970" },
   { slug: "Navy", hex: "000080" },
   { slug: "DarkBlue", hex: "00008b" },
@@ -113,7 +113,7 @@ export const blue: WebColor[] = [
   { slug: "PowderBlue", hex: "b0e0e6" },
 ];
 
-export const purple: WebColor[] = [
+const purple: WebColor[] = [
   { slug: "RebeccaPurple", hex: "663399" },
   { slug: "Indigo", hex: "4b0082" },
   { slug: "Purple", hex: "800080" },
@@ -135,7 +135,7 @@ export const purple: WebColor[] = [
   { slug: "Lavender", hex: "e6e6fa" },
 ];
 
-export const pink: WebColor[] = [
+const pink: WebColor[] = [
   { slug: "MediumVioletRed", hex: "c71585" },
   { slug: "DeepPink", hex: "ff1493" },
   { slug: "PaleVioletRed", hex: "db7093" },
@@ -144,7 +144,7 @@ export const pink: WebColor[] = [
   { slug: "Pink", hex: "ffc0cb" },
 ];
 
-export const white: WebColor[] = [
+const white: WebColor[] = [
   { slug: "MistyRose", hex: "ffe4e1" },
   { slug: "AntiqueWhite", hex: "faebd7" },
   { slug: "Linen", hex: "faf0e6" },
@@ -164,7 +164,7 @@ export const white: WebColor[] = [
   { slug: "White", hex: "ffffff" },
 ];
 
-export const black: WebColor[] = [
+const black: WebColor[] = [
   { slug: "Black", hex: "000000" },
   { slug: "DarkSlateGray", hex: "2f4f4f" },
   { slug: "DimGray", hex: "696969" },
@@ -176,3 +176,17 @@ export const black: WebColor[] = [
   { slug: "LightGray", hex: "d3d3d3" },
   { slug: "Gainsboro", hex: "dcdcdc" },
 ];
+
+export const namedColors = {
+  red,
+  brown,
+  orange,
+  yellow,
+  green,
+  cyan,
+  blue,
+  purple,
+  pink,
+  white,
+  black,
+};
