@@ -1,5 +1,6 @@
 import { Geist, Geist_Mono } from "next/font/google";
 import { ColorProvider } from "~/components/color/provider";
+import { ColorMode } from "~/components/color";
 import { randomColor } from "~/lib/color";
 import Link from "next/link";
 import clsx from "clsx";
@@ -38,7 +39,7 @@ export default function RootLayout({
           <header>
             <nav
               aria-label="site menu"
-              className="mx-auto flex h-16 w-full max-w-7xl items-center max-xl:px-3"
+              className="mx-auto flex h-16 w-full max-w-7xl items-center justify-between max-xl:px-3"
             >
               <Link
                 href="/"
@@ -67,6 +68,7 @@ export default function RootLayout({
                   />
                 </svg>
               </Link>
+              <ColorMode />
             </nav>
           </header>
           <main id="content">{children}</main>
