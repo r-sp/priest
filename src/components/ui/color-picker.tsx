@@ -2,7 +2,7 @@
 
 import { useColorStore } from "../color/provider";
 import { parseColor, formatHex } from "~/lib/color";
-import { ColorInput, ColorMode } from "../color";
+import { ColorInput } from "../color";
 import clsx from "clsx";
 
 export default function ColorPicker() {
@@ -205,7 +205,6 @@ export default function ColorPicker() {
           )}
         </div>
       </header>
-      <ColorMode state={store} />
     </article>
   );
 }
