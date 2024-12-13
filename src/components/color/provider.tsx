@@ -1,8 +1,9 @@
 "use client";
 
 import type { ColorStore } from "~/lib/color";
-import { createContext, useRef, useContext } from "react";
+import { createContext, useRef, useContext, useEffect } from "react";
 import { createColorStore, createColor, isValidHex } from "~/lib/color";
+import { localThemeListener } from "~/lib/theme";
 import { useParams } from "next/navigation";
 import { useStore } from "zustand";
 
@@ -27,6 +28,12 @@ export function ColorProvider({
         : createColor(initValue),
     );
   }
+
+  useEffect(() => {
+    const media = window.matchMedia("(prefers-color-scheme: dark)");
+    media.addEventListener("change", localThemeListener);
+    return () => media.removeEventListener("change", localThemeListener);
+  }, []);
 
   return (
     <ColorContext.Provider value={storeRef.current}>

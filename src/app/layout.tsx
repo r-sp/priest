@@ -1,8 +1,6 @@
 import { Geist, Geist_Mono } from "next/font/google";
-import { ColorProvider } from "~/components/color/provider";
+import { ColorProvider, ThemeScript, Header, Footer } from "~/components";
 import { randomColor } from "~/lib/color";
-import Header from "~/components/header";
-import Link from "next/link";
 import clsx from "clsx";
 import "./style.css";
 
@@ -33,26 +31,16 @@ export default function RootLayout({
     <ColorProvider initValue={colorByDate}>
       <html
         lang="en"
-        className={clsx(fontSans.variable, fontMono.variable, "dark")}
+        className={clsx(fontSans.variable, fontMono.variable)}
+        suppressHydrationWarning
       >
-        <body className="bg-neutral-50 text-neutral-500 antialiased dark:bg-neutral-900 dark:text-neutral-400">
+        <head>
+          <ThemeScript />
+        </head>
+        <body className="bg-neutral-50 text-neutral-500 antialiased dark:bg-neutral-950 dark:text-neutral-400">
           <Header />
           <main id="content">{children}</main>
-          <footer>
-            <nav
-              aria-label="site links"
-              className="mx-auto w-full max-w-7xl pt-12 pb-8 max-xl:px-3"
-            >
-              <Link
-                href="https://github.com/r-sp/priest"
-                rel="noopener"
-                target="_blank"
-                className="text-sm"
-              >
-                <span>The Holy Colors</span>
-              </Link>
-            </nav>
-          </footer>
+          <Footer />
         </body>
       </html>
     </ColorProvider>
