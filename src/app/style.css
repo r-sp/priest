@@ -49,6 +49,10 @@
   .btn:hover,
   .btn:focus {
     background-color: var(--color-neutral-200);
+    color: var(--color-neutral-600);
+  }
+  .btn:active {
+    background-color: var(--color-neutral-300);
     color: var(--color-neutral-700);
   }
   .dark .btn:hover,
@@ -56,6 +60,11 @@
     background-color: var(--color-neutral-800);
     color: var(--color-neutral-300);
   }
+  .dark .btn:active {
+    background-color: var(--color-neutral-700);
+    color: var(--color-neutral-200);
+  }
+
   .color-slider,
   .color-slider::-webkit-slider-runnable-track,
   .color-slider::-webkit-slider-thumb {
