@@ -30,9 +30,32 @@
     top: 0;
     width: 100%;
   }
+  .overlay {
+    bottom: 0;
+    left: 0;
+    right: 0;
+    top: 0;
+  }
 }
 
 @layer components {
+  .btn {
+    border-radius: inherit;
+  }
+  .btn:focus-visible {
+    position: relative;
+    z-index: 2;
+  }
+  .btn:hover,
+  .btn:focus {
+    background-color: var(--color-neutral-200);
+    color: var(--color-neutral-700);
+  }
+  .dark .btn:hover,
+  .dark .btn:focus {
+    background-color: var(--color-neutral-800);
+    color: var(--color-neutral-300);
+  }
   .color-slider,
   .color-slider::-webkit-slider-runnable-track,
   .color-slider::-webkit-slider-thumb {
