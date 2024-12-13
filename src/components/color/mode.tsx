@@ -27,6 +27,19 @@ export default function ColorMode() {
     }
   };
 
+  useEffect(() => {
+    const handleScroll = () => {
+      if (modal) {
+        setModal(false);
+      }
+    };
+
+    window.addEventListener("scroll", handleScroll);
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, [modal]);
+
   return (
     <div role="none" className="relative">
       <button
@@ -35,7 +48,7 @@ export default function ColorMode() {
         aria-expanded={modal}
         aria-controls="color-mode"
         aria-label="change color mode"
-        className="btn inline-flex size-8 items-center justify-center rounded-2xl border border-neutral-400 dark:border-neutral-700"
+        className="btn inline-flex size-8 items-center justify-center rounded-2xl border border-neutral-400 transition-colors dark:border-neutral-700"
         onClick={() => setModal(!modal)}
       >
         <svg className="size-6" width={24} height={24} viewBox="0 0 24 24">
@@ -48,7 +61,7 @@ export default function ColorMode() {
       <Navigation visible={modal} state={setModal}>
         <button
           role="menuitem"
-          className="btn inline-flex h-8 min-w-24 items-center px-3 font-mono text-sm font-medium"
+          className="btn inline-flex h-8 min-w-24 items-center px-3 font-mono text-sm font-medium transition-colors"
           tabIndex={modal ? (modeRgb ? 0 : -1) : -1}
           onClick={() => handleMode("rgb")}
         >
@@ -56,7 +69,7 @@ export default function ColorMode() {
         </button>
         <button
           role="menuitem"
-          className="btn inline-flex h-8 min-w-24 items-center px-3 font-mono text-sm font-medium"
+          className="btn inline-flex h-8 min-w-24 items-center px-3 font-mono text-sm font-medium transition-colors"
           tabIndex={modal ? (modeHsl ? 0 : -1) : -1}
           onClick={() => handleMode("hsl")}
         >
@@ -64,7 +77,7 @@ export default function ColorMode() {
         </button>
         <button
           role="menuitem"
-          className="btn inline-flex h-8 min-w-24 items-center px-3 font-mono text-sm font-medium"
+          className="btn inline-flex h-8 min-w-24 items-center px-3 font-mono text-sm font-medium transition-colors"
           tabIndex={modal ? (modeHwb ? 0 : -1) : -1}
           onClick={() => handleMode("hwb")}
         >
@@ -72,7 +85,7 @@ export default function ColorMode() {
         </button>
         <button
           role="menuitem"
-          className="btn inline-flex h-8 min-w-24 items-center px-3 font-mono text-sm font-medium"
+          className="btn inline-flex h-8 min-w-24 items-center px-3 font-mono text-sm font-medium transition-colors"
           tabIndex={modal ? (modeLch ? 0 : -1) : -1}
           onClick={() => handleMode("lch")}
         >
@@ -80,7 +93,7 @@ export default function ColorMode() {
         </button>
         <button
           role="menuitem"
-          className="btn inline-flex h-8 min-w-24 items-center px-3 font-mono text-sm font-medium"
+          className="btn inline-flex h-8 min-w-24 items-center px-3 font-mono text-sm font-medium transition-colors"
           tabIndex={modal ? (modeOklch ? 0 : -1) : -1}
           onClick={() => handleMode("oklch")}
         >
@@ -88,7 +101,7 @@ export default function ColorMode() {
         </button>
         <button
           role="menuitem"
-          className="btn inline-flex h-8 min-w-24 items-center px-3 font-mono text-sm font-medium"
+          className="btn inline-flex h-8 min-w-24 items-center px-3 font-mono text-sm font-medium transition-colors"
           tabIndex={modal ? (modeLab ? 0 : -1) : -1}
           onClick={() => handleMode("lab")}
         >
@@ -96,7 +109,7 @@ export default function ColorMode() {
         </button>
         <button
           role="menuitem"
-          className="btn inline-flex h-8 min-w-24 items-center px-3 font-mono text-sm font-medium"
+          className="btn inline-flex h-8 min-w-24 items-center px-3 font-mono text-sm font-medium transition-colors"
           tabIndex={modal ? (modeOklab ? 0 : -1) : -1}
           onClick={() => handleMode("oklab")}
         >
