@@ -27,3 +27,25 @@ export const slugify = (text: string) => {
     .replace(/[\s_-]+/g, "-")
     .replace(/^-+|-+$/g, "");
 };
+
+export const setLocalStorage = (key: string, value: string) => {
+  if (typeof window !== "undefined") {
+    try {
+      localStorage.setItem(key, value);
+    } catch (e) {
+      console.error(e);
+    }
+  }
+};
+
+export const getLocalStorage = (key: string) => {
+  let local;
+  if (typeof window !== "undefined") {
+    try {
+      local = localStorage.getItem(key);
+    } catch (e) {
+      console.error(e);
+    }
+  }
+  return local;
+};
