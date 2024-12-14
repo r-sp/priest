@@ -1,6 +1,7 @@
 "use client";
 
-import { useRef, useCallback } from "react";
+import { createPortal } from "react-dom";
+import { useState, useRef, useCallback } from "react";
 import { useColorStore } from "../color/provider";
 import { cleanTheme, applyTheme, storeTheme } from "~/lib/theme";
 import clsx from "clsx";
@@ -34,17 +35,22 @@ export default function ThemeSwitcher() {
     setTheme(dark);
   };
 
+  const modeAuto = theme === auto;
+  const modeLight = theme === light;
+  const modeDark = theme === dark;
+
   return (
     <Navigation>
       <button
-        role="menuitem"
+        role="menuitemradio"
+        aria-checked={modeLight}
         aria-label="light"
         className={clsx(
-          "btn inline-flex size-8 items-center justify-center rounded-2xl",
-          theme === light &&
+          "btn inline-flex size-8 items-center justify-center rounded-2xl transition-colors",
+          modeLight &&
             "border-2 border-neutral-50 bg-neutral-200 text-neutral-700 dark:border-neutral-950 dark:bg-neutral-800 dark:text-neutral-200",
         )}
-        tabIndex={theme === light ? 0 : -1}
+        tabIndex={modeLight ? 0 : -1}
         onClick={applyLightMode}
       >
         <svg
@@ -61,14 +67,15 @@ export default function ThemeSwitcher() {
         </svg>
       </button>
       <button
-        role="menuitem"
+        role="menuitemradio"
+        aria-checked={modeDark}
         aria-label="dark"
         className={clsx(
-          "btn inline-flex size-8 items-center justify-center rounded-2xl",
-          theme === dark &&
+          "btn inline-flex size-8 items-center justify-center rounded-2xl transition-colors",
+          modeDark &&
             "border-2 border-neutral-50 bg-neutral-200 text-neutral-700 dark:border-neutral-950 dark:bg-neutral-800 dark:text-neutral-200",
         )}
-        tabIndex={theme === dark ? 0 : -1}
+        tabIndex={modeDark ? 0 : -1}
         onClick={applyDarkMode}
       >
         <svg
@@ -85,14 +92,15 @@ export default function ThemeSwitcher() {
         </svg>
       </button>
       <button
-        role="menuitem"
+        role="menuitemradio"
+        aria-checked={modeAuto}
         aria-label="auto"
         className={clsx(
-          "btn inline-flex size-8 items-center justify-center rounded-2xl",
-          theme === auto &&
+          "btn inline-flex size-8 items-center justify-center rounded-2xl transition-colors",
+          modeAuto &&
             "border-2 border-neutral-50 bg-neutral-200 text-neutral-700 dark:border-neutral-950 dark:bg-neutral-800 dark:text-neutral-200",
         )}
-        tabIndex={theme === auto ? 0 : -1}
+        tabIndex={modeAuto ? 0 : -1}
         onClick={applyAutoMode}
       >
         <svg
@@ -113,17 +121,18 @@ export default function ThemeSwitcher() {
 }
 
 function Navigation(props: { children: React.ReactNode }) {
-  const refList = useRef<HTMLElement>(null);
+  const [reduceMotion, setReduceMotion] = useState<boolean>(false);
+  const refList = useRef<HTMLDivElement>(null);
 
   const handleKeyboard = useCallback((e: React.KeyboardEvent) => {
     const list = refList.current;
     if (!list) return;
 
-    const tabs = Array.from<HTMLElement>(
+    const tabs = Array.from<HTMLDivElement>(
       list.querySelectorAll("button:not([disabled])"),
     );
 
-    const index = tabs.indexOf(document.activeElement as HTMLElement);
+    const index = tabs.indexOf(document.activeElement as HTMLDivElement);
     if (index < 0) return;
 
     switch (e.key) {
@@ -145,14 +154,27 @@ function Navigation(props: { children: React.ReactNode }) {
   }, []);
 
   return (
-    <nav
+    <div
       ref={refList}
       role="menu"
       aria-label="theme"
       className="flex rounded-3xl border border-neutral-400 dark:border-neutral-700"
       onKeyDown={handleKeyboard}
+      onFocus={() => setReduceMotion(true)}
+      onBlur={() => setReduceMotion(false)}
     >
       {props.children}
-    </nav>
+      {reduceMotion ? createPortal(<ReduceMotion />, document.body) : null}
+    </div>
+  );
+}
+
+function ReduceMotion() {
+  return (
+    <style
+      dangerouslySetInnerHTML={{
+        __html: `.transition-colors{transition-duration:0s}`,
+      }}
+    ></style>
   );
 }

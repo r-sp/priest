@@ -40,6 +40,11 @@ export default function ColorMode() {
     };
   }, [modal]);
 
+  const radioChecked =
+    "M12 16.5C13.2487 16.5 14.3108 16.0622 15.1865 15.1865C16.0622 14.3108 16.5 13.2487 16.5 12C16.5 10.7513 16.0622 9.68917 15.1865 8.8135C14.3108 7.93783 13.2487 7.5 12 7.5C10.7513 7.5 9.68917 7.93783 8.8135 8.8135C7.93783 9.68917 7.5 10.7513 7.5 12C7.5 13.2487 7.93783 14.3108 8.8135 15.1865C9.68917 16.0622 10.7513 16.5 12 16.5ZM12.0017 21.5C10.6877 21.5 9.45267 21.2507 8.2965 20.752C7.14033 20.2533 6.13467 19.5766 5.2795 18.7218C4.42433 17.8669 3.74725 16.8617 3.24825 15.706C2.74942 14.5503 2.5 13.3156 2.5 12.0017C2.5 10.6877 2.74933 9.45267 3.248 8.2965C3.74667 7.14033 4.42342 6.13467 5.27825 5.2795C6.13308 4.42433 7.13833 3.74725 8.294 3.24825C9.44967 2.74942 10.6844 2.5 11.9983 2.5C13.3123 2.5 14.5473 2.74933 15.7035 3.248C16.8597 3.74667 17.8653 4.42342 18.7205 5.27825C19.5757 6.13308 20.2528 7.13833 20.7518 8.294C21.2506 9.44967 21.5 10.6844 21.5 11.9983C21.5 13.3123 21.2507 14.5473 20.752 15.7035C20.2533 16.8597 19.5766 17.8653 18.7218 18.7205C17.8669 19.5757 16.8617 20.2528 15.706 20.7518C14.5503 21.2506 13.3156 21.5 12.0017 21.5ZM12 20C14.2333 20 16.125 19.225 17.675 17.675C19.225 16.125 20 14.2333 20 12C20 9.76667 19.225 7.875 17.675 6.325C16.125 4.775 14.2333 4 12 4C9.76667 4 7.875 4.775 6.325 6.325C4.775 7.875 4 9.76667 4 12C4 14.2333 4.775 16.125 6.325 17.675C7.875 19.225 9.76667 20 12 20Z";
+  const radioUnchecked =
+    "M12.0017 21.5C10.6877 21.5 9.45267 21.2507 8.2965 20.752C7.14033 20.2533 6.13467 19.5766 5.2795 18.7218C4.42433 17.8669 3.74725 16.8617 3.24825 15.706C2.74942 14.5503 2.5 13.3156 2.5 12.0017C2.5 10.6877 2.74933 9.45267 3.248 8.2965C3.74667 7.14033 4.42342 6.13467 5.27825 5.2795C6.13308 4.42433 7.13833 3.74725 8.294 3.24825C9.44967 2.74942 10.6844 2.5 11.9983 2.5C13.3123 2.5 14.5473 2.74933 15.7035 3.248C16.8597 3.74667 17.8653 4.42342 18.7205 5.27825C19.5757 6.13308 20.2528 7.13833 20.7518 8.294C21.2506 9.44967 21.5 10.6844 21.5 11.9983C21.5 13.3123 21.2507 14.5473 20.752 15.7035C20.2533 16.8597 19.5766 17.8653 18.7218 18.7205C17.8669 19.5757 16.8617 20.2528 15.706 20.7518C14.5503 21.2506 13.3156 21.5 12.0017 21.5ZM12 20C14.2333 20 16.125 19.225 17.675 17.675C19.225 16.125 20 14.2333 20 12C20 9.76667 19.225 7.875 17.675 6.325C16.125 4.775 14.2333 4 12 4C9.76667 4 7.875 4.775 6.325 6.325C4.775 7.875 4 9.76667 4 12C4 14.2333 4.775 16.125 6.325 17.675C7.875 19.225 9.76667 20 12 20Z";
+
   return (
     <div role="none" className="relative">
       <button
@@ -48,7 +53,10 @@ export default function ColorMode() {
         aria-expanded={modal}
         aria-controls="color-mode"
         aria-label="change color mode"
-        className="btn inline-flex size-8 items-center justify-center rounded-2xl border border-neutral-400 transition-colors dark:border-neutral-700"
+        className={clsx(
+          !modal && "btn",
+          "inline-flex size-8 items-center justify-center rounded-2xl border border-neutral-400 transition-colors dark:border-neutral-700",
+        )}
         onClick={() => setModal(!modal)}
       >
         <svg
@@ -64,69 +72,170 @@ export default function ColorMode() {
           />
         </svg>
       </button>
-      <Navigation visible={modal} state={setModal}>
+      <Navigation visible={modal} state={setModal} button={btnRef}>
         <button
-          role="menuitem"
-          className="btn inline-flex h-8 min-w-24 items-center px-3 font-mono text-sm font-medium transition-colors"
+          role="menuitemradio"
+          aria-checked={modeRgb}
+          className="btn inline-flex h-8 min-w-32 items-center gap-2 px-3 font-mono text-sm font-medium transition-colors"
           tabIndex={modal ? (modeRgb ? 0 : -1) : -1}
           onClick={() => handleMode("rgb")}
         >
+          <svg
+            role="presentation"
+            className="size-6"
+            width={24}
+            height={24}
+            viewBox="0 0 24 24"
+          >
+            <path
+              fill="currentColor"
+              d={modeRgb ? radioChecked : radioUnchecked}
+            />
+          </svg>
           <span>RGB</span>
         </button>
         <button
-          role="menuitem"
-          className="btn inline-flex h-8 min-w-24 items-center px-3 font-mono text-sm font-medium transition-colors"
+          role="menuitemradio"
+          aria-checked={modeHsl}
+          className="btn inline-flex h-8 min-w-32 items-center gap-2 px-3 font-mono text-sm font-medium transition-colors"
           tabIndex={modal ? (modeHsl ? 0 : -1) : -1}
           onClick={() => handleMode("hsl")}
         >
+          <svg
+            role="presentation"
+            className="size-6"
+            width={24}
+            height={24}
+            viewBox="0 0 24 24"
+          >
+            <path
+              fill="currentColor"
+              d={modeHsl ? radioChecked : radioUnchecked}
+            />
+          </svg>
           <span>HSL</span>
         </button>
         <button
-          role="menuitem"
-          className="btn inline-flex h-8 min-w-24 items-center px-3 font-mono text-sm font-medium transition-colors"
+          role="menuitemradio"
+          aria-checked={modeHwb}
+          className="btn inline-flex h-8 min-w-32 items-center gap-2 px-3 font-mono text-sm font-medium transition-colors"
           tabIndex={modal ? (modeHwb ? 0 : -1) : -1}
           onClick={() => handleMode("hwb")}
         >
+          <svg
+            role="presentation"
+            className="size-6"
+            width={24}
+            height={24}
+            viewBox="0 0 24 24"
+          >
+            <path
+              fill="currentColor"
+              d={modeHwb ? radioChecked : radioUnchecked}
+            />
+          </svg>
           <span>HWB</span>
         </button>
+        <span
+          role="separator"
+          className="my-2 border-t border-t-neutral-400 dark:border-t-neutral-700"
+        ></span>
         <button
-          role="menuitem"
-          className="btn inline-flex h-8 min-w-24 items-center px-3 font-mono text-sm font-medium transition-colors"
+          role="menuitemradio"
+          aria-checked={modeLch}
+          className="btn inline-flex h-8 min-w-32 items-center gap-2 px-3 font-mono text-sm font-medium transition-colors"
           tabIndex={modal ? (modeLch ? 0 : -1) : -1}
           onClick={() => handleMode("lch")}
         >
+          <svg
+            role="presentation"
+            className="size-6"
+            width={24}
+            height={24}
+            viewBox="0 0 24 24"
+          >
+            <path
+              fill="currentColor"
+              d={modeLch ? radioChecked : radioUnchecked}
+            />
+          </svg>
           <span>LCH</span>
         </button>
         <button
-          role="menuitem"
-          className="btn inline-flex h-8 min-w-24 items-center px-3 font-mono text-sm font-medium transition-colors"
+          role="menuitemradio"
+          aria-checked={modeOklch}
+          className="btn inline-flex h-8 min-w-32 items-center gap-2 px-3 font-mono text-sm font-medium transition-colors"
           tabIndex={modal ? (modeOklch ? 0 : -1) : -1}
           onClick={() => handleMode("oklch")}
         >
+          <svg
+            role="presentation"
+            className="size-6"
+            width={24}
+            height={24}
+            viewBox="0 0 24 24"
+          >
+            <path
+              fill="currentColor"
+              d={modeOklch ? radioChecked : radioUnchecked}
+            />
+          </svg>
           <span>OKLCH</span>
         </button>
         <button
-          role="menuitem"
-          className="btn inline-flex h-8 min-w-24 items-center px-3 font-mono text-sm font-medium transition-colors"
+          role="menuitemradio"
+          aria-checked={modeLab}
+          className="btn inline-flex h-8 min-w-32 items-center gap-2 px-3 font-mono text-sm font-medium transition-colors"
           tabIndex={modal ? (modeLab ? 0 : -1) : -1}
           onClick={() => handleMode("lab")}
         >
+          <svg
+            role="presentation"
+            className="size-6"
+            width={24}
+            height={24}
+            viewBox="0 0 24 24"
+          >
+            <path
+              fill="currentColor"
+              d={modeLab ? radioChecked : radioUnchecked}
+            />
+          </svg>
           <span>LAB</span>
         </button>
         <button
-          role="menuitem"
-          className="btn inline-flex h-8 min-w-24 items-center px-3 font-mono text-sm font-medium transition-colors"
+          role="menuitemradio"
+          aria-checked={modeOklab}
+          className="btn inline-flex h-8 min-w-32 items-center gap-2 px-3 font-mono text-sm font-medium transition-colors"
           tabIndex={modal ? (modeOklab ? 0 : -1) : -1}
           onClick={() => handleMode("oklab")}
         >
+          <svg
+            role="presentation"
+            className="size-6"
+            width={24}
+            height={24}
+            viewBox="0 0 24 24"
+          >
+            <path
+              fill="currentColor"
+              d={modeOklab ? radioChecked : radioUnchecked}
+            />
+          </svg>
           <span>OKLAB</span>
         </button>
       </Navigation>
       <span
-        role="none"
+        role={modal ? "button" : "none"}
+        aria-label={modal ? "close color mode menu" : undefined}
         className={clsx(modal ? "visible" : "invisible", "overlay fixed z-3")}
-        onFocus={() => setModal(false)}
         tabIndex={modal ? 0 : -1}
+        onFocus={() => {
+          setModal(false);
+          if (btnRef.current) {
+            btnRef.current.focus();
+          }
+        }}
       ></span>
     </div>
   );
@@ -136,46 +245,63 @@ function Navigation(props: {
   children: React.ReactNode;
   visible: boolean;
   state: React.Dispatch<React.SetStateAction<boolean>>;
+  button: React.RefObject<HTMLButtonElement>;
 }) {
-  const refList = useRef<HTMLElement>(null);
+  const refList = useRef<HTMLDivElement>(null);
   const modal = props.visible;
   const setModal = props.state;
+  const btn = props.button.current;
 
   const handleKeyboard = useCallback(
     (e: React.KeyboardEvent) => {
       const list = refList.current;
       if (!list) return;
 
-      const tabs = Array.from<HTMLElement>(
+      const tabs = Array.from<HTMLDivElement>(
         list.querySelectorAll("button:not([disabled])"),
       );
 
-      const index = tabs.indexOf(document.activeElement as HTMLElement);
+      const index = tabs.indexOf(document.activeElement as HTMLDivElement);
       if (index < 0) return;
 
-      switch (e.key) {
-        case "ArrowUp":
-        case "ArrowLeft": {
-          const next = (index - 1 + tabs.length) % tabs.length;
-          tabs[next]?.focus();
-          e.preventDefault();
-          break;
-        }
-        case "Tab":
-        case "ArrowDown":
-        case "ArrowRight": {
-          const next = (index + 1 + tabs.length) % tabs.length;
-          tabs[next]?.focus();
-          e.preventDefault();
-          break;
-        }
-        case "Escape": {
-          setModal(false);
-          break;
+      const prevTab = () => {
+        const next = (index - 1 + tabs.length) % tabs.length;
+        tabs[next]?.focus();
+        e.preventDefault();
+      };
+
+      const nextTab = () => {
+        const next = (index + 1 + tabs.length) % tabs.length;
+        tabs[next]?.focus();
+        e.preventDefault();
+      };
+
+      if (e.shiftKey && e.key === "Tab") {
+        prevTab();
+      } else {
+        switch (e.key) {
+          case "ArrowUp":
+          case "ArrowLeft": {
+            prevTab();
+            break;
+          }
+          case "Tab":
+          case "ArrowDown":
+          case "ArrowRight": {
+            nextTab();
+            break;
+          }
+          case "Escape": {
+            setModal(false);
+            if (btn) {
+              btn.focus();
+            }
+            break;
+          }
         }
       }
     },
-    [setModal],
+    [setModal, btn],
   );
 
   useEffect(() => {
@@ -190,18 +316,20 @@ function Navigation(props: {
   }, [modal, refList]);
 
   return (
-    <nav
+    <div
       ref={refList}
       role="menu"
       aria-label="color mode"
       id="color-mode"
       className={clsx(
-        modal ? "visible" : "invisible",
-        "absolute top-10 right-0 z-4 flex flex-col rounded-sm border border-neutral-400 bg-neutral-50 dark:border-neutral-700 dark:bg-neutral-950",
+        modal
+          ? "visible translate-x-0 translate-y-0 scale-100 transition-transform ease-out"
+          : "invisible -translate-y-6 translate-x-2 scale-90 transition-transform ease-in",
+        "absolute top-10 right-0 z-4 flex flex-col rounded-sm border border-neutral-400 bg-neutral-50 py-2 dark:border-neutral-700 dark:bg-neutral-950",
       )}
       onKeyDown={handleKeyboard}
     >
       {props.children}
-    </nav>
+    </div>
   );
 }
