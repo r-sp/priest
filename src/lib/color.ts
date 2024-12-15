@@ -1,5 +1,6 @@
 import { parse, rgb, hsl, hwb, lab, lch, oklab, oklch } from "culori";
 import { round, floor, limiter } from "./utils";
+import { getLocalTheme } from "./theme";
 import { createStore } from "zustand";
 
 export type ThemeVariant = "auto" | "light" | "dark";
@@ -73,7 +74,6 @@ export type ColorState = {
 };
 
 export type ColorAction = {
-  setAll: (color: ColorState) => void;
   setHex: (color: RgbColor) => void;
   setRgb: (color: RgbColor) => void;
   setHsl: (color: HslColor) => void;
@@ -162,7 +162,6 @@ export const formatOklch = (newColor: OklchColor | OklchColorMode): string => {
 export const createColorStore = (initValue: ColorState) => {
   return createStore<ColorStore>()((set) => ({
     ...initValue,
-    setAll: (newColor) => set((state) => ({ ...state, ...newColor })),
     setHex: (newColor) =>
       set(() => {
         const color = rgb({ mode: "rgb", ...newColor });
@@ -308,6 +307,7 @@ export const createColor = (newColor: string): ColorState => {
   const _lch = colorLch(newColor);
   const _oklab = colorOklab(newColor);
   const _oklch = colorOklch(newColor);
+  const _theme = getLocalTheme();
 
   const store: ColorState = {
     hex: formatHex(_rgb.color),
@@ -318,8 +318,8 @@ export const createColor = (newColor: string): ColorState => {
     lch: _lch,
     oklab: _oklab,
     oklch: _oklch,
-    mode: "rgb",
-    theme: "auto",
+    mode: "oklch",
+    theme: _theme,
   };
 
   return store;

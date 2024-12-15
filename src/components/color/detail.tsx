@@ -10,7 +10,7 @@ export default function ColorDetail() {
   const colorBy = useParams<{ hex: string }>();
   const store = useColorStore((state) => state);
 
-  const { hex, rgb, hsl, hwb, lab, lch, oklab, oklch } = colorBy.hex
+  const { hex, rgb, hsl, hwb, lab, lch, oklab, oklch, mode } = colorBy.hex
     ? createColor(isValidHex(colorBy.hex))
     : store;
 
@@ -22,6 +22,14 @@ export default function ColorDetail() {
   const colorLch = lch.css;
   const colorOklab = oklab.css;
   const colorOklch = oklch.css;
+
+  const modeRgb = mode === "rgb";
+  const modeHsl = mode === "hsl";
+  const modeHwb = mode === "hwb";
+  const modeLab = mode === "lab";
+  const modeLch = mode === "lch";
+  const modeOklab = mode === "oklab";
+  const modeOklch = mode === "oklch";
 
   return (
     <article
@@ -40,28 +48,62 @@ export default function ColorDetail() {
           <div role="presentation" className="frame rounded-lg">
             <span style={{ backgroundColor: colorRgb }}></span>
           </div>
-          <h1 className="mt-4">
+          <h1 className="mt-4 font-mono">
             <code>{colorHex}</code>
           </h1>
-          <p>
+          <p
+            className={clsx(
+              modeRgb && "text-neutral-800 dark:text-neutral-200",
+              "font-mono",
+            )}
+          >
             <code>{colorRgb}</code>
           </p>
-          <p>
+          <p
+            className={clsx(
+              modeHsl && "text-neutral-800 dark:text-neutral-200",
+              "font-mono",
+            )}
+          >
             <code>{colorHsl}</code>
           </p>
-          <p>
+          <p
+            className={clsx(
+              modeHwb && "text-neutral-800 dark:text-neutral-200",
+              "font-mono",
+            )}
+          >
             <code>{colorHwb}</code>
           </p>
-          <p className="mt-4">
+          <p
+            className={clsx(
+              modeLch && "text-neutral-800 dark:text-neutral-200",
+              "mt-4 font-mono",
+            )}
+          >
             <code>{colorLch}</code>
           </p>
-          <p>
+          <p
+            className={clsx(
+              modeOklch && "text-neutral-800 dark:text-neutral-200",
+            )}
+          >
             <code>{colorOklch}</code>
           </p>
-          <p>
+          <p
+            className={clsx(
+              modeLab && "text-neutral-800 dark:text-neutral-200",
+              "font-mono",
+            )}
+          >
             <code>{colorLab}</code>
           </p>
-          <p>
+          <p
+            className={clsx(
+              modeOklab && "text-neutral-800 dark:text-neutral-200",
+              "font-mono",
+            )}
+          >
             <code>{colorOklab}</code>
           </p>
           <ColorContrast rgb={rgb.color} />

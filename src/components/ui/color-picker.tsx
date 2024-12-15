@@ -32,28 +32,37 @@ export default function ColorPicker() {
         <div role="presentation" className="frame rounded-lg">
           <span style={{ backgroundColor: colorRgb }}></span>
         </div>
-        <h1 className="mt-4">
+        <h1 className="mt-4 font-mono">
           <code>{colorHex}</code>
         </h1>
         <p
-          className={clsx(modeRgb && "text-neutral-800 dark:text-neutral-200")}
+          className={clsx(
+            modeRgb && "text-neutral-800 dark:text-neutral-200",
+            "font-mono",
+          )}
         >
           <code>{colorRgb}</code>
         </p>
         <p
-          className={clsx(modeHsl && "text-neutral-800 dark:text-neutral-200")}
+          className={clsx(
+            modeHsl && "text-neutral-800 dark:text-neutral-200",
+            "font-mono",
+          )}
         >
           <code>{colorHsl}</code>
         </p>
         <p
-          className={clsx(modeHwb && "text-neutral-800 dark:text-neutral-200")}
+          className={clsx(
+            modeHwb && "text-neutral-800 dark:text-neutral-200",
+            "font-mono",
+          )}
         >
           <code>{colorHwb}</code>
         </p>
         <p
           className={clsx(
             modeLch && "text-neutral-800 dark:text-neutral-200",
-            "mt-4",
+            "mt-4 font-mono",
           )}
         >
           <code>{colorLch}</code>
@@ -61,18 +70,23 @@ export default function ColorPicker() {
         <p
           className={clsx(
             modeOklch && "text-neutral-800 dark:text-neutral-200",
+            "font-mono",
           )}
         >
           <code>{colorOklch}</code>
         </p>
         <p
-          className={clsx(modeLab && "text-neutral-800 dark:text-neutral-200")}
+          className={clsx(
+            modeLab && "text-neutral-800 dark:text-neutral-200",
+            "font-mono",
+          )}
         >
           <code>{colorLab}</code>
         </p>
         <p
           className={clsx(
             modeOklab && "text-neutral-800 dark:text-neutral-200",
+            "font-mono",
           )}
         >
           <code>{colorOklab}</code>
