@@ -74,7 +74,6 @@ export type ColorState = {
 };
 
 export type ColorAction = {
-  setAll: (color: ColorState) => void;
   setHex: (color: RgbColor) => void;
   setRgb: (color: RgbColor) => void;
   setHsl: (color: HslColor) => void;
@@ -163,7 +162,6 @@ export const formatOklch = (newColor: OklchColor | OklchColorMode): string => {
 export const createColorStore = (initValue: ColorState) => {
   return createStore<ColorStore>()((set) => ({
     ...initValue,
-    setAll: (newColor) => set((state) => ({ ...state, ...newColor })),
     setHex: (newColor) =>
       set(() => {
         const color = rgb({ mode: "rgb", ...newColor });
