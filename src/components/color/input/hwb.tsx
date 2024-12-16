@@ -10,6 +10,9 @@ export default function InputHwb(props: {
 }) {
   const { hwb, setHwb } = useColorStore((state) => state);
   const [color, setColor] = useState<HwbColor>(hwb.color);
+  const [focusHue, setFocusHue] = useState<boolean>(false);
+  const [focusWhiteness, setFocusWhiteness] = useState<boolean>(false);
+  const [focusBlackness, setFocusBlackness] = useState<boolean>(false);
 
   const updateColor = (newColor: Partial<HwbColor>) => {
     const _hwb = { ...color, ...newColor };
@@ -49,11 +52,13 @@ export default function InputHwb(props: {
           type="range"
           min={0}
           max={360}
-          step={0.01}
+          step={focusHue ? 1 : 0.01}
           value={color.h}
           id="hwb-hue"
           className="color-slider relative z-2 text-neutral-400"
           onChange={(e) => updateColor({ h: e.target.valueAsNumber })}
+          onKeyDown={() => setFocusHue(true)}
+          onBlur={() => focusHue && setFocusHue(false)}
         />
         <span
           role="presentation"
@@ -70,11 +75,13 @@ export default function InputHwb(props: {
           type="range"
           min={0}
           max={1}
-          step={0.0001}
+          step={focusWhiteness ? 0.01 : 0.0001}
           value={color.w}
           id="hwb-whiteness"
           className="color-slider relative z-2 text-neutral-400"
           onChange={(e) => updateColor({ w: e.target.valueAsNumber })}
+          onKeyDown={() => setFocusWhiteness(true)}
+          onBlur={() => focusWhiteness && setFocusWhiteness(false)}
         />
         <span
           role="presentation"
@@ -90,11 +97,13 @@ export default function InputHwb(props: {
           type="range"
           min={0}
           max={1}
-          step={0.0001}
+          step={focusBlackness ? 0.01 : 0.0001}
           value={color.b}
           id="hwb-blackness"
           className="color-slider relative z-2 text-neutral-400"
           onChange={(e) => updateColor({ b: e.target.valueAsNumber })}
+          onKeyDown={() => setFocusBlackness(true)}
+          onBlur={() => focusBlackness && setFocusBlackness(false)}
         />
         <span
           role="presentation"

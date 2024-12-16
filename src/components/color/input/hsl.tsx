@@ -10,6 +10,9 @@ export default function InputHsl(props: {
 }) {
   const { hsl, setHsl } = useColorStore((state) => state);
   const [color, setColor] = useState<HslColor>(hsl.color);
+  const [focusHue, setFocusHue] = useState<boolean>(false);
+  const [focusSaturation, setFocusSaturation] = useState<boolean>(false);
+  const [focusLightness, setFocusLightness] = useState<boolean>(false);
 
   const updateColor = (newColor: Partial<HslColor>) => {
     const _hsl = { ...color, ...newColor };
@@ -48,11 +51,13 @@ export default function InputHsl(props: {
           type="range"
           min={0}
           max={360}
-          step={0.01}
+          step={focusHue ? 1 : 0.01}
           value={color.h}
           id="hsl-hue"
           className="color-slider relative z-2 text-neutral-400"
           onChange={(e) => updateColor({ h: e.target.valueAsNumber })}
+          onKeyDown={() => setFocusHue(true)}
+          onBlur={() => focusHue && setFocusHue(false)}
         />
         <span
           role="presentation"
@@ -69,11 +74,13 @@ export default function InputHsl(props: {
           type="range"
           min={0}
           max={1}
-          step={0.0001}
+          step={focusSaturation ? 0.01 : 0.0001}
           value={color.s}
           id="hsl-saturation"
           className="color-slider relative z-2 text-neutral-400"
           onChange={(e) => updateColor({ s: e.target.valueAsNumber })}
+          onKeyDown={() => setFocusSaturation(true)}
+          onBlur={() => focusSaturation && setFocusSaturation(false)}
         />
         <span
           role="presentation"
@@ -89,11 +96,13 @@ export default function InputHsl(props: {
           type="range"
           min={0}
           max={1}
-          step={0.0001}
+          step={focusLightness ? 0.01 : 0.0001}
           value={color.l}
           id="hsl-lightness"
           className="color-slider relative z-2 text-neutral-400"
           onChange={(e) => updateColor({ l: e.target.valueAsNumber })}
+          onKeyDown={() => setFocusLightness(true)}
+          onBlur={() => focusLightness && setFocusLightness(false)}
         />
         <span
           role="presentation"
