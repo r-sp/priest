@@ -13,6 +13,14 @@ export async function generateMetadata({
 
   return {
     title: `Color: ${name}`,
+    openGraph: {
+      images: [
+        {
+          url: `https://priest.vercel.app/api/og/color=${color}`,
+          alt: `Color: ${name}`,
+        },
+      ],
+    },
   };
 }
 
