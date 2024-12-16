@@ -1,3 +1,5 @@
+import { colorsNamed, nearest, differenceCiede2000 } from "culori";
+
 export type WebColor = {
   slug: string;
   hex: string;
@@ -190,3 +192,27 @@ export const namedColors = {
   white,
   black,
 };
+
+export const allColors = [
+  ...red,
+  ...brown,
+  ...orange,
+  ...yellow,
+  ...green,
+  ...cyan,
+  ...blue,
+  ...purple,
+  ...pink,
+  ...white,
+  ...black,
+];
+
+export const allColorsName = allColors.map((color) => color.slug);
+
+export const findColor = (name: string) =>
+  allColorsName.find((color) => name === color.toLowerCase() && color);
+
+const webColor = Object.keys(colorsNamed);
+const nearestNamedColors = nearest(webColor, differenceCiede2000());
+
+export const nearestColor = (hex: string) => nearestNamedColors(hex, 3);
