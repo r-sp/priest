@@ -18,7 +18,7 @@ export function ColorProvider({
   children: React.ReactNode;
   initValue: string;
 }) {
-  const storeRef = useRef<ColorApi>();
+  const storeRef = useRef<ColorApi>(undefined);
   const colorBy = useParams<{ hex: string }>();
 
   if (!storeRef.current) {

@@ -11,15 +11,20 @@ export async function generateMetadata({
   const color = (await params).hex;
   const name = isValidHex(color);
 
+  const link = `https://priest.vercel.app/color/${color}`;
+
   return {
     title: `Color: ${name}`,
     openGraph: {
       images: [
         {
-          url: `https://priest.vercel.app/api/og/color=${color}`,
+          url: `${link}/img`,
           alt: `Color: ${name}`,
         },
       ],
+    },
+    alternates: {
+      canonical: link,
     },
   };
 }

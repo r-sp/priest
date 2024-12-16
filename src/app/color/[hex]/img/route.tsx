@@ -1,27 +1,34 @@
+import { type NextRequest } from "next/server";
 import { type CSSProperties } from "react";
 import { ImageResponse } from "next/og";
 import { createColor, isValidHex } from "~/lib/color";
-import { colorsNamed, nearest, differenceCiede2000 } from "culori";
+import { findColor, nearestColor } from "~/lib/web-colors";
 
 export const runtime = "edge";
 
-export async function GET(req: Request) {
-  const url = new URL(req.url);
-  const obj = Object.fromEntries(url.searchParams.entries());
-  const color = createColor(isValidHex(obj.color));
+export async function GET(
+  req: NextRequest,
+  {
+    params,
+  }: {
+    params: { hex: string };
+  },
+) {
+  const color = (await params).hex;
+  const { hex, rgb, hsl, hwb, lab, lch, oklab, oklch } = createColor(
+    isValidHex(color),
+  );
 
-  const colorHex = color.hex;
-  const colorRgb = color.rgb.css;
-  const colorHsl = color.hsl.css;
-  const colorHwb = color.hwb.css;
-  const colorLab = color.lab.css;
-  const colorLch = color.lch.css;
-  const colorOklab = color.oklab.css;
-  const colorOklch = color.oklch.css;
+  const colorHex = hex;
+  const colorRgb = rgb.css;
+  const colorHsl = hsl.css;
+  const colorHwb = hwb.css;
+  const colorLab = lab.css;
+  const colorLch = lch.css;
+  const colorOklab = oklab.css;
+  const colorOklch = oklch.css;
 
-  const colors = Object.keys(colorsNamed);
-  const nearestNamedColors = nearest(colors, differenceCiede2000());
-  const relatedColors = nearestNamedColors(colorHex, 3);
+  const relatedColors = nearestColor(colorHex);
 
   const body: CSSProperties = {
     alignItems: "center",
@@ -109,7 +116,7 @@ export async function GET(req: Request) {
           <div style={card}>
             {relatedColors.map((related, index) => (
               <p key={index} style={{ ...code, color: "#737373" }}>
-                <code>{`#${related}`}</code>
+                <code>{`#${findColor(related)}`}</code>
               </p>
             ))}
           </div>
