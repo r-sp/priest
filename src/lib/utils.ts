@@ -19,6 +19,20 @@ export const limiter = (value: number, min: number, max: number): number => {
   return ((((value - min) % range) + range) % range) + min;
 };
 
+export const multiplier = (
+  value: number,
+  min: number,
+  max: number,
+): number[] => {
+  const range: number[] = [];
+  let num = Math.ceil(min / value) * value;
+  while (num <= max) {
+    range.push(num);
+    num += value;
+  }
+  return range;
+};
+
 export const slugify = (text: string) => {
   return text
     .toLowerCase()
