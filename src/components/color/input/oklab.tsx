@@ -10,6 +10,9 @@ export default function InputOklab(props: {
 }) {
   const { oklab, setOklab } = useColorStore((state) => state);
   const [color, setColor] = useState<OklabColor>(oklab.color);
+  const [focusLightness, setFocusLightness] = useState<boolean>(false);
+  const [focusGreenRed, setFocusGreenRed] = useState<boolean>(false);
+  const [focusBlueYellow, setFocusBlueYellow] = useState<boolean>(false);
 
   const updateColor = (newColor: Partial<OklabColor>) => {
     const _oklab = { ...color, ...newColor };
@@ -51,11 +54,13 @@ export default function InputOklab(props: {
           type="range"
           min={0}
           max={1}
-          step={0.001}
+          step={focusLightness ? 0.01 : 0.001}
           value={color.l}
           id="oklab-lightness"
           className="color-slider relative z-2 text-neutral-400"
           onChange={(e) => updateColor({ l: e.target.valueAsNumber })}
+          onKeyDown={() => setFocusLightness(true)}
+          onBlur={() => focusLightness && setFocusLightness(false)}
         />
         <span
           role="presentation"
@@ -71,11 +76,13 @@ export default function InputOklab(props: {
           type="range"
           min={-0.4}
           max={0.4}
-          step={0.001}
+          step={focusGreenRed ? 0.01 : 0.001}
           value={color.a}
           id="oklab-green-red"
           className="color-slider relative z-2 text-neutral-400"
           onChange={(e) => updateColor({ a: e.target.valueAsNumber })}
+          onKeyDown={() => setFocusGreenRed(true)}
+          onBlur={() => focusGreenRed && setFocusGreenRed(false)}
         />
         <span
           role="presentation"
@@ -91,11 +98,13 @@ export default function InputOklab(props: {
           type="range"
           min={-0.4}
           max={0.4}
-          step={0.001}
+          step={focusBlueYellow ? 0.01 : 0.001}
           value={color.b}
           id="oklab-blue-yellow"
           className="color-slider relative z-2 text-neutral-400"
           onChange={(e) => updateColor({ b: e.target.valueAsNumber })}
+          onKeyDown={() => setFocusBlueYellow(true)}
+          onBlur={() => focusBlueYellow && setFocusBlueYellow(false)}
         />
         <span
           role="presentation"

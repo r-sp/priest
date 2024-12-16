@@ -10,6 +10,9 @@ export default function InputLch(props: {
 }) {
   const { lch, setLch } = useColorStore((state) => state);
   const [color, setColor] = useState<LchColor>(lch.color);
+  const [focusLightness, setFocusLightness] = useState<boolean>(false);
+  const [focusChroma, setFocusChroma] = useState<boolean>(false);
+  const [focusHue, setFocusHue] = useState<boolean>(false);
 
   const updateColor = (newColor: Partial<LchColor>) => {
     const _lch = { ...color, ...newColor };
@@ -56,11 +59,13 @@ export default function InputLch(props: {
           type="range"
           min={0}
           max={100}
-          step={0.01}
+          step={focusLightness ? 1 : 0.01}
           value={color.l}
           id="lch-lightness"
           className="color-slider relative z-2 text-neutral-400"
           onChange={(e) => updateColor({ l: e.target.valueAsNumber })}
+          onKeyDown={() => setFocusLightness(true)}
+          onBlur={() => focusLightness && setFocusLightness(false)}
         />
         <span
           role="presentation"
@@ -76,11 +81,13 @@ export default function InputLch(props: {
           type="range"
           min={0}
           max={150}
-          step={0.01}
+          step={focusChroma ? 1 : 0.01}
           value={color.c}
           id="lch-chroma"
           className="color-slider relative z-2 text-neutral-400"
           onChange={(e) => updateColor({ c: e.target.valueAsNumber })}
+          onKeyDown={() => setFocusChroma(true)}
+          onBlur={() => focusChroma && setFocusChroma(false)}
         />
         <span
           role="presentation"
@@ -96,11 +103,13 @@ export default function InputLch(props: {
           type="range"
           min={0}
           max={360}
-          step={0.01}
+          step={focusHue ? 1 : 0.01}
           value={color.h}
           id="lch-hue"
           className="color-slider relative z-2 text-neutral-400"
           onChange={(e) => updateColor({ h: e.target.valueAsNumber })}
+          onKeyDown={() => setFocusHue(true)}
+          onBlur={() => focusHue && setFocusHue(false)}
         />
         <span
           role="presentation"
