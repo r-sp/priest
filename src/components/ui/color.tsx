@@ -3,6 +3,7 @@
 import { useColorStore } from "../color/provider";
 import { formatOklch, formatHex, parseColor } from "~/lib/color";
 import { limiter, multiplier } from "~/lib/utils";
+import { findColor, nearestColor } from "~/lib/web-colors";
 import { ColorInput } from "../color";
 import Link from "next/link";
 
@@ -14,10 +15,12 @@ export default function Color() {
 
   const hueShift = (angle: number[]) =>
     angle.map((deg) => {
-      const _oklch = { ...oklch.color, h: deg };
+      const colorOklch = { ...oklch.color, h: deg };
+      const colorHex = parse.hex({ mode: "oklch", ...colorOklch });
       return {
-        css: formatOklch(_oklch),
-        hex: parse.hex({ mode: "oklch", ..._oklch }),
+        css: formatOklch(colorOklch),
+        hex: colorHex,
+        slug: findColor(nearestColor(colorHex) || "black"),
       };
     });
 
@@ -191,10 +194,15 @@ export default function Color() {
             className="grid gap-2 rounded-lg"
             key={index}
           >
-            <div className="frame rounded-lg">
+            <div role="presentation" className="frame inline-grid rounded-lg">
               <span style={{ backgroundColor: color.css }}></span>
             </div>
-            <code>{color.hex}</code>
+            <p className="inline-grid">
+              <span className="text-base font-medium text-neutral-700 dark:text-neutral-300">
+                {color.slug}
+              </span>
+              <code>{color.hex}</code>
+            </p>
           </Link>
         ))}
       </section>
