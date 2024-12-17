@@ -215,4 +215,6 @@ export const findColor = (name: string) =>
 const webColor = Object.keys(colorsNamed);
 const nearestNamedColors = nearest(webColor, differenceCiede2000());
 
-export const nearestColor = (hex: string) => nearestNamedColors(hex, 1);
+export const nearestColor = (hex: string) => {
+  return nearestNamedColors(hex, 1).find((name) => name);
+};
