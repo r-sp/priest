@@ -7,7 +7,7 @@ import clsx from "clsx";
 
 export default function Header() {
   const [sticky, setSticky] = useState<"top" | "visible" | "hidden">("top");
-  const headerHeight = 64;
+  const headerHeight = 72;
 
   useEffect(() => {
     let pageScroll = false;
@@ -52,14 +52,14 @@ export default function Header() {
   return (
     <header
       className={clsx(
-        "sticky top-0 right-0 left-0 z-8",
+        "sticky top-0 right-0 left-0 z-8 bg-neutral-50/80 px-3 backdrop-blur-xl dark:bg-neutral-950/80",
         sticky === "hidden" && "-translate-y-16 transition-transform ease-in",
         sticky === "visible" && "translate-y-0 transition-transform ease-out",
       )}
     >
       <nav
         aria-label="site menu"
-        className="mx-auto flex h-16 w-full max-w-7xl items-center justify-between max-xl:px-3"
+        className="mx-auto flex h-14 w-full max-w-7xl items-center justify-between"
       >
         <Link
           href="/"
