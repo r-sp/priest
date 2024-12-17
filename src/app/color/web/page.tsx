@@ -5,6 +5,11 @@ import Link from "next/link";
 
 export const metadata: Metadata = {
   title: "Web Colors",
+  description:
+    "Red, Brown, Orange, Yellow, Green, Cyan, Blue, Purple, Violet, Magenta, Pink, White, Gray and Black",
+  alternates: {
+    canonical: "https://priest.vercel.app/color/web",
+  },
 };
 
 export default function WebColorsPage() {
@@ -12,8 +17,8 @@ export default function WebColorsPage() {
   const { red, brown, orange, yellow, green, cyan, blue, purple, pink, white, black } = namedColors;
 
   return (
-    <article className="mx-auto grid max-w-7xl gap-8 max-xl:px-3">
-      <header>
+    <article className="grid gap-8 px-3">
+      <header className="mx-auto inline-grid w-full max-w-7xl">
         <h1 className="text-4xl font-bold text-neutral-800 dark:text-neutral-200">
           Web Colors
         </h1>
@@ -39,7 +44,7 @@ function Section(props: { color: WebColor[]; label: string }) {
   return (
     <section
       aria-labelledby={section}
-      className="border-t border-t-neutral-400 pt-8 dark:border-t-neutral-700"
+      className="mx-auto inline-grid w-full max-w-7xl border-t border-t-neutral-400 pt-8 dark:border-t-neutral-700"
     >
       <h2
         id={section}

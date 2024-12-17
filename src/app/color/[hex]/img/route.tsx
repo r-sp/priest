@@ -85,10 +85,15 @@ export async function GET(
               d="M20.1797 11.075C18.4863 12.5351 16.6827 15.0174 15.2258 19.2072C15.3299 19.3215 15.433 19.4319 15.535 19.5384C16.8821 20.9451 17.9889 21.6191 18.8658 21.8563C19.699 22.0817 20.3875 21.9315 21.013 21.5191C21.6735 21.0836 22.2941 20.3311 22.8587 19.3159C23.9886 17.2844 24.7343 14.4979 25.1967 12.1565C25.4255 10.9978 25.5807 9.97084 25.6786 9.23428C25.6911 9.14047 25.7026 9.05141 25.7132 8.96744C25.4208 8.95409 25.059 8.95888 24.6449 9.00697C23.4722 9.14316 21.8577 9.62825 20.1797 11.075Z"
             />
           </svg>
-          <h1 style={title}>
-            <code>{colorHex}</code>
-          </h1>
+          {relatedColors.map((related, index) => (
+            <h1 key={index} style={title}>
+              <code>{findColor(related)}</code>
+            </h1>
+          ))}
           <div style={card}>
+            <p style={code}>
+              <code>{colorHex}</code>
+            </p>
             <p style={code}>
               <code>{colorRgb}</code>
             </p>
@@ -112,13 +117,6 @@ export async function GET(
             <p style={code}>
               <code>{colorOklab}</code>
             </p>
-          </div>
-          <div style={card}>
-            {relatedColors.map((related, index) => (
-              <p key={index} style={{ ...code, color: "#737373" }}>
-                <code>{`#${findColor(related)}`}</code>
-              </p>
-            ))}
           </div>
         </div>
       </main>
