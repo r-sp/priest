@@ -8,6 +8,7 @@ import {
   isReadable,
   isValidHex,
 } from "~/lib/color";
+import { findColor, nearestColor } from "~/lib/web-colors";
 import { useState } from "react";
 import { useParams } from "next/navigation";
 import { useColorStore } from "./provider";
@@ -29,6 +30,8 @@ export default function ColorDetail() {
   const colorLch = lch.css;
   const colorOklab = oklab.css;
   const colorOklch = oklch.css;
+
+  const colorName = findColor(nearestColor(colorHex) || "black");
 
   const check = rgb.color;
   const colorBrightness = brightness(check);
@@ -100,9 +103,12 @@ export default function ColorDetail() {
         >
           <span style={{ backgroundColor: colorRgb }}></span>
         </Link>
-        <h1 className="mt-4">
-          <code>{colorHex}</code>
+        <h1 className="mt-4 text-3xl font-medium text-neutral-800 dark:text-neutral-200">
+          <span>{colorName}</span>
         </h1>
+        <p className="mt-4">
+          <code>{colorHex}</code>
+        </p>
         <p>
           <code>{colorRgb}</code>
         </p>
@@ -128,7 +134,7 @@ export default function ColorDetail() {
         <p>Luminance: {colorLuminance}</p>
         <button
           aria-label={`change contrast background color to ${isDark ? "white" : "black"}`}
-          className="mt-4 text-neutral-800 dark:text-neutral-200"
+          className="mt-4 font-medium text-neutral-700 dark:text-neutral-300"
           onClick={() => setIsDark(!isDark)}
         >
           {`Color on ${isDark ? "Black" : "White"}`}
