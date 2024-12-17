@@ -3,6 +3,7 @@
 import { type ColorFormat } from "~/lib/color";
 import { useState, useEffect, useRef, useCallback } from "react";
 import { useColorStore } from "./provider";
+import { createPortal } from "react-dom";
 import clsx from "clsx";
 
 export default function ColorMode() {
@@ -225,18 +226,23 @@ export default function ColorMode() {
           <span>OKLAB</span>
         </button>
       </Navigation>
-      <span
-        role={modal ? "button" : "none"}
-        aria-label={modal ? "close color mode menu" : undefined}
-        className={clsx(modal ? "visible" : "invisible", "overlay fixed z-3")}
-        tabIndex={modal ? 0 : -1}
-        onFocus={() => {
-          setModal(false);
-          if (btnRef.current) {
-            btnRef.current.focus();
-          }
-        }}
-      ></span>
+      {modal
+        ? createPortal(
+            <span
+              role="button"
+              aria-label="close color mode menu"
+              className="overlay fixed z-3"
+              tabIndex={0}
+              onFocus={() => {
+                setModal(false);
+                if (btnRef.current) {
+                  btnRef.current.focus();
+                }
+              }}
+            ></span>,
+            document.body,
+          )
+        : null}
     </div>
   );
 }
@@ -245,7 +251,7 @@ function Navigation(props: {
   children: React.ReactNode;
   visible: boolean;
   state: React.Dispatch<React.SetStateAction<boolean>>;
-  button: React.RefObject<HTMLButtonElement>;
+  button: React.RefObject<HTMLButtonElement | null>;
 }) {
   const refList = useRef<HTMLDivElement>(null);
   const modal = props.visible;
