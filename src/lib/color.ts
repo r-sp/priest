@@ -489,3 +489,33 @@ export const isReadable = (
 
   return contrast >= readable;
 };
+
+export const inspectColor = (foreground: RgbColor, background: RgbColor) => {
+  const average = contrast(foreground, background);
+  const check = (readable: boolean) => (readable ? "Pass" : "Fail");
+
+  const normalAA = check(
+    isReadable(foreground, background, { level: "AA", size: "normal" }),
+  );
+  const normalAAA = check(
+    isReadable(foreground, background, { level: "AAA", size: "normal" }),
+  );
+  const largeAA = check(
+    isReadable(foreground, background, { level: "AA", size: "large" }),
+  );
+  const largeAAA = check(
+    isReadable(foreground, background, { level: "AAA", size: "large" }),
+  );
+
+  return {
+    ratio: average,
+    normal: {
+      aa: normalAA,
+      aaa: normalAAA,
+    },
+    large: {
+      aa: largeAA,
+      aaa: largeAAA,
+    },
+  };
+};

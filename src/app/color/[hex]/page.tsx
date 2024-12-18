@@ -1,7 +1,7 @@
 import { type Metadata } from "next";
 import { permanentRedirect } from "next/navigation";
-import { ColorDetail } from "~/components/color";
 import { isValidColor, isValidHex } from "~/lib/color";
+import ColorDetail from "~/components/color/detail";
 
 export async function generateMetadata({
   params,

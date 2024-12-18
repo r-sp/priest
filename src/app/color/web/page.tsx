@@ -17,9 +17,9 @@ export default function WebColorsPage() {
   const { red, brown, orange, yellow, green, cyan, blue, purple, pink, white, black } = namedColors;
 
   return (
-    <article className="grid gap-8 px-3">
-      <header className="mx-auto inline-grid w-full max-w-7xl">
-        <h1 className="text-4xl font-bold text-neutral-800 dark:text-neutral-200">
+    <article className="grid gap-y-8">
+      <header className="inline-grid w-full px-3">
+        <h1 className="mx-auto w-full max-w-7xl text-4xl font-bold text-neutral-800 dark:text-neutral-200">
           Web Colors
         </h1>
       </header>
@@ -42,35 +42,41 @@ function Section(props: { color: WebColor[]; label: string }) {
   const section = slugify(props.label);
 
   return (
-    <section
-      aria-labelledby={section}
-      className="mx-auto inline-grid w-full max-w-7xl border-t border-t-neutral-400 pt-8 dark:border-t-neutral-700"
-    >
-      <h2
-        id={section}
-        className="font-mono text-2xl font-medium text-neutral-700 dark:text-neutral-300"
+    <section aria-labelledby={section} className="inline-grid gap-y-4 xl:mx-3">
+      <div
+        role="none"
+        className="mx-auto w-full max-w-7xl border-t border-t-neutral-400 pt-4 max-xl:px-3 dark:border-t-neutral-700"
       >
-        {props.label}
-      </h2>
-      <div className="mt-4 grid gap-x-3 gap-y-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
-        {props.color.map((c, i) => (
-          <Link
-            key={i}
-            href={`/color/${c.slug.toLowerCase()}`}
-            className="grid gap-2 rounded-lg"
-          >
-            <div role="presentation" className="frame inline-grid rounded-lg">
-              <span style={{ backgroundColor: `#${c.hex}` }}></span>
-            </div>
-            <p className="inline-grid">
-              <span className="text-base font-medium text-neutral-700 dark:text-neutral-300">
-                {c.slug}
-              </span>
-              <code className="text-sm">{`#${c.hex}`}</code>
-            </p>
-          </Link>
-        ))}
+        <h2
+          id={section}
+          className="font-mono text-2xl font-medium text-neutral-700 dark:text-neutral-300"
+        >
+          {props.label}
+        </h2>
       </div>
+      <ul className="mx-auto flex w-full max-w-7xl snap-x snap-mandatory flex-nowrap gap-x-3 overflow-x-auto scroll-smooth px-3 py-2 xl:px-0">
+        {props.color.map((c, i) => (
+          <li key={i} className="inline-flex snap-center snap-always">
+            <Link
+              href={`/color/${c.slug.toLowerCase()}`}
+              className="grid w-full gap-2 rounded-lg"
+            >
+              <div
+                role="presentation"
+                className="frame inline-grid w-full min-w-85 rounded-lg"
+              >
+                <span style={{ backgroundColor: `#${c.hex}` }}></span>
+              </div>
+              <p className="inline-grid">
+                <span className="text-base font-medium text-neutral-700 dark:text-neutral-300">
+                  {c.slug}
+                </span>
+                <code className="text-sm">{`#${c.hex}`}</code>
+              </p>
+            </Link>
+          </li>
+        ))}
+      </ul>
     </section>
   );
 }

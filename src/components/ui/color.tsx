@@ -1,10 +1,17 @@
 "use client";
 
 import { useColorStore } from "../color/provider";
-import { formatOklch, formatHex, parseColor } from "~/lib/color";
+import { parseColor, formatOklch, formatHex } from "~/lib/color";
 import { limiter, multiplier } from "~/lib/utils";
 import { findColor, nearestColor } from "~/lib/web-colors";
-import { ColorInput } from "../color";
+import InputRgb from "../color/input/rgb";
+import InputHsl from "../color/input/hsl";
+import InputHwb from "../color/input/hwb";
+import InputLab from "../color/input/lab";
+import InputLch from "../color/input/lch";
+import InputOklab from "../color/input/oklab";
+import InputOklch from "../color/input/oklch";
+import Wrapper from "./wrapper";
 import Link from "next/link";
 
 export default function Color() {
@@ -37,7 +44,7 @@ export default function Color() {
   const modeOklch = mode === "oklch";
 
   return (
-    <article className="grid gap-8 px-3 py-4">
+    <Wrapper as="article" className="grid gap-y-8" outerStyle="py-4">
       <header className="mx-auto inline-grid w-full max-w-3xl gap-4">
         <h1 id="color" className="text-neutral-800 dark:text-neutral-200">
           <code>
@@ -59,7 +66,7 @@ export default function Color() {
           </code>
         </h1>
         {modeRgb ? (
-          <ColorInput.Rgb
+          <InputRgb
             id="color-rgb"
             onChange={(c) => {
               const parse = parseColor();
@@ -74,9 +81,8 @@ export default function Color() {
               store.setOklch(parse.oklch(src).color);
             }}
           />
-        ) : null}
-        {modeHsl ? (
-          <ColorInput.Hsl
+        ) : modeHsl ? (
+          <InputHsl
             id="color-hsl"
             onChange={(c) => {
               const parse = parseColor();
@@ -92,9 +98,8 @@ export default function Color() {
               store.setOklch(parse.oklch(src).color);
             }}
           />
-        ) : null}
-        {modeHwb && (
-          <ColorInput.Hwb
+        ) : modeHwb ? (
+          <InputHwb
             id="color-hwb"
             onChange={(c) => {
               const parse = parseColor();
@@ -110,9 +115,8 @@ export default function Color() {
               store.setOklch(parse.oklch(src).color);
             }}
           />
-        )}
-        {modeLch ? (
-          <ColorInput.Lch
+        ) : modeLch ? (
+          <InputLch
             id="color-lch"
             onChange={(c) => {
               const parse = parseColor();
@@ -128,9 +132,8 @@ export default function Color() {
               store.setOklch(parse.oklch(src).color);
             }}
           />
-        ) : null}
-        {modeOklch ? (
-          <ColorInput.Oklch
+        ) : modeOklch ? (
+          <InputOklch
             id="color-oklch"
             onChange={(c) => {
               const parse = parseColor();
@@ -146,9 +149,8 @@ export default function Color() {
               store.setOklab(parse.oklab(src).color);
             }}
           />
-        ) : null}
-        {modeLab ? (
-          <ColorInput.Lab
+        ) : modeLab ? (
+          <InputLab
             id="color-lab"
             onChange={(c) => {
               const parse = parseColor();
@@ -164,9 +166,8 @@ export default function Color() {
               store.setOklch(parse.oklch(src).color);
             }}
           />
-        ) : null}
-        {modeOklab ? (
-          <ColorInput.Oklab
+        ) : modeOklab ? (
+          <InputOklab
             id="color-oklab"
             onChange={(c) => {
               const parse = parseColor();
@@ -186,7 +187,7 @@ export default function Color() {
       </header>
       <section
         aria-labelledby="color"
-        className="mx-auto grid w-full max-w-7xl gap-x-3 gap-y-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4"
+        className="grid w-full gap-x-3 gap-y-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5"
       >
         {harmony.map((color, index) => (
           <Link
@@ -206,6 +207,6 @@ export default function Color() {
           </Link>
         ))}
       </section>
-    </article>
+    </Wrapper>
   );
 }

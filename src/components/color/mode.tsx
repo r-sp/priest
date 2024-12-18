@@ -4,6 +4,7 @@ import { type ColorFormat } from "~/lib/color";
 import { useState, useEffect, useRef, useCallback } from "react";
 import { useColorStore } from "./provider";
 import { createPortal } from "react-dom";
+import Separator from "../ui/separator";
 import clsx from "clsx";
 
 export default function ColorMode() {
@@ -137,10 +138,7 @@ export default function ColorMode() {
           </svg>
           <span>HWB</span>
         </button>
-        <span
-          role="separator"
-          className="my-2 border-t border-t-neutral-400 dark:border-t-neutral-700"
-        ></span>
+        <Separator className="my-2" />
         <button
           role="menuitemradio"
           aria-checked={modeLch}
