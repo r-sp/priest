@@ -12,6 +12,12 @@
   button {
     cursor: pointer;
   }
+  a,
+  button,
+  input,
+  [tabindex="0"] {
+    scroll-margin-top: 4.5rem;
+  }
 }
 
 @layer utilities {
