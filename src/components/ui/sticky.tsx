@@ -4,13 +4,15 @@ import { useState, useEffect } from "react";
 import clsx from "clsx";
 
 export default function Sticky<T extends React.ElementType = "div">({
+  offset,
   as,
   className,
   onTop,
   onVisible,
   onHidden,
   ...props
-}: Omit<React.ComponentPropsWithoutRef<T>, "as" | "className"> & {
+}: Omit<React.ComponentPropsWithoutRef<T>, "offset" | "as" | "className"> & {
+  offset: number;
   as?: T;
   className?: string;
   onTop?: string;
@@ -20,7 +22,6 @@ export default function Sticky<T extends React.ElementType = "div">({
   const [sticky, setSticky] = useState<"top" | "visible" | "hidden">("top");
 
   const Component = as ?? "div";
-  const componentHeight = 72;
 
   useEffect(() => {
     let pageScroll = false;
@@ -30,7 +31,7 @@ export default function Sticky<T extends React.ElementType = "div">({
       const currentScroll = window.scrollY;
       if (!pageScroll) {
         window.requestAnimationFrame(() => {
-          if (currentScroll < componentHeight) {
+          if (currentScroll < offset) {
             setSticky("top");
           } else if (prevScroll > currentScroll) {
             setSticky("visible");
@@ -60,7 +61,7 @@ export default function Sticky<T extends React.ElementType = "div">({
 
     preferMotion();
     reduceMotion.addEventListener("change", preferMotion);
-  }, []);
+  }, [offset]);
 
   const top = sticky === "top";
   const visible = sticky === "visible";
