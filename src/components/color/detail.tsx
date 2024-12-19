@@ -5,7 +5,7 @@ import { brightness, luminance, inspectColor } from "~/lib/a11y";
 import { findColor, nearestColor } from "~/lib/web-colors";
 import { useState } from "react";
 import { useParams } from "next/navigation";
-import { useColorStore } from "./provider";
+import { useColorStore } from "~/app/provider";
 import Wrapper from "../ui/wrapper";
 import Separator from "../ui/separator";
 import Link from "next/link";

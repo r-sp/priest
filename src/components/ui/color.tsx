@@ -1,6 +1,7 @@
 "use client";
 
-import { useColorStore } from "../color/provider";
+import { useMemo, useCallback } from "react";
+import { useColorStore } from "~/app/provider";
 import { limiter, multiplier } from "~/lib/utils";
 import { findColor, nearestColor } from "~/lib/web-colors";
 import { formatOklch, formatHex } from "~/lib/format";
@@ -29,19 +30,26 @@ export default function Color() {
   const { rgb, hsl, hwb, lab, lch, oklab, oklch, mode } = store;
   const base = oklch.color.h || 0;
 
-  const hueShift = (angle: number[]) =>
-    angle.map((deg) => {
-      const colorOklch = { ...oklch.color, h: deg };
-      const colorHex = parseHex({ mode: "oklch", ...colorOklch });
-      return {
-        css: formatOklch(colorOklch),
-        hex: colorHex,
-        slug: findColor(nearestColor(colorHex) || "black"),
-      };
-    });
+  const hueShift = useCallback(
+    (angle: number[]) =>
+      angle.map((deg) => {
+        const colorOklch = { ...oklch.color, h: deg };
+        const colorHex = parseHex({ mode: "oklch", ...colorOklch });
+        return {
+          css: formatOklch(colorOklch),
+          hex: colorHex,
+          slug: findColor(nearestColor(colorHex) || "black"),
+        };
+      }),
+    [oklch],
+  );
 
-  const harmony = hueShift(
-    multiplier(15, 0, 360).map((deg) => limiter(base + deg, 0, 360)),
+  const harmony = useMemo(
+    () =>
+      hueShift(
+        multiplier(15, 0, 360).map((deg) => limiter(base + deg, 0, 360)),
+      ),
+    [base, hueShift],
   );
 
   const modeRgb = mode === "rgb";
