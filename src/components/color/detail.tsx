@@ -1,12 +1,7 @@
 "use client";
 
-import {
-  createColor,
-  brightness,
-  luminance,
-  isValidHex,
-  inspectColor,
-} from "~/lib/color";
+import { createColor, isValidHex } from "~/lib/color";
+import { brightness, luminance, inspectColor } from "~/lib/a11y";
 import { findColor, nearestColor } from "~/lib/web-colors";
 import { useState } from "react";
 import { useParams } from "next/navigation";

@@ -1,7 +1,8 @@
 import { type NextRequest } from "next/server";
 import { ImageResponse } from "next/og";
-import { createColor, isValidHex, parseColor } from "~/lib/color";
+import { createColor, isValidHex } from "~/lib/color";
 import { limiter, multiplier } from "~/lib/utils";
+import { parseHex } from "~/lib/parse";
 
 export const runtime = "edge";
 
@@ -17,13 +18,12 @@ export async function GET(
   const { hex, oklch } = createColor(isValidHex(color));
 
   const base = oklch.color.h || 0;
-  const parse = parseColor();
 
   const hueShift = (angle: number[]) =>
     angle.map((deg) => {
       const colorOklch = { ...oklch.color, h: deg };
       return {
-        hex: parse.hex({ mode: "oklch", ...colorOklch }),
+        hex: parseHex({ mode: "oklch", ...colorOklch }),
       };
     });
 

@@ -1,9 +1,9 @@
 "use client";
 
-import type { ColorStore } from "~/lib/color";
+import type { ColorStore, ColorState } from "~/lib/color";
 import { createContext, useRef, useContext, useEffect } from "react";
 import { createColorStore, createColor, isValidHex } from "~/lib/color";
-import { localThemeListener } from "~/lib/theme";
+import { getLocalTheme, localThemeListener } from "~/lib/theme";
 import { useParams } from "next/navigation";
 import { useStore } from "zustand";
 
@@ -22,11 +22,17 @@ export function ColorProvider({
   const colorBy = useParams<{ hex: string }>();
 
   if (!storeRef.current) {
-    storeRef.current = createColorStore(
-      colorBy.hex
-        ? createColor(isValidHex(colorBy.hex))
-        : createColor(initValue),
-    );
+    const color = colorBy.hex
+      ? createColor(isValidHex(colorBy.hex))
+      : createColor(initValue);
+
+    const defaultValue: ColorState = {
+      ...color,
+      theme: getLocalTheme(),
+      mode: "oklch",
+    };
+
+    storeRef.current = createColorStore(defaultValue);
   }
 
   useEffect(() => {
