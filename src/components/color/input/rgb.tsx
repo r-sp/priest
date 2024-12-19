@@ -2,8 +2,8 @@
 
 import { type RgbColor } from "~/lib/color";
 import { formatRgb } from "~/lib/format";
-import { useState, useMemo } from "react";
-import { useColorStore } from "../provider";
+import { useState, useEffect } from "react";
+import { useColorStore } from "~/app/provider";
 
 export default function InputRgb(props: {
   onChange?: (color: RgbColor) => void;
@@ -33,10 +33,13 @@ export default function InputRgb(props: {
   const trackBlueLeft = previewColor({ b: 0 });
   const trackBlueRight = previewColor({ b: 1 });
 
-  useMemo(() => {
-    if (color !== rgb.color) {
-      setColor(rgb.color);
-    }
+  useEffect(() => {
+    const currentColor = formatRgb(color);
+    return () => {
+      if (currentColor !== rgb.css) {
+        setColor(rgb.color);
+      }
+    };
   }, [color, rgb]);
 
   return (

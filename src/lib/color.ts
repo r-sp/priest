@@ -19,7 +19,7 @@ import {
   parseLch,
   parseOklab,
   parseOklch,
-} from "~/lib/parse";
+} from "./parse";
 import { createStore } from "zustand";
 
 export type ThemeVariant = "auto" | "light" | "dark";
@@ -231,7 +231,7 @@ export const isValidHex = (newColor: string): string => {
   }
 };
 
-export const randomColor = (): string => {
+export const getTodayColor = (): string => {
   const today = new Date();
   const year = today.getFullYear();
   const month = today.getMonth() + 1;

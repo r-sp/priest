@@ -2,7 +2,7 @@
 
 import { createPortal } from "react-dom";
 import { useState, useRef, useCallback } from "react";
-import { useColorStore } from "../color/provider";
+import { useColorStore } from "~/app/provider";
 import { cleanTheme, applyTheme, storeTheme } from "~/lib/theme";
 import clsx from "clsx";
 

@@ -2,8 +2,8 @@
 
 import { type HwbColor } from "~/lib/color";
 import { formatHwb } from "~/lib/format";
-import { useState, useMemo } from "react";
-import { useColorStore } from "../provider";
+import { useState, useEffect } from "react";
+import { useColorStore } from "~/app/provider";
 
 export default function InputHwb(props: {
   onChange?: (color: HwbColor) => void;
@@ -40,10 +40,13 @@ export default function InputHwb(props: {
   const trackBlacknessLeft = previewColor({ b: 0 });
   const trackBlacknessRight = previewColor({ b: 1 });
 
-  useMemo(() => {
-    if (color !== hwb.color) {
-      setColor(hwb.color);
-    }
+  useEffect(() => {
+    const currentColor = formatHwb(color);
+    return () => {
+      if (currentColor !== hwb.css) {
+        setColor(hwb.color);
+      }
+    };
   }, [color, hwb]);
 
   return (

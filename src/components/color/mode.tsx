@@ -2,7 +2,7 @@
 
 import { type ColorFormat } from "~/lib/color";
 import { useState, useEffect, useRef, useCallback } from "react";
-import { useColorStore } from "./provider";
+import { useColorStore } from "~/app/provider";
 import { createPortal } from "react-dom";
 import Separator from "../ui/separator";
 import clsx from "clsx";

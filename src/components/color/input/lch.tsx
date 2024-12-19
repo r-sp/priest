@@ -2,8 +2,8 @@
 
 import { type LchColor } from "~/lib/color";
 import { formatLch } from "~/lib/format";
-import { useState, useMemo } from "react";
-import { useColorStore } from "../provider";
+import { useState, useEffect } from "react";
+import { useColorStore } from "~/app/provider";
 
 export default function InputLch(props: {
   onChange?: (color: LchColor) => void;
@@ -41,10 +41,13 @@ export default function InputLch(props: {
   const trackHuePurple = previewColor({ h: 300 });
   const trackHueRight = previewColor({ h: 360 });
 
-  useMemo(() => {
-    if (color !== lch.color) {
-      setColor(lch.color);
-    }
+  useEffect(() => {
+    const currentColor = formatLch(color);
+    return () => {
+      if (currentColor !== lch.css) {
+        setColor(lch.color);
+      }
+    };
   }, [color, lch]);
 
   return (
