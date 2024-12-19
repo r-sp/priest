@@ -2,8 +2,8 @@
 
 import { type LabColor } from "~/lib/color";
 import { formatLab } from "~/lib/format";
-import { useState, useMemo } from "react";
-import { useColorStore } from "../provider";
+import { useState, useEffect } from "react";
+import { useColorStore } from "~/app/provider";
 
 export default function InputLab(props: {
   onChange?: (color: LabColor) => void;
@@ -36,10 +36,13 @@ export default function InputLab(props: {
   const trackBlueYellowLeft = previewColor({ b: -100 });
   const trackBlueYellowRight = previewColor({ b: 100 });
 
-  useMemo(() => {
-    if (color !== lab.color) {
-      setColor(lab.color);
-    }
+  useEffect(() => {
+    const currentColor = formatLab(color);
+    return () => {
+      if (currentColor !== lab.css) {
+        setColor(lab.color);
+      }
+    };
   }, [color, lab]);
 
   return (

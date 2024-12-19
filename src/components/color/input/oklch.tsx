@@ -2,8 +2,8 @@
 
 import { type OklchColor } from "~/lib/color";
 import { formatOklch } from "~/lib/format";
-import { useState, useMemo } from "react";
-import { useColorStore } from "../provider";
+import { useState, useEffect } from "react";
+import { useColorStore } from "~/app/provider";
 
 export default function InputOklch(props: {
   onChange?: (color: OklchColor) => void;
@@ -41,10 +41,13 @@ export default function InputOklch(props: {
   const trackHuePurple = previewColor({ h: 300 });
   const trackHueRight = previewColor({ h: 360 });
 
-  useMemo(() => {
-    if (color !== oklch.color) {
-      setColor(oklch.color);
-    }
+  useEffect(() => {
+    const currentColor = formatOklch(color);
+    return () => {
+      if (currentColor !== oklch.css) {
+        setColor(oklch.color);
+      }
+    };
   }, [color, oklch]);
 
   return (

@@ -2,8 +2,8 @@
 
 import { type OklabColor } from "~/lib/color";
 import { formatOklab } from "~/lib/format";
-import { useState, useMemo } from "react";
-import { useColorStore } from "../provider";
+import { useState, useEffect } from "react";
+import { useColorStore } from "~/app/provider";
 
 export default function InputOklab(props: {
   onChange?: (color: OklabColor) => void;
@@ -36,10 +36,13 @@ export default function InputOklab(props: {
   const trackBlueYellowLeft = previewColor({ b: -0.4 });
   const trackBlueYellowRight = previewColor({ b: 0.4 });
 
-  useMemo(() => {
-    if (color !== oklab.color) {
-      setColor(oklab.color);
-    }
+  useEffect(() => {
+    const currentColor = formatOklab(color);
+    return () => {
+      if (currentColor !== oklab.css) {
+        setColor(oklab.color);
+      }
+    };
   }, [color, oklab]);
 
   return (

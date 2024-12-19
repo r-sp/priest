@@ -2,8 +2,8 @@
 
 import { type HslColor } from "~/lib/color";
 import { formatHsl } from "~/lib/format";
-import { useState, useMemo } from "react";
-import { useColorStore } from "../provider";
+import { useState, useEffect } from "react";
+import { useColorStore } from "~/app/provider";
 
 export default function InputHsl(props: {
   onChange?: (color: HslColor) => void;
@@ -39,10 +39,13 @@ export default function InputHsl(props: {
   const trackSaturationRight = previewColor({ s: 1 });
   const trackLightnessCenter = previewColor({ s: 1, l: 0.5 });
 
-  useMemo(() => {
-    if (color !== hsl.color) {
-      setColor(hsl.color);
-    }
+  useEffect(() => {
+    const currentColor = formatHsl(color);
+    return () => {
+      if (currentColor !== hsl.css) {
+        setColor(hsl.color);
+      }
+    };
   }, [color, hsl]);
 
   return (
