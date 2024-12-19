@@ -1,6 +1,7 @@
 "use client";
 
-import { type RgbColor, stringifyColor } from "~/lib/color";
+import { type RgbColor } from "~/lib/color";
+import { formatRgb } from "~/lib/format";
 import { useState, useMemo } from "react";
 import { useColorStore } from "../provider";
 
@@ -22,7 +23,7 @@ export default function InputRgb(props: {
   };
 
   const previewColor = (newColor: Partial<RgbColor>) => {
-    return stringifyColor({ mode: "rgb", ...color, ...newColor });
+    return formatRgb({ ...color, ...newColor });
   };
 
   const trackRedLeft = previewColor({ r: 0 });
