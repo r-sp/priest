@@ -1,6 +1,7 @@
 "use client";
 
-import { type LchColor, stringifyColor } from "~/lib/color";
+import { type LchColor } from "~/lib/color";
+import { formatLch } from "~/lib/format";
 import { useState, useMemo } from "react";
 import { useColorStore } from "../provider";
 
@@ -25,7 +26,7 @@ export default function InputLch(props: {
   };
 
   const previewColor = (newColor: Partial<LchColor>) => {
-    return stringifyColor({ mode: "lch", ...color, ...newColor });
+    return formatLch({ ...color, ...newColor });
   };
 
   const trackLightnessLeft = previewColor({ l: 0 });

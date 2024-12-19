@@ -1,6 +1,7 @@
 "use client";
 
-import { type HslColor, stringifyColor } from "~/lib/color";
+import { type HslColor } from "~/lib/color";
+import { formatHsl } from "~/lib/format";
 import { useState, useMemo } from "react";
 import { useColorStore } from "../provider";
 
@@ -25,9 +26,15 @@ export default function InputHsl(props: {
   };
 
   const previewColor = (newColor: Partial<HslColor>) => {
-    return stringifyColor({ mode: "hsl", ...color, ...newColor });
+    return formatHsl({ ...color, ...newColor });
   };
 
+  const trackHueRed = previewColor({ h: 0 });
+  const trackHueYellow = previewColor({ h: 60 });
+  const trackHueGreen = previewColor({ h: 120 });
+  const trackHueCyan = previewColor({ h: 180 });
+  const trackHueBlue = previewColor({ h: 240 });
+  const trackHuePurple = previewColor({ h: 300 });
   const trackSaturationLeft = previewColor({ s: 0 });
   const trackSaturationRight = previewColor({ s: 1 });
   const trackLightnessCenter = previewColor({ s: 1, l: 0.5 });
@@ -63,8 +70,7 @@ export default function InputHsl(props: {
           role="presentation"
           className="pointer-events-none absolute top-1 right-0 bottom-1 left-0 z-0 rounded-md"
           style={{
-            backgroundImage:
-              "linear-gradient(to right, rgb(255, 0, 0) 0%, rgb(255, 255, 0) 17%, rgb(0, 255, 0) 33%, rgb(0, 255, 255) 50%, rgb(0, 0, 255) 67%, rgb(255, 0, 255) 83%, rgb(255, 0, 0) 100%)",
+            backgroundImage: `linear-gradient(to right, ${trackHueRed} 0%, ${trackHueYellow} 17%, ${trackHueGreen} 33%, ${trackHueCyan} 50%, ${trackHueBlue} 67%, ${trackHuePurple} 83%, ${trackHueRed} 100%)`,
           }}
         ></span>
       </div>

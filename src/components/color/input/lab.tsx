@@ -1,6 +1,7 @@
 "use client";
 
-import { type LabColor, stringifyColor } from "~/lib/color";
+import { type LabColor } from "~/lib/color";
+import { formatLab } from "~/lib/format";
 import { useState, useMemo } from "react";
 import { useColorStore } from "../provider";
 
@@ -25,7 +26,7 @@ export default function InputLab(props: {
   };
 
   const previewColor = (newColor: Partial<LabColor>) => {
-    return stringifyColor({ mode: "lab", ...color, ...newColor });
+    return formatLab({ ...color, ...newColor });
   };
 
   const trackLightnessLeft = previewColor({ l: 0 });

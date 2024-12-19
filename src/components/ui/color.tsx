@@ -1,9 +1,19 @@
 "use client";
 
 import { useColorStore } from "../color/provider";
-import { parseColor, formatOklch, formatHex } from "~/lib/color";
 import { limiter, multiplier } from "~/lib/utils";
 import { findColor, nearestColor } from "~/lib/web-colors";
+import { formatOklch, formatHex } from "~/lib/format";
+import {
+  parseHex,
+  parseRgb,
+  parseHsl,
+  parseHwb,
+  parseLab,
+  parseLch,
+  parseOklab,
+  parseOklch,
+} from "~/lib/parse";
 import InputRgb from "../color/input/rgb";
 import InputHsl from "../color/input/hsl";
 import InputHwb from "../color/input/hwb";
@@ -18,12 +28,11 @@ export default function Color() {
   const store = useColorStore((state) => state);
   const { rgb, hsl, hwb, lab, lch, oklab, oklch, mode } = store;
   const base = oklch.color.h || 0;
-  const parse = parseColor();
 
   const hueShift = (angle: number[]) =>
     angle.map((deg) => {
       const colorOklch = { ...oklch.color, h: deg };
-      const colorHex = parse.hex({ mode: "oklch", ...colorOklch });
+      const colorHex = parseHex({ mode: "oklch", ...colorOklch });
       return {
         css: formatOklch(colorOklch),
         hex: colorHex,
@@ -69,118 +78,111 @@ export default function Color() {
           <InputRgb
             id="color-rgb"
             onChange={(c) => {
-              const parse = parseColor();
               const src = formatHex(c);
 
               store.setHex(c);
-              store.setHsl(parse.hsl(src).color);
-              store.setHwb(parse.hwb(src).color);
-              store.setLab(parse.lab(src).color);
-              store.setLch(parse.lch(src).color);
-              store.setOklab(parse.oklab(src).color);
-              store.setOklch(parse.oklch(src).color);
+              store.setHsl(parseHsl(src).color);
+              store.setHwb(parseHwb(src).color);
+              store.setLab(parseLab(src).color);
+              store.setLch(parseLch(src).color);
+              store.setOklab(parseOklab(src).color);
+              store.setOklch(parseOklch(src).color);
             }}
           />
         ) : modeHsl ? (
           <InputHsl
             id="color-hsl"
             onChange={(c) => {
-              const parse = parseColor();
-              const src = parse.hex({ mode: "hsl", ...c });
-              const _rgb = parse.rgb(src).color;
+              const src = parseHex({ mode: "hsl", ...c });
+              const _rgb = parseRgb(src).color;
 
               store.setHex(_rgb);
               store.setRgb(_rgb);
-              store.setHwb(parse.hwb(src).color);
-              store.setLab(parse.lab(src).color);
-              store.setLch(parse.lch(src).color);
-              store.setOklab(parse.oklab(src).color);
-              store.setOklch(parse.oklch(src).color);
+              store.setHwb(parseHwb(src).color);
+              store.setLab(parseLab(src).color);
+              store.setLch(parseLch(src).color);
+              store.setOklab(parseOklab(src).color);
+              store.setOklch(parseOklch(src).color);
             }}
           />
         ) : modeHwb ? (
           <InputHwb
             id="color-hwb"
             onChange={(c) => {
-              const parse = parseColor();
-              const src = parse.hex({ mode: "hwb", ...c });
-              const _rgb = parse.rgb(src).color;
+              const src = parseHex({ mode: "hwb", ...c });
+              const _rgb = parseRgb(src).color;
 
               store.setHex(_rgb);
               store.setRgb(_rgb);
-              store.setHsl(parse.hsl(src).color);
-              store.setLab(parse.lab(src).color);
-              store.setLch(parse.lch(src).color);
-              store.setOklab(parse.oklab(src).color);
-              store.setOklch(parse.oklch(src).color);
+              store.setHsl(parseHsl(src).color);
+              store.setLab(parseLab(src).color);
+              store.setLch(parseLch(src).color);
+              store.setOklab(parseOklab(src).color);
+              store.setOklch(parseOklch(src).color);
             }}
           />
         ) : modeLch ? (
           <InputLch
             id="color-lch"
             onChange={(c) => {
-              const parse = parseColor();
-              const src = parse.hex({ mode: "lch", ...c });
-              const _rgb = parse.rgb(src).color;
+              const src = parseHex({ mode: "lch", ...c });
+              const _rgb = parseRgb(src).color;
 
               store.setHex(_rgb);
               store.setRgb(_rgb);
-              store.setHsl(parse.hsl(src).color);
-              store.setHwb(parse.hwb(src).color);
-              store.setLab(parse.lab(src).color);
-              store.setOklab(parse.oklab(src).color);
-              store.setOklch(parse.oklch(src).color);
+              store.setHsl(parseHsl(src).color);
+              store.setHwb(parseHwb(src).color);
+              store.setLab(parseLab(src).color);
+              store.setOklab(parseOklab(src).color);
+              store.setOklch(parseOklch(src).color);
             }}
           />
         ) : modeOklch ? (
           <InputOklch
             id="color-oklch"
             onChange={(c) => {
-              const parse = parseColor();
-              const src = parse.hex({ mode: "oklch", ...c });
-              const _rgb = parse.rgb(src).color;
+              const src = parseHex({ mode: "oklch", ...c });
+              const _rgb = parseRgb(src).color;
 
               store.setHex(_rgb);
               store.setRgb(_rgb);
-              store.setHsl(parse.hsl(src).color);
-              store.setHwb(parse.hwb(src).color);
-              store.setLab(parse.lab(src).color);
-              store.setLch(parse.lch(src).color);
-              store.setOklab(parse.oklab(src).color);
+              store.setHsl(parseHsl(src).color);
+              store.setHwb(parseHwb(src).color);
+              store.setLab(parseLab(src).color);
+              store.setLch(parseLch(src).color);
+              store.setOklab(parseOklab(src).color);
             }}
           />
         ) : modeLab ? (
           <InputLab
             id="color-lab"
             onChange={(c) => {
-              const parse = parseColor();
-              const src = parse.hex({ mode: "lab", ...c });
-              const _rgb = parse.rgb(src).color;
+              const src = parseHex({ mode: "lab", ...c });
+              const _rgb = parseRgb(src).color;
 
               store.setHex(_rgb);
               store.setRgb(_rgb);
-              store.setHsl(parse.hsl(src).color);
-              store.setHwb(parse.hwb(src).color);
-              store.setLch(parse.lch(src).color);
-              store.setOklab(parse.oklab(src).color);
-              store.setOklch(parse.oklch(src).color);
+              store.setHsl(parseHsl(src).color);
+              store.setHwb(parseHwb(src).color);
+              store.setLch(parseLch(src).color);
+              store.setOklab(parseOklab(src).color);
+              store.setOklch(parseOklch(src).color);
             }}
           />
         ) : modeOklab ? (
           <InputOklab
             id="color-oklab"
             onChange={(c) => {
-              const parse = parseColor();
-              const src = parse.hex({ mode: "oklab", ...c });
-              const _rgb = parse.rgb(src).color;
+              const src = parseHex({ mode: "oklab", ...c });
+              const _rgb = parseRgb(src).color;
 
               store.setHex(_rgb);
               store.setRgb(_rgb);
-              store.setHsl(parse.hsl(src).color);
-              store.setHwb(parse.hwb(src).color);
-              store.setLab(parse.lab(src).color);
-              store.setLch(parse.lch(src).color);
-              store.setOklch(parse.oklch(src).color);
+              store.setHsl(parseHsl(src).color);
+              store.setHwb(parseHwb(src).color);
+              store.setLab(parseLab(src).color);
+              store.setLch(parseLch(src).color);
+              store.setOklch(parseOklch(src).color);
             }}
           />
         ) : null}

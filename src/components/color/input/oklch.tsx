@@ -1,6 +1,7 @@
 "use client";
 
-import { type OklchColor, stringifyColor } from "~/lib/color";
+import { type OklchColor } from "~/lib/color";
+import { formatOklch } from "~/lib/format";
 import { useState, useMemo } from "react";
 import { useColorStore } from "../provider";
 
@@ -25,7 +26,7 @@ export default function InputOklch(props: {
   };
 
   const previewColor = (newColor: Partial<OklchColor>) => {
-    return stringifyColor({ mode: "oklch", ...color, ...newColor });
+    return formatOklch({ ...color, ...newColor });
   };
 
   const trackLightnessLeft = previewColor({ l: 0 });

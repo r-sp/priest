@@ -1,6 +1,7 @@
 "use client";
 
-import { type HwbColor, stringifyColor } from "~/lib/color";
+import { type HwbColor } from "~/lib/color";
+import { formatHwb } from "~/lib/format";
 import { useState, useMemo } from "react";
 import { useColorStore } from "../provider";
 
@@ -25,9 +26,15 @@ export default function InputHwb(props: {
   };
 
   const previewColor = (newColor: Partial<HwbColor>) => {
-    return stringifyColor({ mode: "hwb", ...color, ...newColor });
+    return formatHwb({ ...color, ...newColor });
   };
 
+  const trackHueRed = previewColor({ h: 0 });
+  const trackHueYellow = previewColor({ h: 60 });
+  const trackHueGreen = previewColor({ h: 120 });
+  const trackHueCyan = previewColor({ h: 180 });
+  const trackHueBlue = previewColor({ h: 240 });
+  const trackHuePurple = previewColor({ h: 300 });
   const trackWhitenessLeft = previewColor({ w: 0 });
   const trackWhitenessRight = previewColor({ w: 1 });
   const trackBlacknessLeft = previewColor({ b: 0 });
@@ -64,8 +71,7 @@ export default function InputHwb(props: {
           role="presentation"
           className="pointer-events-none absolute top-1 right-0 bottom-1 left-0 z-0 rounded-md"
           style={{
-            backgroundImage:
-              "linear-gradient(to right, rgb(255, 0, 0) 0%, rgb(255, 255, 0) 17%, rgb(0, 255, 0) 33%, rgb(0, 255, 255) 50%, rgb(0, 0, 255) 67%, rgb(255, 0, 255) 83%, rgb(255, 0, 0) 100%)",
+            backgroundImage: `linear-gradient(to right, ${trackHueRed} 0%, ${trackHueYellow} 17%, ${trackHueGreen} 33%, ${trackHueCyan} 50%, ${trackHueBlue} 67%, ${trackHuePurple} 83%, ${trackHueRed} 100%)`,
           }}
         ></span>
       </div>

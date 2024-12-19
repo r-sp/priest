@@ -1,6 +1,7 @@
 "use client";
 
-import { type OklabColor, stringifyColor } from "~/lib/color";
+import { type OklabColor } from "~/lib/color";
+import { formatOklab } from "~/lib/format";
 import { useState, useMemo } from "react";
 import { useColorStore } from "../provider";
 
@@ -25,7 +26,7 @@ export default function InputOklab(props: {
   };
 
   const previewColor = (newColor: Partial<OklabColor>) => {
-    return stringifyColor({ mode: "oklab", ...color, ...newColor });
+    return formatOklab({ ...color, ...newColor });
   };
 
   const trackLightnessLeft = previewColor({ l: 0 });
