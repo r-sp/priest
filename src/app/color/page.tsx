@@ -1,4 +1,5 @@
 import { type Metadata } from "next";
+import { Suspense } from "react";
 import { createColor, getTodayColor } from "~/lib/color";
 import Color from "~/components/ui/color";
 
@@ -23,5 +24,9 @@ export function generateMetadata(): Metadata {
 }
 
 export default function ColorPage() {
-  return <Color />;
+  return (
+    <Suspense>
+      <Color />
+    </Suspense>
+  );
 }

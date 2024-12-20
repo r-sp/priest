@@ -28,6 +28,7 @@ export function ColorProvider({
 
     const defaultValue: ColorState = {
       ...color,
+      gamut: true,
       theme: getLocalTheme(),
       mode: "oklch",
     };

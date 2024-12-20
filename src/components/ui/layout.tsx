@@ -1,5 +1,6 @@
 "use client";
 
+import { NuqsAdapter } from "nuqs/adapters/next/app";
 import { ColorProvider } from "~/app/provider";
 import { Geist, Geist_Mono } from "next/font/google";
 import { getTodayColor } from "~/lib/color";
@@ -30,17 +31,19 @@ export default function ClientLayout({
   const color = getTodayColor();
 
   return (
-    <ColorProvider initValue={color}>
-      <html
-        lang="en"
-        className={clsx(fontSans.variable, fontMono.variable)}
-        suppressHydrationWarning
-      >
-        <body className="bg-neutral-50 text-neutral-500 antialiased dark:bg-neutral-950 dark:text-neutral-400">
-          <ThemeScript />
-          {children}
-        </body>
-      </html>
-    </ColorProvider>
+    <html
+      lang="en"
+      className={clsx(fontSans.variable, fontMono.variable)}
+      suppressHydrationWarning
+    >
+      <body className="bg-neutral-50 text-neutral-500 antialiased dark:bg-neutral-950 dark:text-neutral-400">
+        <NuqsAdapter>
+          <ColorProvider initValue={color}>
+            <ThemeScript />
+            {children}
+          </ColorProvider>
+        </NuqsAdapter>
+      </body>
+    </html>
   );
 }
