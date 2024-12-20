@@ -88,6 +88,7 @@ export type ColorState = {
   lch: { color: LchColor; css: string };
   oklab: { color: OklabColor; css: string };
   oklch: { color: OklchColor; css: string };
+  gamut: boolean;
   mode: ColorFormat;
   theme: ThemeVariant;
 };
@@ -101,6 +102,7 @@ export type ColorAction = {
   setLch: (color: LchColor) => void;
   setOklab: (color: OklabColor) => void;
   setOklch: (color: OklchColor) => void;
+  setGamut: (p3: boolean) => void;
   setMode: (format: ColorFormat) => void;
   setTheme: (variant: ThemeVariant) => void;
 };
@@ -187,6 +189,7 @@ export const createColorStore = (initValue: ColorState) => {
           },
         };
       }),
+    setGamut: (p3) => set(() => ({ gamut: p3 })),
     setMode: (format) => set(() => ({ mode: format })),
     setTheme: (variant) => set(() => ({ theme: variant })),
   }));
