@@ -13,8 +13,8 @@ export default function RootLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <NuqsAdapter>
-      <ClientLayout>
+    <ClientLayout>
+      <NuqsAdapter>
         <Sticky
           offset={72}
           as="header"
@@ -72,7 +72,7 @@ export default function RootLayout({
             <Theme />
           </Wrapper>
         </footer>
-      </ClientLayout>
-    </NuqsAdapter>
+      </NuqsAdapter>
+    </ClientLayout>
   );
 }
