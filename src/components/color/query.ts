@@ -1,4 +1,4 @@
-import { type AnyColor } from "~/lib/color";
+import { type AnyColorMode } from "~/lib/color";
 import { useQueryStates, parseAsString, parseAsFloat } from "nuqs";
 import {
   formatRgb,
@@ -10,7 +10,7 @@ import {
   formatOklch,
 } from "~/lib/format";
 
-export function useColorQuery(): { color: AnyColor; css: string } | null {
+export function useColorQuery(): { color: AnyColorMode; css: string } | null {
   const [rgb] = useQueryStates({
     mode: parseAsString.withDefault("rgb"),
     r: parseAsFloat,
@@ -66,10 +66,10 @@ export function useColorQuery(): { color: AnyColor; css: string } | null {
     rgb.g !== null &&
     rgb.b !== null
   ) {
-    const _rgb = { r: rgb.r, g: rgb.g, b: rgb.b };
+    const color = { r: rgb.r, g: rgb.g, b: rgb.b };
     return {
-      color: _rgb,
-      css: formatRgb(_rgb),
+      color: { mode: "rgb", ...color },
+      css: formatRgb(color),
     };
   } else if (
     hsl.mode === "hsl" &&
@@ -77,10 +77,10 @@ export function useColorQuery(): { color: AnyColor; css: string } | null {
     hsl.s !== null &&
     hsl.l !== null
   ) {
-    const _hsl = { h: hsl.h, s: hsl.s, l: hsl.l };
+    const color = { h: hsl.h, s: hsl.s, l: hsl.l };
     return {
-      color: _hsl,
-      css: formatHsl(_hsl),
+      color: { mode: "hsl", ...color },
+      css: formatHsl(color),
     };
   } else if (
     hwb.mode === "hwb" &&
@@ -88,10 +88,10 @@ export function useColorQuery(): { color: AnyColor; css: string } | null {
     hwb.w !== null &&
     hwb.b !== null
   ) {
-    const _hwb = { h: hwb.h, w: hwb.w, b: hwb.b };
+    const color = { h: hwb.h, w: hwb.w, b: hwb.b };
     return {
-      color: _hwb,
-      css: formatHwb(_hwb),
+      color: { mode: "hwb", ...color },
+      css: formatHwb(color),
     };
   } else if (
     lab.mode === "lab" &&
@@ -99,10 +99,10 @@ export function useColorQuery(): { color: AnyColor; css: string } | null {
     lab.a !== null &&
     lab.b !== null
   ) {
-    const _lab = { l: lab.l, a: lab.a, b: lab.b };
+    const color = { l: lab.l, a: lab.a, b: lab.b };
     return {
-      color: _lab,
-      css: formatLab(_lab),
+      color: { mode: "lab", ...color },
+      css: formatLab(color),
     };
   } else if (
     lch.mode === "lch" &&
@@ -110,10 +110,10 @@ export function useColorQuery(): { color: AnyColor; css: string } | null {
     lch.c !== null &&
     lch.h !== null
   ) {
-    const _lch = { l: lch.l, c: lch.c, h: lch.h };
+    const color = { l: lch.l, c: lch.c, h: lch.h };
     return {
-      color: _lch,
-      css: formatLch(_lch),
+      color: { mode: "lch", ...color },
+      css: formatLch(color),
     };
   } else if (
     oklab.mode === "oklab" &&
@@ -121,10 +121,10 @@ export function useColorQuery(): { color: AnyColor; css: string } | null {
     oklab.a !== null &&
     oklab.b !== null
   ) {
-    const _oklab = { l: oklab.l, a: oklab.a, b: oklab.b };
+    const color = { l: oklab.l, a: oklab.a, b: oklab.b };
     return {
-      color: _oklab,
-      css: formatOklab(_oklab),
+      color: { mode: "oklab", ...color },
+      css: formatOklab(color),
     };
   } else if (
     oklch.mode === "oklch" &&
@@ -132,10 +132,10 @@ export function useColorQuery(): { color: AnyColor; css: string } | null {
     oklch.c !== null &&
     oklch.h !== null
   ) {
-    const _oklch = { l: oklch.l, c: oklch.c, h: oklch.h };
+    const color = { l: oklch.l, c: oklch.c, h: oklch.h };
     return {
-      color: _oklch,
-      css: formatOklch(_oklch),
+      color: { mode: "oklch", ...color },
+      css: formatOklch(color),
     };
   } else {
     return null;

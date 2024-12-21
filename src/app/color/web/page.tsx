@@ -1,6 +1,8 @@
 import { type Metadata } from "next";
 import { type WebColor, namedColors } from "~/lib/web-colors";
 import { slugify } from "~/lib/utils";
+import { formatPathMode } from "~/lib/format";
+import { convertRgb } from "~/lib/convert";
 import Link from "next/link";
 
 export const metadata: Metadata = {
@@ -58,7 +60,7 @@ function Section(props: { color: WebColor[]; label: string }) {
         {props.color.map((c, i) => (
           <li key={i} className="inline-flex snap-center snap-always">
             <Link
-              href={`/color/${c.slug.toLowerCase()}`}
+              href={formatPathMode(convertRgb(c.hex))}
               className="grid w-full gap-2 rounded-lg"
             >
               <div

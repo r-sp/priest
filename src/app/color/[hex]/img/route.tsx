@@ -2,6 +2,7 @@ import { type NextRequest } from "next/server";
 import { ImageResponse } from "next/og";
 import { createColor, isValidHex } from "~/lib/color";
 import { limiter, multiplier } from "~/lib/utils";
+import { convertRgb } from "~/lib/convert";
 import { parseHex } from "~/lib/parse";
 
 export const runtime = "edge";
@@ -15,7 +16,7 @@ export async function GET(
   },
 ) {
   const color = (await params).hex;
-  const { hex, oklch } = createColor(isValidHex(color));
+  const { hex, oklch } = createColor(convertRgb(isValidHex(color)));
 
   const base = oklch.color.h || 0;
 

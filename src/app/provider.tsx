@@ -4,10 +4,12 @@ import type { ColorStore, ColorState } from "~/lib/color";
 import { createContext, useRef, useContext, useEffect } from "react";
 import { createColorStore, createColor, isValidHex } from "~/lib/color";
 import { getLocalTheme, localThemeListener } from "~/lib/theme";
+import { convertRgb } from "~/lib/convert";
 import { useParams } from "next/navigation";
 import { useStore } from "zustand";
 
 type ColorApi = ReturnType<typeof createColorStore>;
+type ColorModeApi = ReturnType<typeof createColor>;
 
 const ColorContext = createContext<ColorApi | undefined>(undefined);
 
@@ -16,15 +18,15 @@ export function ColorProvider({
   initValue,
 }: {
   children: React.ReactNode;
-  initValue: string;
+  initValue: ColorModeApi;
 }) {
   const storeRef = useRef<ColorApi>(undefined);
   const colorBy = useParams<{ hex: string }>();
 
   if (!storeRef.current) {
     const color = colorBy.hex
-      ? createColor(isValidHex(colorBy.hex))
-      : createColor(initValue);
+      ? createColor(convertRgb(isValidHex(colorBy.hex)))
+      : initValue;
 
     const defaultValue: ColorState = {
       ...color,

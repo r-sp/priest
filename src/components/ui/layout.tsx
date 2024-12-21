@@ -3,7 +3,8 @@
 import { NuqsAdapter } from "nuqs/adapters/next/app";
 import { ColorProvider } from "~/app/provider";
 import { Geist, Geist_Mono } from "next/font/google";
-import { getTodayColor } from "~/lib/color";
+import { createColor, initColor } from "~/lib/color";
+
 import ThemeScript from "../theme/script";
 import clsx from "clsx";
 
@@ -28,7 +29,7 @@ export default function ClientLayout({
 }: {
   children: React.ReactNode;
 }) {
-  const color = getTodayColor();
+  const color = createColor(initColor());
 
   return (
     <html

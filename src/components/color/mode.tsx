@@ -8,7 +8,7 @@ import Separator from "../ui/separator";
 import clsx from "clsx";
 
 export default function ColorMode() {
-  const { mode, setMode } = useColorStore((state) => state);
+  const { mode, setMode, gamut, setGamut } = useColorStore((state) => state);
   const [modal, setModal] = useState<boolean>(false);
   const btnRef = useRef<HTMLButtonElement>(null);
 
@@ -80,7 +80,12 @@ export default function ColorMode() {
           aria-checked={modeRgb}
           className="btn inline-flex h-8 min-w-32 items-center gap-2 px-3 font-mono text-sm font-medium transition-colors"
           tabIndex={modal ? (modeRgb ? 0 : -1) : -1}
-          onClick={() => handleMode("rgb")}
+          onClick={() => {
+            handleMode("rgb");
+            if (gamut) {
+              setGamut(false);
+            }
+          }}
         >
           <svg
             role="presentation"
@@ -101,7 +106,12 @@ export default function ColorMode() {
           aria-checked={modeHsl}
           className="btn inline-flex h-8 min-w-32 items-center gap-2 px-3 font-mono text-sm font-medium transition-colors"
           tabIndex={modal ? (modeHsl ? 0 : -1) : -1}
-          onClick={() => handleMode("hsl")}
+          onClick={() => {
+            handleMode("hsl");
+            if (gamut) {
+              setGamut(false);
+            }
+          }}
         >
           <svg
             role="presentation"
@@ -122,7 +132,12 @@ export default function ColorMode() {
           aria-checked={modeHwb}
           className="btn inline-flex h-8 min-w-32 items-center gap-2 px-3 font-mono text-sm font-medium transition-colors"
           tabIndex={modal ? (modeHwb ? 0 : -1) : -1}
-          onClick={() => handleMode("hwb")}
+          onClick={() => {
+            handleMode("hwb");
+            if (gamut) {
+              setGamut(false);
+            }
+          }}
         >
           <svg
             role="presentation"
@@ -144,7 +159,12 @@ export default function ColorMode() {
           aria-checked={modeLch}
           className="btn inline-flex h-8 min-w-32 items-center gap-2 px-3 font-mono text-sm font-medium transition-colors"
           tabIndex={modal ? (modeLch ? 0 : -1) : -1}
-          onClick={() => handleMode("lch")}
+          onClick={() => {
+            handleMode("lch");
+            if (!gamut) {
+              setGamut(true);
+            }
+          }}
         >
           <svg
             role="presentation"
@@ -165,7 +185,12 @@ export default function ColorMode() {
           aria-checked={modeOklch}
           className="btn inline-flex h-8 min-w-32 items-center gap-2 px-3 font-mono text-sm font-medium transition-colors"
           tabIndex={modal ? (modeOklch ? 0 : -1) : -1}
-          onClick={() => handleMode("oklch")}
+          onClick={() => {
+            handleMode("oklch");
+            if (!gamut) {
+              setGamut(true);
+            }
+          }}
         >
           <svg
             role="presentation"
@@ -186,7 +211,12 @@ export default function ColorMode() {
           aria-checked={modeLab}
           className="btn inline-flex h-8 min-w-32 items-center gap-2 px-3 font-mono text-sm font-medium transition-colors"
           tabIndex={modal ? (modeLab ? 0 : -1) : -1}
-          onClick={() => handleMode("lab")}
+          onClick={() => {
+            handleMode("lab");
+            if (!gamut) {
+              setGamut(true);
+            }
+          }}
         >
           <svg
             role="presentation"
@@ -207,7 +237,12 @@ export default function ColorMode() {
           aria-checked={modeOklab}
           className="btn inline-flex h-8 min-w-32 items-center gap-2 px-3 font-mono text-sm font-medium transition-colors"
           tabIndex={modal ? (modeOklab ? 0 : -1) : -1}
-          onClick={() => handleMode("oklab")}
+          onClick={() => {
+            handleMode("oklab");
+            if (!gamut) {
+              setGamut(true);
+            }
+          }}
         >
           <svg
             role="presentation"
