@@ -14,7 +14,7 @@ export default function RootLayout({
   return (
     <ClientLayout>
       <Sticky
-        offset={72}
+        offset={32}
         as="header"
         className="sticky top-0 right-0 left-0 z-8 bg-neutral-50/80 backdrop-blur-xl dark:bg-neutral-950/80"
         onHidden="-translate-y-16 transition-transform ease-in"
