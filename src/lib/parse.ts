@@ -8,7 +8,15 @@ import type {
   OklchColor,
   AnyColorMode,
 } from "./color";
-
+import {
+  convertRgb,
+  convertHsl,
+  convertHwb,
+  convertLab,
+  convertLch,
+  convertOklab,
+  convertOklch,
+} from "./convert";
 import {
   formatHex,
   formatRgb,
@@ -20,80 +28,71 @@ import {
   formatOklch,
 } from "./format";
 
-import { rgb, hsl, hwb, lab, lch, oklab, oklch } from "culori";
-
 export const parseHex = (newColor: string | AnyColorMode): string => {
-  const _rgb = rgb(newColor) || { r: 0, g: 0, b: 0 };
-  return formatHex(_rgb);
+  const rgb = convertRgb(newColor);
+  return formatHex(rgb);
 };
 
 export const parseRgb = (
-  newColor: string,
+  newColor: string | AnyColorMode,
 ): { color: RgbColor; css: string } => {
-  const _rgb = rgb(newColor) || { r: 0, g: 0, b: 0 };
-
-  return { color: { r: _rgb.r, g: _rgb.g, b: _rgb.b }, css: formatRgb(_rgb) };
+  const rgb = convertRgb(newColor);
+  return { color: { r: rgb.r, g: rgb.g, b: rgb.b }, css: formatRgb(rgb) };
 };
 
 export const parseHsl = (
-  newColor: string,
+  newColor: string | AnyColorMode,
 ): { color: HslColor; css: string } => {
-  const _hsl = hsl(newColor) || { h: 0, s: 0, l: 0 };
-
+  const hsl = convertHsl(newColor);
   return {
-    color: { h: _hsl.h || 0, s: _hsl.s, l: _hsl.l },
-    css: formatHsl(_hsl),
+    color: { h: hsl.h || 0, s: hsl.s, l: hsl.l },
+    css: formatHsl(hsl),
   };
 };
 
 export const parseHwb = (
-  newColor: string,
+  newColor: string | AnyColorMode,
 ): { color: HwbColor; css: string } => {
-  const _hwb = hwb(newColor) || { h: 0, w: 0, b: 0 };
-
+  const hwb = convertHwb(newColor);
   return {
-    color: { h: _hwb.h || 0, w: _hwb.w, b: _hwb.b },
-    css: formatHwb(_hwb),
+    color: { h: hwb.h || 0, w: hwb.w, b: hwb.b },
+    css: formatHwb(hwb),
   };
 };
 
 export const parseLab = (
-  newColor: string,
+  newColor: string | AnyColorMode,
 ): { color: LabColor; css: string } => {
-  const _lab = lab(newColor) || { l: 0, a: 0, b: 0 };
-
-  return { color: { l: _lab.l, a: _lab.a, b: _lab.b }, css: formatLab(_lab) };
+  const lab = convertLab(newColor);
+  return { color: { l: lab.l, a: lab.a, b: lab.b }, css: formatLab(lab) };
 };
 
 export const parseLch = (
-  newColor: string,
+  newColor: string | AnyColorMode,
 ): { color: LchColor; css: string } => {
-  const _lch = lch(newColor) || { l: 0, c: 0, h: 0 };
-
+  const lch = convertLch(newColor);
   return {
-    color: { l: _lch.l, c: _lch.c, h: _lch.h || 0 },
-    css: formatLch(_lch),
+    color: { l: lch.l, c: lch.c, h: lch.h || 0 },
+    css: formatLch(lch),
   };
 };
 
 export const parseOklab = (
-  newColor: string,
+  newColor: string | AnyColorMode,
 ): { color: OklabColor; css: string } => {
-  const _oklab = oklab(newColor) || { l: 0, a: 0, b: 0 };
-
+  const oklab = convertOklab(newColor);
   return {
-    color: { l: _oklab.l, a: _oklab.a, b: _oklab.b },
-    css: formatOklab(_oklab),
+    color: { l: oklab.l, a: oklab.a, b: oklab.b },
+    css: formatOklab(oklab),
   };
 };
 
 export const parseOklch = (
-  newColor: string,
+  newColor: string | AnyColorMode,
 ): { color: OklchColor; css: string } => {
-  const _oklch = oklch(newColor) || { l: 0, c: 0, h: 0 };
-
+  const oklch = convertOklch(newColor);
   return {
-    color: { l: _oklch.l, c: _oklch.c, h: _oklch.h || 0 },
-    css: formatOklch(_oklch),
+    color: { l: oklch.l, c: oklch.c, h: oklch.h || 0 },
+    css: formatOklch(oklch),
   };
 };
