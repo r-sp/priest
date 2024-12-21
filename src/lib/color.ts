@@ -1,5 +1,12 @@
-import { parse, rgb, hsl, hwb, lab, lch, oklab, oklch } from "culori";
-import { round, limiter } from "./utils";
+import {
+  convertRgb,
+  convertHsl,
+  convertHwb,
+  convertLab,
+  convertLch,
+  convertOklab,
+  convertOklch,
+} from "./convert";
 import {
   formatHex,
   formatRgb,
@@ -20,6 +27,8 @@ import {
   parseOklab,
   parseOklch,
 } from "./parse";
+import { limiter } from "./utils";
+import { parse } from "culori";
 import { createStore } from "zustand";
 
 export type ThemeVariant = "auto" | "light" | "dark";
@@ -114,14 +123,14 @@ export const createColorStore = (initValue: ColorState) => {
     ...initValue,
     setHex: (newColor) =>
       set(() => {
-        const color = rgb({ mode: "rgb", ...newColor });
+        const color = convertRgb({ mode: "rgb", ...newColor });
         return {
           hex: formatHex(color),
         };
       }),
     setRgb: (newColor) =>
       set(() => {
-        const color = rgb({ mode: "rgb", ...newColor });
+        const color = convertRgb({ mode: "rgb", ...newColor });
         return {
           rgb: {
             color: { r: color.r, g: color.g, b: color.b },
@@ -131,7 +140,7 @@ export const createColorStore = (initValue: ColorState) => {
       }),
     setHsl: (newColor) =>
       set(() => {
-        const color = hsl({ mode: "hsl", ...newColor });
+        const color = convertHsl({ mode: "hsl", ...newColor });
         return {
           hsl: {
             color: { h: color.h, s: color.s, l: color.l },
@@ -141,7 +150,7 @@ export const createColorStore = (initValue: ColorState) => {
       }),
     setHwb: (newColor) =>
       set(() => {
-        const color = hwb({ mode: "hwb", ...newColor });
+        const color = convertHwb({ mode: "hwb", ...newColor });
         return {
           hwb: {
             color: { h: color.h, w: color.w, b: color.b },
@@ -151,7 +160,7 @@ export const createColorStore = (initValue: ColorState) => {
       }),
     setLab: (newColor) =>
       set(() => {
-        const color = lab({ mode: "lab", ...newColor });
+        const color = convertLab({ mode: "lab", ...newColor });
         return {
           lab: {
             color: { l: color.l, a: color.a, b: color.b },
@@ -161,7 +170,7 @@ export const createColorStore = (initValue: ColorState) => {
       }),
     setLch: (newColor) =>
       set(() => {
-        const color = lch({ mode: "lch", ...newColor });
+        const color = convertLch({ mode: "lch", ...newColor });
         return {
           lch: {
             color: { l: color.l, c: color.c, h: color.h },
@@ -171,7 +180,7 @@ export const createColorStore = (initValue: ColorState) => {
       }),
     setOklab: (newColor) =>
       set(() => {
-        const color = oklab({ mode: "oklab", ...newColor });
+        const color = convertOklab({ mode: "oklab", ...newColor });
         return {
           oklab: {
             color: { l: color.l, a: color.a, b: color.b },
@@ -181,7 +190,7 @@ export const createColorStore = (initValue: ColorState) => {
       }),
     setOklch: (newColor) =>
       set(() => {
-        const color = oklch({ mode: "oklch", ...newColor });
+        const color = convertOklch({ mode: "oklch", ...newColor });
         return {
           oklch: {
             color: { l: color.l, c: color.c, h: color.h },
@@ -195,27 +204,45 @@ export const createColorStore = (initValue: ColorState) => {
   }));
 };
 
-export const createColor = (byHex: string) => {
+export const createColor = (newColor: AnyColorMode) => {
   return {
-    hex: byHex,
-    rgb: parseRgb(byHex),
-    hsl: parseHsl(byHex),
-    hwb: parseHwb(byHex),
-    lab: parseLab(byHex),
-    lch: parseLch(byHex),
-    oklab: parseOklab(byHex),
-    oklch: parseOklch(byHex),
+    hex: parseHex(newColor),
+    rgb: parseRgb(newColor),
+    hsl: parseHsl(newColor),
+    hwb: parseHwb(newColor),
+    lab: parseLab(newColor),
+    lch: parseLch(newColor),
+    oklab: parseOklab(newColor),
+    oklch: parseOklch(newColor),
+  };
+};
+
+export const initColor = (): HslColorMode => {
+  const today = new Date();
+  const year = today.getFullYear();
+  const month = today.getMonth() + 1;
+  const day = today.getDate();
+
+  const hue = limiter((day * year) / month, 0, 360);
+  const saturation = limiter(month * 12, 0.64, 0.96);
+  const lightness = limiter(day * 30, 0.32, 0.64);
+
+  return {
+    mode: "hsl",
+    h: hue,
+    s: saturation,
+    l: lightness,
   };
 };
 
 export const isValidColor = (newColor: string): boolean => {
   const colorName = newColor.replace("#", "");
-  const color = parse(colorName);
+  const color = parse(colorName) as AnyColorMode;
 
   if (typeof color === "object") {
     return true;
   } else {
-    const hex = parse(newColor);
+    const hex = parse(newColor) as AnyColorMode;
     if (typeof hex === "object") {
       return true;
     } else {
@@ -225,29 +252,11 @@ export const isValidColor = (newColor: string): boolean => {
 };
 
 export const isValidHex = (newColor: string): string => {
-  const color = parse(newColor);
+  const color = parse(newColor) as AnyColorMode;
 
   if (typeof color === "object") {
-    return formatHex(rgb(color));
+    return parseHex(color);
   } else {
     return newColor;
   }
-};
-
-export const getTodayColor = (): string => {
-  const today = new Date();
-  const year = today.getFullYear();
-  const month = today.getMonth() + 1;
-  const day = today.getDate();
-
-  const hue = round(limiter((day * year) / month, 0, 360), 2);
-  const saturation = round(limiter(month * 12, 0.64, 0.96), 4);
-  const lightness = round(limiter(day * 30, 0.32, 0.64), 4);
-
-  return parseHex({
-    mode: "hsl",
-    h: hue,
-    s: saturation,
-    l: lightness,
-  });
 };
