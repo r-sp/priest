@@ -1,11 +1,14 @@
 "use client";
 
-import { createColor, isValidHex } from "~/lib/color";
-import { brightness, luminance, inspectColor } from "~/lib/a11y";
-import { findColor, nearestColor } from "~/lib/web-colors";
 import { useState } from "react";
 import { useParams } from "next/navigation";
 import { useColorStore } from "~/app/provider";
+
+import { convertRgb } from "~/lib/convert";
+import { createColor, isValidHex } from "~/lib/color";
+import { findColor, nearestColor } from "~/lib/web-colors";
+import { brightness, luminance, inspectColor } from "~/lib/a11y";
+
 import Wrapper from "../ui/wrapper";
 import Separator from "../ui/separator";
 import Link from "next/link";
@@ -15,7 +18,7 @@ export default function ColorDetail() {
   const store = useColorStore((state) => state);
 
   const { hex, rgb, hsl, hwb, lab, lch, oklab, oklch } = colorBy.hex
-    ? createColor(isValidHex(colorBy.hex))
+    ? createColor(convertRgb(isValidHex(colorBy.hex)))
     : store;
 
   const colorHex = hex;
