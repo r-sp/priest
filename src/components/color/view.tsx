@@ -41,7 +41,7 @@ export default function ColorView() {
       <header className="grid gap-y-3">
         <Link
           aria-label={`view color ${hex}`}
-          href={`/color/${hex.replace("#", "")}/img`}
+          href={`/color/${hex.replace("#", "")}`}
           className="frame inline-grid w-full rounded-lg"
         >
           <span style={{ backgroundColor: colorRgb }}></span>
