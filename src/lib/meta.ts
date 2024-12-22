@@ -20,7 +20,7 @@ export const sharedMetadata = (options: {
     openGraph: {
       images: [
         {
-          url: `/${imgPath}`,
+          url: `/color/${imgPath}`,
           alt: `Color: ${img}`,
         },
       ],
