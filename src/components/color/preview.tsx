@@ -3,6 +3,7 @@
 import { useColorQuery } from "./query";
 import { createColor } from "~/lib/color";
 import { findColor, nearestColor } from "~/lib/web-colors";
+import { measureColor, contrastColor } from "~/lib/a11y";
 import Wrapper from "../ui/wrapper";
 import Link from "next/link";
 
@@ -21,6 +22,10 @@ export default function ColorPreview() {
   const colorOklch = oklch.css;
 
   const colorName = findColor(nearestColor(hex) || "black");
+
+  const { brightness, luminance } = measureColor(rgb.color);
+  const white = contrastColor(rgb.color, { r: 1, g: 1, b: 1 });
+  const black = contrastColor(rgb.color, { r: 0, g: 0, b: 0 });
 
   return (
     <Wrapper
@@ -114,6 +119,55 @@ export default function ColorPreview() {
         >
           <code>{colorOklab}</code>
         </p>
+      </section>
+      <section aria-label="analysis">
+        <h3 className="text-neutral-800 dark:text-neutral-200">
+          Color Analysis
+        </h3>
+        <p>{`Brightness: ${brightness}`}</p>
+        <p>{`Luminance: ${luminance}`}</p>
+        <section
+          className="mt-4"
+          aria-label="current color on white background"
+        >
+          <h3 className="text-neutral-800 dark:text-neutral-200">
+            Color on White Background
+          </h3>
+          <p>{`Contrast: ${white.ratio}`}</p>
+          <dl className="mt-2">
+            <dt className="text-neutral-700 dark:text-neutral-300">
+              WCAG Normal
+            </dt>
+            <dd>{`AA: ${white.normal.aa}`}</dd>
+            <dd>{`AAA: ${white.normal.aaa}`}</dd>
+            <dt className="mt-2 text-neutral-700 dark:text-neutral-300">
+              WCAG Large
+            </dt>
+            <dd>{`AA: ${white.large.aa}`}</dd>
+            <dd>{`AAA: ${white.large.aaa}`}</dd>
+          </dl>
+        </section>
+        <section
+          className="mt-4"
+          aria-label="current color on black background"
+        >
+          <h3 className="text-neutral-800 dark:text-neutral-200">
+            Color on Black Background
+          </h3>
+          <p>{`Contrast: ${black.ratio}`}</p>
+          <dl className="mt-2">
+            <dt className="text-neutral-700 dark:text-neutral-300">
+              WCAG Normal
+            </dt>
+            <dd>{`AA: ${black.normal.aa}`}</dd>
+            <dd>{`AAA: ${black.normal.aaa}`}</dd>
+            <dt className="mt-2 text-neutral-700 dark:text-neutral-300">
+              WCAG Large
+            </dt>
+            <dd>{`AA: ${black.large.aa}`}</dd>
+            <dd>{`AAA: ${black.large.aaa}`}</dd>
+          </dl>
+        </section>
       </section>
     </Wrapper>
   );

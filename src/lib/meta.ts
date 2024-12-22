@@ -13,6 +13,7 @@ export const sharedMetadata = (options: {
   const title = options.color ? { title: `Color: ${color}` } : {};
   const img = options.color ? formatHex(convertRgb(options.color)) : hex;
   const imgPath = img.replace("#", "");
+  const pageType = options.path === "/" ? "website" : "article";
 
   return {
     ...title,
@@ -20,11 +21,13 @@ export const sharedMetadata = (options: {
     openGraph: {
       images: [
         {
-          url: `/${imgPath}`,
+          url: `/color/${imgPath}`,
           alt: `Color: ${img}`,
         },
       ],
       url: link,
+      siteName: "Priest: The Holy Colors",
+      type: pageType,
     },
     alternates: {
       canonical: link,
