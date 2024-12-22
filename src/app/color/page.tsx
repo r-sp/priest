@@ -1,30 +1,38 @@
 import { type Metadata } from "next";
-import { createColor, initColor } from "~/lib/color";
+import { sharedMetadata } from "~/lib/meta";
+import {
+  type ColorQuery,
+  parseColorQuery,
+  parseColorPath,
+} from "~/components/color/query";
+import { formatCssMode } from "~/lib/format";
 import { Suspense } from "react";
 import Wrapper from "~/components/ui/wrapper";
 import Color from "~/components/ui/color";
 
-export function generateMetadata(): Metadata {
-  const color = createColor(initColor());
-  const link = "https://priest.vercel.app/color";
+export async function generateMetadata({
+  searchParams,
+}: {
+  searchParams: Promise<ColorQuery>;
+}): Promise<Metadata> {
+  const query = await searchParams;
+
+  const meta = sharedMetadata({
+    path: query.mode ? parseColorPath(query) : "color",
+    color: query.mode
+      ? formatCssMode(query.mode, parseColorQuery(query))
+      : undefined,
+  });
 
   return {
     title: "Color",
-    openGraph: {
-      images: [
-        {
-          url: `${link}/${color.hex.replace("#", "")}/img`,
-          alt: `Color: ${color.hex}`,
-        },
-      ],
-    },
-    alternates: {
-      canonical: link,
-    },
+    description:
+      "Generate stunning color combinations with expanded color gamuts and precise color representation.",
+    ...meta,
   };
 }
 
-export default function ColorPage() {
+export default async function ColorPage() {
   return (
     <Suspense fallback={<Skeleton />}>
       <Color />

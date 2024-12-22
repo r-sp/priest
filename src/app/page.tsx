@@ -1,9 +1,17 @@
 import { type Metadata } from "next";
+import { sharedMetadata } from "~/lib/meta";
 import Link from "next/link";
 
-export const metadata: Metadata = {
-  title: "Priest: The Holy Colors",
-};
+export function generateMetadata(): Metadata {
+  const meta = sharedMetadata({ path: "/" });
+
+  return {
+    ...meta,
+    title: "Priest: The Holy Colors",
+    description:
+      "Explore contemporary color palettes using advanced color spaces for vibrant and harmonious designs.",
+  };
+}
 
 export default function HomePage() {
   return (

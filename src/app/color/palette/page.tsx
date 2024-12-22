@@ -1,26 +1,17 @@
 import { type Metadata } from "next";
-import { createColor, initColor } from "~/lib/color";
+import { sharedMetadata } from "~/lib/meta";
 import ColorPicker from "~/components/color/picker";
 import ColorHue from "~/components/color/hue";
 import Wrapper from "~/components/ui/wrapper";
 
 export function generateMetadata(): Metadata {
-  const color = createColor(initColor());
-  const link = "https://priest.vercel.app/color";
+  const meta = sharedMetadata({ path: "color/palette" });
 
   return {
+    ...meta,
     title: "Color Palette",
-    openGraph: {
-      images: [
-        {
-          url: `${link}/${color.hex.replace("#", "")}/img`,
-          alt: `Color: ${color.hex}`,
-        },
-      ],
-    },
-    alternates: {
-      canonical: `${link}/palette`,
-    },
+    description:
+      "Achieve perfect color harmony with palettes designed using the latest color space technologies.",
   };
 }
 

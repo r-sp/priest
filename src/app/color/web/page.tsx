@@ -1,18 +1,21 @@
 import { type Metadata } from "next";
 import { type WebColor, namedColors } from "~/lib/web-colors";
+import { sharedMetadata } from "~/lib/meta";
 import { slugify } from "~/lib/utils";
 import { formatPathMode } from "~/lib/format";
 import { convertRgb } from "~/lib/convert";
 import Link from "next/link";
 
-export const metadata: Metadata = {
-  title: "Web Colors",
-  description:
-    "Red, Brown, Orange, Yellow, Green, Cyan, Blue, Purple, Violet, Magenta, Pink, White, Gray and Black",
-  alternates: {
-    canonical: "https://priest.vercel.app/color/web",
-  },
-};
+export function generateMetadata(): Metadata {
+  const meta = sharedMetadata({ path: "web" });
+
+  return {
+    ...meta,
+    title: "Web Colors",
+    description:
+      "Red, Brown, Orange, Yellow, Green, Cyan, Blue, Purple, Violet, Magenta, Pink, White, Gray and Black",
+  };
+}
 
 export default function WebColorsPage() {
   // prettier-ignore
