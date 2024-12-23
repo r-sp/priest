@@ -219,9 +219,9 @@ export const createColor = (newColor: AnyColorMode) => {
 
 export const initColor = (): HslColorMode => {
   const today = new Date();
-  const year = today.getFullYear();
-  const month = today.getMonth() + 1;
-  const day = today.getDate();
+  const year = today.getUTCFullYear();
+  const month = today.getUTCMonth() + 1;
+  const day = today.getUTCDay();
 
   const hue = limiter((day * year) / month, 0, 360);
   const saturation = limiter(month * 12, 0.64, 0.96);
@@ -233,22 +233,6 @@ export const initColor = (): HslColorMode => {
     s: saturation,
     l: lightness,
   };
-};
-
-export const isValidColor = (newColor: string): boolean => {
-  const colorName = newColor.replace("#", "");
-  const color = parse(colorName) as AnyColorMode;
-
-  if (typeof color === "object") {
-    return true;
-  } else {
-    const hex = parse(newColor) as AnyColorMode;
-    if (typeof hex === "object") {
-      return true;
-    } else {
-      return false;
-    }
-  }
 };
 
 export const isValidHex = (newColor: string): string => {

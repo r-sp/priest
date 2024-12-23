@@ -32,6 +32,11 @@ export default function HomePage() {
             Palette
           </Link>
         </li>
+        <li>
+          <Link href="/create" className="text-lg hover:underline">
+            Create
+          </Link>
+        </li>
       </ul>
     </article>
   );

@@ -4,6 +4,7 @@ import { sharedMetadata } from "~/lib/meta";
 import { slugify } from "~/lib/utils";
 import { formatPathMode } from "~/lib/format";
 import { convertRgb } from "~/lib/convert";
+import Wrapper from "~/components/ui/wrapper";
 import Link from "next/link";
 
 export function generateMetadata(): Metadata {
@@ -22,11 +23,46 @@ export default function WebColorsPage() {
   const { red, brown, orange, yellow, green, cyan, blue, purple, pink, white, black } = namedColors;
 
   return (
-    <article className="grid gap-y-8">
-      <header className="inline-grid w-full px-3">
-        <h1 className="mx-auto w-full max-w-7xl text-4xl font-bold text-neutral-800 dark:text-neutral-200">
+    <Wrapper as="article" className="grid gap-y-8" outerStyle="py-4">
+      <header className="inline-grid w-full">
+        <h1 className="text-3xl font-semibold text-neutral-800 dark:text-neutral-200">
           Web Colors
         </h1>
+        <ul className="pl-4">
+          <li className="list-disc">
+            <a href="#red">Red</a>
+          </li>
+          <li className="list-disc">
+            <a href="#brown">Brown</a>
+          </li>
+          <li className="list-disc">
+            <a href="#orange">Orange</a>
+          </li>
+          <li className="list-disc">
+            <a href="#yellow">Yellow</a>
+          </li>
+          <li className="list-disc">
+            <a href="#green">Green</a>
+          </li>
+          <li className="list-disc">
+            <a href="#cyan">Cyan</a>
+          </li>
+          <li className="list-disc">
+            <a href="#blue">Blue</a>
+          </li>
+          <li className="list-disc">
+            <a href="#purple-violet-and-magenta">Purple, Violet, and Magenta</a>
+          </li>
+          <li className="list-disc">
+            <a href="#pink">Pink</a>
+          </li>
+          <li className="list-disc">
+            <a href="#white">White</a>
+          </li>
+          <li className="list-disc">
+            <a href="#gray-and-black">Gray and Black</a>
+          </li>
+        </ul>
       </header>
       <Section color={red} label="Red" />
       <Section color={brown} label="Brown" />
@@ -39,7 +75,7 @@ export default function WebColorsPage() {
       <Section color={pink} label="Pink" />
       <Section color={white} label="White" />
       <Section color={black} label="Gray and Black" />
-    </article>
+    </Wrapper>
   );
 }
 
@@ -47,10 +83,10 @@ function Section(props: { color: WebColor[]; label: string }) {
   const section = slugify(props.label);
 
   return (
-    <section aria-labelledby={section} className="inline-grid gap-y-4 xl:mx-3">
+    <section aria-labelledby={section} className="inline-grid gap-y-4">
       <div
         role="none"
-        className="mx-auto w-full max-w-7xl border-t border-t-neutral-400 pt-4 max-xl:px-3 dark:border-t-neutral-700"
+        className="border-t border-t-neutral-400 pt-4 dark:border-t-neutral-700"
       >
         <h2
           id={section}
@@ -59,16 +95,16 @@ function Section(props: { color: WebColor[]; label: string }) {
           {props.label}
         </h2>
       </div>
-      <ul className="mx-auto flex w-full max-w-7xl snap-x snap-mandatory flex-nowrap gap-x-3 overflow-x-auto scroll-smooth px-3 py-2 xl:px-0">
+      <ul className="grid w-full gap-3 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5">
         {props.color.map((c, i) => (
-          <li key={i} className="inline-flex snap-center snap-always">
+          <li key={i} className="inline-grid">
             <Link
               href={formatPathMode(convertRgb(c.hex))}
               className="grid w-full gap-2 rounded-lg"
             >
               <div
                 role="presentation"
-                className="frame inline-grid w-full min-w-85 rounded-lg"
+                className="frame inline-grid w-full rounded-lg"
               >
                 <span style={{ backgroundColor: `#${c.hex}` }}></span>
               </div>
