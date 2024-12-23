@@ -12,12 +12,6 @@
   button {
     cursor: pointer;
   }
-  a,
-  button,
-  input,
-  [tabindex="0"] {
-    scroll-margin-top: 4.5rem;
-  }
 }
 
 @layer utilities {
@@ -97,5 +91,10 @@
     cursor: e-resize;
     height: 1.25rem;
     width: 1.25rem;
+  }
+  .box {
+    display: inline-flex;
+    height: 4rem;
+    width: 100%;
   }
 }
