@@ -5,17 +5,17 @@ import ColorShade from "~/components/color/shade";
 import Wrapper from "~/components/ui/wrapper";
 
 export function generateMetadata(): Metadata {
-  const meta = sharedMetadata({ path: "create" });
+  const meta = sharedMetadata({ path: "color-shades" });
 
   return {
     ...meta,
-    title: "Create Color",
+    title: "Color Shades",
     description:
       "Find palettes built with perceptually uniform color spaces for smooth transitions and accurate color perception.",
   };
 }
 
-export default function CreatePage() {
+export default function ColorShadesPage() {
   return (
     <Wrapper
       as="section"
