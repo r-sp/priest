@@ -1,81 +1,98 @@
 "use client";
 
+import type { ColorShade } from "~/lib/color";
+import { useMemo, useCallback } from "react";
 import { useColorStore } from "~/app/provider";
-import { formatHsl } from "~/lib/format";
-// import { limiter } from "~/lib/utils";
+import { formatOklch } from "~/lib/format";
+import { gamutLightness, gamutChroma } from "~/lib/gamut";
 
 export default function ColorShade() {
-  const { hsl } = useColorStore((state) => state);
+  const { oklch } = useColorStore((state) => state);
 
-  const hue = hsl.color.h; // 0-360
-  // const lightness = hsl.color.l; // 0-1
-  const saturation = hsl.color.s; // 0-1
+  const hue = oklch.color.h!;
 
-  const color50 = formatHsl({
-    h: hue,
-    s: saturation,
-    l: 1,
-  });
+  const lightness = useCallback(
+    (type: ColorShade) => gamutLightness(type, hue),
+    [hue],
+  );
 
-  const color100 = formatHsl({
-    h: hue,
-    s: saturation,
-    l: 0.95,
-  });
+  const chroma = useCallback(
+    (type: ColorShade) => gamutChroma(type, hue),
+    [hue],
+  );
 
-  const color200 = formatHsl({
-    h: hue,
-    s: saturation,
-    l: 0.9,
-  });
+  const color = useMemo(
+    () => ({
+      50: formatOklch({
+        l: lightness("50"),
+        c: chroma("50"),
+        h: hue,
+      }),
+      100: formatOklch({
+        l: lightness("100"),
+        c: chroma("100"),
+        h: hue,
+      }),
+      200: formatOklch({
+        l: lightness("200"),
+        c: chroma("200"),
+        h: hue,
+      }),
+      300: formatOklch({
+        l: lightness("300"),
+        c: chroma("300"),
+        h: hue,
+      }),
+      400: formatOklch({
+        l: lightness("400"),
+        c: chroma("400"),
+        h: hue,
+      }),
+      500: formatOklch({
+        l: lightness("500"),
+        c: chroma("500"),
+        h: hue,
+      }),
+      600: formatOklch({
+        l: lightness("600"),
+        c: chroma("600"),
+        h: hue,
+      }),
+      700: formatOklch({
+        l: lightness("700"),
+        c: chroma("700"),
+        h: hue,
+      }),
+      800: formatOklch({
+        l: lightness("800"),
+        c: chroma("800"),
+        h: hue,
+      }),
+      900: formatOklch({
+        l: lightness("900"),
+        c: chroma("900"),
+        h: hue,
+      }),
+      950: formatOklch({
+        l: lightness("950"),
+        c: chroma("950"),
+        h: hue,
+      }),
+    }),
+    [lightness, chroma, hue],
+  );
 
-  const color300 = formatHsl({
-    h: hue,
-    s: saturation,
-    l: 0.8,
-  });
-
-  const color400 = formatHsl({
-    h: hue,
-    s: saturation,
-    l: 0.7,
-  });
-
-  const color500 = formatHsl({
-    h: hue,
-    s: saturation,
-    l: 0.6,
-  });
-
-  const color600 = formatHsl({
-    h: hue,
-    s: saturation,
-    l: 0.5,
-  });
-
-  const color700 = formatHsl({
-    h: hue,
-    s: saturation,
-    l: 0.4,
-  });
-
-  const color800 = formatHsl({
-    h: hue,
-    s: saturation,
-    l: 0.3,
-  });
-
-  const color900 = formatHsl({
-    h: hue,
-    s: saturation,
-    l: 0.2,
-  });
-
-  const color950 = formatHsl({
-    h: hue,
-    s: saturation,
-    l: 0.12,
-  });
+  const color50 = color[50];
+  const color100 = color[100];
+  const color200 = color[200];
+  const color300 = color[300];
+  const color400 = color[400];
+  const color500 = color[500];
+  const color600 = color[600];
+  const color700 = color[700];
+  const color800 = color[800];
+  const color900 = color[900];
+  const color950 = color[950];
 
   return (
     <div className="grid gap-y-3">

@@ -5,17 +5,17 @@ import ColorHue from "~/components/color/hue";
 import Wrapper from "~/components/ui/wrapper";
 
 export function generateMetadata(): Metadata {
-  const meta = sharedMetadata({ path: "color/palette" });
+  const meta = sharedMetadata({ path: "color-palettes" });
 
   return {
     ...meta,
-    title: "Color Palette",
+    title: "Color Palettes",
     description:
       "Achieve perfect color harmony with palettes designed using the latest color space technologies.",
   };
 }
 
-export default function ColorPalettePage() {
+export default function ColorPalettesPage() {
   return (
     <Wrapper
       as="section"

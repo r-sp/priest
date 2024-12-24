@@ -8,7 +8,7 @@ import Wrapper from "~/components/ui/wrapper";
 import Link from "next/link";
 
 export function generateMetadata(): Metadata {
-  const meta = sharedMetadata({ path: "web" });
+  const meta = sharedMetadata({ path: "web-colors" });
 
   return {
     ...meta,

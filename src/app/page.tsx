@@ -1,5 +1,6 @@
 import { type Metadata } from "next";
 import { sharedMetadata } from "~/lib/meta";
+import Wrapper from "~/components/ui/wrapper";
 import Link from "next/link";
 
 export function generateMetadata(): Metadata {
@@ -15,29 +16,31 @@ export function generateMetadata(): Metadata {
 
 export default function HomePage() {
   return (
-    <article className="px-3">
-      <ul className="mx-auto my-4 max-w-7xl">
+    <Wrapper outerStyle="py-4">
+      <ul>
         <li>
           <Link href="/color" className="text-lg hover:underline">
             Color
           </Link>
+          <ul className="ml-4 pl-4">
+            <li className="list-disc">
+              <Link href="/color-palettes" className="text-lg hover:underline">
+                Palettes
+              </Link>
+            </li>
+            <li className="list-disc">
+              <Link href="/color-shades" className="text-lg hover:underline">
+                Shades
+              </Link>
+            </li>
+          </ul>
         </li>
         <li>
-          <Link href="/color/web" className="text-lg hover:underline">
-            Web
-          </Link>
-        </li>
-        <li>
-          <Link href="/color/palette" className="text-lg hover:underline">
-            Palette
-          </Link>
-        </li>
-        <li>
-          <Link href="/create" className="text-lg hover:underline">
-            Create
+          <Link href="/web-colors" className="text-lg hover:underline">
+            Web Colors
           </Link>
         </li>
       </ul>
-    </article>
+    </Wrapper>
   );
 }
