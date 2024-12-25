@@ -9,17 +9,17 @@ import { gamutLightness, gamutChroma } from "~/lib/gamut";
 export default function ColorShade() {
   const { oklch } = useColorStore((state) => state);
 
-  const hue = oklch.color.h!;
-
   const lightness = useCallback(
-    (type: ColorShade) => gamutLightness(type, hue),
-    [hue],
+    (type: ColorShade) => gamutLightness(type, oklch.color.l, oklch.color.h!),
+    [oklch],
   );
 
   const chroma = useCallback(
-    (type: ColorShade) => gamutChroma(type, hue),
-    [hue],
+    (type: ColorShade) => gamutChroma(type, oklch.color.c, oklch.color.h!),
+    [oklch],
   );
+
+  const hue = oklch.color.h!;
 
   const color = useMemo(
     () => ({
