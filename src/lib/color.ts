@@ -101,6 +101,25 @@ export type ColorShade =
   | "900"
   | "950";
 
+export type ColorName =
+  | "red"
+  | "orange"
+  | "amber"
+  | "yellow"
+  | "lime"
+  | "green"
+  | "emerald"
+  | "teal"
+  | "cyan"
+  | "sky"
+  | "blue"
+  | "indigo"
+  | "violet"
+  | "purple"
+  | "fuchsia"
+  | "pink"
+  | "rose";
+
 export type ColorState = {
   hex: string;
   rgb: { color: RgbColor; css: string };
