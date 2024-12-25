@@ -67,7 +67,7 @@ export const formatLch = (newColor: LchColor): string => {
   const { l, c, h } = newColor;
   const lightness = round(l, 3);
   const chroma = round(c, 3);
-  const hue = round(h || 0, 2);
+  const hue = round(h || 0, 3);
 
   return `lch(${lightness} ${chroma} ${hue})`;
 };
@@ -85,7 +85,7 @@ export const formatOklch = (newColor: OklchColor): string => {
   const { l, c, h } = newColor;
   const lightness = round(l, 3);
   const chroma = round(c, 3);
-  const hue = round(h || 0, 2);
+  const hue = round(h || 0, 3);
 
   return `oklch(${lightness} ${chroma} ${hue})`;
 };

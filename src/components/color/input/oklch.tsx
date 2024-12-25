@@ -107,7 +107,7 @@ export default function InputOklch(props: {
           type="range"
           min={0}
           max={360}
-          step={focusHue ? 1 : 0.01}
+          step={focusHue ? 1 : 0.001}
           value={color.h}
           id="oklch-hue"
           className="color-slider relative z-2 text-neutral-400"
