@@ -1,4 +1,4 @@
-import { type ThemeVariant } from "./color";
+import { type ThemeVariant } from "./types";
 import { setLocalStorage, getLocalStorage } from "./utils";
 
 export const cleanTheme = (variant: ThemeVariant) => {
