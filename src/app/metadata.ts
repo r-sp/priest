@@ -1,7 +1,5 @@
 import { type Metadata } from "next";
-import { createColor, initColor } from "./color";
-import { convertRgb } from "./convert";
-import { formatHex } from "./format";
+import { createColor, initColor, convertRgb, formatHex } from "~/lib/color";
 
 export const sharedMetadata = (options: {
   path: string;
