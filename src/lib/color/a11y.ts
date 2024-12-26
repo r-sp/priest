@@ -1,12 +1,12 @@
-import type { RgbColor } from "./color";
-import { round, floor } from "./utils";
+import type { RgbColor } from "../types";
+import { round, floor } from "../utils";
 
 interface ReadabilityColor {
   level: "AA" | "AAA";
   size: "normal" | "large";
 }
 
-export const getBrightness = (newColor: RgbColor): number => {
+const getBrightness = (newColor: RgbColor): number => {
   const { r, g, b } = newColor;
 
   const red = round(r * 255);
@@ -16,7 +16,7 @@ export const getBrightness = (newColor: RgbColor): number => {
   return (red * 299 + green * 587 + blue * 114) / 1000 / 255;
 };
 
-export const getLuminance = (newColor: RgbColor): number => {
+const getLuminance = (newColor: RgbColor): number => {
   const linear = (value: number) => {
     const ratio = value / 255;
     return ratio < 0.04045
@@ -33,17 +33,14 @@ export const getLuminance = (newColor: RgbColor): number => {
   return 0.2126 * red + 0.7152 * green + 0.0722 * blue;
 };
 
-export const getContrast = (
-  foreground: RgbColor,
-  background: RgbColor,
-): number => {
+const getContrast = (foreground: RgbColor, background: RgbColor): number => {
   const fg = getLuminance(foreground);
   const bg = getLuminance(background);
 
   return fg > bg ? (fg + 0.05) / (bg + 0.05) : (bg + 0.05) / (fg + 0.05);
 };
 
-export const getMinimalContrast = ({
+const getMinimalContrast = ({
   level = "AA",
   size = "normal",
 }: ReadabilityColor): number => {
@@ -52,7 +49,7 @@ export const getMinimalContrast = ({
   return 4.5;
 };
 
-export const brightness = (newColor: RgbColor): string => {
+const brightness = (newColor: RgbColor): string => {
   const color = round(getBrightness(newColor), 2);
   const level = round(color * 100);
 
@@ -63,23 +60,20 @@ export const brightness = (newColor: RgbColor): string => {
   }
 };
 
-export const luminance = (newColor: RgbColor): string => {
+const luminance = (newColor: RgbColor): string => {
   const color = round(getLuminance(newColor), 2);
   const level = round(color * 100);
 
   return `${level}%`;
 };
 
-export const contrast = (
-  foreground: RgbColor,
-  background: RgbColor,
-): string => {
+const contrast = (foreground: RgbColor, background: RgbColor): string => {
   const color = floor(getContrast(foreground, background), 2);
 
   return `${color}:1`;
 };
 
-export const isReadable = (
+const isReadable = (
   foreground: RgbColor,
   background: RgbColor,
   options: ReadabilityColor,

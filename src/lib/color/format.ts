@@ -9,11 +9,11 @@ import type {
   AnyColorMode,
   ColorFormat,
   ColorSpace,
-} from "./color";
-import { round } from "./utils";
+} from "../types";
+import { round } from "../utils";
 
-export const formatHex = (newColor: RgbColor): string => {
-  const { r, g, b } = newColor;
+export const formatHex = (color: RgbColor): string => {
+  const { r, g, b } = color;
 
   const clamp = (value: number) => Math.max(0, Math.min(1, value || 0));
   const fixup = (value: number) => Math.round(clamp(value) * 255);
@@ -27,8 +27,8 @@ export const formatHex = (newColor: RgbColor): string => {
   );
 };
 
-export const formatRgb = (newColor: RgbColor): string => {
-  const { r, g, b } = newColor;
+export const formatRgb = (color: RgbColor): string => {
+  const { r, g, b } = color;
   const red = round(r * 255);
   const green = round(g * 255);
   const blue = round(b * 255);
@@ -36,8 +36,8 @@ export const formatRgb = (newColor: RgbColor): string => {
   return `rgb(${red} ${green} ${blue})`;
 };
 
-export const formatHsl = (newColor: HslColor): string => {
-  const { h, s, l } = newColor;
+export const formatHsl = (color: HslColor): string => {
+  const { h, s, l } = color;
   const hue = round(h || 0, 2);
   const saturation = round(s * 100, 2);
   const lightness = round(l * 100, 2);
@@ -45,8 +45,8 @@ export const formatHsl = (newColor: HslColor): string => {
   return `hsl(${hue} ${saturation}% ${lightness}%)`;
 };
 
-export const formatHwb = (newColor: HwbColor): string => {
-  const { h, w, b } = newColor;
+export const formatHwb = (color: HwbColor): string => {
+  const { h, w, b } = color;
   const hue = round(h || 0, 2);
   const whiteness = round(w * 100, 2);
   const blackness = round(b * 100, 2);
@@ -54,8 +54,8 @@ export const formatHwb = (newColor: HwbColor): string => {
   return `hwb(${hue} ${whiteness}% ${blackness}%)`;
 };
 
-export const formatLab = (newColor: LabColor): string => {
-  const { l, a, b } = newColor;
+export const formatLab = (color: LabColor): string => {
+  const { l, a, b } = color;
   const lightness = round(l, 3);
   const greenRed = round(a, 3);
   const blueYellow = round(b, 3);
@@ -63,8 +63,8 @@ export const formatLab = (newColor: LabColor): string => {
   return `lab(${lightness} ${greenRed} ${blueYellow})`;
 };
 
-export const formatLch = (newColor: LchColor): string => {
-  const { l, c, h } = newColor;
+export const formatLch = (color: LchColor): string => {
+  const { l, c, h } = color;
   const lightness = round(l, 3);
   const chroma = round(c, 3);
   const hue = round(h || 0, 3);
@@ -72,8 +72,8 @@ export const formatLch = (newColor: LchColor): string => {
   return `lch(${lightness} ${chroma} ${hue})`;
 };
 
-export const formatOklab = (newColor: OklabColor): string => {
-  const { l, a, b } = newColor;
+export const formatOklab = (color: OklabColor): string => {
+  const { l, a, b } = color;
   const lightness = round(l, 3);
   const greenRed = round(a, 3);
   const blueYellow = round(b, 3);
@@ -81,8 +81,8 @@ export const formatOklab = (newColor: OklabColor): string => {
   return `oklab(${lightness} ${greenRed} ${blueYellow})`;
 };
 
-export const formatOklch = (newColor: OklchColor): string => {
-  const { l, c, h } = newColor;
+export const formatOklch = (color: OklchColor): string => {
+  const { l, c, h } = color;
   const lightness = round(l, 3);
   const chroma = round(c, 3);
   const hue = round(h || 0, 3);

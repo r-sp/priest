@@ -7,7 +7,7 @@ import type {
   OklabColor,
   OklchColor,
   AnyColorMode,
-} from "./color";
+} from "../types";
 import {
   convertRgb,
   convertHsl,
@@ -28,22 +28,22 @@ import {
   formatOklch,
 } from "./format";
 
-export const parseHex = (newColor: string | AnyColorMode): string => {
-  const rgb = convertRgb(newColor);
+export const parseHex = (color: string | AnyColorMode): string => {
+  const rgb = convertRgb(color);
   return formatHex(rgb);
 };
 
 export const parseRgb = (
-  newColor: string | AnyColorMode,
+  color: string | AnyColorMode,
 ): { color: RgbColor; css: string } => {
-  const rgb = convertRgb(newColor);
+  const rgb = convertRgb(color);
   return { color: { r: rgb.r, g: rgb.g, b: rgb.b }, css: formatRgb(rgb) };
 };
 
 export const parseHsl = (
-  newColor: string | AnyColorMode,
+  color: string | AnyColorMode,
 ): { color: HslColor; css: string } => {
-  const hsl = convertHsl(newColor);
+  const hsl = convertHsl(color);
   return {
     color: { h: hsl.h || 0, s: hsl.s, l: hsl.l },
     css: formatHsl(hsl),
@@ -51,9 +51,9 @@ export const parseHsl = (
 };
 
 export const parseHwb = (
-  newColor: string | AnyColorMode,
+  color: string | AnyColorMode,
 ): { color: HwbColor; css: string } => {
-  const hwb = convertHwb(newColor);
+  const hwb = convertHwb(color);
   return {
     color: { h: hwb.h || 0, w: hwb.w, b: hwb.b },
     css: formatHwb(hwb),
@@ -61,16 +61,16 @@ export const parseHwb = (
 };
 
 export const parseLab = (
-  newColor: string | AnyColorMode,
+  color: string | AnyColorMode,
 ): { color: LabColor; css: string } => {
-  const lab = convertLab(newColor);
+  const lab = convertLab(color);
   return { color: { l: lab.l, a: lab.a, b: lab.b }, css: formatLab(lab) };
 };
 
 export const parseLch = (
-  newColor: string | AnyColorMode,
+  color: string | AnyColorMode,
 ): { color: LchColor; css: string } => {
-  const lch = convertLch(newColor);
+  const lch = convertLch(color);
   return {
     color: { l: lch.l, c: lch.c, h: lch.h || 0 },
     css: formatLch(lch),
@@ -78,9 +78,9 @@ export const parseLch = (
 };
 
 export const parseOklab = (
-  newColor: string | AnyColorMode,
+  color: string | AnyColorMode,
 ): { color: OklabColor; css: string } => {
-  const oklab = convertOklab(newColor);
+  const oklab = convertOklab(color);
   return {
     color: { l: oklab.l, a: oklab.a, b: oklab.b },
     css: formatOklab(oklab),
@@ -88,9 +88,9 @@ export const parseOklab = (
 };
 
 export const parseOklch = (
-  newColor: string | AnyColorMode,
+  color: string | AnyColorMode,
 ): { color: OklchColor; css: string } => {
-  const oklch = convertOklch(newColor);
+  const oklch = convertOklch(color);
   return {
     color: { l: oklch.l, c: oklch.c, h: oklch.h || 0 },
     css: formatOklch(oklch),
