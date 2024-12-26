@@ -1,34 +1,29 @@
 "use client";
 
-import type { ColorStore, ColorState } from "~/lib/color";
-import { createContext, useRef, useContext, useEffect } from "react";
-import { createColorStore, createColor } from "~/lib/color";
+import type { GlobalStates, ColorState } from "~/lib/types";
+import { type StoreApi, StoreContext, createGlobalStore } from "./store";
 import { getLocalTheme, localThemeListener } from "~/lib/theme";
-import { useStore } from "zustand";
+import { useRef, useEffect } from "react";
+import { NuqsAdapter } from "nuqs/adapters/next/app";
 
-type ColorApi = ReturnType<typeof createColorStore>;
-type ColorModeApi = ReturnType<typeof createColor>;
-
-const ColorContext = createContext<ColorApi | undefined>(undefined);
-
-export function ColorProvider({
+export default function AppProvider({
   children,
   initValue,
 }: {
   children: React.ReactNode;
-  initValue: ColorModeApi;
+  initValue: ColorState;
 }) {
-  const storeRef = useRef<ColorApi>(undefined);
+  const storeRef = useRef<StoreApi>(undefined);
 
   if (!storeRef.current) {
-    const defaultValue: ColorState = {
-      ...initValue,
-      gamut: true,
+    const defaultValue: GlobalStates = {
       theme: getLocalTheme(),
+      color: initValue,
       mode: "oklch",
+      gamut: true,
     };
 
-    storeRef.current = createColorStore(defaultValue);
+    storeRef.current = createGlobalStore(defaultValue);
   }
 
   useEffect(() => {
@@ -38,18 +33,10 @@ export function ColorProvider({
   }, []);
 
   return (
-    <ColorContext.Provider value={storeRef.current}>
-      {children}
-    </ColorContext.Provider>
+    <NuqsAdapter>
+      <StoreContext.Provider value={storeRef.current}>
+        {children}
+      </StoreContext.Provider>
+    </NuqsAdapter>
   );
-}
-
-export function useColorStore<T>(selector: (store: ColorStore) => T) {
-  const colorContext = useContext(ColorContext);
-
-  if (!colorContext) {
-    throw new Error("useColorStore must be used within ColorProvider");
-  }
-
-  return useStore(colorContext, selector);
 }
