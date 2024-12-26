@@ -1,10 +1,9 @@
 import { type Metadata } from "next";
 import { type WebColor, namedColors } from "~/lib/web-colors";
-import { sharedMetadata } from "~/lib/meta";
+import { sharedMetadata } from "../metadata";
 import { slugify } from "~/lib/utils";
-import { formatPathMode } from "~/lib/format";
-import { convertRgb } from "~/lib/convert";
-import Wrapper from "~/components/ui/wrapper";
+import { convertRgb, formatPathMode } from "~/lib/color";
+import { Wrapper } from "~/components/ui";
 import Link from "next/link";
 
 export function generateMetadata(): Metadata {

@@ -1,8 +1,7 @@
 import { type Metadata } from "next";
-import { sharedMetadata } from "~/lib/meta";
-import ColorPicker from "~/components/color/picker";
-import ColorHue from "~/components/color/hue";
-import Wrapper from "~/components/ui/wrapper";
+import { sharedMetadata } from "../metadata";
+import { ColorPicker, ColorHue } from "~/components/color";
+import { Wrapper } from "~/components/ui";
 
 export function generateMetadata(): Metadata {
   const meta = sharedMetadata({ path: "color-palettes" });
