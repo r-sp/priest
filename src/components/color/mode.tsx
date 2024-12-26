@@ -1,14 +1,15 @@
 "use client";
 
-import { type ColorFormat } from "~/lib/color";
+import { type ColorFormat } from "~/lib/types";
 import { useState, useEffect, useRef, useCallback } from "react";
-import { useColorStore } from "~/app/provider";
+import { useMode, useGamut } from "~/app/store";
 import { createPortal } from "react-dom";
 import Separator from "../ui/separator";
 import clsx from "clsx";
 
 export default function ColorMode() {
-  const { mode, setMode, gamut, setGamut } = useColorStore((state) => state);
+  const [mode, setMode] = useMode();
+  const [gamut, setGamut] = useGamut();
   const [modal, setModal] = useState<boolean>(false);
   const btnRef = useRef<HTMLButtonElement>(null);
 

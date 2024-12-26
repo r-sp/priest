@@ -14,6 +14,10 @@ export const floor = (
   return Math.floor(base * number) / base + 0;
 };
 
+export const limit = (value: number, min: number, max: number): number => {
+  return Math.max(min, Math.min(value, max));
+};
+
 export const limiter = (value: number, min: number, max: number): number => {
   const range = max - min;
   return ((((value - min) % range) + range) % range) + min;

@@ -1,20 +1,18 @@
 import { type Metadata } from "next";
-import { sharedMetadata } from "~/lib/meta";
-import {
-  type ColorQuery,
-  parseColorQuery,
-  parseColorPath,
-} from "~/components/color/query";
-import { formatCssMode } from "~/lib/format";
+import { sharedMetadata } from "../metadata";
+import { type ColorQuery, parseColorQuery, parseColorPath } from "../query";
+import { formatCssMode } from "~/lib/color";
 import { Suspense } from "react";
-import Wrapper from "~/components/ui/wrapper";
-import Color from "~/components/ui/color";
+import { Wrapper } from "~/components/ui";
+import { ColorPreview, ColorView } from "~/components/color";
+
+type Props = {
+  searchParams: Promise<ColorQuery>;
+};
 
 export async function generateMetadata({
   searchParams,
-}: {
-  searchParams: Promise<ColorQuery>;
-}): Promise<Metadata> {
+}: Props): Promise<Metadata> {
   const query = await searchParams;
 
   const meta = sharedMetadata({
@@ -32,10 +30,12 @@ export async function generateMetadata({
   };
 }
 
-export default async function ColorPage() {
+export default async function ColorPage({ searchParams }: Props) {
+  const query = await searchParams;
+
   return (
     <Suspense fallback={<Skeleton />}>
-      <Color />
+      {query.mode ? <ColorPreview /> : <ColorView />}
     </Suspense>
   );
 }

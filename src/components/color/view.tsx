@@ -1,16 +1,15 @@
 "use client";
 
-import { useColorStore } from "~/app/provider";
+import { useColor, useMode } from "~/app/store";
+import { measureColor, contrastColor } from "~/lib/color";
 import { findColor, nearestColor } from "~/lib/web-colors";
-import { measureColor, contrastColor } from "~/lib/a11y";
 import ColorPicker from "./picker";
 import Wrapper from "../ui/wrapper";
 import Link from "next/link";
 
 export default function ColorView() {
-  const { hex, rgb, hsl, hwb, lab, lch, oklab, oklch, mode } = useColorStore(
-    (state) => state,
-  );
+  const [{ hex, rgb, hsl, hwb, lab, lch, oklab, oklch }] = useColor();
+  const [mode] = useMode();
 
   const colorHex = hex;
   const colorRgb = rgb.css;

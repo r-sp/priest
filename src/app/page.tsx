@@ -1,6 +1,6 @@
 import { type Metadata } from "next";
-import { sharedMetadata } from "~/lib/meta";
-import Wrapper from "~/components/ui/wrapper";
+import { sharedMetadata } from "./metadata";
+import { Wrapper } from "~/components/ui";
 import Link from "next/link";
 
 export function generateMetadata(): Metadata {

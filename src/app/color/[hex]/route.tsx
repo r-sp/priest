@@ -1,9 +1,7 @@
 import { type NextRequest } from "next/server";
 import { ImageResponse } from "next/og";
-import { createColor, isValidHex } from "~/lib/color";
+import { createColor, convertRgb, isValidHex, parseHex } from "~/lib/color";
 import { limiter, multiplier } from "~/lib/utils";
-import { convertRgb } from "~/lib/convert";
-import { parseHex } from "~/lib/parse";
 
 export const runtime = "edge";
 

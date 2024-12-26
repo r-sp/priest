@@ -1,9 +1,8 @@
 "use client";
 
-import { useColorQuery } from "./query";
-import { createColor } from "~/lib/color";
+import { useColorQuery } from "~/app/query";
+import { createColor, measureColor, contrastColor } from "~/lib/color";
 import { findColor, nearestColor } from "~/lib/web-colors";
-import { measureColor, contrastColor } from "~/lib/a11y";
 import Wrapper from "../ui/wrapper";
 import Link from "next/link";
 

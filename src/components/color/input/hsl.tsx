@@ -1,33 +1,37 @@
 "use client";
 
-import { type HslColor } from "~/lib/color";
-import { formatHsl } from "~/lib/format";
-import { useState, useEffect } from "react";
-import { useColorStore } from "~/app/provider";
+import type { HslColor, HslColorMode } from "~/lib/types";
+import { useState, useEffect, useCallback } from "react";
+import { formatHsl } from "~/lib/color";
+import { useColor } from "~/app/store";
 
 export default function InputHsl(props: {
-  onChange?: (color: HslColor) => void;
+  onChange?: (color: HslColorMode) => void;
   id?: string;
 }) {
-  const { hsl, setHsl } = useColorStore((state) => state);
-  const [color, setColor] = useState<HslColor>(hsl.color);
+  const [{ hsl }] = useColor();
+  const [color, setHsl] = useState<HslColor>(hsl.color);
   const [focusHue, setFocusHue] = useState<boolean>(false);
   const [focusSaturation, setFocusSaturation] = useState<boolean>(false);
   const [focusLightness, setFocusLightness] = useState<boolean>(false);
 
-  const updateColor = (newColor: Partial<HslColor>) => {
-    const _hsl = { ...color, ...newColor };
-    setHsl(_hsl);
-    setColor(_hsl);
+  const updateColor = useCallback(
+    (newColor: Partial<HslColor>) => {
+      setHsl({ ...color, ...newColor });
 
-    if (props.onChange) {
-      props.onChange(_hsl);
-    }
-  };
+      if (props.onChange) {
+        props.onChange({ mode: "hsl", ...color, ...newColor });
+      }
+    },
+    [color, props],
+  );
 
-  const previewColor = (newColor: Partial<HslColor>) => {
-    return formatHsl({ ...color, ...newColor });
-  };
+  const previewColor = useCallback(
+    (newColor: Partial<HslColor>) => {
+      return formatHsl({ ...color, ...newColor });
+    },
+    [color],
+  );
 
   const trackHueRed = previewColor({ h: 0 });
   const trackHueYellow = previewColor({ h: 60 });
@@ -43,7 +47,7 @@ export default function InputHsl(props: {
     const currentColor = formatHsl(color);
     return () => {
       if (currentColor !== hsl.css) {
-        setColor(hsl.color);
+        setHsl(hsl.color);
       }
     };
   }, [color, hsl]);

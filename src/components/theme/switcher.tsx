@@ -2,12 +2,12 @@
 
 import { createPortal } from "react-dom";
 import { useState, useRef, useCallback } from "react";
-import { useColorStore } from "~/app/provider";
+import { useTheme } from "~/app/store";
 import { cleanTheme, applyTheme, storeTheme } from "~/lib/theme";
 import clsx from "clsx";
 
 export default function ThemeSwitcher() {
-  const { theme, setTheme } = useColorStore((state) => state);
+  const [theme, setTheme] = useTheme();
   const auto = "auto";
   const light = "light";
   const dark = "dark";

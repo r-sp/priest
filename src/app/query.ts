@@ -1,4 +1,4 @@
-import type { AnyColorMode, ColorFormat, ColorSpace } from "~/lib/color";
+import type { AnyColorMode, ColorFormat, ColorSpace } from "~/lib/types";
 import { useQueryStates, parseAsString, parseAsFloat } from "nuqs";
 import {
   formatRgb,
@@ -8,7 +8,7 @@ import {
   formatLch,
   formatOklab,
   formatOklch,
-} from "~/lib/format";
+} from "~/lib/color";
 
 export function useColorQuery(): { color: AnyColorMode; css: string } | null {
   const [rgb] = useQueryStates({
