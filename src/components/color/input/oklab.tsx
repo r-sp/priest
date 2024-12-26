@@ -1,33 +1,37 @@
 "use client";
 
-import { type OklabColor } from "~/lib/color";
-import { formatOklab } from "~/lib/format";
-import { useState, useEffect } from "react";
-import { useColorStore } from "~/app/provider";
+import type { OklabColor, OklabColorMode } from "~/lib/types";
+import { useState, useEffect, useCallback } from "react";
+import { formatOklab } from "~/lib/color";
+import { useColor } from "~/app/store";
 
 export default function InputOklab(props: {
-  onChange?: (color: OklabColor) => void;
+  onChange?: (color: OklabColorMode) => void;
   id?: string;
 }) {
-  const { oklab, setOklab } = useColorStore((state) => state);
-  const [color, setColor] = useState<OklabColor>(oklab.color);
+  const [{ oklab }] = useColor();
+  const [color, setOklab] = useState<OklabColor>(oklab.color);
   const [focusLightness, setFocusLightness] = useState<boolean>(false);
   const [focusGreenRed, setFocusGreenRed] = useState<boolean>(false);
   const [focusBlueYellow, setFocusBlueYellow] = useState<boolean>(false);
 
-  const updateColor = (newColor: Partial<OklabColor>) => {
-    const _oklab = { ...color, ...newColor };
-    setOklab(_oklab);
-    setColor(_oklab);
+  const updateColor = useCallback(
+    (newColor: Partial<OklabColor>) => {
+      setOklab({ ...color, ...newColor });
 
-    if (props.onChange) {
-      props.onChange(_oklab);
-    }
-  };
+      if (props.onChange) {
+        props.onChange({ mode: "oklab", ...color, ...newColor });
+      }
+    },
+    [color, props],
+  );
 
-  const previewColor = (newColor: Partial<OklabColor>) => {
-    return formatOklab({ ...color, ...newColor });
-  };
+  const previewColor = useCallback(
+    (newColor: Partial<OklabColor>) => {
+      return formatOklab({ ...color, ...newColor });
+    },
+    [color],
+  );
 
   const trackLightnessLeft = previewColor({ l: 0 });
   const trackLightnessRight = previewColor({ l: 1 });
@@ -40,7 +44,7 @@ export default function InputOklab(props: {
     const currentColor = formatOklab(color);
     return () => {
       if (currentColor !== oklab.css) {
-        setColor(oklab.color);
+        setOklab(oklab.color);
       }
     };
   }, [color, oklab]);

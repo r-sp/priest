@@ -1,21 +1,22 @@
 "use client";
 
-import type { ColorShade } from "~/lib/color";
+import type { ColorShadeVariant } from "~/lib/types";
 import { useMemo, useCallback } from "react";
-import { useColorStore } from "~/app/provider";
-import { formatOklch } from "~/lib/format";
-import { gamutLightness, gamutChroma } from "~/lib/gamut";
+import { useColor } from "~/app/store";
+import { formatOklch, gamutLightness, gamutChroma } from "~/lib/color";
 
 export default function ColorShade() {
-  const { oklch } = useColorStore((state) => state);
+  const [{ oklch }] = useColor();
 
   const lightness = useCallback(
-    (type: ColorShade) => gamutLightness(type, oklch.color.l, oklch.color.h!),
+    (type: ColorShadeVariant) =>
+      gamutLightness(type, oklch.color.l, oklch.color.h!),
     [oklch],
   );
 
   const chroma = useCallback(
-    (type: ColorShade) => gamutChroma(type, oklch.color.c, oklch.color.h!),
+    (type: ColorShadeVariant) =>
+      gamutChroma(type, oklch.color.c, oklch.color.h!),
     [oklch],
   );
 

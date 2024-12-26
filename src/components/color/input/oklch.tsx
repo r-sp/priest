@@ -1,33 +1,37 @@
 "use client";
 
-import { type OklchColor } from "~/lib/color";
-import { formatOklch } from "~/lib/format";
-import { useState, useEffect } from "react";
-import { useColorStore } from "~/app/provider";
+import type { OklchColor, OklchColorMode } from "~/lib/types";
+import { useState, useEffect, useCallback } from "react";
+import { formatOklch } from "~/lib/color";
+import { useColor } from "~/app/store";
 
 export default function InputOklch(props: {
-  onChange?: (color: OklchColor) => void;
+  onChange?: (color: OklchColorMode) => void;
   id?: string;
 }) {
-  const { oklch, setOklch } = useColorStore((state) => state);
-  const [color, setColor] = useState<OklchColor>(oklch.color);
+  const [{ oklch }] = useColor();
+  const [color, setOklch] = useState<OklchColor>(oklch.color);
   const [focusLightness, setFocusLightness] = useState<boolean>(false);
   const [focusChroma, setFocusChroma] = useState<boolean>(false);
   const [focusHue, setFocusHue] = useState<boolean>(false);
 
-  const updateColor = (newColor: Partial<OklchColor>) => {
-    const _oklch = { ...color, ...newColor };
-    setOklch(_oklch);
-    setColor(_oklch);
+  const updateColor = useCallback(
+    (newColor: Partial<OklchColor>) => {
+      setOklch({ ...color, ...newColor });
 
-    if (props.onChange) {
-      props.onChange(_oklch);
-    }
-  };
+      if (props.onChange) {
+        props.onChange({ mode: "oklch", ...color, ...newColor });
+      }
+    },
+    [color, props],
+  );
 
-  const previewColor = (newColor: Partial<OklchColor>) => {
-    return formatOklch({ ...color, ...newColor });
-  };
+  const previewColor = useCallback(
+    (newColor: Partial<OklchColor>) => {
+      return formatOklch({ ...color, ...newColor });
+    },
+    [color],
+  );
 
   const trackLightnessLeft = previewColor({ l: 0 });
   const trackLightnessRight = previewColor({ l: 1 });
@@ -45,7 +49,7 @@ export default function InputOklch(props: {
     const currentColor = formatOklch(color);
     return () => {
       if (currentColor !== oklch.css) {
-        setColor(oklch.color);
+        setOklch(oklch.color);
       }
     };
   }, [color, oklch]);

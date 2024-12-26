@@ -1,15 +1,24 @@
 "use client";
 
-import type { ColorFormat, ColorSpace } from "~/lib/color";
+import type { ColorFormat, ColorSpace } from "~/lib/types";
 import { useMemo, useCallback } from "react";
-import { useColorStore } from "~/app/provider";
+import { useColor, useMode, useGamut } from "~/app/store";
 import { limiter, multiplier } from "~/lib/utils";
-import { convertRgb, convertLab, convertOklab } from "~/lib/convert";
-import { formatPathMode, formatColorMode, formatCssMode } from "~/lib/format";
+import {
+  convertRgb,
+  convertLab,
+  convertOklab,
+  formatPathMode,
+  formatColorMode,
+  formatCssMode,
+} from "~/lib/color";
+
 import Link from "next/link";
 
 export default function ColorHue() {
-  const { hsl, hwb, lch, oklch, gamut, mode } = useColorStore((state) => state);
+  const [{ hsl, hwb, lch, oklch }] = useColor();
+  const [mode] = useMode();
+  const [gamut] = useGamut();
 
   const hueBase = gamut
     ? mode === "lch"

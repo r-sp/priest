@@ -1,33 +1,37 @@
 "use client";
 
-import { type LabColor } from "~/lib/color";
-import { formatLab } from "~/lib/format";
-import { useState, useEffect } from "react";
-import { useColorStore } from "~/app/provider";
+import type { LabColor, LabColorMode } from "~/lib/types";
+import { useState, useEffect, useCallback } from "react";
+import { formatLab } from "~/lib/color";
+import { useColor } from "~/app/store";
 
 export default function InputLab(props: {
-  onChange?: (color: LabColor) => void;
+  onChange?: (color: LabColorMode) => void;
   id?: string;
 }) {
-  const { lab, setLab } = useColorStore((state) => state);
-  const [color, setColor] = useState<LabColor>(lab.color);
+  const [{ lab }] = useColor();
+  const [color, setLab] = useState<LabColor>(lab.color);
   const [focusLightness, setFocusLightness] = useState<boolean>(false);
   const [focusGreenRed, setFocusGreenRed] = useState<boolean>(false);
   const [focusBlueYellow, setFocusBlueYellow] = useState<boolean>(false);
 
-  const updateColor = (newColor: Partial<LabColor>) => {
-    const _lab = { ...color, ...newColor };
-    setLab(_lab);
-    setColor(_lab);
+  const updateColor = useCallback(
+    (newColor: Partial<LabColor>) => {
+      setLab({ ...color, ...newColor });
 
-    if (props.onChange) {
-      props.onChange(_lab);
-    }
-  };
+      if (props.onChange) {
+        props.onChange({ mode: "lab", ...color, ...newColor });
+      }
+    },
+    [color, props],
+  );
 
-  const previewColor = (newColor: Partial<LabColor>) => {
-    return formatLab({ ...color, ...newColor });
-  };
+  const previewColor = useCallback(
+    (newColor: Partial<LabColor>) => {
+      return formatLab({ ...color, ...newColor });
+    },
+    [color],
+  );
 
   const trackLightnessLeft = previewColor({ l: 0 });
   const trackLightnessRight = previewColor({ l: 100 });
@@ -40,7 +44,7 @@ export default function InputLab(props: {
     const currentColor = formatLab(color);
     return () => {
       if (currentColor !== lab.css) {
-        setColor(lab.color);
+        setLab(lab.color);
       }
     };
   }, [color, lab]);

@@ -1,33 +1,37 @@
 "use client";
 
-import { type HwbColor } from "~/lib/color";
-import { formatHwb } from "~/lib/format";
-import { useState, useEffect } from "react";
-import { useColorStore } from "~/app/provider";
+import type { HwbColor, HwbColorMode } from "~/lib/types";
+import { useState, useEffect, useCallback } from "react";
+import { formatHwb } from "~/lib/color";
+import { useColor } from "~/app/store";
 
 export default function InputHwb(props: {
-  onChange?: (color: HwbColor) => void;
+  onChange?: (color: HwbColorMode) => void;
   id?: string;
 }) {
-  const { hwb, setHwb } = useColorStore((state) => state);
-  const [color, setColor] = useState<HwbColor>(hwb.color);
+  const [{ hwb }] = useColor();
+  const [color, setHwb] = useState<HwbColor>(hwb.color);
   const [focusHue, setFocusHue] = useState<boolean>(false);
   const [focusWhiteness, setFocusWhiteness] = useState<boolean>(false);
   const [focusBlackness, setFocusBlackness] = useState<boolean>(false);
 
-  const updateColor = (newColor: Partial<HwbColor>) => {
-    const _hwb = { ...color, ...newColor };
-    setHwb(_hwb);
-    setColor(_hwb);
+  const updateColor = useCallback(
+    (newColor: Partial<HwbColor>) => {
+      setHwb({ ...color, ...newColor });
 
-    if (props.onChange) {
-      props.onChange(_hwb);
-    }
-  };
+      if (props.onChange) {
+        props.onChange({ mode: "hwb", ...color, ...newColor });
+      }
+    },
+    [color, props],
+  );
 
-  const previewColor = (newColor: Partial<HwbColor>) => {
-    return formatHwb({ ...color, ...newColor });
-  };
+  const previewColor = useCallback(
+    (newColor: Partial<HwbColor>) => {
+      return formatHwb({ ...color, ...newColor });
+    },
+    [color],
+  );
 
   const trackHueRed = previewColor({ h: 0 });
   const trackHueYellow = previewColor({ h: 60 });
@@ -44,7 +48,7 @@ export default function InputHwb(props: {
     const currentColor = formatHwb(color);
     return () => {
       if (currentColor !== hwb.css) {
-        setColor(hwb.color);
+        setHwb(hwb.color);
       }
     };
   }, [color, hwb]);

@@ -1,33 +1,37 @@
 "use client";
 
-import { type LchColor } from "~/lib/color";
-import { formatLch } from "~/lib/format";
-import { useState, useEffect } from "react";
-import { useColorStore } from "~/app/provider";
+import type { LchColor, LchColorMode } from "~/lib/types";
+import { useState, useEffect, useCallback } from "react";
+import { formatLch } from "~/lib/color";
+import { useColor } from "~/app/store";
 
 export default function InputLch(props: {
-  onChange?: (color: LchColor) => void;
+  onChange?: (color: LchColorMode) => void;
   id?: string;
 }) {
-  const { lch, setLch } = useColorStore((state) => state);
-  const [color, setColor] = useState<LchColor>(lch.color);
+  const [{ lch }] = useColor();
+  const [color, setLch] = useState<LchColor>(lch.color);
   const [focusLightness, setFocusLightness] = useState<boolean>(false);
   const [focusChroma, setFocusChroma] = useState<boolean>(false);
   const [focusHue, setFocusHue] = useState<boolean>(false);
 
-  const updateColor = (newColor: Partial<LchColor>) => {
-    const _lch = { ...color, ...newColor };
-    setLch(_lch);
-    setColor(_lch);
+  const updateColor = useCallback(
+    (newColor: Partial<LchColor>) => {
+      setLch({ ...color, ...newColor });
 
-    if (props.onChange) {
-      props.onChange(_lch);
-    }
-  };
+      if (props.onChange) {
+        props.onChange({ mode: "lch", ...color, ...newColor });
+      }
+    },
+    [color, props],
+  );
 
-  const previewColor = (newColor: Partial<LchColor>) => {
-    return formatLch({ ...color, ...newColor });
-  };
+  const previewColor = useCallback(
+    (newColor: Partial<LchColor>) => {
+      return formatLch({ ...color, ...newColor });
+    },
+    [color],
+  );
 
   const trackLightnessLeft = previewColor({ l: 0 });
   const trackLightnessRight = previewColor({ l: 100 });
@@ -45,7 +49,7 @@ export default function InputLch(props: {
     const currentColor = formatLch(color);
     return () => {
       if (currentColor !== lch.css) {
-        setColor(lch.color);
+        setLch(lch.color);
       }
     };
   }, [color, lch]);

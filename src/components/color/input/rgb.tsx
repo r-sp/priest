@@ -1,30 +1,34 @@
 "use client";
 
-import { type RgbColor } from "~/lib/color";
-import { formatRgb } from "~/lib/format";
-import { useState, useEffect } from "react";
-import { useColorStore } from "~/app/provider";
+import type { RgbColor, RgbColorMode } from "~/lib/types";
+import { useState, useEffect, useCallback } from "react";
+import { formatRgb } from "~/lib/color";
+import { useColor } from "~/app/store";
 
 export default function InputRgb(props: {
-  onChange?: (color: RgbColor) => void;
+  onChange?: (color: RgbColorMode) => void;
   id?: string;
 }) {
-  const { rgb, setRgb } = useColorStore((state) => state);
-  const [color, setColor] = useState<RgbColor>(rgb.color);
+  const [{ rgb }] = useColor();
+  const [color, setRgb] = useState<RgbColor>(rgb.color);
 
-  const updateColor = (newColor: Partial<RgbColor>) => {
-    const _rgb = { ...color, ...newColor };
-    setRgb(_rgb);
-    setColor(_rgb);
+  const updateColor = useCallback(
+    (newColor: Partial<RgbColor>) => {
+      setRgb({ ...color, ...newColor });
 
-    if (props.onChange) {
-      props.onChange(_rgb);
-    }
-  };
+      if (props.onChange) {
+        props.onChange({ mode: "rgb", ...color, ...newColor });
+      }
+    },
+    [color, props],
+  );
 
-  const previewColor = (newColor: Partial<RgbColor>) => {
-    return formatRgb({ ...color, ...newColor });
-  };
+  const previewColor = useCallback(
+    (newColor: Partial<RgbColor>) => {
+      return formatRgb({ ...color, ...newColor });
+    },
+    [color],
+  );
 
   const trackRedLeft = previewColor({ r: 0 });
   const trackRedRight = previewColor({ r: 1 });
@@ -37,7 +41,7 @@ export default function InputRgb(props: {
     const currentColor = formatRgb(color);
     return () => {
       if (currentColor !== rgb.css) {
-        setColor(rgb.color);
+        setRgb(rgb.color);
       }
     };
   }, [color, rgb]);
