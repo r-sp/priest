@@ -1,26 +1,51 @@
 "use client";
 
-import { useColorQuery } from "~/app/query";
 import { createColor, measureColor, contrastColor } from "~/lib/color";
 import { findColor, nearestColor } from "~/lib/web-colors";
+import { useColor, useMode } from "~/app/store";
+import { useColorQuery } from "~/app/query";
+import ColorPicker from "./picker";
 import Wrapper from "../ui/wrapper";
 import Link from "next/link";
 
-export default function ColorPreview() {
-  const { color, css } = useColorQuery()!;
+export default function ColorDetail() {
+  const colorQuery = useColorQuery();
+  const [colorContext] = useColor();
+  const [modeContext] = useMode();
 
-  const { hex, rgb, hsl, hwb, lab, lch, oklab, oklch } = createColor(color);
+  const { hex, rgb, hsl, hwb, lab, lch, oklab, oklch } = colorQuery
+    ? createColor(colorQuery)
+    : colorContext;
 
-  const colorHex = hex;
-  const colorRgb = rgb.css;
-  const colorHsl = hsl.css;
-  const colorHwb = hwb.css;
-  const colorLab = lab.css;
-  const colorLch = lch.css;
-  const colorOklab = oklab.css;
-  const colorOklch = oklch.css;
+  const mode = colorQuery ? colorQuery.mode : modeContext;
+
+  const modeRgb = mode === "rgb";
+  const modeHsl = mode === "hsl";
+  const modeHwb = mode === "hwb";
+  const modeLab = mode === "lab";
+  const modeLch = mode === "lch";
+  const modeOklab = mode === "oklab";
+  const modeOklch = mode === "oklch";
+
+  const colorMode = modeRgb
+    ? rgb.css
+    : modeHsl
+      ? hsl.css
+      : modeHwb
+        ? hwb.css
+        : modeLab
+          ? lab.css
+          : modeLch
+            ? lch.css
+            : modeOklab
+              ? oklab.css
+              : modeOklch
+                ? oklch.css
+                : hex;
 
   const colorName = findColor(nearestColor(hex) || "black");
+
+  const colorPicker = colorQuery ? false : true;
 
   const { brightness, luminance } = measureColor(rgb.color);
   const white = contrastColor(rgb.color, { r: 1, g: 1, b: 1 });
@@ -39,8 +64,9 @@ export default function ColorPreview() {
           aria-label={`view color ${hex}`}
           href={`/color/${hex.replace("#", "")}`}
           className="frame inline-grid w-full rounded-lg"
+          prefetch={false}
         >
-          <span style={{ backgroundColor: css }}></span>
+          <span style={{ backgroundColor: colorMode }}></span>
         </Link>
         <h1
           id="color"
@@ -51,74 +77,65 @@ export default function ColorPreview() {
       </header>
       <section aria-label="legacy">
         <p>
-          <code>{colorHex}</code>
+          <code>{hex}</code>
         </p>
         <p
           className={
-            css === colorRgb
-              ? "text-neutral-800 dark:text-neutral-200"
-              : undefined
+            modeRgb ? "text-neutral-800 dark:text-neutral-200" : undefined
           }
         >
-          <code>{colorRgb}</code>
+          <code>{rgb.css}</code>
         </p>
         <p
           className={
-            css === colorHsl
-              ? "text-neutral-800 dark:text-neutral-200"
-              : undefined
+            modeHsl ? "text-neutral-800 dark:text-neutral-200" : undefined
           }
         >
-          <code>{colorHsl}</code>
+          <code>{hsl.css}</code>
         </p>
         <p
           className={
-            css === colorHwb
-              ? "text-neutral-800 dark:text-neutral-200"
-              : undefined
+            modeHwb ? "text-neutral-800 dark:text-neutral-200" : undefined
           }
         >
-          <code>{colorHwb}</code>
+          <code>{hwb.css}</code>
         </p>
       </section>
       <section aria-label="modern">
         <p
           className={
-            css === colorLch
-              ? "text-neutral-800 dark:text-neutral-200"
-              : undefined
+            modeLch ? "text-neutral-800 dark:text-neutral-200" : undefined
           }
         >
-          <code>{colorLch}</code>
+          <code>{lch.css}</code>
         </p>
         <p
           className={
-            css === colorOklch
-              ? "text-neutral-800 dark:text-neutral-200"
-              : undefined
+            modeOklch ? "text-neutral-800 dark:text-neutral-200" : undefined
           }
         >
-          <code>{colorOklch}</code>
+          <code>{oklch.css}</code>
         </p>
         <p
           className={
-            css === colorLab
-              ? "text-neutral-800 dark:text-neutral-200"
-              : undefined
+            modeLab ? "text-neutral-800 dark:text-neutral-200" : undefined
           }
         >
-          <code>{colorLab}</code>
+          <code>{lab.css}</code>
         </p>
         <p
           className={
-            css === colorOklab
-              ? "text-neutral-800 dark:text-neutral-200"
-              : undefined
+            modeOklab ? "text-neutral-800 dark:text-neutral-200" : undefined
           }
         >
-          <code>{colorOklab}</code>
+          <code>{oklab.css}</code>
         </p>
       </section>
+      {colorPicker ? (
+        <div className="my-4 grid border-y border-y-neutral-400 py-8 dark:border-y-neutral-700">
+          <ColorPicker showColorMode={false} />
+        </div>
+      ) : null}
       <section aria-label="analysis">
         <h3 className="text-neutral-800 dark:text-neutral-200">
           Color Analysis
@@ -129,9 +146,9 @@ export default function ColorPreview() {
           className="mt-4"
           aria-label="current color on white background"
         >
-          <h3 className="text-neutral-800 dark:text-neutral-200">
+          <h2 className="mt-2 text-neutral-800 dark:text-neutral-200">
             Color on White Background
-          </h3>
+          </h2>
           <p>{`Contrast: ${white.ratio}`}</p>
           <dl className="mt-2">
             <dt className="text-neutral-700 dark:text-neutral-300">
@@ -150,9 +167,9 @@ export default function ColorPreview() {
           className="mt-4"
           aria-label="current color on black background"
         >
-          <h3 className="text-neutral-800 dark:text-neutral-200">
+          <h2 className="mt-2 text-neutral-800 dark:text-neutral-200">
             Color on Black Background
-          </h3>
+          </h2>
           <p>{`Contrast: ${black.ratio}`}</p>
           <dl className="mt-2">
             <dt className="text-neutral-700 dark:text-neutral-300">

@@ -4,7 +4,7 @@ import { type ColorQuery, parseColorQuery, parseColorPath } from "../query";
 import { formatCssMode } from "~/lib/color";
 import { Suspense } from "react";
 import { Wrapper } from "~/components/ui";
-import { ColorPreview, ColorView } from "~/components/color";
+import { ColorDetail } from "~/components/color";
 
 type Props = {
   searchParams: Promise<ColorQuery>;
@@ -30,12 +30,10 @@ export async function generateMetadata({
   };
 }
 
-export default async function ColorPage({ searchParams }: Props) {
-  const query = await searchParams;
-
+export default async function ColorPage() {
   return (
     <Suspense fallback={<Skeleton />}>
-      {query.mode ? <ColorPreview /> : <ColorView />}
+      <ColorDetail />
     </Suspense>
   );
 }
