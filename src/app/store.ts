@@ -28,7 +28,7 @@ function useGlobalStore<T>(selector: (store: GlobalStore) => T) {
   const storeContext = useContext(StoreContext);
 
   if (!storeContext) {
-    throw new Error("useGlobalStore must be used within Global State Adapter");
+    throw new Error("useGlobalStore must be used within App Provider");
   }
 
   return useStore(storeContext, selector);

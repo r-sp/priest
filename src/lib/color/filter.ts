@@ -1,6 +1,6 @@
 import type { AnyColorMode } from "../types";
 import { parseHex } from "./parse";
-import { parse } from "culori";
+import { parse } from "./index";
 
 export const isValidHex = (newColor: string): string => {
   const color = parse(newColor) as AnyColorMode;

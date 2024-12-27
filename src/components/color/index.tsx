@@ -10,6 +10,4 @@ export { default as ColorMode } from "./mode";
 export { default as ColorPicker } from "./picker";
 export { default as ColorHue } from "./hue";
 export { default as ColorShade } from "./shade";
-
-export { default as ColorPreview } from "./preview";
-export { default as ColorView } from "./view";
+export { default as ColorDetail } from "./detail";

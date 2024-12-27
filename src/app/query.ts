@@ -1,16 +1,7 @@
 import type { AnyColorMode, ColorFormat, ColorSpace } from "~/lib/types";
 import { useQueryStates, parseAsString, parseAsFloat } from "nuqs";
-import {
-  formatRgb,
-  formatHsl,
-  formatHwb,
-  formatLab,
-  formatLch,
-  formatOklab,
-  formatOklch,
-} from "~/lib/color";
 
-export function useColorQuery(): { color: AnyColorMode; css: string } | null {
+export function useColorQuery(): AnyColorMode | null {
   const [rgb] = useQueryStates({
     mode: parseAsString.withDefault("rgb"),
     r: parseAsFloat,
@@ -66,77 +57,56 @@ export function useColorQuery(): { color: AnyColorMode; css: string } | null {
     rgb.g !== null &&
     rgb.b !== null
   ) {
-    const color = { r: rgb.r, g: rgb.g, b: rgb.b };
-    return {
-      color: { mode: "rgb", ...color },
-      css: formatRgb(color),
-    };
+    const { r, g, b } = rgb;
+    return { mode: "rgb", r, g, b };
   } else if (
     hsl.mode === "hsl" &&
     hsl.h !== null &&
     hsl.s !== null &&
     hsl.l !== null
   ) {
-    const color = { h: hsl.h, s: hsl.s, l: hsl.l };
-    return {
-      color: { mode: "hsl", ...color },
-      css: formatHsl(color),
-    };
+    const { h, s, l } = hsl;
+    return { mode: "hsl", h, s, l };
   } else if (
     hwb.mode === "hwb" &&
     hwb.h !== null &&
     hwb.w !== null &&
     hwb.b !== null
   ) {
-    const color = { h: hwb.h, w: hwb.w, b: hwb.b };
-    return {
-      color: { mode: "hwb", ...color },
-      css: formatHwb(color),
-    };
+    const { h, w, b } = hwb;
+    return { mode: "hwb", h, w, b };
   } else if (
     lab.mode === "lab" &&
     lab.l !== null &&
     lab.a !== null &&
     lab.b !== null
   ) {
-    const color = { l: lab.l, a: lab.a, b: lab.b };
-    return {
-      color: { mode: "lab", ...color },
-      css: formatLab(color),
-    };
+    const { l, a, b } = lab;
+    return { mode: "lab", l, a, b };
   } else if (
     lch.mode === "lch" &&
     lch.l !== null &&
     lch.c !== null &&
     lch.h !== null
   ) {
-    const color = { l: lch.l, c: lch.c, h: lch.h };
-    return {
-      color: { mode: "lch", ...color },
-      css: formatLch(color),
-    };
+    const { l, c, h } = lch;
+    return { mode: "lch", l, c, h };
   } else if (
     oklab.mode === "oklab" &&
     oklab.l !== null &&
     oklab.a !== null &&
     oklab.b !== null
   ) {
-    const color = { l: oklab.l, a: oklab.a, b: oklab.b };
-    return {
-      color: { mode: "oklab", ...color },
-      css: formatOklab(color),
-    };
+    const { l, a, b } = oklab;
+    return { mode: "oklab", l, a, b };
   } else if (
     oklch.mode === "oklch" &&
     oklch.l !== null &&
     oklch.c !== null &&
     oklch.h !== null
   ) {
-    const color = { l: oklch.l, c: oklch.c, h: oklch.h };
-    return {
-      color: { mode: "oklch", ...color },
-      css: formatOklch(color),
-    };
+    const { l, c, h } = oklch;
+    return { mode: "oklch", l, c, h };
   } else {
     return null;
   }

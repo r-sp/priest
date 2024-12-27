@@ -8,7 +8,7 @@ import type {
   OklabColorMode,
   OklchColorMode,
 } from "../types";
-import { rgb, hsl, hwb, lab, lch, oklab, oklch, clampGamut } from "culori";
+import { rgb, hsl, hwb, lab, lch, oklab, oklch, clampGamut } from "./index";
 
 export const convertRgb = (color: string | AnyColorMode): RgbColorMode => {
   const format = clampGamut("rgb");
