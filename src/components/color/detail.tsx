@@ -1,9 +1,8 @@
 "use client";
 
-import { createColor, measureColor, contrastColor } from "~/lib/color";
-import { findColor, nearestColor } from "~/lib/web-colors";
 import { useColor, useMode } from "~/app/store";
 import { useColorQuery } from "~/app/query";
+import { createColor, measureColor, contrastColor } from "~/lib/color";
 import ColorPicker from "./picker";
 import Wrapper from "../ui/wrapper";
 import Link from "next/link";
@@ -43,8 +42,6 @@ export default function ColorDetail() {
                 ? oklch.css
                 : hex;
 
-  const colorName = findColor(nearestColor(hex) || "black");
-
   const colorPicker = colorQuery ? false : true;
 
   const { brightness, luminance } = measureColor(rgb.color);
@@ -59,7 +56,7 @@ export default function ColorDetail() {
       className="grid gap-y-4"
       outerStyle="py-4"
     >
-      <header className="grid gap-y-3">
+      <header className="inline-grid">
         <Link
           aria-label={`view color ${hex}`}
           href={`/color/${hex.replace("#", "")}`}
@@ -68,12 +65,6 @@ export default function ColorDetail() {
         >
           <span style={{ backgroundColor: colorMode }}></span>
         </Link>
-        <h1
-          id="color"
-          className="text-2xl font-medium text-neutral-800 dark:text-neutral-200"
-        >
-          <span>{colorName}</span>
-        </h1>
       </header>
       <section aria-label="legacy">
         <p>
