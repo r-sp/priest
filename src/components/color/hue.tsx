@@ -84,7 +84,12 @@ function ColorCard({ type, color }: { type: ColorFormat; color: ColorSpace }) {
   const style = formatCssMode(type, color);
 
   return (
-    <Link href={path} className="rounded-lg" aria-label={style}>
+    <Link
+      href={path}
+      className="rounded-lg"
+      aria-label={style}
+      prefetch={false}
+    >
       <div role="presentation" className="frame rounded-lg">
         <span style={{ backgroundColor: style }}></span>
       </div>
