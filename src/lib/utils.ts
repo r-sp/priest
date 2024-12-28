@@ -1,33 +1,29 @@
-export const round = (
+export function round(
   number: number,
   digits = 0,
   base = Math.pow(10, digits),
-): number => {
+): number {
   return Math.round(base * number) / base + 0;
-};
+}
 
-export const floor = (
+export function floor(
   number: number,
   digits = 0,
   base = Math.pow(10, digits),
-): number => {
+): number {
   return Math.floor(base * number) / base + 0;
-};
+}
 
-export const limit = (value: number, min: number, max: number): number => {
+export function limit(value: number, min: number, max: number): number {
   return Math.max(min, Math.min(value, max));
-};
+}
 
-export const limiter = (value: number, min: number, max: number): number => {
+export function limiter(value: number, min: number, max: number): number {
   const range = max - min;
   return ((((value - min) % range) + range) % range) + min;
-};
+}
 
-export const multiplier = (
-  value: number,
-  min: number,
-  max: number,
-): number[] => {
+export function multiplier(value: number, min: number, max: number): number[] {
   const range: number[] = [];
   let num = Math.ceil(min / value) * value;
   while (num <= max) {
@@ -35,35 +31,13 @@ export const multiplier = (
     num += value;
   }
   return range;
-};
+}
 
-export const slugify = (text: string) => {
+export function slugify(text: string): string {
   return text
     .toLowerCase()
     .trim()
     .replace(/[^\w\s-]/g, "")
     .replace(/[\s_-]+/g, "-")
     .replace(/^-+|-+$/g, "");
-};
-
-export const setLocalStorage = (key: string, value: string) => {
-  if (typeof window !== "undefined") {
-    try {
-      localStorage.setItem(key, value);
-    } catch (e) {
-      console.error(e);
-    }
-  }
-};
-
-export const getLocalStorage = (key: string) => {
-  let local;
-  if (typeof window !== "undefined") {
-    try {
-      local = localStorage.getItem(key);
-    } catch (e) {
-      console.error(e);
-    }
-  }
-  return local;
-};
+}

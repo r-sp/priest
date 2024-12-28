@@ -125,7 +125,7 @@ export type ColorQuery = {
   c?: number;
 };
 
-export const parseColorQuery = (color: ColorQuery): ColorSpace => {
+export function parseColorQuery(color: ColorQuery): ColorSpace {
   const { mode, r, g, b, h, s, l, w, a, c } = color;
 
   return {
@@ -158,9 +158,9 @@ export const parseColorQuery = (color: ColorQuery): ColorSpace => {
         ? { l: l!, c: c!, h: h! }
         : { l: 0, c: 0, h: 0 },
   };
-};
+}
 
-export const parseColorPath = (color: ColorQuery): string => {
+export function parseColorPath(color: ColorQuery): string {
   const { mode, r, g, b, h, s, l, w, a, c } = color;
 
   if (mode === "rgb" && r !== null && g !== null && b !== null) {
@@ -180,4 +180,4 @@ export const parseColorPath = (color: ColorQuery): string => {
   } else {
     return "color";
   }
-};
+}

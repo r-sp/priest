@@ -1,19 +1,19 @@
 import { type ThemeVariant } from "./types";
-import { setLocalStorage, getLocalStorage } from "./utils";
+import { setLocalStorage, getLocalStorage } from "./storage";
 
-export const cleanTheme = (variant: ThemeVariant) => {
+export function cleanTheme(variant: ThemeVariant) {
   document.documentElement.classList.remove(variant);
-};
+}
 
-export const applyTheme = (variant: ThemeVariant) => {
+export function applyTheme(variant: ThemeVariant) {
   document.documentElement.classList.add(variant);
-};
+}
 
-export const storeTheme = (variant: ThemeVariant) => {
+export function storeTheme(variant: ThemeVariant) {
   setLocalStorage("theme", variant);
-};
+}
 
-export const getLocalTheme = (): ThemeVariant => {
+export function getLocalTheme(): ThemeVariant {
   const local = getLocalStorage("theme") as ThemeVariant;
   if (local) {
     return local;
@@ -21,9 +21,9 @@ export const getLocalTheme = (): ThemeVariant => {
     storeTheme("auto");
     return "auto";
   }
-};
+}
 
-export const localThemeListener = (event: MediaQueryListEvent) => {
+export function localThemeListener(event: MediaQueryListEvent) {
   const currentTheme = getLocalTheme();
   if (currentTheme === "auto") {
     if (event.matches) {
@@ -35,4 +35,4 @@ export const localThemeListener = (event: MediaQueryListEvent) => {
     }
   }
   return event;
-};
+}

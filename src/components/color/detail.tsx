@@ -1,5 +1,6 @@
 "use client";
 
+import { useMemo } from "react";
 import { useColor, useMode } from "~/app/store";
 import { useColorQuery } from "~/app/query";
 import { createColor, measureColor, contrastColor } from "~/lib/color";
@@ -44,9 +45,20 @@ export default function ColorDetail() {
 
   const colorPicker = colorQuery ? false : true;
 
-  const { brightness, luminance } = measureColor(rgb.color);
-  const white = contrastColor(rgb.color, { r: 1, g: 1, b: 1 });
-  const black = contrastColor(rgb.color, { r: 0, g: 0, b: 0 });
+  const { brightness, luminance } = useMemo(
+    () => measureColor(rgb.color),
+    [rgb],
+  );
+
+  const white = useMemo(
+    () => contrastColor(rgb.color, { r: 1, g: 1, b: 1 }),
+    [rgb],
+  );
+
+  const black = useMemo(
+    () => contrastColor(rgb.color, { r: 0, g: 0, b: 0 }),
+    [rgb],
+  );
 
   return (
     <Wrapper
@@ -56,7 +68,7 @@ export default function ColorDetail() {
       className="grid gap-y-4"
       outerStyle="py-4"
     >
-      <header className="inline-grid">
+      <header className="inline-grid gap-y-3">
         <Link
           aria-label={`view color ${hex}`}
           href={`/color/${hex.replace("#", "")}`}

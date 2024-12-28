@@ -1,9 +1,10 @@
 "use client";
 
 import { createPortal } from "react-dom";
-import { useState, useRef, useCallback } from "react";
+import { useState, useEffect, useRef, useCallback } from "react";
 import { useTheme } from "~/app/store";
 import { cleanTheme, applyTheme, storeTheme } from "~/lib/theme";
+import { getLocalTheme } from "~/lib/theme";
 import clsx from "clsx";
 
 export default function ThemeSwitcher() {
@@ -11,6 +12,12 @@ export default function ThemeSwitcher() {
   const auto = "auto";
   const light = "light";
   const dark = "dark";
+
+  useEffect(() => {
+    if (theme === undefined) {
+      setTheme(getLocalTheme());
+    }
+  }, [theme, setTheme]);
 
   const applyAutoMode = () => {
     const isDark = window.matchMedia("(prefers-color-scheme: dark)").matches;

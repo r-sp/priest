@@ -5,33 +5,8 @@ export default function ThemeScript() {
     <script
       suppressHydrationWarning={true}
       dangerouslySetInnerHTML={{
-        __html: `(${themeScript.toString()})()`,
+        __html: `(function i(){try{var s=document.documentElement.classList,e=window.localStorage.getItem("theme"),x=window.matchMedia("(prefers-color-scheme:dark)");"dark"===e?s.add("dark"):"light"===e?s.remove("dark"):x.matches?s.add("dark"):s.remove("dark")}catch(y){console.error(y)}})()`,
       }}
     />
   );
-}
-
-function themeScript() {
-  const auto = "theme";
-  const light = "light";
-  const dark = "dark";
-  const system = "(prefers-color-scheme: dark)";
-
-  try {
-    const theme = document.documentElement.classList;
-    const local = localStorage.getItem(auto);
-    if (local === dark) {
-      theme.add(dark);
-    } else if (local === light) {
-      theme.remove(dark);
-    } else {
-      if (window.matchMedia(system).matches) {
-        theme.add(dark);
-      } else {
-        theme.remove(dark);
-      }
-    }
-  } catch (e) {
-    console.error(e);
-  }
 }

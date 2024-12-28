@@ -99,7 +99,7 @@ export type ColorState = {
 };
 
 export type GlobalStates = {
-  theme: ThemeVariant;
+  theme: ThemeVariant | undefined;
   color: ColorState;
   mode: ColorFormat;
   gamut: boolean;

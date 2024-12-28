@@ -1,7 +1,7 @@
 import type { ColorShadeVariant, ColorNameVariant } from "../types";
 
 // prettier-ignore
-const shader = (type: ColorShadeVariant, color: { [T in ColorShadeVariant]: number; }): number => {
+function shader(type: ColorShadeVariant, color: { [T in ColorShadeVariant]: number; }): number {
   switch (type) {
     case "50": return color[50]; break;
     case "100": return color[100]; break;
@@ -15,16 +15,16 @@ const shader = (type: ColorShadeVariant, color: { [T in ColorShadeVariant]: numb
     case "900": return color[900]; break;
     case "950": return color[950]; break;
   }
-};
+}
 
-const limitGamut = (value: number, max: number): number => {
+function limitGamut(value: number, max: number): number {
   return Math.max(max / 2, Math.min(value, max));
-};
+}
 
-const applyGamut = (
+function applyGamut(
   hue: number,
   color: { [T in ColorNameVariant]: number },
-) => {
+): number {
   const red = 17.38;
   const orange = 36.259;
   const amber = 45.635;
@@ -80,13 +80,13 @@ const applyGamut = (
   } else {
     return 0;
   }
-};
+}
 
-export const gamutLightness = (
+export function gamutLightness(
   type: ColorShadeVariant,
   lightness: number,
   hue: number,
-) => {
+): number {
   return applyGamut(hue, {
     red: shader(type, {
       50: limitGamut(lightness, 0.971),
@@ -310,13 +310,13 @@ export const gamutLightness = (
       950: limitGamut(lightness, 0.271),
     }),
   });
-};
+}
 
-export const gamutChroma = (
+export function gamutChroma(
   type: ColorShadeVariant,
   chroma: number,
   hue: number,
-) => {
+): number {
   return applyGamut(hue, {
     red: shader(type, {
       50: limitGamut(chroma, 0.013),
@@ -540,4 +540,4 @@ export const gamutChroma = (
       950: limitGamut(chroma, 0.105),
     }),
   });
-};
+}
