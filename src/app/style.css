@@ -92,9 +92,4 @@
     height: 1.25rem;
     width: 1.25rem;
   }
-  .box {
-    display: inline-flex;
-    height: 4rem;
-    width: 100%;
-  }
 }
