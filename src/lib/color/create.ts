@@ -1,4 +1,4 @@
-import type { AnyColorMode, HslColorMode } from "../types";
+import type { AnyColorMode, HslColorMode, ColorState } from "../types";
 import {
   parseHex,
   parseRgb,
@@ -11,7 +11,7 @@ import {
 } from "./parse";
 import { limiter } from "../utils";
 
-export const createColor = (newColor: AnyColorMode) => {
+export function createColor(newColor: AnyColorMode): ColorState {
   return {
     hex: parseHex(newColor),
     rgb: parseRgb(newColor),
@@ -22,9 +22,9 @@ export const createColor = (newColor: AnyColorMode) => {
     oklab: parseOklab(newColor),
     oklch: parseOklch(newColor),
   };
-};
+}
 
-export const initColor = (): HslColorMode => {
+export function initColor(): HslColorMode {
   const today = new Date();
   const year = today.getUTCFullYear();
   const month = today.getUTCMonth() + 1;
@@ -40,4 +40,4 @@ export const initColor = (): HslColorMode => {
     s: saturation,
     l: lightness,
   };
-};
+}

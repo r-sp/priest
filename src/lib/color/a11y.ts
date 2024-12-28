@@ -6,7 +6,7 @@ interface ReadabilityColor {
   size: "normal" | "large";
 }
 
-const getBrightness = (newColor: RgbColor): number => {
+function getBrightness(newColor: RgbColor): number {
   const { r, g, b } = newColor;
 
   const red = round(r * 255);
@@ -14,9 +14,9 @@ const getBrightness = (newColor: RgbColor): number => {
   const blue = round(b * 255);
 
   return (red * 299 + green * 587 + blue * 114) / 1000 / 255;
-};
+}
 
-const getLuminance = (newColor: RgbColor): number => {
+function getLuminance(newColor: RgbColor): number {
   const linear = (value: number) => {
     const ratio = value / 255;
     return ratio < 0.04045
@@ -31,25 +31,25 @@ const getLuminance = (newColor: RgbColor): number => {
   const blue = linear(b * 255);
 
   return 0.2126 * red + 0.7152 * green + 0.0722 * blue;
-};
+}
 
-const getContrast = (foreground: RgbColor, background: RgbColor): number => {
+function getContrast(foreground: RgbColor, background: RgbColor): number {
   const fg = getLuminance(foreground);
   const bg = getLuminance(background);
 
   return fg > bg ? (fg + 0.05) / (bg + 0.05) : (bg + 0.05) / (fg + 0.05);
-};
+}
 
-const getMinimalContrast = ({
+function getMinimalContrast({
   level = "AA",
   size = "normal",
-}: ReadabilityColor): number => {
+}: ReadabilityColor): number {
   if (level === "AAA" && size === "normal") return 7;
   if (level === "AA" && size === "large") return 3;
   return 4.5;
-};
+}
 
-const brightness = (newColor: RgbColor): string => {
+function brightness(newColor: RgbColor): string {
   const color = round(getBrightness(newColor), 2);
   const level = round(color * 100);
 
@@ -58,40 +58,40 @@ const brightness = (newColor: RgbColor): string => {
   } else {
     return `${level}% (Dark)`;
   }
-};
+}
 
-const luminance = (newColor: RgbColor): string => {
+function luminance(newColor: RgbColor): string {
   const color = round(getLuminance(newColor), 2);
   const level = round(color * 100);
 
   return `${level}%`;
-};
+}
 
-const contrast = (foreground: RgbColor, background: RgbColor): string => {
+function contrast(foreground: RgbColor, background: RgbColor): string {
   const color = floor(getContrast(foreground, background), 2);
 
   return `${color}:1`;
-};
+}
 
-const isReadable = (
+function isReadable(
   foreground: RgbColor,
   background: RgbColor,
   options: ReadabilityColor,
-): boolean => {
+): boolean {
   const contrast = floor(getContrast(foreground, background), 2);
   const readable = getMinimalContrast(options);
 
   return contrast >= readable;
-};
+}
 
-export const measureColor = (newColor: RgbColor) => {
+export function measureColor(newColor: RgbColor) {
   return {
     brightness: brightness(newColor),
     luminance: luminance(newColor),
   };
-};
+}
 
-export const contrastColor = (foreground: RgbColor, background: RgbColor) => {
+export function contrastColor(foreground: RgbColor, background: RgbColor) {
   const average = contrast(foreground, background);
   const check = (readable: boolean) => (readable ? "Pass" : "Fail");
 
@@ -119,4 +119,4 @@ export const contrastColor = (foreground: RgbColor, background: RgbColor) => {
       aaa: largeAAA,
     },
   };
-};
+}

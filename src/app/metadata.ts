@@ -1,10 +1,10 @@
 import { type Metadata } from "next";
 import { createColor, initColor, convertRgb, formatHex } from "~/lib/color";
 
-export const sharedMetadata = (options: {
+export function sharedMetadata(options: {
   path: string;
   color?: string;
-}): Metadata => {
+}): Metadata {
   const { hex, oklch } = createColor(initColor());
   const link = options.path ? `/${options.path}` : "/";
   const color = options.color ? options.color : oklch.css;
@@ -33,4 +33,4 @@ export const sharedMetadata = (options: {
     keywords: "color space, hex, rgb, hsl, hwb, lab, lch, oklab, oklch",
     robots: "index, follow",
   };
-};
+}
