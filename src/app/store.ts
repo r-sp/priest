@@ -34,7 +34,10 @@ function useGlobalStore<T>(selector: (store: GlobalStore) => T) {
   return useStore(storeContext, selector);
 }
 
-export function useTheme(): [ThemeVariant, (variant: ThemeVariant) => void] {
+export function useTheme(): [
+  ThemeVariant | undefined,
+  (variant: ThemeVariant) => void,
+] {
   const theme = useGlobalStore((state) => state.theme);
   const setTheme = useGlobalStore((state) => state.setTheme);
 
