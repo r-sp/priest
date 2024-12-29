@@ -21,6 +21,7 @@ export default function AppProvider({
       color: initValue,
       mode: "oklch",
       gamut: true,
+      harmony: "analogous",
     };
 
     storeRef.current = createGlobalStore(defaultValue);

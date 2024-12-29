@@ -11,3 +11,4 @@ export { default as ColorPicker } from "./picker";
 export { default as ColorHue } from "./hue";
 export { default as ColorShade } from "./shade";
 export { default as ColorDetail } from "./detail";
+export { default as ColorHarmony } from "./harmony";

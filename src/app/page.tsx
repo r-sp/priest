@@ -24,6 +24,11 @@ export default function HomePage() {
           </Link>
           <ul className="ml-4 pl-4">
             <li className="list-disc">
+              <Link href="/color-harmony" className="text-lg hover:underline">
+                Harmony
+              </Link>
+            </li>
+            <li className="list-disc">
               <Link href="/color-palettes" className="text-lg hover:underline">
                 Palettes
               </Link>

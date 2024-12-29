@@ -4,6 +4,7 @@ import type {
   ThemeVariant,
   ColorState,
   ColorFormat,
+  HarmonyVariant,
 } from "~/lib/types";
 import { createStore, useStore } from "zustand";
 import { createContext, useContext } from "react";
@@ -17,6 +18,7 @@ export function createGlobalStore(initValue: GlobalStates) {
     setColor: (state) => set(() => ({ color: state })),
     setMode: (format) => set(() => ({ mode: format })),
     setGamut: (p3) => set(() => ({ gamut: p3 })),
+    setHarmony: (type) => set(() => ({ harmony: type })),
   }));
 }
 
@@ -63,4 +65,11 @@ export function useGamut(): [boolean, (p3: boolean) => void] {
   const setGamut = useGlobalStore((state) => state.setGamut);
 
   return [gamut, setGamut];
+}
+
+export function useHarmony(): [HarmonyVariant, (type: HarmonyVariant) => void] {
+  const harmony = useGlobalStore((state) => state.harmony);
+  const setHarmony = useGlobalStore((state) => state.setHarmony);
+
+  return [harmony, setHarmony];
 }
