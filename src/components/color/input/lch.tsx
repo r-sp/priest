@@ -5,7 +5,10 @@ import { useState, useEffect, useCallback } from "react";
 import { formatLch } from "~/lib/color";
 import { useColor } from "~/app/store";
 
-export default function InputLch(props: {
+export default function InputLch({
+  onChange,
+  id,
+}: {
   onChange?: (color: LchColorMode) => void;
   id?: string;
 }) {
@@ -19,11 +22,11 @@ export default function InputLch(props: {
     (newColor: Partial<LchColor>) => {
       setLch({ ...color, ...newColor });
 
-      if (props.onChange) {
-        props.onChange({ mode: "lch", ...color, ...newColor });
+      if (onChange) {
+        onChange({ mode: "lch", ...color, ...newColor });
       }
     },
-    [color, props],
+    [color, onChange],
   );
 
   const previewColor = useCallback(
@@ -55,12 +58,7 @@ export default function InputLch(props: {
   }, [color, lch]);
 
   return (
-    <div
-      role="form"
-      aria-label="lch color"
-      className="grid gap-4"
-      id={props.id ? props.id : undefined}
-    >
+    <div role="form" aria-label="lch color" className="grid gap-4" id={id}>
       <div role="none" className="relative inline-grid">
         <input
           aria-label="lightness"

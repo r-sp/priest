@@ -5,7 +5,10 @@ import { useState, useEffect, useCallback } from "react";
 import { formatRgb } from "~/lib/color";
 import { useColor } from "~/app/store";
 
-export default function InputRgb(props: {
+export default function InputRgb({
+  onChange,
+  id,
+}: {
   onChange?: (color: RgbColorMode) => void;
   id?: string;
 }) {
@@ -16,11 +19,11 @@ export default function InputRgb(props: {
     (newColor: Partial<RgbColor>) => {
       setRgb({ ...color, ...newColor });
 
-      if (props.onChange) {
-        props.onChange({ mode: "rgb", ...color, ...newColor });
+      if (onChange) {
+        onChange({ mode: "rgb", ...color, ...newColor });
       }
     },
-    [color, props],
+    [color, onChange],
   );
 
   const previewColor = useCallback(
@@ -47,12 +50,7 @@ export default function InputRgb(props: {
   }, [color, rgb]);
 
   return (
-    <div
-      role="form"
-      aria-label="rgb color"
-      className="grid gap-4"
-      id={props.id ? props.id : undefined}
-    >
+    <div role="form" aria-label="rgb color" className="grid gap-4" id={id}>
       <div role="none" className="relative inline-grid">
         <input
           aria-label="red"

@@ -281,16 +281,21 @@ export default function ColorMode() {
   );
 }
 
-function Navigation(props: {
+function Navigation({
+  children,
+  visible,
+  state,
+  button,
+}: {
   children: React.ReactNode;
   visible: boolean;
   state: React.Dispatch<React.SetStateAction<boolean>>;
   button: React.RefObject<HTMLButtonElement | null>;
 }) {
   const refList = useRef<HTMLDivElement>(null);
-  const modal = props.visible;
-  const setModal = props.state;
-  const btn = props.button.current;
+  const modal = visible;
+  const setModal = state;
+  const btn = button.current;
 
   const handleKeyboard = useCallback(
     (e: React.KeyboardEvent) => {
@@ -369,7 +374,7 @@ function Navigation(props: {
       )}
       onKeyDown={handleKeyboard}
     >
-      {props.children}
+      {children}
     </div>
   );
 }

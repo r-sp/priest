@@ -5,7 +5,10 @@ import { useState, useEffect, useCallback } from "react";
 import { formatOklch } from "~/lib/color";
 import { useColor } from "~/app/store";
 
-export default function InputOklch(props: {
+export default function InputOklch({
+  onChange,
+  id,
+}: {
   onChange?: (color: OklchColorMode) => void;
   id?: string;
 }) {
@@ -19,11 +22,11 @@ export default function InputOklch(props: {
     (newColor: Partial<OklchColor>) => {
       setOklch({ ...color, ...newColor });
 
-      if (props.onChange) {
-        props.onChange({ mode: "oklch", ...color, ...newColor });
+      if (onChange) {
+        onChange({ mode: "oklch", ...color, ...newColor });
       }
     },
-    [color, props],
+    [color, onChange],
   );
 
   const previewColor = useCallback(
@@ -55,12 +58,7 @@ export default function InputOklch(props: {
   }, [color, oklch]);
 
   return (
-    <div
-      role="form"
-      aria-label="oklch color"
-      className="grid gap-4"
-      id={props.id ? props.id : undefined}
-    >
+    <div role="form" aria-label="oklch color" className="grid gap-4" id={id}>
       <div role="none" className="relative inline-grid">
         <input
           aria-label="lightness"

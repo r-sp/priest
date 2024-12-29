@@ -5,7 +5,10 @@ import { useState, useEffect, useCallback } from "react";
 import { formatHwb } from "~/lib/color";
 import { useColor } from "~/app/store";
 
-export default function InputHwb(props: {
+export default function InputHwb({
+  onChange,
+  id,
+}: {
   onChange?: (color: HwbColorMode) => void;
   id?: string;
 }) {
@@ -19,11 +22,11 @@ export default function InputHwb(props: {
     (newColor: Partial<HwbColor>) => {
       setHwb({ ...color, ...newColor });
 
-      if (props.onChange) {
-        props.onChange({ mode: "hwb", ...color, ...newColor });
+      if (onChange) {
+        onChange({ mode: "hwb", ...color, ...newColor });
       }
     },
-    [color, props],
+    [color, onChange],
   );
 
   const previewColor = useCallback(
@@ -54,12 +57,7 @@ export default function InputHwb(props: {
   }, [color, hwb]);
 
   return (
-    <div
-      role="form"
-      aria-label="hwb color"
-      className="grid gap-4"
-      id={props.id ? props.id : undefined}
-    >
+    <div role="form" aria-label="hwb color" className="grid gap-4" id={id}>
       <div role="none" className="relative inline-grid">
         <input
           aria-label="hue"

@@ -5,7 +5,10 @@ import { useState, useEffect, useCallback } from "react";
 import { formatHsl } from "~/lib/color";
 import { useColor } from "~/app/store";
 
-export default function InputHsl(props: {
+export default function InputHsl({
+  onChange,
+  id,
+}: {
   onChange?: (color: HslColorMode) => void;
   id?: string;
 }) {
@@ -19,11 +22,11 @@ export default function InputHsl(props: {
     (newColor: Partial<HslColor>) => {
       setHsl({ ...color, ...newColor });
 
-      if (props.onChange) {
-        props.onChange({ mode: "hsl", ...color, ...newColor });
+      if (onChange) {
+        onChange({ mode: "hsl", ...color, ...newColor });
       }
     },
-    [color, props],
+    [color, onChange],
   );
 
   const previewColor = useCallback(
@@ -53,12 +56,7 @@ export default function InputHsl(props: {
   }, [color, hsl]);
 
   return (
-    <div
-      role="form"
-      aria-label="hsl color"
-      className="grid gap-4"
-      id={props.id ? props.id : undefined}
-    >
+    <div role="form" aria-label="hsl color" className="grid gap-4" id={id}>
       <div role="none" className="relative inline-grid">
         <input
           aria-label="hue"

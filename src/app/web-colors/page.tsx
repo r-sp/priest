@@ -259,8 +259,8 @@ export default function WebColorsPage() {
   );
 }
 
-function Section(props: { color: WebColor[]; label: string }) {
-  const section = slugify(props.label);
+function Section({ color, label }: { color: WebColor[]; label: string }) {
+  const section = slugify(label);
 
   return (
     <section aria-labelledby={section} className="inline-grid gap-y-4">
@@ -272,11 +272,11 @@ function Section(props: { color: WebColor[]; label: string }) {
           id={section}
           className="font-mono text-2xl font-medium text-neutral-700 dark:text-neutral-300"
         >
-          {props.label}
+          {label}
         </h2>
       </div>
       <ul className="grid w-full gap-3 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5">
-        {props.color.map((c, i) => (
+        {color.map((c, i) => (
           <li key={i} className="inline-grid">
             <Link
               href={formatPathMode(convertRgb(c.hex))}
