@@ -85,6 +85,15 @@ export type ColorNameVariant =
   | "pink"
   | "rose";
 
+export type HarmonyVariant =
+  | "complementary"
+  | "analogous"
+  | "triadic"
+  | "split"
+  | "tetradic"
+  | "rectangle"
+  | "double";
+
 export type ThemeVariant = "auto" | "light" | "dark";
 
 export type ColorState = {
@@ -103,6 +112,7 @@ export type GlobalStates = {
   color: ColorState;
   mode: ColorFormat;
   gamut: boolean;
+  harmony: HarmonyVariant;
 };
 
 export type GlobalActions = {
@@ -110,4 +120,5 @@ export type GlobalActions = {
   setColor: (color: ColorState) => void;
   setMode: (format: ColorFormat) => void;
   setGamut: (p3: boolean) => void;
+  setHarmony: (type: HarmonyVariant) => void;
 };

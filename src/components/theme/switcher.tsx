@@ -127,7 +127,7 @@ export default function ThemeSwitcher() {
   );
 }
 
-function Navigation(props: { children: React.ReactNode }) {
+function Navigation({ children }: { children: React.ReactNode }) {
   const [reduceMotion, setReduceMotion] = useState<boolean>(false);
   const refList = useRef<HTMLDivElement>(null);
 
@@ -170,7 +170,7 @@ function Navigation(props: { children: React.ReactNode }) {
       onFocus={() => setReduceMotion(true)}
       onBlur={() => setReduceMotion(false)}
     >
-      {props.children}
+      {children}
       {reduceMotion ? createPortal(<ReduceMotion />, document.body) : null}
     </div>
   );

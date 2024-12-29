@@ -5,7 +5,10 @@ import { useState, useEffect, useCallback } from "react";
 import { formatLab } from "~/lib/color";
 import { useColor } from "~/app/store";
 
-export default function InputLab(props: {
+export default function InputLab({
+  onChange,
+  id,
+}: {
   onChange?: (color: LabColorMode) => void;
   id?: string;
 }) {
@@ -19,11 +22,11 @@ export default function InputLab(props: {
     (newColor: Partial<LabColor>) => {
       setLab({ ...color, ...newColor });
 
-      if (props.onChange) {
-        props.onChange({ mode: "lab", ...color, ...newColor });
+      if (onChange) {
+        onChange({ mode: "lab", ...color, ...newColor });
       }
     },
-    [color, props],
+    [color, onChange],
   );
 
   const previewColor = useCallback(
@@ -50,12 +53,7 @@ export default function InputLab(props: {
   }, [color, lab]);
 
   return (
-    <div
-      role="form"
-      aria-label="lab color"
-      className="grid gap-4"
-      id={props.id ? props.id : undefined}
-    >
+    <div role="form" aria-label="lab color" className="grid gap-4" id={id}>
       <div role="none" className="relative inline-grid">
         <input
           aria-label="lightness"

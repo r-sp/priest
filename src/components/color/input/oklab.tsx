@@ -5,7 +5,10 @@ import { useState, useEffect, useCallback } from "react";
 import { formatOklab } from "~/lib/color";
 import { useColor } from "~/app/store";
 
-export default function InputOklab(props: {
+export default function InputOklab({
+  onChange,
+  id,
+}: {
   onChange?: (color: OklabColorMode) => void;
   id?: string;
 }) {
@@ -19,11 +22,11 @@ export default function InputOklab(props: {
     (newColor: Partial<OklabColor>) => {
       setOklab({ ...color, ...newColor });
 
-      if (props.onChange) {
-        props.onChange({ mode: "oklab", ...color, ...newColor });
+      if (onChange) {
+        onChange({ mode: "oklab", ...color, ...newColor });
       }
     },
-    [color, props],
+    [color, onChange],
   );
 
   const previewColor = useCallback(
@@ -50,12 +53,7 @@ export default function InputOklab(props: {
   }, [color, oklab]);
 
   return (
-    <div
-      role="form"
-      aria-label="oklab color"
-      className="grid gap-4"
-      id={props.id ? props.id : undefined}
-    >
+    <div role="form" aria-label="oklab color" className="grid gap-4" id={id}>
       <div role="none" className="relative inline-grid">
         <input
           aria-label="lightness"

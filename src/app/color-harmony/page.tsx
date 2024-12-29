@@ -1,20 +1,20 @@
 import { type Metadata } from "next";
 import { sharedMetadata } from "../metadata";
-import { ColorPicker, ColorHue } from "~/components/color";
+import { ColorPicker, ColorHarmony } from "~/components/color";
 import { Wrapper } from "~/components/ui";
 
 export function generateMetadata(): Metadata {
-  const meta = sharedMetadata({ path: "color-palettes" });
+  const meta = sharedMetadata({ path: "color-harmony" });
 
   return {
     ...meta,
-    title: "Color Palettes",
+    title: "Color Harmony",
     description:
-      "Generate stunning color combinations with expanded color gamuts and precise color representation.",
+      "Achieve perfect color harmony with palettes designed using the latest color space technologies.",
   };
 }
 
-export default function ColorPalettesPage() {
+export default function ColorHarmonyPage() {
   return (
     <Wrapper
       as="section"
@@ -23,7 +23,7 @@ export default function ColorPalettesPage() {
       outerStyle="py-4"
     >
       <ColorPicker />
-      <ColorHue />
+      <ColorHarmony />
     </Wrapper>
   );
 }
