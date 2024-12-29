@@ -25,7 +25,7 @@ export async function generateMetadata({
   return {
     title: "Color",
     description:
-      "Generate stunning color combinations with expanded color gamuts and precise color representation.",
+      "Find inspiring color schemes built with modern color models for today's creative projects.",
     ...meta,
   };
 }

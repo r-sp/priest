@@ -10,7 +10,7 @@ export function generateMetadata(): Metadata {
     ...meta,
     title: "Color Palettes",
     description:
-      "Achieve perfect color harmony with palettes designed using the latest color space technologies.",
+      "Generate stunning color combinations with expanded color gamuts and precise color representation.",
   };
 }
 
