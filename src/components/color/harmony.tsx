@@ -168,28 +168,41 @@ function Section({ color }: { color: ColorSpace[] }) {
   const [mode] = useMode();
   const [harmony] = useHarmony();
 
+  const shades: string[] = [];
+
+  color.map((shade) => {
+    shades.push(formatCssMode(mode, shade));
+  });
+
+  const gradients = `linear-gradient(to right, ${shades.join(", ")})`;
+
   return (
-    <ol
-      className={clsx(
-        "grid w-full gap-3",
-        harmony === "complementary" && "sm:grid-cols-2",
-        harmony === "analogous" && "sm:grid-cols-2 md:grid-cols-3",
-        harmony === "triadic" && "sm:grid-cols-2 md:grid-cols-3",
-        harmony === "split" && "sm:grid-cols-2 md:grid-cols-3",
-        harmony === "tetradic" &&
-          "sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4",
-        harmony === "rectangle" &&
-          "sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4",
-        harmony === "double" &&
-          "sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5",
-      )}
-    >
-      {color.map((shade, index) => (
-        <li key={index} className="inline-grid">
-          <ColorCard color={shade} type={mode} />
-        </li>
-      ))}
-    </ol>
+    <div role="none" className="grid gap-y-3">
+      <ol
+        className={clsx(
+          "grid w-full gap-3",
+          harmony === "complementary" && "sm:grid-cols-2",
+          harmony === "analogous" && "sm:grid-cols-2 md:grid-cols-3",
+          harmony === "triadic" && "sm:grid-cols-2 md:grid-cols-3",
+          harmony === "split" && "sm:grid-cols-2 md:grid-cols-3",
+          harmony === "tetradic" &&
+            "sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4",
+          harmony === "rectangle" &&
+            "sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4",
+          harmony === "double" &&
+            "sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5",
+        )}
+      >
+        {color.map((shade, index) => (
+          <li key={index} className="inline-grid">
+            <ColorCard color={shade} type={mode} />
+          </li>
+        ))}
+      </ol>
+      <div role="presentation" className="frame rounded-lg">
+        <span style={{ backgroundImage: gradients }}></span>
+      </div>
+    </div>
   );
 }
 
