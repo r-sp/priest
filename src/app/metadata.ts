@@ -32,5 +32,8 @@ export function sharedMetadata(options: {
     },
     keywords: "color space, hex, rgb, hsl, hwb, lab, lch, oklab, oklch",
     robots: "index, follow",
+    verification: {
+      google: "XSa9h4YVSUQ2hL-ggSeBk2KJ-rMnwQoaJ34stmFagZw",
+    },
   };
 }
