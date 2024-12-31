@@ -1,6 +1,0 @@
-User-agent: *
-Allow: /
-Allow: /color
-Allow: /color/*
-Allow: /color/palette
-Allow: /color/web
