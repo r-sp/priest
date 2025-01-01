@@ -16,12 +16,7 @@ export function generateMetadata(): Metadata {
 
 export default function ColorShadesPage() {
   return (
-    <Wrapper
-      as="section"
-      aria-labelledby="color"
-      className="grid gap-y-8"
-      outerStyle="py-4"
-    >
+    <Wrapper as="div" className="grid gap-y-8">
       <ColorPicker />
       <ColorShade />
     </Wrapper>

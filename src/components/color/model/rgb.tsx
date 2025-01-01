@@ -7,10 +7,8 @@ import { useColor } from "~/app/store";
 
 export default function InputRgb({
   onChange,
-  id,
 }: {
   onChange?: (color: RgbColorMode) => void;
-  id?: string;
 }) {
   const [{ rgb }] = useColor();
   const [color, setRgb] = useState<RgbColor>(rgb.color);
@@ -50,7 +48,7 @@ export default function InputRgb({
   }, [color, rgb]);
 
   return (
-    <div role="form" aria-label="rgb color" className="grid gap-4" id={id}>
+    <>
       <div role="none" className="relative inline-grid">
         <input
           aria-label="red"
@@ -111,6 +109,6 @@ export default function InputRgb({
           }}
         ></span>
       </div>
-    </div>
+    </>
   );
 }
