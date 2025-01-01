@@ -54,7 +54,7 @@ export default function HomePage() {
         <li className="inline-grid">
           <Link
             href="/color-harmony"
-            className="btn grid content-baseline gap-y-1 rounded-lg border border-neutral-400 px-3 py-4 dark:border-neutral-700"
+            className="action grid content-baseline gap-y-1 rounded-lg border border-neutral-400 px-3 py-4 dark:border-neutral-700"
           >
             <h2 className="text-xl font-semibold text-neutral-700 dark:text-neutral-300">
               Color Harmony
@@ -69,7 +69,7 @@ export default function HomePage() {
         <li className="inline-grid">
           <Link
             href="/color-palettes"
-            className="btn grid content-baseline gap-y-1 rounded-lg border border-neutral-400 px-3 py-4 dark:border-neutral-700"
+            className="action grid content-baseline gap-y-1 rounded-lg border border-neutral-400 px-3 py-4 dark:border-neutral-700"
           >
             <h2 className="text-xl font-semibold text-neutral-700 dark:text-neutral-300">
               Color Palettes
@@ -84,7 +84,7 @@ export default function HomePage() {
         <li className="inline-grid">
           <Link
             href="/color-shades"
-            className="btn grid content-baseline gap-y-1 rounded-lg border border-neutral-400 px-3 py-4 dark:border-neutral-700"
+            className="action grid content-baseline gap-y-1 rounded-lg border border-neutral-400 px-3 py-4 dark:border-neutral-700"
           >
             <h2 className="text-xl font-semibold text-neutral-700 dark:text-neutral-300">
               Color Shades

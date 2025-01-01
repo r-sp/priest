@@ -39,28 +39,28 @@
 }
 
 @layer components {
-  .btn {
+  .action {
     border-radius: inherit;
   }
-  .btn:focus-visible {
+  .action:focus-visible {
     position: relative;
     z-index: 2;
   }
-  .btn:hover,
-  .btn:focus {
+  .action:hover,
+  .action:focus {
     background-color: var(--color-neutral-200);
     color: var(--color-neutral-600);
   }
-  .btn:active {
+  .action:not(:focus-visible):active {
     background-color: var(--color-neutral-300);
     color: var(--color-neutral-700);
   }
-  .dark .btn:hover,
-  .dark .btn:focus {
+  .dark .action:hover,
+  .dark .action:focus {
     background-color: var(--color-neutral-800);
     color: var(--color-neutral-300);
   }
-  .dark .btn:active {
+  .dark .action:not(:focus-visible):active {
     background-color: var(--color-neutral-700);
     color: var(--color-neutral-200);
   }

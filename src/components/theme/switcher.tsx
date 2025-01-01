@@ -53,7 +53,7 @@ export default function ThemeSwitcher() {
         aria-checked={modeLight}
         aria-label="light"
         className={clsx(
-          "btn inline-flex size-8 items-center justify-center rounded-2xl transition-colors",
+          "action inline-flex size-8 items-center justify-center rounded-2xl transition-colors",
           modeLight &&
             "border-2 border-neutral-50 bg-neutral-200 text-neutral-700 dark:border-neutral-950 dark:bg-neutral-800 dark:text-neutral-200",
         )}
@@ -78,7 +78,7 @@ export default function ThemeSwitcher() {
         aria-checked={modeDark}
         aria-label="dark"
         className={clsx(
-          "btn inline-flex size-8 items-center justify-center rounded-2xl transition-colors",
+          "action inline-flex size-8 items-center justify-center rounded-2xl transition-colors",
           modeDark &&
             "border-2 border-neutral-50 bg-neutral-200 text-neutral-700 dark:border-neutral-950 dark:bg-neutral-800 dark:text-neutral-200",
         )}
@@ -103,7 +103,7 @@ export default function ThemeSwitcher() {
         aria-checked={modeAuto}
         aria-label="auto"
         className={clsx(
-          "btn inline-flex size-8 items-center justify-center rounded-2xl transition-colors",
+          "action inline-flex size-8 items-center justify-center rounded-2xl transition-colors",
           modeAuto &&
             "border-2 border-neutral-50 bg-neutral-200 text-neutral-700 dark:border-neutral-950 dark:bg-neutral-800 dark:text-neutral-200",
         )}

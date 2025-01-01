@@ -57,7 +57,7 @@ export default function ColorMode() {
         aria-controls="color-mode"
         aria-label="change color mode"
         className={clsx(
-          !modal && "btn",
+          !modal && "action",
           "inline-flex size-8 items-center justify-center rounded-2xl border border-neutral-400 transition-colors dark:border-neutral-700",
         )}
         onClick={() => setModal(!modal)}
@@ -79,7 +79,7 @@ export default function ColorMode() {
         <button
           role="menuitemradio"
           aria-checked={modeRgb}
-          className="btn inline-flex h-8 min-w-32 items-center gap-2 px-3 font-mono text-sm font-medium transition-colors"
+          className="action inline-flex h-8 min-w-32 items-center gap-2 px-3 font-mono text-sm font-medium transition-colors"
           tabIndex={modal ? (modeRgb ? 0 : -1) : -1}
           onClick={() => {
             handleMode("rgb");
@@ -105,7 +105,7 @@ export default function ColorMode() {
         <button
           role="menuitemradio"
           aria-checked={modeHsl}
-          className="btn inline-flex h-8 min-w-32 items-center gap-2 px-3 font-mono text-sm font-medium transition-colors"
+          className="action inline-flex h-8 min-w-32 items-center gap-2 px-3 font-mono text-sm font-medium transition-colors"
           tabIndex={modal ? (modeHsl ? 0 : -1) : -1}
           onClick={() => {
             handleMode("hsl");
@@ -131,7 +131,7 @@ export default function ColorMode() {
         <button
           role="menuitemradio"
           aria-checked={modeHwb}
-          className="btn inline-flex h-8 min-w-32 items-center gap-2 px-3 font-mono text-sm font-medium transition-colors"
+          className="action inline-flex h-8 min-w-32 items-center gap-2 px-3 font-mono text-sm font-medium transition-colors"
           tabIndex={modal ? (modeHwb ? 0 : -1) : -1}
           onClick={() => {
             handleMode("hwb");
@@ -158,7 +158,7 @@ export default function ColorMode() {
         <button
           role="menuitemradio"
           aria-checked={modeLch}
-          className="btn inline-flex h-8 min-w-32 items-center gap-2 px-3 font-mono text-sm font-medium transition-colors"
+          className="action inline-flex h-8 min-w-32 items-center gap-2 px-3 font-mono text-sm font-medium transition-colors"
           tabIndex={modal ? (modeLch ? 0 : -1) : -1}
           onClick={() => {
             handleMode("lch");
@@ -184,7 +184,7 @@ export default function ColorMode() {
         <button
           role="menuitemradio"
           aria-checked={modeOklch}
-          className="btn inline-flex h-8 min-w-32 items-center gap-2 px-3 font-mono text-sm font-medium transition-colors"
+          className="action inline-flex h-8 min-w-32 items-center gap-2 px-3 font-mono text-sm font-medium transition-colors"
           tabIndex={modal ? (modeOklch ? 0 : -1) : -1}
           onClick={() => {
             handleMode("oklch");
@@ -210,7 +210,7 @@ export default function ColorMode() {
         <button
           role="menuitemradio"
           aria-checked={modeLab}
-          className="btn inline-flex h-8 min-w-32 items-center gap-2 px-3 font-mono text-sm font-medium transition-colors"
+          className="action inline-flex h-8 min-w-32 items-center gap-2 px-3 font-mono text-sm font-medium transition-colors"
           tabIndex={modal ? (modeLab ? 0 : -1) : -1}
           onClick={() => {
             handleMode("lab");
@@ -236,7 +236,7 @@ export default function ColorMode() {
         <button
           role="menuitemradio"
           aria-checked={modeOklab}
-          className="btn inline-flex h-8 min-w-32 items-center gap-2 px-3 font-mono text-sm font-medium transition-colors"
+          className="action inline-flex h-8 min-w-32 items-center gap-2 px-3 font-mono text-sm font-medium transition-colors"
           tabIndex={modal ? (modeOklab ? 0 : -1) : -1}
           onClick={() => {
             handleMode("oklab");
