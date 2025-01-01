@@ -68,7 +68,7 @@ export default function ColorHarmony() {
   );
 
   return (
-    <div role="none" className="mx-auto inline-grid w-full max-w-7xl gap-y-8">
+    <>
       <Navigation>
         <Button select="complementary" text="Complementary" />
         <Button select="analogous" text="Analogous" />
@@ -93,7 +93,7 @@ export default function ColorHarmony() {
       ) : harmony === "double" ? (
         <Section color={hue([-30, 0, 30, 150, 210])} />
       ) : null}
-    </div>
+    </>
   );
 }
 
@@ -151,7 +151,7 @@ function Button({ select, text }: { select: HarmonyVariant; text: string }) {
       role="menuitemradio"
       aria-checked={active}
       className={clsx(
-        "btn inline-flex items-center justify-center rounded-sm border px-2 py-1 text-sm transition-colors select-none",
+        "action inline-flex items-center justify-center rounded-sm border px-2 py-1 text-sm transition-colors select-none",
         active
           ? "border-neutral-400 text-neutral-700 dark:border-neutral-700 dark:text-neutral-300"
           : "border-transparent",
@@ -177,7 +177,7 @@ function Section({ color }: { color: ColorSpace[] }) {
   const gradients = `linear-gradient(to right, ${shades.join(", ")})`;
 
   return (
-    <div role="none" className="grid gap-y-3">
+    <div className="grid gap-y-3">
       <ol
         className={clsx(
           "grid w-full gap-3",
