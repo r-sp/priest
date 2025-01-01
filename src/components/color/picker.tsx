@@ -12,20 +12,21 @@ import {
   parseOklab,
   parseOklch,
 } from "~/lib/color";
-import InputRgb from "./input/rgb";
-import InputHsl from "./input/hsl";
-import InputHwb from "./input/hwb";
-import InputLab from "./input/lab";
-import InputLch from "./input/lch";
-import InputOklab from "./input/oklab";
-import InputOklch from "./input/oklch";
+import ColorInput from "./input";
+import InputRgb from "./model/rgb";
+import InputHsl from "./model/hsl";
+import InputHwb from "./model/hwb";
+import InputLab from "./model/lab";
+import InputLch from "./model/lch";
+import InputOklab from "./model/oklab";
+import InputOklch from "./model/oklch";
 
 export default function ColorPicker({
-  showColorMode = true,
+  showTextbox = true,
 }: {
-  showColorMode?: boolean;
+  showTextbox?: boolean;
 }) {
-  const [{ rgb, hsl, hwb, lab, lch, oklab, oklch }, setColor] = useColor();
+  const [{}, setColor] = useColor();
   const [mode] = useMode();
 
   const modeRgb = mode === "rgb";
@@ -49,42 +50,26 @@ export default function ColorPicker({
     });
 
   return (
-    <div role="none" className="mx-auto inline-grid w-full max-w-3xl gap-4">
-      {showColorMode ? (
-        <h1 id="color" className="text-neutral-800 dark:text-neutral-200">
-          <code>
-            {modeRgb
-              ? rgb.css
-              : modeHsl
-                ? hsl.css
-                : modeHwb
-                  ? hwb.css
-                  : modeLab
-                    ? lab.css
-                    : modeLch
-                      ? lch.css
-                      : modeOklab
-                        ? oklab.css
-                        : modeOklch
-                          ? oklch.css
-                          : oklch.css}
-          </code>
-        </h1>
-      ) : null}
+    <div
+      role="form"
+      aria-label="color input"
+      className="mx-auto inline-grid w-full max-w-3xl gap-4"
+    >
+      {showTextbox ? <ColorInput /> : null}
       {modeRgb ? (
-        <InputRgb id="color-rgb" onChange={(c) => updateColor(c)} />
+        <InputRgb onChange={(c) => updateColor(c)} />
       ) : modeHsl ? (
-        <InputHsl id="color-hsl" onChange={(c) => updateColor(c)} />
+        <InputHsl onChange={(c) => updateColor(c)} />
       ) : modeHwb ? (
-        <InputHwb id="color-hwb" onChange={(c) => updateColor(c)} />
+        <InputHwb onChange={(c) => updateColor(c)} />
       ) : modeLch ? (
-        <InputLch id="color-lch" onChange={(c) => updateColor(c)} />
+        <InputLch onChange={(c) => updateColor(c)} />
       ) : modeOklch ? (
-        <InputOklch id="color-oklch" onChange={(c) => updateColor(c)} />
+        <InputOklch onChange={(c) => updateColor(c)} />
       ) : modeLab ? (
-        <InputLab id="color-lab" onChange={(c) => updateColor(c)} />
+        <InputLab onChange={(c) => updateColor(c)} />
       ) : modeOklab ? (
-        <InputOklab id="color-oklab" onChange={(c) => updateColor(c)} />
+        <InputOklab onChange={(c) => updateColor(c)} />
       ) : null}
     </div>
   );
