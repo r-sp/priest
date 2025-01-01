@@ -66,13 +66,12 @@ export default function ColorDetail() {
       aria-labelledby="color"
       maxWidth="1024"
       className="grid gap-y-4"
-      outerStyle="py-4"
     >
       <header className="inline-grid gap-y-3">
         <Link
           aria-label={`view color ${hex}`}
           href={`/color/${hex.replace("#", "")}`}
-          className="frame inline-grid w-full rounded-lg"
+          className="frame inline-grid w-full rounded-lg focus-visible:z-69"
           prefetch={false}
         >
           <span style={{ backgroundColor: colorMode }}></span>
@@ -136,7 +135,7 @@ export default function ColorDetail() {
       </section>
       {colorPicker ? (
         <div className="my-4 grid border-y border-y-neutral-400 py-8 dark:border-y-neutral-700">
-          <ColorPicker showColorMode={false} />
+          <ColorPicker showTextbox={false} />
         </div>
       ) : null}
       <section aria-label="analysis">
