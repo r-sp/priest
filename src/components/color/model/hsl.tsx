@@ -7,10 +7,8 @@ import { useColor } from "~/app/store";
 
 export default function InputHsl({
   onChange,
-  id,
 }: {
   onChange?: (color: HslColorMode) => void;
-  id?: string;
 }) {
   const [{ hsl }] = useColor();
   const [color, setHsl] = useState<HslColor>(hsl.color);
@@ -56,7 +54,7 @@ export default function InputHsl({
   }, [color, hsl]);
 
   return (
-    <div role="form" aria-label="hsl color" className="grid gap-4" id={id}>
+    <>
       <div role="none" className="relative inline-grid">
         <input
           aria-label="hue"
@@ -123,6 +121,6 @@ export default function InputHsl({
           }}
         ></span>
       </div>
-    </div>
+    </>
   );
 }

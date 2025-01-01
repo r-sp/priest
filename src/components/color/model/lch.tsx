@@ -7,10 +7,8 @@ import { useColor } from "~/app/store";
 
 export default function InputLch({
   onChange,
-  id,
 }: {
   onChange?: (color: LchColorMode) => void;
-  id?: string;
 }) {
   const [{ lch }] = useColor();
   const [color, setLch] = useState<LchColor>(lch.color);
@@ -58,7 +56,7 @@ export default function InputLch({
   }, [color, lch]);
 
   return (
-    <div role="form" aria-label="lch color" className="grid gap-4" id={id}>
+    <>
       <div role="none" className="relative inline-grid">
         <input
           aria-label="lightness"
@@ -125,6 +123,6 @@ export default function InputLch({
           }}
         ></span>
       </div>
-    </div>
+    </>
   );
 }

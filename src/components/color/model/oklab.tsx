@@ -1,68 +1,66 @@
 "use client";
 
-import type { LabColor, LabColorMode } from "~/lib/types";
+import type { OklabColor, OklabColorMode } from "~/lib/types";
 import { useState, useEffect, useCallback } from "react";
-import { formatLab } from "~/lib/color";
+import { formatOklab } from "~/lib/color";
 import { useColor } from "~/app/store";
 
-export default function InputLab({
+export default function InputOklab({
   onChange,
-  id,
 }: {
-  onChange?: (color: LabColorMode) => void;
-  id?: string;
+  onChange?: (color: OklabColorMode) => void;
 }) {
-  const [{ lab }] = useColor();
-  const [color, setLab] = useState<LabColor>(lab.color);
+  const [{ oklab }] = useColor();
+  const [color, setOklab] = useState<OklabColor>(oklab.color);
   const [focusLightness, setFocusLightness] = useState<boolean>(false);
   const [focusGreenRed, setFocusGreenRed] = useState<boolean>(false);
   const [focusBlueYellow, setFocusBlueYellow] = useState<boolean>(false);
 
   const updateColor = useCallback(
-    (newColor: Partial<LabColor>) => {
-      setLab({ ...color, ...newColor });
+    (newColor: Partial<OklabColor>) => {
+      setOklab({ ...color, ...newColor });
 
       if (onChange) {
-        onChange({ mode: "lab", ...color, ...newColor });
+        onChange({ mode: "oklab", ...color, ...newColor });
       }
     },
     [color, onChange],
   );
 
   const previewColor = useCallback(
-    (newColor: Partial<LabColor>) => {
-      return formatLab({ ...color, ...newColor });
+    (newColor: Partial<OklabColor>) => {
+      return formatOklab({ ...color, ...newColor });
     },
     [color],
   );
 
   const trackLightnessLeft = previewColor({ l: 0 });
-  const trackLightnessRight = previewColor({ l: 100 });
-  const trackGreenRedLeft = previewColor({ a: -100 });
-  const trackGreenRedRight = previewColor({ a: 100 });
-  const trackBlueYellowLeft = previewColor({ b: -100 });
-  const trackBlueYellowRight = previewColor({ b: 100 });
+  const trackLightnessRight = previewColor({ l: 1 });
+  const trackGreenRedLeft = previewColor({ a: -0.4 });
+  const trackGreenRedRight = previewColor({ a: 0.4 });
+  const trackBlueYellowLeft = previewColor({ b: -0.4 });
+  const trackBlueYellowRight = previewColor({ b: 0.4 });
 
   useEffect(() => {
-    const currentColor = formatLab(color);
+    const currentColor = formatOklab(color);
     return () => {
-      if (currentColor !== lab.css) {
-        setLab(lab.color);
+      if (currentColor !== oklab.css) {
+        setOklab(oklab.color);
       }
     };
-  }, [color, lab]);
+  }, [color, oklab]);
 
   return (
-    <div role="form" aria-label="lab color" className="grid gap-4" id={id}>
+    <>
       <div role="none" className="relative inline-grid">
         <input
           aria-label="lightness"
           type="range"
           min={0}
-          max={100}
-          step={focusLightness ? 1 : 0.01}
+          max={1}
+          step={focusLightness ? 0.01 : 0.001}
           value={color.l}
-          id="lab-lightness"
+          id="oklab-lightness"
           className="color-slider relative z-2 text-neutral-400"
           onChange={(e) => updateColor({ l: e.target.valueAsNumber })}
           onKeyDown={() => setFocusLightness(true)}
@@ -80,11 +78,11 @@ export default function InputLab({
         <input
           aria-label="green red"
           type="range"
-          min={-100}
-          max={100}
-          step={focusGreenRed ? 1 : 0.01}
+          min={-0.4}
+          max={0.4}
+          step={focusGreenRed ? 0.01 : 0.001}
           value={color.a}
-          id="lab-green-red"
+          id="oklab-green-red"
           className="color-slider relative z-2 text-neutral-400"
           onChange={(e) => updateColor({ a: e.target.valueAsNumber })}
           onKeyDown={() => setFocusGreenRed(true)}
@@ -102,11 +100,11 @@ export default function InputLab({
         <input
           aria-label="blue yellow"
           type="range"
-          min={-100}
-          max={100}
-          step={focusGreenRed ? 1 : 0.01}
+          min={-0.4}
+          max={0.4}
+          step={focusBlueYellow ? 0.01 : 0.001}
           value={color.b}
-          id="lab-blue-yellow"
+          id="oklab-blue-yellow"
           className="color-slider relative z-2 text-neutral-400"
           onChange={(e) => updateColor({ b: e.target.valueAsNumber })}
           onKeyDown={() => setFocusBlueYellow(true)}
@@ -120,6 +118,6 @@ export default function InputLab({
           }}
         ></span>
       </div>
-    </div>
+    </>
   );
 }

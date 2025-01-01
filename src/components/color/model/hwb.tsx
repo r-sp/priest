@@ -7,10 +7,8 @@ import { useColor } from "~/app/store";
 
 export default function InputHwb({
   onChange,
-  id,
 }: {
   onChange?: (color: HwbColorMode) => void;
-  id?: string;
 }) {
   const [{ hwb }] = useColor();
   const [color, setHwb] = useState<HwbColor>(hwb.color);
@@ -57,7 +55,7 @@ export default function InputHwb({
   }, [color, hwb]);
 
   return (
-    <div role="form" aria-label="hwb color" className="grid gap-4" id={id}>
+    <>
       <div role="none" className="relative inline-grid">
         <input
           aria-label="hue"
@@ -124,6 +122,6 @@ export default function InputHwb({
           }}
         ></span>
       </div>
-    </div>
+    </>
   );
 }
