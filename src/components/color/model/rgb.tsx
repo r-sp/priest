@@ -7,8 +7,10 @@ import { useColor } from "~/app/store";
 
 export default function InputRgb({
   onChange,
+  dynamicPreview = true,
 }: {
   onChange?: (color: RgbColorMode) => void;
+  dynamicPreview?: boolean;
 }) {
   const [{ rgb }] = useColor();
   const [color, setRgb] = useState<RgbColor>(rgb.color);
@@ -32,11 +34,17 @@ export default function InputRgb({
   );
 
   const trackRedLeft = previewColor({ r: 0 });
-  const trackRedRight = previewColor({ r: 1 });
+  const trackRedRight = previewColor(
+    dynamicPreview ? { r: 1 } : { r: 1, g: 0, b: 0 },
+  );
   const trackGreenLeft = previewColor({ g: 0 });
-  const trackGreenRight = previewColor({ g: 1 });
+  const trackGreenRight = previewColor(
+    dynamicPreview ? { g: 1 } : { r: 0, g: 1, b: 0 },
+  );
   const trackBlueLeft = previewColor({ b: 0 });
-  const trackBlueRight = previewColor({ b: 1 });
+  const trackBlueRight = previewColor(
+    dynamicPreview ? { b: 1 } : { r: 0, g: 0, b: 1 },
+  );
 
   useEffect(() => {
     const currentColor = formatRgb(color);
@@ -49,7 +57,13 @@ export default function InputRgb({
 
   return (
     <>
-      <div role="none" className="relative inline-grid">
+      <div
+        role="none"
+        className="relative inline-grid"
+        style={{
+          ["--bg" as string]: `linear-gradient(to right, ${trackRedLeft}, ${trackRedRight})`,
+        }}
+      >
         <input
           aria-label="red"
           type="range"
@@ -65,11 +79,17 @@ export default function InputRgb({
           role="presentation"
           className="pointer-events-none absolute top-1 right-0 bottom-1 left-0 z-0 rounded-md"
           style={{
-            backgroundImage: `linear-gradient(to right, ${trackRedLeft}, ${trackRedRight})`,
+            backgroundImage: "var(--bg)",
           }}
         ></span>
       </div>
-      <div role="none" className="relative inline-grid">
+      <div
+        role="none"
+        className="relative inline-grid"
+        style={{
+          ["--bg" as string]: `linear-gradient(to right, ${trackGreenLeft}, ${trackGreenRight})`,
+        }}
+      >
         <input
           aria-label="green"
           type="range"
@@ -85,11 +105,17 @@ export default function InputRgb({
           role="presentation"
           className="pointer-events-none absolute top-1 right-0 bottom-1 left-0 z-0 rounded-md"
           style={{
-            backgroundImage: `linear-gradient(to right, ${trackGreenLeft}, ${trackGreenRight})`,
+            backgroundImage: "var(--bg)",
           }}
         ></span>
       </div>
-      <div role="none" className="relative inline-grid">
+      <div
+        role="none"
+        className="relative inline-grid"
+        style={{
+          ["--bg" as string]: `linear-gradient(to right, ${trackBlueLeft}, ${trackBlueRight})`,
+        }}
+      >
         <input
           aria-label="blue"
           type="range"
@@ -105,7 +131,7 @@ export default function InputRgb({
           role="presentation"
           className="pointer-events-none absolute top-1 right-0 bottom-1 left-0 z-0 rounded-md"
           style={{
-            backgroundImage: `linear-gradient(to right, ${trackBlueLeft}, ${trackBlueRight})`,
+            backgroundImage: "var(--bg)",
           }}
         ></span>
       </div>
