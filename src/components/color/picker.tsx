@@ -23,8 +23,10 @@ import InputOklch from "./model/oklch";
 
 export default function ColorPicker({
   showTextbox = true,
+  dynamicPreview = true,
 }: {
   showTextbox?: boolean;
+  dynamicPreview?: boolean;
 }) {
   const [{}, setColor] = useColor();
   const [mode] = useMode();
@@ -57,19 +59,40 @@ export default function ColorPicker({
     >
       {showTextbox ? <ColorInput /> : null}
       {modeRgb ? (
-        <InputRgb onChange={(c) => updateColor(c)} />
+        <InputRgb
+          dynamicPreview={dynamicPreview}
+          onChange={(c) => updateColor(c)}
+        />
       ) : modeHsl ? (
-        <InputHsl onChange={(c) => updateColor(c)} />
+        <InputHsl
+          dynamicPreview={dynamicPreview}
+          onChange={(c) => updateColor(c)}
+        />
       ) : modeHwb ? (
-        <InputHwb onChange={(c) => updateColor(c)} />
+        <InputHwb
+          dynamicPreview={dynamicPreview}
+          onChange={(c) => updateColor(c)}
+        />
       ) : modeLch ? (
-        <InputLch onChange={(c) => updateColor(c)} />
+        <InputLch
+          dynamicPreview={dynamicPreview}
+          onChange={(c) => updateColor(c)}
+        />
       ) : modeOklch ? (
-        <InputOklch onChange={(c) => updateColor(c)} />
+        <InputOklch
+          dynamicPreview={dynamicPreview}
+          onChange={(c) => updateColor(c)}
+        />
       ) : modeLab ? (
-        <InputLab onChange={(c) => updateColor(c)} />
+        <InputLab
+          dynamicPreview={dynamicPreview}
+          onChange={(c) => updateColor(c)}
+        />
       ) : modeOklab ? (
-        <InputOklab onChange={(c) => updateColor(c)} />
+        <InputOklab
+          dynamicPreview={dynamicPreview}
+          onChange={(c) => updateColor(c)}
+        />
       ) : null}
     </div>
   );

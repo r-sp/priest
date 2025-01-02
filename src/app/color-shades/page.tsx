@@ -17,7 +17,7 @@ export function generateMetadata(): Metadata {
 export default function ColorShadesPage() {
   return (
     <Wrapper as="div" className="grid gap-y-8">
-      <ColorPicker />
+      <ColorPicker dynamicPreview={false} />
       <ColorShade />
     </Wrapper>
   );

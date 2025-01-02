@@ -177,7 +177,7 @@ function Section({ color }: { color: ColorSpace[] }) {
   const gradients = `linear-gradient(to right, ${shades.join(", ")})`;
 
   return (
-    <div className="grid gap-y-3">
+    <div className="grid gap-y-3" style={{ ["--bg" as string]: gradients }}>
       <ol
         className={clsx(
           "grid w-full gap-3",
@@ -194,13 +194,11 @@ function Section({ color }: { color: ColorSpace[] }) {
         )}
       >
         {color.map((shade, index) => (
-          <li key={index} className="inline-grid">
-            <ColorCard color={shade} type={mode} />
-          </li>
+          <ColorCard key={index} color={shade} type={mode} />
         ))}
       </ol>
       <div role="presentation" className="frame rounded-lg">
-        <span style={{ backgroundImage: gradients }}></span>
+        <span style={{ backgroundImage: "var(--bg)" }}></span>
       </div>
     </div>
   );
@@ -211,15 +209,20 @@ function ColorCard({ type, color }: { type: ColorFormat; color: ColorSpace }) {
   const style = formatCssMode(type, color);
 
   return (
-    <Link
-      href={path}
-      className="rounded-lg"
-      aria-label={style}
-      prefetch={false}
-    >
-      <div role="presentation" className="frame rounded-lg">
-        <span style={{ backgroundColor: style }}></span>
-      </div>
-    </Link>
+    <li className="inline-grid" style={{ ["--bg" as string]: style }}>
+      <Link
+        href={path}
+        className="rounded-lg"
+        aria-label={style}
+        prefetch={false}
+      >
+        <div
+          role="presentation"
+          className="frame pointer-events-none rounded-lg"
+        >
+          <span style={{ backgroundColor: "var(--bg)" }}></span>
+        </div>
+      </Link>
+    </li>
   );
 }

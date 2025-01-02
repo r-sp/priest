@@ -23,87 +23,41 @@ export default function ColorShade() {
   const [{ oklch }] = useColor();
   const [mode] = useMode();
 
-  const lightness = useCallback(
-    (type: ColorShadeVariant) =>
-      gamutLightness(type, oklch.color.l, oklch.color.h!),
-    [oklch],
-  );
-
-  const chroma = useCallback(
-    (type: ColorShadeVariant) =>
-      gamutChroma(type, oklch.color.c, oklch.color.h!),
-    [oklch],
-  );
-
+  const lightness = oklch.color.l;
+  const chroma = oklch.color.c;
   const hue = oklch.color.h!;
+
+  const color = useCallback(
+    (type: ColorShadeVariant) =>
+      formatOklch({
+        l: gamutLightness(lightness, hue, type),
+        c: gamutChroma(chroma, hue, type),
+        h: hue,
+      }),
+    [lightness, chroma, hue],
+  );
 
   const shades = useMemo(
     () => [
-      formatOklch({
-        l: lightness("50"),
-        c: chroma("50"),
-        h: hue,
-      }),
-      formatOklch({
-        l: lightness("100"),
-        c: chroma("100"),
-        h: hue,
-      }),
-      formatOklch({
-        l: lightness("200"),
-        c: chroma("200"),
-        h: hue,
-      }),
-      formatOklch({
-        l: lightness("300"),
-        c: chroma("300"),
-        h: hue,
-      }),
-      formatOklch({
-        l: lightness("400"),
-        c: chroma("400"),
-        h: hue,
-      }),
-      formatOklch({
-        l: lightness("500"),
-        c: chroma("500"),
-        h: hue,
-      }),
-      formatOklch({
-        l: lightness("600"),
-        c: chroma("600"),
-        h: hue,
-      }),
-      formatOklch({
-        l: lightness("700"),
-        c: chroma("700"),
-        h: hue,
-      }),
-      formatOklch({
-        l: lightness("800"),
-        c: chroma("800"),
-        h: hue,
-      }),
-      formatOklch({
-        l: lightness("900"),
-        c: chroma("900"),
-        h: hue,
-      }),
-      formatOklch({
-        l: lightness("950"),
-        c: chroma("950"),
-        h: hue,
-      }),
+      color("50"),
+      color("100"),
+      color("200"),
+      color("300"),
+      color("400"),
+      color("500"),
+      color("600"),
+      color("700"),
+      color("800"),
+      color("900"),
+      color("950"),
     ],
-    [lightness, chroma, hue],
+    [color],
   );
 
   return (
     <ol className="mx-auto grid w-full max-w-5xl gap-y-3">
       {shades.map((shade, index) => (
-        <li key={index} className="inline-grid">
-          <ColorCard color={shade} type={mode} />
-        </li>
+        <ColorCard key={index} color={shade} type={mode} />
       ))}
     </ol>
   );
@@ -148,13 +102,18 @@ function ColorCard({ type, color }: { type: ColorFormat; color: string }) {
                   : color;
 
   return (
-    <Link
-      href={path}
-      className="overflow-hidden rounded-md"
-      aria-label={style}
-      prefetch={false}
-    >
-      <span className="block h-16" style={{ backgroundColor: style }}></span>
-    </Link>
+    <li className="inline-grid" style={{ ["--bg" as string]: style }}>
+      <Link
+        href={path}
+        className="overflow-hidden rounded-md"
+        aria-label={style}
+        prefetch={false}
+      >
+        <span
+          className="pointer-events-none block h-16"
+          style={{ backgroundColor: "var(--bg)" }}
+        ></span>
+      </Link>
+    </li>
   );
 }

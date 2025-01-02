@@ -67,14 +67,20 @@ export default function ColorDetail() {
       maxWidth="1024"
       className="grid gap-y-4"
     >
-      <header className="inline-grid gap-y-3">
+      <header
+        className="inline-grid gap-y-3"
+        style={{ ["--bg" as string]: colorMode }}
+      >
         <Link
           aria-label={`view color ${hex}`}
           href={`/color/${hex.replace("#", "")}`}
           className="frame inline-grid w-full rounded-lg focus-visible:z-69"
           prefetch={false}
         >
-          <span style={{ backgroundColor: colorMode }}></span>
+          <span
+            className="pointer-events-none"
+            style={{ backgroundColor: "var(--bg)" }}
+          ></span>
         </Link>
       </header>
       <section aria-label="legacy">

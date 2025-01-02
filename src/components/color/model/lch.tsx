@@ -7,8 +7,10 @@ import { useColor } from "~/app/store";
 
 export default function InputLch({
   onChange,
+  dynamicPreview = true,
 }: {
   onChange?: (color: LchColorMode) => void;
+  dynamicPreview?: boolean;
 }) {
   const [{ lch }] = useColor();
   const [color, setLch] = useState<LchColor>(lch.color);
@@ -34,17 +36,39 @@ export default function InputLch({
     [color],
   );
 
-  const trackLightnessLeft = previewColor({ l: 0 });
-  const trackLightnessRight = previewColor({ l: 100 });
-  const trackChromaLeft = previewColor({ c: 0 });
-  const trackChromaRight = previewColor({ c: 150 });
-  const trackHueLeft = previewColor({ h: 0 });
-  const trackHueRed = previewColor({ h: 60 });
-  const trackHueGreen = previewColor({ h: 120 });
-  const trackHueCenter = previewColor({ h: 180 });
-  const trackHueBlue = previewColor({ h: 240 });
-  const trackHuePurple = previewColor({ h: 300 });
-  const trackHueRight = previewColor({ h: 360 });
+  const trackLightnessLeft = previewColor(
+    dynamicPreview ? { l: 0 } : { l: 0, c: 73.06 },
+  );
+  const trackLightnessRight = previewColor(
+    dynamicPreview ? { l: 100 } : { l: 100, c: 73.06 },
+  );
+  const trackChromaLeft = previewColor(
+    dynamicPreview ? { c: 0 } : { l: 90, c: 0 },
+  );
+  const trackChromaRight = previewColor(
+    dynamicPreview ? { c: 150 } : { l: 90, c: 150 },
+  );
+  const trackHueLeft = previewColor(
+    dynamicPreview ? { h: 0 } : { l: 67, c: 106.45, h: 0 },
+  );
+  const trackHueRed = previewColor(
+    dynamicPreview ? { h: 60 } : { l: 67, c: 106.45, h: 60 },
+  );
+  const trackHueGreen = previewColor(
+    dynamicPreview ? { h: 120 } : { l: 67, c: 106.45, h: 120 },
+  );
+  const trackHueCenter = previewColor(
+    dynamicPreview ? { h: 180 } : { l: 67, c: 106.45, h: 180 },
+  );
+  const trackHueBlue = previewColor(
+    dynamicPreview ? { h: 240 } : { l: 67, c: 106.45, h: 240 },
+  );
+  const trackHuePurple = previewColor(
+    dynamicPreview ? { h: 300 } : { l: 67, c: 106.45, h: 300 },
+  );
+  const trackHueRight = previewColor(
+    dynamicPreview ? { h: 360 } : { l: 67, c: 106.45, h: 360 },
+  );
 
   useEffect(() => {
     const currentColor = formatLch(color);
@@ -57,7 +81,13 @@ export default function InputLch({
 
   return (
     <>
-      <div role="none" className="relative inline-grid">
+      <div
+        role="none"
+        className="relative inline-grid"
+        style={{
+          ["--bg" as string]: `linear-gradient(to right, ${trackLightnessLeft}, ${trackLightnessRight})`,
+        }}
+      >
         <input
           aria-label="lightness"
           type="range"
@@ -75,11 +105,17 @@ export default function InputLch({
           role="presentation"
           className="pointer-events-none absolute top-1 right-0 bottom-1 left-0 z-0 rounded-md"
           style={{
-            backgroundImage: `linear-gradient(to right, ${trackLightnessLeft}, ${trackLightnessRight})`,
+            backgroundImage: "var(--bg)",
           }}
         ></span>
       </div>
-      <div role="none" className="relative inline-grid">
+      <div
+        role="none"
+        className="relative inline-grid"
+        style={{
+          ["--bg" as string]: `linear-gradient(to right, ${trackChromaLeft}, ${trackChromaRight})`,
+        }}
+      >
         <input
           aria-label="chroma"
           type="range"
@@ -97,11 +133,17 @@ export default function InputLch({
           role="presentation"
           className="pointer-events-none absolute top-1 right-0 bottom-1 left-0 z-0 rounded-md"
           style={{
-            backgroundImage: `linear-gradient(to right, ${trackChromaLeft}, ${trackChromaRight})`,
+            backgroundImage: "var(--bg)",
           }}
         ></span>
       </div>
-      <div role="none" className="relative inline-grid">
+      <div
+        role="none"
+        className="relative inline-grid"
+        style={{
+          ["--bg" as string]: `linear-gradient(to right, ${trackHueLeft}, ${trackHueRed}, ${trackHueGreen}, ${trackHueCenter}, ${trackHueBlue}, ${trackHuePurple}, ${trackHueRight})`,
+        }}
+      >
         <input
           aria-label="hue"
           type="range"
@@ -119,7 +161,7 @@ export default function InputLch({
           role="presentation"
           className="pointer-events-none absolute top-1 right-0 bottom-1 left-0 z-0 rounded-md"
           style={{
-            backgroundImage: `linear-gradient(to right, ${trackHueLeft}, ${trackHueRed}, ${trackHueGreen}, ${trackHueCenter}, ${trackHueBlue}, ${trackHuePurple}, ${trackHueRight})`,
+            backgroundImage: "var(--bg)",
           }}
         ></span>
       </div>

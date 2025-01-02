@@ -7,8 +7,10 @@ import { useColor } from "~/app/store";
 
 export default function InputLab({
   onChange,
+  dynamicPreview = true,
 }: {
   onChange?: (color: LabColorMode) => void;
+  dynamicPreview?: boolean;
 }) {
   const [{ lab }] = useColor();
   const [color, setLab] = useState<LabColor>(lab.color);
@@ -36,10 +38,18 @@ export default function InputLab({
 
   const trackLightnessLeft = previewColor({ l: 0 });
   const trackLightnessRight = previewColor({ l: 100 });
-  const trackGreenRedLeft = previewColor({ a: -100 });
-  const trackGreenRedRight = previewColor({ a: 100 });
-  const trackBlueYellowLeft = previewColor({ b: -100 });
-  const trackBlueYellowRight = previewColor({ b: 100 });
+  const trackGreenRedLeft = previewColor(
+    dynamicPreview ? { a: -100 } : { a: -100, b: 50 },
+  );
+  const trackGreenRedRight = previewColor(
+    dynamicPreview ? { a: 100 } : { a: 100, b: 50 },
+  );
+  const trackBlueYellowLeft = previewColor(
+    dynamicPreview ? { b: -100 } : { a: 0, b: -100 },
+  );
+  const trackBlueYellowRight = previewColor(
+    dynamicPreview ? { b: 100 } : { a: 0, b: 100 },
+  );
 
   useEffect(() => {
     const currentColor = formatLab(color);
@@ -52,7 +62,13 @@ export default function InputLab({
 
   return (
     <>
-      <div role="none" className="relative inline-grid">
+      <div
+        role="none"
+        className="relative inline-grid"
+        style={{
+          ["--bg" as string]: `linear-gradient(to right, ${trackLightnessLeft}, ${trackLightnessRight})`,
+        }}
+      >
         <input
           aria-label="lightness"
           type="range"
@@ -70,11 +86,17 @@ export default function InputLab({
           role="presentation"
           className="pointer-events-none absolute top-1 right-0 bottom-1 left-0 z-0 rounded-md"
           style={{
-            backgroundImage: `linear-gradient(to right, ${trackLightnessLeft}, ${trackLightnessRight})`,
+            backgroundImage: "var(--bg)",
           }}
         ></span>
       </div>
-      <div role="none" className="relative inline-grid">
+      <div
+        role="none"
+        className="relative inline-grid"
+        style={{
+          ["--bg" as string]: `linear-gradient(to right, ${trackGreenRedLeft}, ${trackGreenRedRight})`,
+        }}
+      >
         <input
           aria-label="green red"
           type="range"
@@ -92,11 +114,17 @@ export default function InputLab({
           role="presentation"
           className="pointer-events-none absolute top-1 right-0 bottom-1 left-0 z-0 rounded-md"
           style={{
-            backgroundImage: `linear-gradient(to right, ${trackGreenRedLeft}, ${trackGreenRedRight})`,
+            backgroundImage: "var(--bg)",
           }}
         ></span>
       </div>
-      <div role="none" className="relative inline-grid">
+      <div
+        role="none"
+        className="relative inline-grid"
+        style={{
+          ["--bg" as string]: `linear-gradient(to right, ${trackBlueYellowLeft}, ${trackBlueYellowRight})`,
+        }}
+      >
         <input
           aria-label="blue yellow"
           type="range"
@@ -114,7 +142,7 @@ export default function InputLab({
           role="presentation"
           className="pointer-events-none absolute top-1 right-0 bottom-1 left-0 z-0 rounded-md"
           style={{
-            backgroundImage: `linear-gradient(to right, ${trackBlueYellowLeft}, ${trackBlueYellowRight})`,
+            backgroundImage: "var(--bg)",
           }}
         ></span>
       </div>

@@ -7,8 +7,10 @@ import { useColor } from "~/app/store";
 
 export default function InputHwb({
   onChange,
+  dynamicPreview = true,
 }: {
   onChange?: (color: HwbColorMode) => void;
+  dynamicPreview?: boolean;
 }) {
   const [{ hwb }] = useColor();
   const [color, setHwb] = useState<HwbColor>(hwb.color);
@@ -34,16 +36,36 @@ export default function InputHwb({
     [color],
   );
 
-  const trackHueRed = previewColor({ h: 0 });
-  const trackHueYellow = previewColor({ h: 60 });
-  const trackHueGreen = previewColor({ h: 120 });
-  const trackHueCyan = previewColor({ h: 180 });
-  const trackHueBlue = previewColor({ h: 240 });
-  const trackHuePurple = previewColor({ h: 300 });
-  const trackWhitenessLeft = previewColor({ w: 0 });
-  const trackWhitenessRight = previewColor({ w: 1 });
-  const trackBlacknessLeft = previewColor({ b: 0 });
-  const trackBlacknessRight = previewColor({ b: 1 });
+  const trackHueRed = previewColor(
+    dynamicPreview ? { h: 0 } : { h: 0, w: 0, b: 0 },
+  );
+  const trackHueYellow = previewColor(
+    dynamicPreview ? { h: 60 } : { h: 60, w: 0, b: 0 },
+  );
+  const trackHueGreen = previewColor(
+    dynamicPreview ? { h: 120 } : { h: 120, w: 0, b: 0 },
+  );
+  const trackHueCyan = previewColor(
+    dynamicPreview ? { h: 180 } : { h: 180, w: 0, b: 0 },
+  );
+  const trackHueBlue = previewColor(
+    dynamicPreview ? { h: 240 } : { h: 240, w: 0, b: 0 },
+  );
+  const trackHuePurple = previewColor(
+    dynamicPreview ? { h: 300 } : { h: 300, w: 0, b: 0 },
+  );
+  const trackWhitenessLeft = previewColor(
+    dynamicPreview ? { w: 0 } : { w: 0, b: 0.5 },
+  );
+  const trackWhitenessRight = previewColor(
+    dynamicPreview ? { w: 1 } : { w: 1, b: 0 },
+  );
+  const trackBlacknessLeft = previewColor(
+    dynamicPreview ? { b: 0 } : { w: 0, b: 0 },
+  );
+  const trackBlacknessRight = previewColor(
+    dynamicPreview ? { b: 1 } : { w: 0, b: 1 },
+  );
 
   useEffect(() => {
     const currentColor = formatHwb(color);
@@ -56,7 +78,13 @@ export default function InputHwb({
 
   return (
     <>
-      <div role="none" className="relative inline-grid">
+      <div
+        role="none"
+        className="relative inline-grid"
+        style={{
+          ["--bg" as string]: `linear-gradient(to right, ${trackHueRed} 0%, ${trackHueYellow} 17%, ${trackHueGreen} 33%, ${trackHueCyan} 50%, ${trackHueBlue} 67%, ${trackHuePurple} 83%, ${trackHueRed} 100%)`,
+        }}
+      >
         <input
           aria-label="hue"
           type="range"
@@ -74,11 +102,17 @@ export default function InputHwb({
           role="presentation"
           className="pointer-events-none absolute top-1 right-0 bottom-1 left-0 z-0 rounded-md"
           style={{
-            backgroundImage: `linear-gradient(to right, ${trackHueRed} 0%, ${trackHueYellow} 17%, ${trackHueGreen} 33%, ${trackHueCyan} 50%, ${trackHueBlue} 67%, ${trackHuePurple} 83%, ${trackHueRed} 100%)`,
+            backgroundImage: "var(--bg)",
           }}
         ></span>
       </div>
-      <div role="none" className="relative inline-grid">
+      <div
+        role="none"
+        className="relative inline-grid"
+        style={{
+          ["--bg" as string]: `linear-gradient(to right, ${trackWhitenessLeft}, ${trackWhitenessRight})`,
+        }}
+      >
         <input
           aria-label="whiteness"
           type="range"
@@ -96,11 +130,17 @@ export default function InputHwb({
           role="presentation"
           className="pointer-events-none absolute top-1 right-0 bottom-1 left-0 z-0 rounded-md"
           style={{
-            backgroundImage: `linear-gradient(to right, ${trackWhitenessLeft}, ${trackWhitenessRight})`,
+            backgroundImage: "var(--bg)",
           }}
         ></span>
       </div>
-      <div role="none" className="relative inline-grid">
+      <div
+        role="none"
+        className="relative inline-grid"
+        style={{
+          ["--bg" as string]: `linear-gradient(to right, ${trackBlacknessLeft}, ${trackBlacknessRight})`,
+        }}
+      >
         <input
           aria-label="blackness"
           type="range"
@@ -118,7 +158,7 @@ export default function InputHwb({
           role="presentation"
           className="pointer-events-none absolute top-1 right-0 bottom-1 left-0 z-0 rounded-md"
           style={{
-            backgroundImage: `linear-gradient(to right, ${trackBlacknessLeft}, ${trackBlacknessRight})`,
+            backgroundImage: "var(--bg)",
           }}
         ></span>
       </div>
