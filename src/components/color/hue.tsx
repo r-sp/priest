@@ -71,9 +71,7 @@ export default function ColorHue() {
   return (
     <ol className="grid w-full gap-3 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5">
       {hueShades.map((shade, index) => (
-        <li key={index} className="inline-grid">
-          <ColorCard color={shade} type={mode} />
-        </li>
+        <ColorCard key={index} color={shade} type={mode} />
       ))}
     </ol>
   );
@@ -84,15 +82,20 @@ function ColorCard({ type, color }: { type: ColorFormat; color: ColorSpace }) {
   const style = formatCssMode(type, color);
 
   return (
-    <Link
-      href={path}
-      className="rounded-lg"
-      aria-label={style}
-      prefetch={false}
-    >
-      <div role="presentation" className="frame rounded-lg">
-        <span style={{ backgroundColor: style }}></span>
-      </div>
-    </Link>
+    <li className="inline-gred" style={{ ["--bg" as string]: style }}>
+      <Link
+        href={path}
+        className="rounded-lg"
+        aria-label={style}
+        prefetch={false}
+      >
+        <div
+          role="presentation"
+          className="frame pointer-events-none rounded-lg"
+        >
+          <span style={{ backgroundColor: "var(--bg)" }}></span>
+        </div>
+      </Link>
+    </li>
   );
 }
