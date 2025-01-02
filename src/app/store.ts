@@ -6,8 +6,9 @@ import type {
   ColorFormat,
   HarmonyVariant,
 } from "~/lib/types";
-import { createStore, useStore } from "zustand";
 import { createContext, useContext } from "react";
+import { createStore, useStore } from "zustand";
+import { useShallow } from "zustand/shallow";
 
 export type GlobalStore = GlobalStates & GlobalActions;
 
@@ -40,36 +41,36 @@ export function useTheme(): [
   ThemeVariant | undefined,
   (variant: ThemeVariant) => void,
 ] {
-  const theme = useGlobalStore((state) => state.theme);
-  const setTheme = useGlobalStore((state) => state.setTheme);
-
+  const [theme, setTheme] = useGlobalStore(
+    useShallow((state) => [state.theme, state.setTheme]),
+  );
   return [theme, setTheme];
 }
 
 export function useColor(): [ColorState, (color: ColorState) => void] {
-  const color = useGlobalStore((state) => state.color);
-  const setColor = useGlobalStore((state) => state.setColor);
-
+  const [color, setColor] = useGlobalStore(
+    useShallow((state) => [state.color, state.setColor]),
+  );
   return [color, setColor];
 }
 
 export function useMode(): [ColorFormat, (format: ColorFormat) => void] {
-  const mode = useGlobalStore((state) => state.mode);
-  const setMode = useGlobalStore((state) => state.setMode);
-
+  const [mode, setMode] = useGlobalStore(
+    useShallow((state) => [state.mode, state.setMode]),
+  );
   return [mode, setMode];
 }
 
 export function useGamut(): [boolean, (p3: boolean) => void] {
-  const gamut = useGlobalStore((state) => state.gamut);
-  const setGamut = useGlobalStore((state) => state.setGamut);
-
+  const [gamut, setGamut] = useGlobalStore(
+    useShallow((state) => [state.gamut, state.setGamut]),
+  );
   return [gamut, setGamut];
 }
 
 export function useHarmony(): [HarmonyVariant, (type: HarmonyVariant) => void] {
-  const harmony = useGlobalStore((state) => state.harmony);
-  const setHarmony = useGlobalStore((state) => state.setHarmony);
-
+  const [harmony, setHarmony] = useGlobalStore(
+    useShallow((state) => [state.harmony, state.setHarmony]),
+  );
   return [harmony, setHarmony];
 }
