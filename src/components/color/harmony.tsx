@@ -151,10 +151,10 @@ function Button({ select, text }: { select: HarmonyVariant; text: string }) {
       role="menuitemradio"
       aria-checked={active}
       className={clsx(
-        "action inline-flex items-center justify-center rounded-sm border px-2 py-1 text-sm transition-colors select-none",
+        "inline-flex items-center justify-center rounded-sm border px-2 py-1 text-sm transition-colors select-none",
         active
-          ? "border-neutral-400 text-neutral-700 dark:border-neutral-700 dark:text-neutral-300"
-          : "border-transparent",
+          ? "border-transparent bg-neutral-200 text-neutral-700 dark:bg-neutral-800 dark:text-neutral-200"
+          : "action border-neutral-400 dark:border-neutral-700",
       )}
       tabIndex={active ? 0 : -1}
       onClick={() => setHarmony(select)}
