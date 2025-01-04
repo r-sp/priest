@@ -1,22 +1,21 @@
 "use client";
 
-import { useMemo } from "react";
 import { useColor, useMode } from "~/app/store";
 import { useColorQuery } from "~/app/query";
-import { createColor, measureColor, contrastColor } from "~/lib/color";
+import { createColor } from "~/lib/color";
 import ColorPicker from "./picker";
+import ColorAnalysis from "./analysis";
 import Wrapper from "../ui/wrapper";
 import Link from "next/link";
-import clsx from "clsx";
 
 export default function ColorDetail() {
   const colorQuery = useColorQuery();
   const [colorContext] = useColor();
   const [modeContext] = useMode();
 
-  const { hex, rgb, hsl, hwb, lab, lch, oklab, oklch } = colorQuery
-    ? createColor(colorQuery)
-    : colorContext;
+  const color = colorQuery ? createColor(colorQuery) : colorContext;
+
+  const { hex, rgb, hsl, hwb, lab, lch, oklab, oklch } = color;
 
   const mode = colorQuery ? colorQuery.mode : modeContext;
 
@@ -45,21 +44,6 @@ export default function ColorDetail() {
                 : hex;
 
   const colorPicker = colorQuery ? false : true;
-
-  const { brightness, luminance } = useMemo(
-    () => measureColor(rgb.color),
-    [rgb],
-  );
-
-  const white = useMemo(
-    () => contrastColor(rgb.color, { r: 1, g: 1, b: 1 }),
-    [rgb],
-  );
-
-  const black = useMemo(
-    () => contrastColor(rgb.color, { r: 0, g: 0, b: 0 }),
-    [rgb],
-  );
 
   return (
     <Wrapper
@@ -143,111 +127,7 @@ export default function ColorDetail() {
           <ColorPicker showTextbox={false} />
         </div>
       ) : null}
-      <section aria-label="analysis">
-        <h3 className="text-neutral-800 dark:text-neutral-200">
-          Color Analysis
-        </h3>
-        <p>{`Brightness: ${brightness}`}</p>
-        <p>{`Luminance: ${luminance}`}</p>
-        <section
-          className="mt-8"
-          aria-label="current color on white background"
-        >
-          <h2 className="mt-2 text-neutral-800 dark:text-neutral-200">
-            Color on White Background
-          </h2>
-          <p>{`Contrast: ${white.ratio}`}</p>
-          <Preview
-            background="bg-white"
-            textNormal="Where clarity meets comfort"
-            textLarge="Intuitive design for a stress-free experience"
-          >
-            <dl>
-              <dt className="text-neutral-700 dark:text-neutral-300">
-                WCAG Normal
-              </dt>
-              <dd>{`AA: ${white.normal.aa}`}</dd>
-              <dd>{`AAA: ${white.normal.aaa}`}</dd>
-              <dt className="mt-2 text-neutral-700 dark:text-neutral-300">
-                WCAG Large
-              </dt>
-              <dd>{`AA: ${white.large.aa}`}</dd>
-              <dd>{`AAA: ${white.large.aaa}`}</dd>
-            </dl>
-          </Preview>
-        </section>
-        <section
-          className="mt-8"
-          aria-label="current color on black background"
-        >
-          <h2 className="mt-2 text-neutral-800 dark:text-neutral-200">
-            Color on Black Background
-          </h2>
-          <p>{`Contrast: ${black.ratio}`}</p>
-          <Preview
-            background="bg-black"
-            textNormal="Where usability and comfort converge"
-            textLarge="Experience the difference of thoughtful design"
-          >
-            <dl>
-              <dt className="text-neutral-700 dark:text-neutral-300">
-                WCAG Normal
-              </dt>
-              <dd>{`AA: ${black.normal.aa}`}</dd>
-              <dd>{`AAA: ${black.normal.aaa}`}</dd>
-              <dt className="mt-2 text-neutral-700 dark:text-neutral-300">
-                WCAG Large
-              </dt>
-              <dd>{`AA: ${black.large.aa}`}</dd>
-              <dd>{`AAA: ${black.large.aaa}`}</dd>
-            </dl>
-          </Preview>
-        </section>
-      </section>
+      <ColorAnalysis color={color} mode={mode} />
     </Wrapper>
-  );
-}
-
-function Preview({
-  children,
-  background,
-  textNormal,
-  textLarge,
-}: {
-  children: React.ReactNode;
-  background: string;
-  textNormal: string;
-  textLarge: string;
-}) {
-  return (
-    <div role="presentation" className="mt-2 grid gap-y-4 sm:grid-flow-col">
-      {children}
-      <div role="none">
-        <figure
-          className={clsx(
-            background,
-            "flex flex-col justify-center rounded-lg border",
-            background === "bg-white" &&
-              "border-neutral-400 dark:border-transparent",
-            background === "bg-black" &&
-              "border-transparent dark:border-neutral-700",
-            "px-3 pt-3 pb-4",
-          )}
-        >
-          <figcaption
-            className="text-sm"
-            style={{ color: "var(--currentColor)" }}
-          >
-            {textNormal}
-          </figcaption>
-          <figcaption
-            className="text-2xl font-semibold"
-            style={{ color: "var(--currentColor)" }}
-          >
-            {textLarge}
-          </figcaption>
-        </figure>
-      </div>
-    </div>
   );
 }
