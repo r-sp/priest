@@ -1,19 +1,54 @@
 import type { ColorShadeVariant, ColorNameVariant } from "../types";
 
-// prettier-ignore
-function shader(type: ColorShadeVariant, color: { [T in ColorShadeVariant]: number; }): number {
+function shader(
+  type: ColorShadeVariant,
+  color: { [T in ColorShadeVariant]: number },
+): number {
   switch (type) {
-    case "50": return color[50]; break;
-    case "100": return color[100]; break;
-    case "200": return color[200]; break;
-    case "300": return color[300]; break;
-    case "400": return color[400]; break;
-    case "500": return color[500]; break;
-    case "600": return color[600]; break;
-    case "700": return color[700]; break;
-    case "800": return color[800]; break;
-    case "900": return color[900]; break;
-    case "950": return color[950]; break;
+    case "50": {
+      return color[50];
+      break;
+    }
+    case "100": {
+      return color[100];
+      break;
+    }
+    case "200": {
+      return color[200];
+      break;
+    }
+    case "300": {
+      return color[300];
+      break;
+    }
+    case "400": {
+      return color[400];
+      break;
+    }
+    case "500": {
+      return color[500];
+      break;
+    }
+    case "600": {
+      return color[600];
+      break;
+    }
+    case "700": {
+      return color[700];
+      break;
+    }
+    case "800": {
+      return color[800];
+      break;
+    }
+    case "900": {
+      return color[900];
+      break;
+    }
+    case "950": {
+      return color[950];
+      break;
+    }
   }
 }
 

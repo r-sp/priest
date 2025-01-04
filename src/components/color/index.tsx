@@ -13,3 +13,4 @@ export { default as ColorHue } from "./hue";
 export { default as ColorShade } from "./shade";
 export { default as ColorDetail } from "./detail";
 export { default as ColorHarmony } from "./harmony";
+export { default as ColorAnalysis } from "./analysis";

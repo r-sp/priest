@@ -49,30 +49,6 @@ function getMinimalContrast({
   return 4.5;
 }
 
-function brightness(newColor: RgbColor): string {
-  const color = round(getBrightness(newColor), 2);
-  const level = round(color * 100);
-
-  if (color >= 0.5) {
-    return `${level}% (Light)`;
-  } else {
-    return `${level}% (Dark)`;
-  }
-}
-
-function luminance(newColor: RgbColor): string {
-  const color = round(getLuminance(newColor), 2);
-  const level = round(color * 100);
-
-  return `${level}%`;
-}
-
-function contrast(foreground: RgbColor, background: RgbColor): string {
-  const color = floor(getContrast(foreground, background), 2);
-
-  return `${color}:1`;
-}
-
 function isReadable(
   foreground: RgbColor,
   background: RgbColor,
@@ -86,13 +62,13 @@ function isReadable(
 
 export function measureColor(newColor: RgbColor) {
   return {
-    brightness: brightness(newColor),
-    luminance: luminance(newColor),
+    brightness: round(getBrightness(newColor) * 100, 2),
+    luminance: round(getLuminance(newColor) * 100, 2),
   };
 }
 
 export function contrastColor(foreground: RgbColor, background: RgbColor) {
-  const average = contrast(foreground, background);
+  const average = floor(getContrast(foreground, background), 2);
   const check = (readable: boolean) => (readable ? "Pass" : "Fail");
 
   const normalAA = check(

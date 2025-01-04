@@ -33,7 +33,7 @@ export {
   parseOklch,
 } from "./parse";
 
-export { createColor, initColor } from "./create";
+export { createColor, initColor, switchColor, switchColorCss } from "./create";
 
 export { gamutLightness, gamutChroma } from "./gamut";
 
