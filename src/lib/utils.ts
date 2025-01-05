@@ -41,3 +41,9 @@ export function slugify(text: string): string {
     .replace(/[\s_-]+/g, "-")
     .replace(/^-+|-+$/g, "");
 }
+
+export function percentage(value: number, min: number, max: number) {
+  let percent = (value / max) * 100;
+  percent = Math.max(0, Math.min(100, percent));
+  return round(percent, 2);
+}
