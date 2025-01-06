@@ -5,11 +5,13 @@ export function sharedMetadata(options: {
   path: string;
   color?: string;
 }): Metadata {
-  const { hex, oklch } = createColor(initColor());
+  const { rgb, oklch } = createColor(initColor());
   const link = options.path ? `/${options.path}` : "/";
   const color = options.color ? options.color : oklch.css;
   const title = options.color ? { title: `Color: ${color}` } : {};
-  const img = options.color ? formatHex(convertRgb(options.color)) : hex;
+  const img = options.color
+    ? formatHex(convertRgb(options.color))
+    : formatHex(rgb.color);
   const imgPath = img.replace("#", "");
   const pageType = options.path === "/" ? "website" : "article";
 

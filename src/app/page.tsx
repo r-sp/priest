@@ -1,6 +1,6 @@
 import { type Metadata } from "next";
 import { sharedMetadata } from "./metadata";
-import { Wrapper, Separator } from "~/components/ui";
+import { Wrapper, Separator } from "~/components";
 import Link from "next/link";
 
 export function generateMetadata(): Metadata {
@@ -32,7 +32,7 @@ export default function HomePage() {
       <section aria-label="color tools" className="grid gap-y-4">
         <Link
           aria-label="Try Color Playground"
-          href="/color"
+          href="/playground"
           className="grid w-full overflow-hidden rounded-lg"
         >
           <span className="h-6 bg-red-400"></span>
@@ -56,7 +56,7 @@ export default function HomePage() {
         <ul className="grid gap-4 sm:grid-cols-2 md:grid-cols-3">
           <li className="inline-grid">
             <Link
-              href="/color-harmony"
+              href="/color"
               className="action grid content-baseline gap-y-1 rounded-lg border border-neutral-400 px-3 py-4 dark:border-neutral-700"
             >
               <h2 className="text-xl font-semibold text-neutral-700 dark:text-neutral-300">
@@ -71,7 +71,7 @@ export default function HomePage() {
           </li>
           <li className="inline-grid">
             <Link
-              href="/color-palettes"
+              href="/playground"
               className="action grid content-baseline gap-y-1 rounded-lg border border-neutral-400 px-3 py-4 dark:border-neutral-700"
             >
               <h2 className="text-xl font-semibold text-neutral-700 dark:text-neutral-300">
@@ -86,7 +86,7 @@ export default function HomePage() {
           </li>
           <li className="inline-grid">
             <Link
-              href="/color-shades"
+              href="/color"
               className="action grid content-baseline gap-y-1 rounded-lg border border-neutral-400 px-3 py-4 dark:border-neutral-700"
             >
               <h2 className="text-xl font-semibold text-neutral-700 dark:text-neutral-300">

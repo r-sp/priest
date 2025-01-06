@@ -1,3 +1,5 @@
+export type ThemeVariant = "auto" | "light" | "dark";
+
 export type ColorSpace = {
   rgb: { r: number; g: number; b: number };
   hsl: { h?: number; s: number; l: number };
@@ -53,72 +55,20 @@ export type AnyColorMode =
   | OklabColorMode
   | OklchColorMode;
 
-export type ColorShadeVariant =
-  | "50"
-  | "100"
-  | "200"
-  | "300"
-  | "400"
-  | "500"
-  | "600"
-  | "700"
-  | "800"
-  | "900"
-  | "950";
-
-export type ColorNameVariant =
-  | "red"
-  | "orange"
-  | "amber"
-  | "yellow"
-  | "lime"
-  | "green"
-  | "emerald"
-  | "teal"
-  | "cyan"
-  | "sky"
-  | "blue"
-  | "indigo"
-  | "violet"
-  | "purple"
-  | "fuchsia"
-  | "pink"
-  | "rose";
-
-export type HarmonyVariant =
-  | "complementary"
-  | "analogous"
-  | "triadic"
-  | "split"
-  | "tetradic"
-  | "rectangle"
-  | "double";
-
-export type ThemeVariant = "auto" | "light" | "dark";
-
-export type ColorState = {
-  hex: string;
-  rgb: { color: RgbColor; css: string };
-  hsl: { color: HslColor; css: string };
-  hwb: { color: HwbColor; css: string };
-  lab: { color: LabColor; css: string };
-  lch: { color: LchColor; css: string };
-  oklab: { color: OklabColor; css: string };
-  oklch: { color: OklchColor; css: string };
+export type ComposeColor<T extends ColorFormat> = {
+  color: ColorSpace[T];
+  css: string;
 };
 
-export type GlobalStates = {
-  theme: ThemeVariant | undefined;
-  color: ColorState;
+export type ColorQuery = {
   mode: ColorFormat;
-  gamut: boolean;
-  harmony: HarmonyVariant;
-};
-
-export type GlobalActions = {
-  setTheme: (variant: ThemeVariant) => void;
-  setColor: (color: ColorState) => void;
-  setMode: (format: ColorFormat) => void;
-  setGamut: (p3: boolean) => void;
-  setHarmony: (type: HarmonyVariant) => void;
+  r?: number;
+  g?: number;
+  b?: number;
+  h?: number;
+  s?: number;
+  l?: number;
+  w?: number;
+  a?: number;
+  c?: number;
 };
