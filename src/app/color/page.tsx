@@ -1,10 +1,14 @@
 import { type Metadata } from "next";
 import { sharedMetadata } from "../metadata";
-import { type ColorQuery, parseColorQuery, parseColorPath } from "../query";
-import { formatCssMode } from "~/lib/color";
+import { type ColorQuery } from "~/lib/types";
+import {
+  extractColorQuery,
+  extractColorPath,
+  switchCssMode,
+} from "~/lib/color";
 import { Suspense } from "react";
-import { Wrapper } from "~/components/ui";
-import { ColorDetail } from "~/components/color";
+import { Wrapper } from "~/components";
+import ColorDetail from "./detail";
 
 type Props = {
   searchParams: Promise<ColorQuery>;
@@ -16,9 +20,9 @@ export async function generateMetadata({
   const query = await searchParams;
 
   const meta = sharedMetadata({
-    path: query.mode ? parseColorPath(query) : "color",
+    path: query.mode ? extractColorPath(query) : "color",
     color: query.mode
-      ? formatCssMode(query.mode, parseColorQuery(query))
+      ? switchCssMode(query.mode, extractColorQuery(query))
       : undefined,
   });
 

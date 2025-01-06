@@ -1,12 +1,12 @@
-import "./style.css";
+import type { ReactNode } from "react";
 import { Geist, Geist_Mono } from "next/font/google";
-import { createColor, initColor } from "~/lib/color";
-import { ThemeScript, ThemeSwitcher } from "~/components/theme";
-import { Wrapper, Sticky } from "~/components/ui";
-import { ColorMode } from "~/components/color";
-import AppProvider from "./provider";
+import { ThemeScript, ThemeSwitcher } from "~/features/theme";
+import { Wrapper, Sticky } from "~/components";
+import ColorMode from "~/features/mode";
+import Provider from "~/context/provider";
 import Link from "next/link";
 import clsx from "clsx";
+import "./style.css";
 
 const fontSans = Geist({
   weight: "variable",
@@ -28,9 +28,7 @@ export const revalidate = 86400;
 
 export default function RootLayout({
   children,
-}: Readonly<{ children: React.ReactNode }>) {
-  const color = createColor(initColor());
-
+}: Readonly<{ children: ReactNode }>) {
   return (
     <html
       lang="en"
@@ -39,11 +37,11 @@ export default function RootLayout({
     >
       <body className="bg-neutral-50 text-neutral-500 antialiased dark:bg-neutral-950 dark:text-neutral-400">
         <ThemeScript />
-        <AppProvider initValue={color}>
+        <Provider>
           <Sticky
             offset={32}
             as="header"
-            className="sticky top-0 right-0 left-0 z-8 bg-neutral-50/80 backdrop-blur-xl dark:bg-neutral-950/80"
+            className="sticky top-0 right-0 left-0 z-8 bg-neutral-50/80 backdrop-blur-sm dark:bg-neutral-950/80"
             onHidden="-translate-y-16 transition-transform ease-in"
             onVisible="translate-y-0 transition-transform ease-out"
           >
@@ -97,7 +95,7 @@ export default function RootLayout({
               <ThemeSwitcher />
             </Wrapper>
           </footer>
-        </AppProvider>
+        </Provider>
       </body>
     </html>
   );

@@ -1,7 +1,8 @@
 import { type NextRequest } from "next/server";
 import { ImageResponse } from "next/og";
-import { createColor, convertRgb, isValidHex, parseHex } from "~/lib/color";
-import { limiter, multiplier } from "~/lib/utils";
+import { isValidHex } from "~/utils/prefix";
+import { createColor, convertRgb, parseHex, formatHex } from "~/lib/color";
+import { limiter, multiply } from "~/utils/number";
 
 export const runtime = "edge";
 
@@ -14,7 +15,7 @@ export async function GET(
   },
 ) {
   const color = (await params).hex;
-  const { hex, oklch } = createColor(convertRgb(isValidHex(color)));
+  const { rgb, oklch } = createColor(convertRgb(isValidHex(color)));
 
   const base = oklch.color.h || 0;
 
@@ -27,8 +28,10 @@ export async function GET(
     });
 
   const harmony = hueShift(
-    multiplier(15, 0, 360).map((deg) => limiter(base + deg, 0, 360)),
+    multiply(15, 0, 360).map((deg) => limiter(base + deg, 0, 360)),
   );
+
+  const hex = formatHex(rgb.color);
 
   return new ImageResponse(
     (
