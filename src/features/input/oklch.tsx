@@ -1,9 +1,9 @@
 "use client";
 
 import type { OklchColor, OklchColorMode } from "~/lib/types";
-import { useState, useEffect, useCallback } from "react";
-import { formatOklch } from "~/lib/color";
+import { useState, useCallback } from "react";
 import { useColor } from "~/hooks";
+import { formatOklch } from "~/lib/color";
 
 export default function InputOklch({
   onChange,
@@ -69,15 +69,6 @@ export default function InputOklch({
   const trackHueRight = previewColor(
     dynamicPreview ? { h: 360 } : { l: 0.75, c: 0.333, h: 360 },
   );
-
-  useEffect(() => {
-    const currentColor = formatOklch(color);
-    return () => {
-      if (currentColor !== oklch.css) {
-        setOklch(oklch.color);
-      }
-    };
-  }, [color, oklch]);
 
   return (
     <>

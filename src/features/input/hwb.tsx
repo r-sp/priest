@@ -1,9 +1,9 @@
 "use client";
 
 import type { HwbColor, HwbColorMode } from "~/lib/types";
-import { useState, useEffect, useCallback } from "react";
-import { formatHwb } from "~/lib/color";
+import { useState, useCallback } from "react";
 import { useColor } from "~/hooks";
+import { formatHwb } from "~/lib/color";
 
 export default function InputHwb({
   onChange,
@@ -66,15 +66,6 @@ export default function InputHwb({
   const trackBlacknessRight = previewColor(
     dynamicPreview ? { b: 1 } : { w: 0, b: 1 },
   );
-
-  useEffect(() => {
-    const currentColor = formatHwb(color);
-    return () => {
-      if (currentColor !== hwb.css) {
-        setHwb(hwb.color);
-      }
-    };
-  }, [color, hwb]);
 
   return (
     <>

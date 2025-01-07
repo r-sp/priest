@@ -1,9 +1,9 @@
 "use client";
 
 import type { LabColor, LabColorMode } from "~/lib/types";
-import { useState, useEffect, useCallback } from "react";
-import { formatLab } from "~/lib/color";
+import { useState, useCallback } from "react";
 import { useColor } from "~/hooks";
+import { formatLab } from "~/lib/color";
 
 export default function InputLab({
   onChange,
@@ -50,15 +50,6 @@ export default function InputLab({
   const trackBlueYellowRight = previewColor(
     dynamicPreview ? { b: 100 } : { a: 0, b: 100 },
   );
-
-  useEffect(() => {
-    const currentColor = formatLab(color);
-    return () => {
-      if (currentColor !== lab.css) {
-        setLab(lab.color);
-      }
-    };
-  }, [color, lab]);
 
   return (
     <>

@@ -1,9 +1,9 @@
 "use client";
 
 import type { OklabColor, OklabColorMode } from "~/lib/types";
-import { useState, useEffect, useCallback } from "react";
-import { formatOklab } from "~/lib/color";
+import { useState, useCallback } from "react";
 import { useColor } from "~/hooks";
+import { formatOklab } from "~/lib/color";
 
 export default function InputOklab({
   onChange,
@@ -50,15 +50,6 @@ export default function InputOklab({
   const trackBlueYellowRight = previewColor(
     dynamicPreview ? { b: 0.4 } : { a: 0, b: 0.4 },
   );
-
-  useEffect(() => {
-    const currentColor = formatOklab(color);
-    return () => {
-      if (currentColor !== oklab.css) {
-        setOklab(oklab.color);
-      }
-    };
-  }, [color, oklab]);
 
   return (
     <>
