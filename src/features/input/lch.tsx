@@ -1,9 +1,9 @@
 "use client";
 
 import type { LchColor, LchColorMode } from "~/lib/types";
-import { useState, useEffect, useCallback } from "react";
-import { formatLch } from "~/lib/color";
+import { useState, useCallback } from "react";
 import { useColor } from "~/hooks";
+import { formatLch } from "~/lib/color";
 
 export default function InputLch({
   onChange,
@@ -69,15 +69,6 @@ export default function InputLch({
   const trackHueRight = previewColor(
     dynamicPreview ? { h: 360 } : { l: 67, c: 106.45, h: 360 },
   );
-
-  useEffect(() => {
-    const currentColor = formatLch(color);
-    return () => {
-      if (currentColor !== lch.css) {
-        setLch(lch.color);
-      }
-    };
-  }, [color, lch]);
 
   return (
     <>

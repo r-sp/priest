@@ -1,9 +1,9 @@
 "use client";
 
 import type { RgbColor, RgbColorMode } from "~/lib/types";
-import { useState, useEffect, useCallback } from "react";
-import { formatRgb } from "~/lib/color";
+import { useState, useCallback } from "react";
 import { useColor } from "~/hooks";
+import { formatRgb } from "~/lib/color";
 
 export default function InputRgb({
   onChange,
@@ -45,15 +45,6 @@ export default function InputRgb({
   const trackBlueRight = previewColor(
     dynamicPreview ? { b: 1 } : { r: 0, g: 0, b: 1 },
   );
-
-  useEffect(() => {
-    const currentColor = formatRgb(color);
-    return () => {
-      if (currentColor !== rgb.css) {
-        setRgb(rgb.color);
-      }
-    };
-  }, [color, rgb]);
 
   return (
     <>

@@ -1,9 +1,9 @@
 "use client";
 
 import type { HslColor, HslColorMode } from "~/lib/types";
-import { useState, useEffect, useCallback } from "react";
-import { formatHsl } from "~/lib/color";
+import { useState, useCallback } from "react";
 import { useColor } from "~/hooks";
+import { formatHsl } from "~/lib/color";
 
 export default function InputHsl({
   onChange,
@@ -61,15 +61,6 @@ export default function InputHsl({
     dynamicPreview ? { s: 1 } : { s: 1, l: 0.5 },
   );
   const trackLightnessCenter = previewColor({ s: 1, l: 0.5 });
-
-  useEffect(() => {
-    const currentColor = formatHsl(color);
-    return () => {
-      if (currentColor !== hsl.css) {
-        setHsl(hsl.color);
-      }
-    };
-  }, [color, hsl]);
 
   return (
     <>
