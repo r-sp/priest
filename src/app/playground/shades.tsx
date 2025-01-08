@@ -5,6 +5,8 @@ import { useMemo, useCallback } from "react";
 import { useColor, useMode } from "~/hooks";
 import { createColor, switchCss } from "~/lib/color";
 import { round, limiter } from "~/utils/number";
+import { Inline } from "~/components";
+import Navigation from "./navigation";
 
 export default function Shades() {
   const [{ oklch }] = useColor();
@@ -25,11 +27,11 @@ export default function Shades() {
   );
 
   return (
-    <div className="mx-auto grid w-full max-w-5xl gap-2">
+    <Navigation>
       {colors.map((color, index) => (
         <Palettes key={index} mode={mode} color={color} id={index} />
       ))}
-    </div>
+    </Navigation>
   );
 }
 
@@ -119,22 +121,18 @@ function Palettes({
       data-color={JSON.stringify(color)}
     >
       {shades.map((shade, index) => (
-        <li
+        <Inline
           key={index}
-          className="grow-1 basis-4 md:basis-8"
-          data-color={JSON.stringify(shade)}
+          className="relative aspect-square grow-1 basis-4 md:basis-8"
+          as="li"
+          bg={shader(shade.color)}
         >
-          <div
-            className="relative aspect-square"
-            style={{ ["--bg" as string]: shader(shade.color) }}
-          >
-            <button
-              className="absolute inset-0 rounded-md"
-              style={{ backgroundColor: "var(--bg)" }}
-              tabIndex={index === 5 ? 0 : -1}
-            ></button>
-          </div>
-        </li>
+          <button
+            id={`color-${id + 1}-variant-${shade.key}`}
+            className="bg-ref absolute inset-0 rounded-md"
+            data-color={JSON.stringify(shade.color)}
+          ></button>
+        </Inline>
       ))}
     </ol>
   );
