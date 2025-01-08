@@ -26,21 +26,15 @@ export default function Wrapper<T extends ElementType = "div">({
           ? "max-w-7xl"
           : "";
 
-  if (clearPadding) {
-    return (
+  return (
+    <div
+      role="none"
+      className={clearPadding ? outerStyle : clsx("px-3", outerStyle)}
+    >
       <Component
         className={clsx(className, contentWidth, "mx-auto w-full")}
         {...props}
       />
-    );
-  } else {
-    return (
-      <div className={clsx("px-3", outerStyle)}>
-        <Component
-          className={clsx(className, contentWidth, "mx-auto w-full")}
-          {...props}
-        />
-      </div>
-    );
-  }
+    </div>
+  );
 }
