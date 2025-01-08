@@ -4,6 +4,7 @@ import type { OklchColor, OklchColorMode } from "~/lib/types";
 import { useState, useCallback } from "react";
 import { useColor } from "~/hooks";
 import { formatOklch } from "~/lib/color";
+import { Inline } from "~/components";
 
 export default function InputOklch({
   onChange,
@@ -72,12 +73,10 @@ export default function InputOklch({
 
   return (
     <>
-      <div
+      <Inline
         role="none"
         className="relative inline-grid"
-        style={{
-          ["--bg" as string]: `linear-gradient(to right, ${trackLightnessLeft}, ${trackLightnessRight})`,
-        }}
+        bg={`linear-gradient(to right, ${trackLightnessLeft}, ${trackLightnessRight})`}
       >
         <input
           aria-label="lightness"
@@ -94,18 +93,13 @@ export default function InputOklch({
         />
         <span
           role="presentation"
-          className="pointer-events-none absolute top-1 right-0 bottom-1 left-0 z-0 rounded-md"
-          style={{
-            backgroundImage: "var(--bg)",
-          }}
+          className="bg-gradient-ref pointer-events-none absolute top-1 right-0 bottom-1 left-0 z-0 rounded-md"
         ></span>
-      </div>
-      <div
+      </Inline>
+      <Inline
         role="none"
         className="relative inline-grid"
-        style={{
-          ["--bg" as string]: `linear-gradient(to right, ${trackChromaLeft}, ${trackChromaRight})`,
-        }}
+        bg={`linear-gradient(to right, ${trackChromaLeft}, ${trackChromaRight})`}
       >
         <input
           aria-label="chroma"
@@ -122,18 +116,13 @@ export default function InputOklch({
         />
         <span
           role="presentation"
-          className="pointer-events-none absolute top-1 right-0 bottom-1 left-0 z-0 rounded-md"
-          style={{
-            backgroundImage: "var(--bg)",
-          }}
+          className="bg-gradient-ref pointer-events-none absolute top-1 right-0 bottom-1 left-0 z-0 rounded-md"
         ></span>
-      </div>
-      <div
+      </Inline>
+      <Inline
         role="none"
         className="relative inline-grid"
-        style={{
-          ["--bg" as string]: `linear-gradient(to right, ${trackHueLeft}, ${trackHueRed}, ${trackHueGreen}, ${trackHueCenter}, ${trackHueBlue}, ${trackHuePurple}, ${trackHueRight})`,
-        }}
+        bg={`linear-gradient(to right, ${trackHueLeft}, ${trackHueRed}, ${trackHueGreen}, ${trackHueCenter}, ${trackHueBlue}, ${trackHuePurple}, ${trackHueRight})`}
       >
         <input
           aria-label="hue"
@@ -150,12 +139,9 @@ export default function InputOklch({
         />
         <span
           role="presentation"
-          className="pointer-events-none absolute top-1 right-0 bottom-1 left-0 z-0 rounded-md"
-          style={{
-            backgroundImage: "var(--bg)",
-          }}
+          className="bg-gradient-ref pointer-events-none absolute top-1 right-0 bottom-1 left-0 z-0 rounded-md"
         ></span>
-      </div>
+      </Inline>
     </>
   );
 }

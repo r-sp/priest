@@ -4,6 +4,7 @@ import type { LabColor, LabColorMode } from "~/lib/types";
 import { useState, useCallback } from "react";
 import { useColor } from "~/hooks";
 import { formatLab } from "~/lib/color";
+import { Inline } from "~/components";
 
 export default function InputLab({
   onChange,
@@ -53,12 +54,10 @@ export default function InputLab({
 
   return (
     <>
-      <div
+      <Inline
         role="none"
         className="relative inline-grid"
-        style={{
-          ["--bg" as string]: `linear-gradient(to right, ${trackLightnessLeft}, ${trackLightnessRight})`,
-        }}
+        bg={`linear-gradient(to right, ${trackLightnessLeft}, ${trackLightnessRight})`}
       >
         <input
           aria-label="lightness"
@@ -75,18 +74,13 @@ export default function InputLab({
         />
         <span
           role="presentation"
-          className="pointer-events-none absolute top-1 right-0 bottom-1 left-0 z-0 rounded-md"
-          style={{
-            backgroundImage: "var(--bg)",
-          }}
+          className="bg-gradient-ref pointer-events-none absolute top-1 right-0 bottom-1 left-0 z-0 rounded-md"
         ></span>
-      </div>
-      <div
+      </Inline>
+      <Inline
         role="none"
         className="relative inline-grid"
-        style={{
-          ["--bg" as string]: `linear-gradient(to right, ${trackGreenRedLeft}, ${trackGreenRedRight})`,
-        }}
+        bg={`linear-gradient(to right, ${trackGreenRedLeft}, ${trackGreenRedRight})`}
       >
         <input
           aria-label="green red"
@@ -103,18 +97,13 @@ export default function InputLab({
         />
         <span
           role="presentation"
-          className="pointer-events-none absolute top-1 right-0 bottom-1 left-0 z-0 rounded-md"
-          style={{
-            backgroundImage: "var(--bg)",
-          }}
+          className="bg-gradient-ref pointer-events-none absolute top-1 right-0 bottom-1 left-0 z-0 rounded-md"
         ></span>
-      </div>
-      <div
+      </Inline>
+      <Inline
         role="none"
         className="relative inline-grid"
-        style={{
-          ["--bg" as string]: `linear-gradient(to right, ${trackBlueYellowLeft}, ${trackBlueYellowRight})`,
-        }}
+        bg={`linear-gradient(to right, ${trackBlueYellowLeft}, ${trackBlueYellowRight})`}
       >
         <input
           aria-label="blue yellow"
@@ -131,12 +120,9 @@ export default function InputLab({
         />
         <span
           role="presentation"
-          className="pointer-events-none absolute top-1 right-0 bottom-1 left-0 z-0 rounded-md"
-          style={{
-            backgroundImage: "var(--bg)",
-          }}
+          className="bg-gradient-ref pointer-events-none absolute top-1 right-0 bottom-1 left-0 z-0 rounded-md"
         ></span>
-      </div>
+      </Inline>
     </>
   );
 }
