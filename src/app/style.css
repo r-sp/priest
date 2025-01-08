@@ -18,6 +18,12 @@
   .h-svh-1\/2 {
     height: 50svh;
   }
+  .bg-ref {
+    background-color: var(--bg);
+  }
+  .bg-gradient-ref {
+    background-image: var(--bg);
+  }
   .frame {
     overflow: hidden;
     padding-top: 42.85%;

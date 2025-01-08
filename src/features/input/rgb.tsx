@@ -4,6 +4,7 @@ import type { RgbColor, RgbColorMode } from "~/lib/types";
 import { useState, useCallback } from "react";
 import { useColor } from "~/hooks";
 import { formatRgb } from "~/lib/color";
+import { Inline } from "~/components";
 
 export default function InputRgb({
   onChange,
@@ -48,12 +49,10 @@ export default function InputRgb({
 
   return (
     <>
-      <div
+      <Inline
         role="none"
         className="relative inline-grid"
-        style={{
-          ["--bg" as string]: `linear-gradient(to right, ${trackRedLeft}, ${trackRedRight})`,
-        }}
+        bg={`linear-gradient(to right, ${trackRedLeft}, ${trackRedRight})`}
       >
         <input
           aria-label="red"
@@ -68,18 +67,13 @@ export default function InputRgb({
         />
         <span
           role="presentation"
-          className="pointer-events-none absolute top-1 right-0 bottom-1 left-0 z-0 rounded-md"
-          style={{
-            backgroundImage: "var(--bg)",
-          }}
+          className="bg-gradient-ref pointer-events-none absolute top-1 right-0 bottom-1 left-0 z-0 rounded-md"
         ></span>
-      </div>
-      <div
+      </Inline>
+      <Inline
         role="none"
         className="relative inline-grid"
-        style={{
-          ["--bg" as string]: `linear-gradient(to right, ${trackGreenLeft}, ${trackGreenRight})`,
-        }}
+        bg={`linear-gradient(to right, ${trackGreenLeft}, ${trackGreenRight})`}
       >
         <input
           aria-label="green"
@@ -94,18 +88,13 @@ export default function InputRgb({
         />
         <span
           role="presentation"
-          className="pointer-events-none absolute top-1 right-0 bottom-1 left-0 z-0 rounded-md"
-          style={{
-            backgroundImage: "var(--bg)",
-          }}
+          className="bg-gradient-ref pointer-events-none absolute top-1 right-0 bottom-1 left-0 z-0 rounded-md"
         ></span>
-      </div>
-      <div
+      </Inline>
+      <Inline
         role="none"
         className="relative inline-grid"
-        style={{
-          ["--bg" as string]: `linear-gradient(to right, ${trackBlueLeft}, ${trackBlueRight})`,
-        }}
+        bg={`linear-gradient(to right, ${trackBlueLeft}, ${trackBlueRight})`}
       >
         <input
           aria-label="blue"
@@ -120,12 +109,9 @@ export default function InputRgb({
         />
         <span
           role="presentation"
-          className="pointer-events-none absolute top-1 right-0 bottom-1 left-0 z-0 rounded-md"
-          style={{
-            backgroundImage: "var(--bg)",
-          }}
+          className="bg-gradient-ref pointer-events-none absolute top-1 right-0 bottom-1 left-0 z-0 rounded-md"
         ></span>
-      </div>
+      </Inline>
     </>
   );
 }

@@ -4,6 +4,7 @@ import type { HslColor, HslColorMode } from "~/lib/types";
 import { useState, useCallback } from "react";
 import { useColor } from "~/hooks";
 import { formatHsl } from "~/lib/color";
+import { Inline } from "~/components";
 
 export default function InputHsl({
   onChange,
@@ -64,12 +65,10 @@ export default function InputHsl({
 
   return (
     <>
-      <div
+      <Inline
         role="none"
         className="relative inline-grid"
-        style={{
-          ["--bg" as string]: `linear-gradient(to right, ${trackHueRed} 0%, ${trackHueYellow} 17%, ${trackHueGreen} 33%, ${trackHueCyan} 50%, ${trackHueBlue} 67%, ${trackHuePurple} 83%, ${trackHueRed} 100%)`,
-        }}
+        bg={`linear-gradient(to right, ${trackHueRed} 0%, ${trackHueYellow} 17%, ${trackHueGreen} 33%, ${trackHueCyan} 50%, ${trackHueBlue} 67%, ${trackHuePurple} 83%, ${trackHueRed} 100%)`}
       >
         <input
           aria-label="hue"
@@ -86,18 +85,13 @@ export default function InputHsl({
         />
         <span
           role="presentation"
-          className="pointer-events-none absolute top-1 right-0 bottom-1 left-0 z-0 rounded-md"
-          style={{
-            backgroundImage: "var(--bg)",
-          }}
+          className="bg-gradient-ref pointer-events-none absolute top-1 right-0 bottom-1 left-0 z-0 rounded-md"
         ></span>
-      </div>
-      <div
+      </Inline>
+      <Inline
         role="none"
         className="relative inline-grid"
-        style={{
-          ["--bg" as string]: `linear-gradient(to right, ${trackSaturationLeft}, ${trackSaturationRight})`,
-        }}
+        bg={`linear-gradient(to right, ${trackSaturationLeft}, ${trackSaturationRight})`}
       >
         <input
           aria-label="saturation"
@@ -114,18 +108,13 @@ export default function InputHsl({
         />
         <span
           role="presentation"
-          className="pointer-events-none absolute top-1 right-0 bottom-1 left-0 z-0 rounded-md"
-          style={{
-            backgroundImage: "var(--bg)",
-          }}
+          className="bg-gradient-ref pointer-events-none absolute top-1 right-0 bottom-1 left-0 z-0 rounded-md"
         ></span>
-      </div>
-      <div
+      </Inline>
+      <Inline
         role="none"
         className="relative inline-grid"
-        style={{
-          ["--bg" as string]: `linear-gradient(to right, hsl(0 0% 0%), ${trackLightnessCenter}, hsl(0 0% 100%))`,
-        }}
+        bg={`linear-gradient(to right, hsl(0 0% 0%), ${trackLightnessCenter}, hsl(0 0% 100%))`}
       >
         <input
           aria-label="lightness"
@@ -142,12 +131,9 @@ export default function InputHsl({
         />
         <span
           role="presentation"
-          className="pointer-events-none absolute top-1 right-0 bottom-1 left-0 z-0 rounded-md"
-          style={{
-            backgroundImage: "var(--bg)",
-          }}
+          className="bg-gradient-ref pointer-events-none absolute top-1 right-0 bottom-1 left-0 z-0 rounded-md"
         ></span>
-      </div>
+      </Inline>
     </>
   );
 }

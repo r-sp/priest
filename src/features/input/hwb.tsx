@@ -4,6 +4,7 @@ import type { HwbColor, HwbColorMode } from "~/lib/types";
 import { useState, useCallback } from "react";
 import { useColor } from "~/hooks";
 import { formatHwb } from "~/lib/color";
+import { Inline } from "~/components";
 
 export default function InputHwb({
   onChange,
@@ -69,12 +70,10 @@ export default function InputHwb({
 
   return (
     <>
-      <div
+      <Inline
         role="none"
         className="relative inline-grid"
-        style={{
-          ["--bg" as string]: `linear-gradient(to right, ${trackHueRed} 0%, ${trackHueYellow} 17%, ${trackHueGreen} 33%, ${trackHueCyan} 50%, ${trackHueBlue} 67%, ${trackHuePurple} 83%, ${trackHueRed} 100%)`,
-        }}
+        bg={`linear-gradient(to right, ${trackHueRed} 0%, ${trackHueYellow} 17%, ${trackHueGreen} 33%, ${trackHueCyan} 50%, ${trackHueBlue} 67%, ${trackHuePurple} 83%, ${trackHueRed} 100%)`}
       >
         <input
           aria-label="hue"
@@ -91,18 +90,13 @@ export default function InputHwb({
         />
         <span
           role="presentation"
-          className="pointer-events-none absolute top-1 right-0 bottom-1 left-0 z-0 rounded-md"
-          style={{
-            backgroundImage: "var(--bg)",
-          }}
+          className="bg-gradient-ref pointer-events-none absolute top-1 right-0 bottom-1 left-0 z-0 rounded-md"
         ></span>
-      </div>
-      <div
+      </Inline>
+      <Inline
         role="none"
         className="relative inline-grid"
-        style={{
-          ["--bg" as string]: `linear-gradient(to right, ${trackWhitenessLeft}, ${trackWhitenessRight})`,
-        }}
+        bg={`linear-gradient(to right, ${trackWhitenessLeft}, ${trackWhitenessRight})`}
       >
         <input
           aria-label="whiteness"
@@ -119,18 +113,13 @@ export default function InputHwb({
         />
         <span
           role="presentation"
-          className="pointer-events-none absolute top-1 right-0 bottom-1 left-0 z-0 rounded-md"
-          style={{
-            backgroundImage: "var(--bg)",
-          }}
+          className="bg-gradient-ref pointer-events-none absolute top-1 right-0 bottom-1 left-0 z-0 rounded-md"
         ></span>
-      </div>
-      <div
+      </Inline>
+      <Inline
         role="none"
         className="relative inline-grid"
-        style={{
-          ["--bg" as string]: `linear-gradient(to right, ${trackBlacknessLeft}, ${trackBlacknessRight})`,
-        }}
+        bg={`linear-gradient(to right, ${trackBlacknessLeft}, ${trackBlacknessRight})`}
       >
         <input
           aria-label="blackness"
@@ -147,12 +136,9 @@ export default function InputHwb({
         />
         <span
           role="presentation"
-          className="pointer-events-none absolute top-1 right-0 bottom-1 left-0 z-0 rounded-md"
-          style={{
-            backgroundImage: "var(--bg)",
-          }}
+          className="bg-gradient-ref pointer-events-none absolute top-1 right-0 bottom-1 left-0 z-0 rounded-md"
         ></span>
-      </div>
+      </Inline>
     </>
   );
 }
