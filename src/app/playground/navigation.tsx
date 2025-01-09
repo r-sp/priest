@@ -48,7 +48,10 @@ export default function Navigation({ children }: { children: ReactNode }) {
   }, []);
 
   return (
-    <div className="mx-auto grid w-full max-w-5xl gap-2" onFocus={handleFocus}>
+    <div
+      className="mx-auto flex w-full flex-col gap-2 sm:flex-row sm:flex-wrap"
+      onFocus={handleFocus}
+    >
       {children}
       {color && modal
         ? createPortal(
