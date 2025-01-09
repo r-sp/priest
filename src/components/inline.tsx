@@ -13,7 +13,7 @@ export default function Inline<T extends ElementType = "div">({
   const Component = as ?? "div";
 
   return (
-    <Component style={{ ["--bg" as string]: bg }} {...props}>
+    <Component {...props} style={{ ["--bg" as string]: bg }}>
       {children}
     </Component>
   );
