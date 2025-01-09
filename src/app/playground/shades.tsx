@@ -117,19 +117,19 @@ function Palettes({
   return (
     <ol
       id={`color-${id + 1}`}
-      className="flex flex-wrap gap-2"
+      className="flex grow-1 basis-auto flex-col gap-2 max-sm:flex-row max-sm:flex-wrap"
       data-color={JSON.stringify(color)}
     >
       {shades.map((shade, index) => (
         <Inline
           key={index}
-          className="relative aspect-square grow-1 basis-4 md:basis-8"
+          className="relative aspect-square max-sm:grow-1 max-sm:basis-auto"
           as="li"
           bg={shader(shade.color)}
         >
           <button
             id={`color-${id + 1}-variant-${shade.key}`}
-            className="bg-ref absolute inset-0 rounded-md"
+            className="bg-ref absolute inset-0 rounded-md max-sm:rounded-sm"
             data-color={JSON.stringify(shade.color)}
           ></button>
         </Inline>
