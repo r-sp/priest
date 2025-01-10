@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { sharedMetadata } from "../metadata";
 import { Wrapper } from "~/components";
-import ColorInput from "~/features/input";
+import { Textbox, Slider } from "~/features";
 import Shades from "./shades";
 
 export function generateMetadata(): Metadata {
@@ -17,9 +17,10 @@ export function generateMetadata(): Metadata {
 
 export default function PlaygroundPage() {
   return (
-    <Wrapper className="grid gap-y-8" outerStyle="py-4">
-      <div className="grid">
-        <ColorInput dynamicPreview={false} />
+    <Wrapper className="grid gap-y-8">
+      <div className="mx-auto inline-grid w-full max-w-3xl gap-y-6">
+        <Textbox />
+        <Slider dynamicPreview={false} />
       </div>
       <Shades />
     </Wrapper>
