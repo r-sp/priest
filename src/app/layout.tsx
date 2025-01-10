@@ -1,8 +1,7 @@
 import type { ReactNode } from "react";
 import { Geist, Geist_Mono } from "next/font/google";
-import { ThemeScript, ThemeSwitcher } from "~/features/theme";
+import { ThemeScript, ThemeSwitcher } from "~/features";
 import { Wrapper, Sticky } from "~/components";
-import ColorMode from "~/features/mode";
 import Provider from "~/context/provider";
 import Link from "next/link";
 import clsx from "clsx";
@@ -45,7 +44,10 @@ export default function RootLayout({
             onHidden="-translate-y-16 transition-transform ease-in"
             onVisible="translate-y-0 transition-transform ease-out"
           >
-            <Wrapper className="flex h-14 items-center justify-between">
+            <Wrapper
+              as="nav"
+              className="flex h-14 items-center justify-between"
+            >
               <Link
                 href="/"
                 className="size-8 rounded-2xl text-neutral-800 dark:text-neutral-200"
@@ -73,7 +75,6 @@ export default function RootLayout({
                   />
                 </svg>
               </Link>
-              <ColorMode />
             </Wrapper>
           </Sticky>
           <main id="content">{children}</main>
