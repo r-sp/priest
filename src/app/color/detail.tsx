@@ -6,8 +6,8 @@ import { useColor, useMode, useColorQuery } from "~/hooks";
 import { createColor, switchCss, formatHex } from "~/lib/color";
 import { measureColor, contrastColor } from "./a11y";
 import { Wrapper, Progress } from "~/components";
+import { Slider } from "~/features";
 import ColorContrast from "./contrast";
-import ColorInput from "~/features/input";
 import Link from "next/link";
 
 export default function ColorDetail() {
@@ -151,7 +151,7 @@ export default function ColorDetail() {
       </section>
       {colorPicker ? (
         <div className="grid border-y border-y-neutral-400 py-8 dark:border-y-neutral-700">
-          <ColorInput showTextbox={false} />
+          <Slider />
         </div>
       ) : null}
       <div className="inline-grid gap-8 md:grid-cols-2">
