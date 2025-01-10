@@ -1,7 +1,6 @@
 "use client";
 
 import dynamic from "next/dynamic";
-import ThemeScript from "./script";
 
 const ThemeSwitcher = dynamic(() => import("./switcher"), {
   ssr: false,
@@ -10,4 +9,4 @@ const ThemeSwitcher = dynamic(() => import("./switcher"), {
   ),
 });
 
-export { ThemeScript, ThemeSwitcher };
+export default ThemeSwitcher;

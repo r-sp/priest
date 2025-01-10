@@ -12,7 +12,7 @@ import {
 import Navigation from "./navigation";
 import Button from "./button";
 
-export default function ThemeSwitcher() {
+export default function Switcher() {
   const [theme, setTheme] = useTheme();
   const auto = "auto";
   const light = "light";
