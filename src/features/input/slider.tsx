@@ -11,20 +11,17 @@ import {
   parseOklab,
   parseOklch,
 } from "~/lib/color";
-import InputCss from "./css";
-import InputRgb from "./rgb";
-import InputHsl from "./hsl";
-import InputHwb from "./hwb";
-import InputLab from "./lab";
-import InputLch from "./lch";
-import InputOklab from "./oklab";
-import InputOklch from "./oklch";
+import InputRgb from "./color/rgb";
+import InputHsl from "./color/hsl";
+import InputHwb from "./color/hwb";
+import InputLab from "./color/lab";
+import InputLch from "./color/lch";
+import InputOklab from "./color/oklab";
+import InputOklch from "./color/oklch";
 
-export default function ColorInput({
-  showTextbox = true,
+export default function Slider({
   dynamicPreview = true,
 }: {
-  showTextbox?: boolean;
   dynamicPreview?: boolean;
 }) {
   const [{}, setColor] = useColor();
@@ -50,12 +47,7 @@ export default function ColorInput({
     });
 
   return (
-    <div
-      role="form"
-      aria-label="color input"
-      className="mx-auto inline-grid w-full max-w-3xl gap-4"
-    >
-      {showTextbox ? <InputCss /> : null}
+    <div role="group" aria-label="color slider" className="grid gap-4">
       {modeRgb ? (
         <InputRgb
           dynamicPreview={dynamicPreview}

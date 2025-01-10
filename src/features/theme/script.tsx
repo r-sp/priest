@@ -1,6 +1,6 @@
 "use client";
 
-export default function ThemeScript() {
+export default function Script() {
   return (
     <script
       suppressHydrationWarning={true}
