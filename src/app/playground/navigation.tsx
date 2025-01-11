@@ -1,24 +1,16 @@
 "use client";
 
 import type { ReactNode, FocusEvent } from "react";
+import type { ColorStates } from "./helper";
+import type { OklchColor } from "~/lib/types";
 import { useState, useCallback } from "react";
 import { createPortal } from "react-dom";
+import { createColorById } from "./helper";
 import Modal from "./modal";
-
-type ColorModal = {
-  id: string;
-  color: string;
-  css: string;
-};
 
 export default function Navigation({ children }: { children: ReactNode }) {
   const [modal, setModal] = useState<boolean>(false);
-  const [color, setColor] = useState<ColorModal | undefined>(undefined);
-
-  const closeModal = () => {
-    setModal(false);
-    setColor(undefined);
-  };
+  const [color, setColor] = useState<ColorStates | undefined>(undefined);
 
   const handleFocus = useCallback((e: FocusEvent) => {
     const button = e.target;
@@ -30,14 +22,15 @@ export default function Navigation({ children }: { children: ReactNode }) {
     }
 
     const openModal = () => {
-      const dataColor = JSON.parse(button.getAttribute("data-color")!);
-
       setModal(true);
-      setColor({
-        id: button.id,
-        color: dataColor,
-        css: style,
-      });
+      setColor(
+        createColorById({
+          id: button.id,
+          color: JSON.parse(button.getAttribute("data-color")!) as OklchColor,
+          css: style,
+        }),
+      );
+
       button.removeEventListener("click", openModal);
     };
 
@@ -55,7 +48,7 @@ export default function Navigation({ children }: { children: ReactNode }) {
       {children}
       {color && modal
         ? createPortal(
-            <Modal state={color} action={closeModal} />,
+            <Modal state={color} action={[setModal, setColor]} />,
             document.getElementById("content") || document.body,
           )
         : null}
