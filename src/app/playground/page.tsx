@@ -1,8 +1,7 @@
 import type { Metadata } from "next";
 import { sharedMetadata } from "../metadata";
 import { Wrapper } from "~/components";
-import { Textbox, Slider } from "~/features";
-import Shades from "./shades";
+import { Textbox, Slider, Shades } from "~/features";
 
 export function generateMetadata(): Metadata {
   const meta = sharedMetadata({ path: "/playground" });
