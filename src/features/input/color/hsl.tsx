@@ -1,7 +1,7 @@
 "use client";
 
 import type { HslColor, HslColorMode } from "~/lib/types";
-import { useState, useCallback, startTransition } from "react";
+import { useState, useCallback } from "react";
 import { useColor } from "~/hooks";
 import { formatHsl } from "~/lib/color";
 import { Range } from "~/components";
@@ -18,13 +18,11 @@ export default function InputHsl({
 
   const updateColor = useCallback(
     (newColor: Partial<HslColor>) => {
-      startTransition(() => {
-        setHsl({ ...color, ...newColor });
+      setHsl({ ...color, ...newColor });
 
-        if (onChange) {
-          onChange({ mode: "hsl", ...color, ...newColor });
-        }
-      });
+      if (onChange) {
+        onChange({ mode: "hsl", ...color, ...newColor });
+      }
     },
     [color, onChange],
   );

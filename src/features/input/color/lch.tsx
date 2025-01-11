@@ -1,7 +1,7 @@
 "use client";
 
 import type { LchColor, LchColorMode } from "~/lib/types";
-import { useState, useCallback, startTransition } from "react";
+import { useState, useCallback } from "react";
 import { useColor } from "~/hooks";
 import { formatLch } from "~/lib/color";
 import { Range } from "~/components";
@@ -18,13 +18,11 @@ export default function InputLch({
 
   const updateColor = useCallback(
     (newColor: Partial<LchColor>) => {
-      startTransition(() => {
-        setLch({ ...color, ...newColor });
+      setLch({ ...color, ...newColor });
 
-        if (onChange) {
-          onChange({ mode: "lch", ...color, ...newColor });
-        }
-      });
+      if (onChange) {
+        onChange({ mode: "lch", ...color, ...newColor });
+      }
     },
     [color, onChange],
   );

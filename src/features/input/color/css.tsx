@@ -1,7 +1,7 @@
 "use client";
 
 import type { ChangeEvent, Dispatch, SetStateAction } from "react";
-import { useState, useCallback, startTransition } from "react";
+import { useState, useCallback } from "react";
 import { useColor, useMode } from "~/hooks";
 import { createColor, formatHex, parseCss, switchCss } from "~/lib/color";
 import { colorSpace } from "~/utils/regex";
@@ -37,22 +37,20 @@ export default function InputCss({
       const newColor = e.target.value;
       const validColor = parseCss(newColor);
 
-      startTransition(() => {
-        if (focus) {
-          setInput(newColor);
-          if (validColor) {
-            const [isHex, isColor] = isValidCss(newColor);
-            if (isHex) {
-              setHex(true);
-            }
-            if (isColor) {
-              setHex(false);
-            }
-            setColor(createColor(validColor));
-            setMode(validColor.mode);
+      if (focus) {
+        setInput(newColor);
+        if (validColor) {
+          const [isHex, isColor] = isValidCss(newColor);
+          if (isHex) {
+            setHex(true);
           }
+          if (isColor) {
+            setHex(false);
+          }
+          setColor(createColor(validColor));
+          setMode(validColor.mode);
         }
-      });
+      }
     },
     [focus, setColor, setMode, setHex],
   );

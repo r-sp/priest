@@ -1,7 +1,7 @@
 "use client";
 
 import type { HwbColor, HwbColorMode } from "~/lib/types";
-import { useState, useCallback, startTransition } from "react";
+import { useState, useCallback } from "react";
 import { useColor } from "~/hooks";
 import { formatHwb } from "~/lib/color";
 import { Range } from "~/components";
@@ -18,13 +18,11 @@ export default function InputHwb({
 
   const updateColor = useCallback(
     (newColor: Partial<HwbColor>) => {
-      startTransition(() => {
-        setHwb({ ...color, ...newColor });
+      setHwb({ ...color, ...newColor });
 
-        if (onChange) {
-          onChange({ mode: "hwb", ...color, ...newColor });
-        }
-      });
+      if (onChange) {
+        onChange({ mode: "hwb", ...color, ...newColor });
+      }
     },
     [color, onChange],
   );
