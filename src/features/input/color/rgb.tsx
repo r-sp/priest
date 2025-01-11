@@ -1,7 +1,7 @@
 "use client";
 
 import type { RgbColor, RgbColorMode } from "~/lib/types";
-import { useState, useCallback } from "react";
+import { useState, useCallback, startTransition } from "react";
 import { useColor } from "~/hooks";
 import { formatRgb } from "~/lib/color";
 import { Range } from "~/components";
@@ -18,11 +18,13 @@ export default function InputRgb({
 
   const updateColor = useCallback(
     (newColor: Partial<RgbColor>) => {
-      setRgb({ ...color, ...newColor });
+      startTransition(() => {
+        setRgb({ ...color, ...newColor });
 
-      if (onChange) {
-        onChange({ mode: "rgb", ...color, ...newColor });
-      }
+        if (onChange) {
+          onChange({ mode: "rgb", ...color, ...newColor });
+        }
+      });
     },
     [color, onChange],
   );

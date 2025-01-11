@@ -1,7 +1,7 @@
 "use client";
 
 import type { OklchColor, OklchColorMode } from "~/lib/types";
-import { useState, useCallback } from "react";
+import { useState, useCallback, startTransition } from "react";
 import { useColor } from "~/hooks";
 import { formatOklch } from "~/lib/color";
 import { Range } from "~/components";
@@ -18,11 +18,13 @@ export default function InputOklch({
 
   const updateColor = useCallback(
     (newColor: Partial<OklchColor>) => {
-      setOklch({ ...color, ...newColor });
+      startTransition(() => {
+        setOklch({ ...color, ...newColor });
 
-      if (onChange) {
-        onChange({ mode: "oklch", ...color, ...newColor });
-      }
+        if (onChange) {
+          onChange({ mode: "oklch", ...color, ...newColor });
+        }
+      });
     },
     [color, onChange],
   );

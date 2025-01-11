@@ -1,7 +1,7 @@
 "use client";
 
 import type { OklabColor, OklabColorMode } from "~/lib/types";
-import { useState, useCallback } from "react";
+import { useState, useCallback, startTransition } from "react";
 import { useColor } from "~/hooks";
 import { formatOklab } from "~/lib/color";
 import { Range } from "~/components";
@@ -18,11 +18,13 @@ export default function InputOklab({
 
   const updateColor = useCallback(
     (newColor: Partial<OklabColor>) => {
-      setOklab({ ...color, ...newColor });
+      startTransition(() => {
+        setOklab({ ...color, ...newColor });
 
-      if (onChange) {
-        onChange({ mode: "oklab", ...color, ...newColor });
-      }
+        if (onChange) {
+          onChange({ mode: "oklab", ...color, ...newColor });
+        }
+      });
     },
     [color, onChange],
   );

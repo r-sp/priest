@@ -1,7 +1,7 @@
 "use client";
 
 import type { LabColor, LabColorMode } from "~/lib/types";
-import { useState, useCallback } from "react";
+import { useState, useCallback, startTransition } from "react";
 import { useColor } from "~/hooks";
 import { formatLab } from "~/lib/color";
 import { Range } from "~/components";
@@ -18,11 +18,13 @@ export default function InputLab({
 
   const updateColor = useCallback(
     (newColor: Partial<LabColor>) => {
-      setLab({ ...color, ...newColor });
+      startTransition(() => {
+        setLab({ ...color, ...newColor });
 
-      if (onChange) {
-        onChange({ mode: "lab", ...color, ...newColor });
-      }
+        if (onChange) {
+          onChange({ mode: "lab", ...color, ...newColor });
+        }
+      });
     },
     [color, onChange],
   );
