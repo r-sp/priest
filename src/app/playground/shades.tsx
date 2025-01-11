@@ -131,7 +131,9 @@ function Palettes({
             id={`color-${id + 1}-variant-${shade.key}`}
             className="bg-ref absolute inset-0 rounded-md max-sm:rounded-sm"
             data-color={JSON.stringify(shade.color)}
-          ></button>
+          >
+            <span className="sr-only">{`color ${id + 1} variant ${shade.key}`}</span>
+          </button>
         </Inline>
       ))}
     </ol>
