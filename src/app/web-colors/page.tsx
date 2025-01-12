@@ -202,7 +202,7 @@ export default function WebColorsPage() {
   return (
     <Wrapper as="article" className="grid gap-y-8" outerStyle="py-4">
       <header className="inline-grid w-full">
-        <h1 className="text-3xl font-semibold text-neutral-800 dark:text-neutral-200">
+        <h1 className="text-3xl font-semibold text-gray-800 dark:text-gray-200">
           Web Colors
         </h1>
         <ul className="pl-4">
@@ -263,11 +263,11 @@ function Section({ color, label }: { color: WebColor[]; label: string }) {
     <section aria-labelledby={section} className="inline-grid gap-y-4">
       <div
         role="none"
-        className="border-t border-t-neutral-400 pt-4 dark:border-t-neutral-700"
+        className="border-t border-t-gray-400 pt-4 dark:border-t-gray-700"
       >
         <h2
           id={section}
-          className="font-mono text-2xl font-medium text-neutral-700 dark:text-neutral-300"
+          className="font-mono text-2xl font-medium text-gray-700 dark:text-gray-300"
         >
           {label}
         </h2>
@@ -286,7 +286,7 @@ function Section({ color, label }: { color: WebColor[]; label: string }) {
                 <span style={{ backgroundColor: c.hex }}></span>
               </div>
               <p className="inline-grid">
-                <span className="text-base font-medium text-neutral-700 dark:text-neutral-300">
+                <span className="text-base font-medium text-gray-700 dark:text-gray-300">
                   {c.name}
                 </span>
                 <code className="text-sm">{c.hex}</code>

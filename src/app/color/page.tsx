@@ -52,21 +52,21 @@ function Skeleton() {
     >
       <div className="inline-grid gap-y-3">
         <div className="frame rounded-lg">
-          <span className="bg-neutral-200 dark:bg-neutral-900"></span>
+          <span className="bg-gray-200 dark:bg-gray-800"></span>
         </div>
-        <span className="h-8 w-64 bg-neutral-200 dark:bg-neutral-900"></span>
+        <span className="h-8 w-64 bg-gray-200 dark:bg-gray-800"></span>
       </div>
       <div className="inline-grid gap-y-2">
-        <span className="h-4 w-48 bg-neutral-200 dark:bg-neutral-900"></span>
-        <span className="h-4 w-56 bg-neutral-200 dark:bg-neutral-900"></span>
-        <span className="h-4 w-56 bg-neutral-200 dark:bg-neutral-900"></span>
-        <span className="h-4 w-56 bg-neutral-200 dark:bg-neutral-900"></span>
+        <span className="h-4 w-48 bg-gray-200 dark:bg-gray-800"></span>
+        <span className="h-4 w-56 bg-gray-200 dark:bg-gray-800"></span>
+        <span className="h-4 w-56 bg-gray-200 dark:bg-gray-800"></span>
+        <span className="h-4 w-56 bg-gray-200 dark:bg-gray-800"></span>
       </div>
       <div className="inline-grid gap-y-2">
-        <span className="h-4 w-48 bg-neutral-200 dark:bg-neutral-900"></span>
-        <span className="h-4 w-56 bg-neutral-200 dark:bg-neutral-900"></span>
-        <span className="h-4 w-56 bg-neutral-200 dark:bg-neutral-900"></span>
-        <span className="h-4 w-56 bg-neutral-200 dark:bg-neutral-900"></span>
+        <span className="h-4 w-48 bg-gray-200 dark:bg-gray-800"></span>
+        <span className="h-4 w-56 bg-gray-200 dark:bg-gray-800"></span>
+        <span className="h-4 w-56 bg-gray-200 dark:bg-gray-800"></span>
+        <span className="h-4 w-56 bg-gray-200 dark:bg-gray-800"></span>
       </div>
     </Wrapper>
   );

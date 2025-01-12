@@ -42,7 +42,7 @@ export default function Navigation({ children }: { children: ReactNode }) {
       ref={refList}
       role="menu"
       aria-label="theme"
-      className="flex rounded-3xl border border-neutral-400 dark:border-neutral-700"
+      className="flex items-center rounded-3xl bg-gray-100 ring ring-gray-200 dark:bg-gray-900 dark:ring-gray-800"
       onKeyDown={handleKeyboard}
       onFocus={() => setReduceMotion(true)}
       onBlur={() => setReduceMotion(false)}

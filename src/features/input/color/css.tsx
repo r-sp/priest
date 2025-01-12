@@ -69,11 +69,14 @@ export default function InputCss({
       value={focus ? input : currentColor}
       id="any-color"
       className={clsx(
-        "inline-grid h-10 rounded-md border px-3 py-2 font-mono transition-colors ease-in",
+        "inline-grid h-10 rounded-md px-4 py-2 font-mono ring outline-0",
+        "bg-gray-100 dark:bg-gray-900",
         modal
-          ? "relative z-8 border-transparent"
-          : "action cursor-pointer border-neutral-400 focus:cursor-text focus-visible:z-69 dark:border-neutral-700",
-        modal && !focus && "rounded-b-none",
+          ? "relative z-8 rounded-b-none ring-gray-300 dark:ring-gray-700"
+          : "cursor-pointer ring-gray-200 focus:cursor-text focus-visible:z-69 dark:ring-gray-800",
+        focus
+          ? "text-gray-700 dark:text-gray-300"
+          : "text-gray-600 dark:text-gray-400",
       )}
       tabIndex={0}
       onChange={handleInput}

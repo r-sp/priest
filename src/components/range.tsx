@@ -30,7 +30,7 @@ export default function Range({
         aria-label={label}
         type="range"
         id={`${prefix}-${label}`}
-        className="slider relative z-2 text-neutral-400"
+        className="slider relative z-2 text-gray-400"
         step={stepMax ? (focus ? stepMin : stepMax) : stepMin}
         onKeyDown={() => setFocus(true)}
         onBlur={() => focus && setFocus(false)}

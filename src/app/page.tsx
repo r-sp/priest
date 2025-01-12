@@ -1,6 +1,6 @@
 import { type Metadata } from "next";
 import { sharedMetadata } from "./metadata";
-import { Wrapper, Separator } from "~/components";
+import { Wrapper } from "~/components";
 import Link from "next/link";
 
 export function generateMetadata(): Metadata {
@@ -20,7 +20,7 @@ export default function HomePage() {
       <header className="mx-auto grid w-full max-w-3xl gap-y-3">
         <h1
           id="intro"
-          className="text-center text-3xl font-bold text-neutral-800 dark:text-neutral-200"
+          className="text-center text-3xl font-bold text-gray-800 dark:text-gray-200"
         >
           Priest: The Holy Colors
         </h1>
@@ -54,58 +54,7 @@ export default function HomePage() {
           <span className="h-6 bg-pink-400"></span>
           <span className="h-6 bg-rose-400"></span>
         </Link>
-        <ul className="grid gap-4 sm:grid-cols-2 md:grid-cols-3">
-          <li className="inline-grid">
-            <Link
-              href="/color"
-              className="action grid content-baseline gap-y-1 rounded-lg border border-neutral-400 px-3 py-4 dark:border-neutral-700"
-              prefetch={false}
-            >
-              <h2 className="text-xl font-semibold text-neutral-700 dark:text-neutral-300">
-                Color Harmony
-              </h2>
-              <p className="text-sm text-neutral-500 dark:text-neutral-500">
-                Refers to the arrangement of colors that are pleasing to the
-                eye, creating a harmonious color combination that is balanced
-                and aesthetically appealing.
-              </p>
-            </Link>
-          </li>
-          <li className="inline-grid">
-            <Link
-              href="/playground"
-              className="action grid content-baseline gap-y-1 rounded-lg border border-neutral-400 px-3 py-4 dark:border-neutral-700"
-              prefetch={false}
-            >
-              <h2 className="text-xl font-semibold text-neutral-700 dark:text-neutral-300">
-                Color Palettes
-              </h2>
-              <p className="text-sm text-neutral-500 dark:text-neutral-500">
-                Carefully chosen sets of colors used to evoke specific emotions,
-                establish brand identity, or create a particular aesthetic in
-                visual designs.
-              </p>
-            </Link>
-          </li>
-          <li className="inline-grid">
-            <Link
-              href="/color"
-              className="action grid content-baseline gap-y-1 rounded-lg border border-neutral-400 px-3 py-4 dark:border-neutral-700"
-              prefetch={false}
-            >
-              <h2 className="text-xl font-semibold text-neutral-700 dark:text-neutral-300">
-                Color Shades
-              </h2>
-              <p className="text-sm text-neutral-500 dark:text-neutral-500">
-                Encompass the spectrum of that color&apos;s lightness and
-                darkness, creating a gradient from its purest form to its
-                darkest possible version.
-              </p>
-            </Link>
-          </li>
-        </ul>
       </section>
-      <Separator className="my-4" />
       <section
         aria-label="web colors"
         className="grid w-full max-w-3xl gap-y-3"
@@ -114,7 +63,11 @@ export default function HomePage() {
           <Link href="/web-colors" className="font-semibold">
             Web colors
           </Link>{" "}
-          are the colors used to style web pages. They are defined using digital
+          are the{" "}
+          <Link href="/color" prefetch={false}>
+            colors
+          </Link>{" "}
+          used to style web pages. They are defined using digital
           representations that browsers can interpret and display. The most
           common formats include:
         </p>

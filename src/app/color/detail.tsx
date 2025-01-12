@@ -84,27 +84,21 @@ export default function ColorDetail() {
           </p>
           <p
             className={
-              mode === "rgb"
-                ? "text-neutral-800 dark:text-neutral-200"
-                : undefined
+              mode === "rgb" ? "text-gray-900 dark:text-gray-100" : undefined
             }
           >
             <code>{rgb.css}</code>
           </p>
           <p
             className={
-              mode === "hsl"
-                ? "text-neutral-800 dark:text-neutral-200"
-                : undefined
+              mode === "hsl" ? "text-gray-900 dark:text-gray-100" : undefined
             }
           >
             <code>{hsl.css}</code>
           </p>
           <p
             className={
-              mode === "hwb"
-                ? "text-neutral-800 dark:text-neutral-200"
-                : undefined
+              mode === "hwb" ? "text-gray-900 dark:text-gray-100" : undefined
             }
           >
             <code>{hwb.css}</code>
@@ -113,36 +107,28 @@ export default function ColorDetail() {
         <div>
           <p
             className={
-              mode === "lch"
-                ? "text-neutral-800 dark:text-neutral-200"
-                : undefined
+              mode === "lch" ? "text-gray-900 dark:text-gray-100" : undefined
             }
           >
             <code>{lch.css}</code>
           </p>
           <p
             className={
-              mode === "oklch"
-                ? "text-neutral-800 dark:text-neutral-200"
-                : undefined
+              mode === "oklch" ? "text-gray-900 dark:text-gray-100" : undefined
             }
           >
             <code>{oklch.css}</code>
           </p>
           <p
             className={
-              mode === "lab"
-                ? "text-neutral-800 dark:text-neutral-200"
-                : undefined
+              mode === "lab" ? "text-gray-900 dark:text-gray-100" : undefined
             }
           >
             <code>{lab.css}</code>
           </p>
           <p
             className={
-              mode === "oklab"
-                ? "text-neutral-800 dark:text-neutral-200"
-                : undefined
+              mode === "oklab" ? "text-gray-900 dark:text-gray-100" : undefined
             }
           >
             <code>{oklab.css}</code>
@@ -150,7 +136,7 @@ export default function ColorDetail() {
         </div>
       </section>
       {colorPicker ? (
-        <div className="grid border-y border-y-neutral-400 py-8 dark:border-y-neutral-700">
+        <div className="grid border-y border-y-gray-400 py-8 dark:border-y-gray-700">
           <Slider />
         </div>
       ) : null}
