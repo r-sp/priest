@@ -1,6 +1,6 @@
 "use client";
 
-import type { MouseEvent } from "react";
+import type { FocusEvent } from "react";
 import { useTheme } from "~/hooks";
 import { useEffect } from "react";
 import {
@@ -24,7 +24,7 @@ export default function Switcher() {
     }
   }, [theme, setTheme]);
 
-  const handleAutoMode = (e: MouseEvent<HTMLButtonElement>): void => {
+  const handleAutoMode = (e: FocusEvent<HTMLButtonElement>): void => {
     e.preventDefault();
     const isDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
     if (isDark) {
@@ -36,14 +36,14 @@ export default function Switcher() {
     return setLocalTheme(auto);
   };
 
-  const handleLightMode = (e: MouseEvent<HTMLButtonElement>): void => {
+  const handleLightMode = (e: FocusEvent<HTMLButtonElement>): void => {
     e.preventDefault();
     removeTheme(dark);
     setTheme(light);
     return setLocalTheme(light);
   };
 
-  const handleDarkMode = (e: MouseEvent<HTMLButtonElement>): void => {
+  const handleDarkMode = (e: FocusEvent<HTMLButtonElement>): void => {
     e.preventDefault();
     addTheme(dark);
     setTheme(dark);
@@ -56,9 +56,9 @@ export default function Switcher() {
 
   return (
     <Navigation>
-      <Button variant="light" isActive={modeLight} onClick={handleLightMode} />
-      <Button variant="dark" isActive={modeDark} onClick={handleDarkMode} />
-      <Button variant="auto" isActive={modeAuto} onClick={handleAutoMode} />
+      <Button variant="light" isActive={modeLight} onFocus={handleLightMode} />
+      <Button variant="dark" isActive={modeDark} onFocus={handleDarkMode} />
+      <Button variant="auto" isActive={modeAuto} onFocus={handleAutoMode} />
     </Navigation>
   );
 }

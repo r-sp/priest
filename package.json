@@ -6,7 +6,7 @@
   "engines": {
     "node": ">=22.x"
   },
-  "packageManager": "pnpm@9.15.1",
+  "packageManager": "pnpm@9.15.3",
   "browserslist": "defaults, not ie <= 11",
   "scripts": {
     "build": "next build",
@@ -15,32 +15,32 @@
     "format": "prettier --write ."
   },
   "dependencies": {
-    "@tailwindcss/postcss": "4.0.0-beta.8",
+    "@tailwindcss/postcss": "4.0.0-beta.9",
     "@types/culori": "^2.1.1",
-    "@types/node": "^22.10.2",
-    "@types/react": "^19.0.2",
+    "@types/node": "^22.10.5",
+    "@types/react": "^19.0.4",
     "@types/react-dom": "^19.0.2",
     "clsx": "^2.1.1",
     "culori": "^4.0.1",
-    "next": "15.1.2",
-    "nuqs": "^2.2.3",
+    "next": "15.1.4",
+    "nuqs": "^2.3.0",
     "react": "19.0.0",
     "react-dom": "19.0.0",
-    "tailwindcss": "4.0.0-beta.8",
-    "typescript": "^5.7.2",
-    "zustand": "^5.0.2"
+    "tailwindcss": "4.0.0-beta.9",
+    "typescript": "^5.7.3",
+    "zustand": "^5.0.3"
   },
   "devDependencies": {
-    "@eslint/compat": "^1.2.4",
+    "@eslint/compat": "^1.2.5",
     "@eslint/eslintrc": "^3.2.0",
-    "@eslint/js": "^9.17.0",
+    "@eslint/js": "^9.18.0",
     "@types/eslint__js": "^8.42.3",
-    "eslint": "^9.17.0",
-    "eslint-config-next": "^15.1.2",
+    "eslint": "^9.18.0",
+    "eslint-config-next": "^15.1.4",
     "eslint-plugin-react-hooks": "^5.1.0",
     "postcss": "^8.4.49",
     "prettier": "^3.4.2",
     "prettier-plugin-tailwindcss": "^0.6.9",
-    "typescript-eslint": "^8.18.2"
+    "typescript-eslint": "^8.19.1"
   }
 }

@@ -52,8 +52,8 @@ export default function ColorContrast({
           "relative grid justify-between rounded-lg border",
           invert && reflect ? "text-white" : "text-black",
           invert && "border-transparent",
-          !invert && reflect && "border-neutral-400 dark:border-transparent",
-          !invert && !reflect && "border-transparent dark:border-neutral-700",
+          !invert && reflect && "border-gray-300 dark:border-transparent",
+          !invert && !reflect && "border-transparent dark:border-gray-700",
         )}
         style={
           invert
@@ -102,7 +102,7 @@ export default function ColorContrast({
             {`${ratio}:1`}
           </span>
         </h2>
-        <div className="ml-4 grow border-l border-l-neutral-400 pl-4 dark:border-l-neutral-700">
+        <div className="ml-4 grow border-l border-l-gray-300 pl-4 dark:border-l-gray-700">
           <div className="flex flex-nowrap justify-between">
             <p className="text-sm">WCAG Normal</p>
             <p className="text-sm">
@@ -128,7 +128,7 @@ export default function ColorContrast({
               </span>
             </p>
           </div>
-          <div className="mt-2 flex flex-nowrap justify-between border-t border-t-neutral-400 pt-2 dark:border-t-neutral-700">
+          <div className="mt-2 flex flex-nowrap justify-between border-t border-t-gray-300 pt-2 dark:border-t-gray-700">
             <p className="text-sm">WCAG Large</p>
             <p className="text-sm">
               AA:{" "}

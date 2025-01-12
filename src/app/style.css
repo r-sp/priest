@@ -5,6 +5,17 @@
 @theme {
   --font-sans: var(--geist-sans);
   --font-mono: var(--geist-mono);
+  --color-gray-50: oklch(1 0 0);
+  --color-gray-100: oklch(0.96 0 0);
+  --color-gray-200: oklch(0.864 0 0);
+  --color-gray-300: oklch(0.768 0 0);
+  --color-gray-400: oklch(0.672 0 0);
+  --color-gray-500: oklch(0.576 0 0);
+  --color-gray-600: oklch(0.48 0 0);
+  --color-gray-700: oklch(0.384 0 0);
+  --color-gray-800: oklch(0.288 0 0);
+  --color-gray-900: oklch(0.192 0 0);
+  --color-gray-950: oklch(0 0 0);
 }
 
 @layer base {
@@ -45,32 +56,6 @@
 }
 
 @layer components {
-  .action {
-    border-radius: inherit;
-  }
-  .action:focus-visible {
-    position: relative;
-    z-index: 2;
-  }
-  .action:hover,
-  .action:focus {
-    background-color: var(--color-neutral-200);
-    color: var(--color-neutral-600);
-  }
-  .action:not(:focus-visible):active {
-    background-color: var(--color-neutral-300);
-    color: var(--color-neutral-700);
-  }
-  .dark .action:hover,
-  .dark .action:focus {
-    background-color: var(--color-neutral-800);
-    color: var(--color-neutral-300);
-  }
-  .dark .action:not(:focus-visible):active {
-    background-color: var(--color-neutral-700);
-    color: var(--color-neutral-200);
-  }
-
   .slider,
   .slider::-webkit-slider-runnable-track,
   .slider::-webkit-slider-thumb {

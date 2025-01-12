@@ -16,7 +16,7 @@ export default function Separator<T extends ElementType = "span">({
       role="separator"
       className={clsx(
         className,
-        "border-t border-t-neutral-400 dark:border-t-neutral-700",
+        "border-t border-t-gray-300 dark:border-t-gray-700",
       )}
       {...props}
     />

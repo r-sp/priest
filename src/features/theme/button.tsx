@@ -25,16 +25,17 @@ export default function Button({
       aria-checked={isActive}
       aria-label={variant}
       className={clsx(
-        "action inline-flex size-8 items-center justify-center rounded-2xl transition-colors",
-        isActive &&
-          "border-2 border-neutral-50 bg-neutral-200 text-neutral-700 dark:border-neutral-950 dark:bg-neutral-800 dark:text-neutral-200",
+        "inline-flex size-8 items-center justify-center rounded-2xl outline-0",
+        isActive
+          ? "bg-gray-50 text-gray-900 ring ring-gray-300 dark:bg-gray-950 dark:text-gray-100 dark:ring-gray-700"
+          : "text-gray-500",
       )}
       tabIndex={isActive ? 0 : -1}
       {...props}
     >
       <svg
         role="presentation"
-        className="size-6"
+        className="pointer-events-none size-6"
         width={24}
         height={24}
         viewBox="0 0 24 24"

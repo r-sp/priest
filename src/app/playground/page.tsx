@@ -16,7 +16,7 @@ export function generateMetadata(): Metadata {
 
 export default function PlaygroundPage() {
   return (
-    <Wrapper className="grid gap-y-8">
+    <Wrapper className="grid gap-y-8" outerStyle="py-2">
       <div className="mx-auto inline-grid w-full max-w-3xl gap-y-6">
         <Textbox />
         <Slider dynamicPreview={false} />
