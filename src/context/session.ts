@@ -5,12 +5,10 @@ import { createContext } from "react";
 export type SharedState = {
   theme: ThemeVariant | undefined;
   mode: ColorFormat;
-  gamut: boolean;
 };
 export type SharedAction = {
   setTheme: (variant: ThemeVariant) => void;
   setMode: (format: ColorFormat) => void;
-  setGamut: (p3: boolean) => void;
 };
 
 export type ColorState = {
@@ -32,7 +30,6 @@ export function createSharedStore(initValue: SharedState) {
     ...initValue,
     setTheme: (variant) => set(() => ({ theme: variant })),
     setMode: (format) => set(() => ({ mode: format })),
-    setGamut: (p3) => set(() => ({ gamut: p3 })),
   }));
 }
 

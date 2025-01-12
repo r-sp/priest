@@ -13,7 +13,6 @@ export default function Provider({
   const sharedState: SharedState = {
     theme: undefined,
     mode: "oklch",
-    gamut: true,
   };
 
   const colorState: ColorState = createColor(initColor());
