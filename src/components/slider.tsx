@@ -2,29 +2,28 @@
 
 import type { ComponentPropsWithoutRef } from "react";
 import { useState } from "react";
-import Inline from "./inline";
 
-export default function Range({
+export default function Slider({
   prefix,
   label,
-  color,
+  gradient,
   stepMin,
   stepMax,
   ...props
 }: {
   prefix: string;
   label: string;
-  color: string;
+  gradient: string;
   stepMin: number;
   stepMax?: number;
 } & ComponentPropsWithoutRef<"input">) {
   const [focus, setFocus] = useState<boolean>(false);
 
   return (
-    <Inline
-      rel="none"
+    <div
+      role="none"
+      style={{ ["--bg" as string]: `linear-gradient(135deg,${gradient})` }}
       className="relative inline-grid"
-      bg={`linear-gradient(to right, ${color})`}
     >
       <input
         aria-label={label}
@@ -33,13 +32,13 @@ export default function Range({
         className="slider relative z-2 text-gray-400"
         step={stepMax ? (focus ? stepMin : stepMax) : stepMin}
         onKeyDown={() => setFocus(true)}
-        onBlur={() => focus && setFocus(false)}
+        onBlur={() => setFocus(false)}
         {...props}
       />
       <span
         role="presentation"
         className="bg-gradient-ref pointer-events-none absolute top-1 right-0 bottom-1 left-0 z-0 rounded-md"
       ></span>
-    </Inline>
+    </div>
   );
 }

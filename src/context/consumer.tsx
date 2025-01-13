@@ -1,10 +1,10 @@
 "use client";
 
 import type { ReactNode } from "react";
-import type { SharedState, ColorState } from "./session";
+import type { SharedState, ColorState } from "./store";
 import { NuqsAdapter } from "nuqs/adapters/next/app";
-import SharedProvider from "./provider/shared";
-import ColorProvider from "./provider/color";
+import SharedProvider from "./shared";
+import ColorProvider from "./color";
 
 export default function Consumer({
   children,

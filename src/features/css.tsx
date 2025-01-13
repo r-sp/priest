@@ -1,36 +1,26 @@
 "use client";
 
-import type { ChangeEvent, Dispatch, SetStateAction } from "react";
+import type { ChangeEvent } from "react";
 import { useState, useCallback } from "react";
 import { useColor, useMode } from "~/hooks";
-import { createColor, formatHex, parseCss, switchCss } from "~/lib/color";
+import { createColor } from "~/lib/create";
+import { formatHex } from "~/lib/format";
+import { parseCss } from "~/lib/parse";
+import { switchCss } from "~/lib/switch";
 import { colorSpace } from "~/utils/regex";
 import { isValidCss } from "~/utils/prefix";
 import clsx from "clsx";
 
-type SetHex = Dispatch<SetStateAction<boolean>>;
-type SetFocus = Dispatch<SetStateAction<boolean>>;
-type SetModal = Dispatch<SetStateAction<boolean>>;
-
-export default function InputCss({
-  hex,
-  modal,
-  focus,
-  action,
-}: {
-  hex: boolean;
-  modal: boolean;
-  focus: boolean;
-  action: [SetHex, SetFocus, SetModal];
-}) {
+export default function InputCss() {
   const [color, setColor] = useColor();
   const [mode, setMode] = useMode();
+  const [isHex, setIsHex] = useState<boolean>(false);
 
   const { rgb } = color;
-  const currentColor = hex ? formatHex(rgb.color) : switchCss(mode, color);
+  const currentColor = isHex ? formatHex(rgb.color) : switchCss(mode, color);
 
   const [input, setInput] = useState<string>(currentColor);
-  const [setHex, setFocus, setModal] = action;
+  const [focus, setFocus] = useState<boolean>(false);
 
   const handleInput = useCallback(
     (e: ChangeEvent<HTMLInputElement>) => {
@@ -42,17 +32,17 @@ export default function InputCss({
         if (validColor) {
           const [isHex, isColor] = isValidCss(newColor);
           if (isHex) {
-            setHex(true);
+            setIsHex(true);
           }
           if (isColor) {
-            setHex(false);
+            setIsHex(false);
           }
           setColor(createColor(validColor));
           setMode(validColor.mode);
         }
       }
     },
-    [focus, setColor, setMode, setHex],
+    [focus, setColor, setMode],
   );
 
   return (
@@ -60,7 +50,7 @@ export default function InputCss({
       aria-label="any color"
       type="text"
       pattern={colorSpace}
-      autoFocus={modal}
+      autoFocus={focus}
       autoComplete="off"
       autoCapitalize="none"
       autoCorrect="false"
@@ -69,11 +59,8 @@ export default function InputCss({
       value={focus ? input : currentColor}
       id="any-color"
       className={clsx(
-        "inline-grid h-10 rounded-md px-4 py-2 font-mono ring outline-0",
-        "bg-gray-100 dark:bg-gray-900",
-        modal
-          ? "relative z-8 rounded-b-none ring-gray-300 dark:ring-gray-700"
-          : "cursor-pointer ring-gray-200 focus:cursor-text focus-visible:z-69 dark:ring-gray-800",
+        "inline-grid h-10 cursor-pointer rounded-md px-4 py-2 font-mono ring outline-0 focus:cursor-text",
+        "bg-gray-100 ring-gray-200 focus:ring-gray-300 dark:bg-gray-900 dark:ring-gray-800 dark:focus:ring-gray-700",
         focus
           ? "text-gray-700 dark:text-gray-300"
           : "text-gray-600 dark:text-gray-400",
@@ -83,7 +70,6 @@ export default function InputCss({
       onFocus={() => {
         setInput(currentColor);
         setFocus(true);
-        setModal(true);
       }}
       onBlur={() => setFocus(false)}
     />

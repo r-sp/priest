@@ -1,8 +1,8 @@
 "use client";
 
 import { type ReactNode, useRef } from "react";
-import type { SharedApi, SharedState } from "../session";
-import { SharedContext, createSharedStore } from "../session";
+import type { SharedApi, SharedState } from "./store";
+import { SharedContext, createSharedStore } from "./store";
 
 export default function SharedProvider({
   children,

@@ -1,8 +1,8 @@
 "use client";
 
 import { type ReactNode, useRef } from "react";
-import type { ColorApi, ColorState } from "../session";
-import { ColorContext, createColorStore } from "../session";
+import type { ColorApi, ColorState } from "./store";
+import { ColorContext, createColorStore } from "./store";
 
 export default function ColorProvider({
   children,

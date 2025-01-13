@@ -1,5 +1,5 @@
 import type { AnyColorMode, HslColorMode } from "./types";
-import type { ColorState } from "~/context/session";
+import type { ColorState } from "~/context/store";
 import {
   parseRgb,
   parseHsl,

@@ -1,25 +1,30 @@
 "use client";
 
 import type { LchColor, LchColorMode } from "~/lib/types";
-import { useState, useCallback } from "react";
-import { useColor } from "~/hooks";
-import { formatLch } from "~/lib/color";
-import { Range } from "~/components";
+import { useCallback, Fragment } from "react";
+import { useColorStore } from "~/hooks";
+import { formatLch } from "~/lib/format";
+import { Slider } from "~/components";
 
 export default function InputLch({
   onChange,
   dynamicPreview = true,
+  lightness = true,
+  chroma = true,
+  hue = true,
+  prefix = "lch",
 }: {
   onChange?: (color: LchColorMode) => void;
   dynamicPreview?: boolean;
+  lightness?: boolean;
+  chroma?: boolean;
+  hue?: boolean;
+  prefix?: string;
 }) {
-  const [{ lch }] = useColor();
-  const [color, setLch] = useState<LchColor>(lch.color);
+  const { color } = useColorStore((state) => state.lch);
 
   const updateColor = useCallback(
     (newColor: Partial<LchColor>) => {
-      setLch({ ...color, ...newColor });
-
       if (onChange) {
         onChange({ mode: "lch", ...color, ...newColor });
       }
@@ -69,40 +74,46 @@ export default function InputLch({
   );
 
   return (
-    <>
-      <Range
-        prefix="lch"
-        label="lightness"
-        color={`${trackLightnessLeft}, ${trackLightnessRight}`}
-        stepMin={1}
-        stepMax={0.01}
-        min={0}
-        max={100}
-        value={color.l}
-        onChange={(e) => updateColor({ l: e.target.valueAsNumber })}
-      />
-      <Range
-        prefix="lch"
-        label="chroma"
-        color={`${trackChromaLeft}, ${trackChromaRight}`}
-        stepMin={1}
-        stepMax={0.01}
-        min={0}
-        max={150}
-        value={color.c}
-        onChange={(e) => updateColor({ c: e.target.valueAsNumber })}
-      />
-      <Range
-        prefix="lch"
-        label="hue"
-        color={`${trackHueLeft}, ${trackHueRed}, ${trackHueGreen}, ${trackHueCenter}, ${trackHueBlue}, ${trackHuePurple}, ${trackHueRight}`}
-        stepMin={1}
-        stepMax={0.001}
-        min={0}
-        max={360}
-        value={color.h}
-        onChange={(e) => updateColor({ h: e.target.valueAsNumber })}
-      />
-    </>
+    <Fragment>
+      {lightness && (
+        <Slider
+          prefix={prefix}
+          label="lightness"
+          gradient={`${trackLightnessLeft}, ${trackLightnessRight}`}
+          stepMin={1}
+          stepMax={0.01}
+          min={0}
+          max={100}
+          value={color.l}
+          onChange={(e) => updateColor({ l: e.target.valueAsNumber })}
+        />
+      )}
+      {chroma && (
+        <Slider
+          prefix={prefix}
+          label="chroma"
+          gradient={`${trackChromaLeft}, ${trackChromaRight}`}
+          stepMin={1}
+          stepMax={0.01}
+          min={0}
+          max={150}
+          value={color.c}
+          onChange={(e) => updateColor({ c: e.target.valueAsNumber })}
+        />
+      )}
+      {hue && (
+        <Slider
+          prefix={prefix}
+          label="hue"
+          gradient={`${trackHueLeft}, ${trackHueRed}, ${trackHueGreen}, ${trackHueCenter}, ${trackHueBlue}, ${trackHuePurple}, ${trackHueRight}`}
+          stepMin={1}
+          stepMax={0.001}
+          min={0}
+          max={360}
+          value={color.h}
+          onChange={(e) => updateColor({ h: e.target.valueAsNumber })}
+        />
+      )}
+    </Fragment>
   );
 }

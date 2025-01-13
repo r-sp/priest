@@ -1,4 +1,4 @@
-import { type ColorStore, ColorContext } from "~/context/session";
+import { type ColorStore, ColorContext } from "~/context/store";
 import { useContext } from "react";
 import { useStore } from "zustand";
 import { useShallow } from "zustand/shallow";

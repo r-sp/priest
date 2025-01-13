@@ -1,7 +1,7 @@
 "use client";
 
 import type { AnyColorMode } from "~/lib/types";
-import { useColor, useMode } from "~/hooks";
+import { useColorStore, useMode } from "~/hooks";
 import {
   parseRgb,
   parseHsl,
@@ -10,21 +10,23 @@ import {
   parseLch,
   parseOklab,
   parseOklch,
-} from "~/lib/color";
-import InputRgb from "./color/rgb";
-import InputHsl from "./color/hsl";
-import InputHwb from "./color/hwb";
-import InputLab from "./color/lab";
-import InputLch from "./color/lch";
-import InputOklab from "./color/oklab";
-import InputOklch from "./color/oklch";
+} from "~/lib/parse";
+import {
+  InputRgb,
+  InputHsl,
+  InputHwb,
+  InputLab,
+  InputLch,
+  InputOklab,
+  InputOklch,
+} from "~/features";
 
-export default function Slider({
+export default function ColorInput({
   dynamicPreview = true,
 }: {
   dynamicPreview?: boolean;
 }) {
-  const [{}, setColor] = useColor();
+  const setColor = useColorStore((state) => state.setColor);
   const [mode] = useMode();
 
   const modeRgb = mode === "rgb";
@@ -47,7 +49,7 @@ export default function Slider({
     });
 
   return (
-    <div role="group" aria-label="color slider" className="grid gap-4">
+    <div role="group" aria-label="color slider" className="grid gap-y-3">
       {modeRgb ? (
         <InputRgb
           dynamicPreview={dynamicPreview}
