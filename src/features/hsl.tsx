@@ -3,7 +3,7 @@
 import type { HslColor, HslColorMode } from "~/lib/types";
 import { useCallback, Fragment } from "react";
 import { useColorStore } from "~/hooks";
-import { formatHsl } from "~/lib/format";
+import { formatHsl } from "~/lib";
 import { Slider } from "~/components";
 
 export default function InputHsl({

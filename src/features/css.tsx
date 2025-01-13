@@ -3,12 +3,8 @@
 import type { ChangeEvent } from "react";
 import { useState, useCallback } from "react";
 import { useColor, useMode } from "~/hooks";
-import { createColor } from "~/lib/create";
-import { formatHex } from "~/lib/format";
-import { parseCss } from "~/lib/parse";
-import { switchCss } from "~/lib/switch";
-import { colorSpace } from "~/utils/regex";
-import { isValidCss } from "~/utils/prefix";
+import { createColor, formatHex, parseCss, switchCss } from "~/lib";
+import { isValidCss } from "~/utils";
 import clsx from "clsx";
 
 export default function InputCss() {
@@ -49,7 +45,16 @@ export default function InputCss() {
     <input
       aria-label="any color"
       type="text"
-      pattern={colorSpace}
+      pattern={clsx(
+        "^(?:#(?:[0-9a-fA-F]{3}){1,2}|",
+        "rgb(?:a)?\(\s*\d{1,3}\s*,\s*\d{1,3}\s*,\s*\d{1,3}\s*(?:,\s*\d*(?:\.\d+)?)\s*\)|",
+        "hsl(?:a)?\(\s*\d{1,3}\s*,\s*\d{1,3}%?\s*,\s*\d{1,3}%?\s*(?:,\s*\d*(?:\.\d+)?)\s*\)|",
+        "hwb\(\s*\d{1,3}\s*,\s*\d{1,3}%?\s*,\s*\d{1,3}%?\s*\)|",
+        "lab\(\s*\d+(?:\.\d+)?\s*\d+(?:\.\d+)?\s*\d+(?:\.\d+)?\s*\)|",
+        "lch\(\s*\d+(?:\.\d+)?\s*\d+(?:\.\d+)?\s*\d+(?:\.\d+)?\s*\)|",
+        "oklab\(\s*\d+(?:\.\d+)?\s*\d+(?:\.\d+)?\s*\d+(?:\.\d+)?\s*\)|",
+        "oklch\(\s*\d+(?:\.\d+)?\s*\d+(?:\.\d+)?\s*\d+(?:\.\d+)?\s*\))$",
+      )}
       autoFocus={focus}
       autoComplete="off"
       autoCapitalize="none"

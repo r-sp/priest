@@ -3,7 +3,7 @@
 import type { OklchColor, OklchColorMode } from "~/lib/types";
 import { useCallback, Fragment } from "react";
 import { useColorStore } from "~/hooks";
-import { formatOklch } from "~/lib/format";
+import { formatOklch } from "~/lib";
 import { Slider } from "~/components";
 
 export default function InputOklch({

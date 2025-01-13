@@ -7,7 +7,7 @@ import type {
   OklabColor,
   OklchColor,
 } from "./types";
-import { round } from "~/utils/number";
+import { round } from "~/utils";
 
 export const formatHex = (color: RgbColor): string => {
   const { r, g, b } = color;

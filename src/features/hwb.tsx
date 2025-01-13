@@ -3,7 +3,7 @@
 import type { HwbColor, HwbColorMode } from "~/lib/types";
 import { useCallback, Fragment } from "react";
 import { useColorStore } from "~/hooks";
-import { formatHwb } from "~/lib/format";
+import { formatHwb } from "~/lib";
 import { Slider } from "~/components";
 
 export default function InputHwb({

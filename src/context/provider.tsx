@@ -2,7 +2,7 @@
 
 import type { ReactNode } from "react";
 import type { SharedState, ColorState } from "./store";
-import { createColor, initColor } from "~/lib/create";
+import { createColor, initColor } from "~/lib";
 import Consumer from "./consumer";
 
 export default function Provider({

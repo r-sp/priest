@@ -3,7 +3,7 @@
 import type { RgbColor, RgbColorMode } from "~/lib/types";
 import { useCallback, Fragment } from "react";
 import { useColorStore } from "~/hooks";
-import { formatRgb } from "~/lib/format";
+import { formatRgb } from "~/lib";
 import { Slider } from "~/components";
 
 export default function InputRgb({
