@@ -1,4 +1,4 @@
-import { type ColorState } from "~/context/session";
+import { type ColorState } from "~/context/store";
 import useColorStore from "./useColorStore";
 
 export default function useColor(): [ColorState, (color: ColorState) => void] {

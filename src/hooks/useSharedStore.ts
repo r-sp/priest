@@ -1,4 +1,4 @@
-import { type SharedStore, SharedContext } from "~/context/session";
+import { type SharedStore, SharedContext } from "~/context/store";
 import { useContext } from "react";
 import { useStore } from "zustand";
 import { useShallow } from "zustand/shallow";

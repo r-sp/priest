@@ -1,5 +1,5 @@
 import type { ColorSpace, ColorFormat, AnyColor, AnyColorMode } from "./types";
-import type { ColorState } from "~/context/session";
+import type { ColorState } from "~/context/store";
 import {
   formatRgb,
   formatHsl,
