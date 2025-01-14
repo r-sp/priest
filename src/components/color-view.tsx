@@ -1,7 +1,7 @@
 "use client";
 
 import { useColor, useMode } from "~/hooks";
-import { switchCss } from "~/lib/switch";
+import { switchCss } from "~/lib";
 
 export default function ColorView() {
   const [color] = useColor();

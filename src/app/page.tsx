@@ -4,6 +4,7 @@ import { InputCss } from "~/features";
 import Link from "next/link";
 import ColorInput from "~/components/color-input";
 import ColorView from "~/components/color-view";
+import ColorMode from "~/components/color-mode";
 
 export default function HomePage() {
   return (
@@ -37,6 +38,7 @@ export default function HomePage() {
           <ColorView />
           <InputCss />
           <ColorInput />
+          <ColorMode />
         </div>
       </main>
       <footer className="px-4">
