@@ -42,41 +42,31 @@ export default function InputCss() {
   );
 
   return (
-    <input
-      aria-label="any color"
-      type="text"
-      pattern={clsx(
-        "^(?:#(?:[0-9a-fA-F]{3}){1,2}|",
-        "rgb(?:a)?\(\s*\d{1,3}\s*,\s*\d{1,3}\s*,\s*\d{1,3}\s*(?:,\s*\d*(?:\.\d+)?)\s*\)|",
-        "hsl(?:a)?\(\s*\d{1,3}\s*,\s*\d{1,3}%?\s*,\s*\d{1,3}%?\s*(?:,\s*\d*(?:\.\d+)?)\s*\)|",
-        "hwb\(\s*\d{1,3}\s*,\s*\d{1,3}%?\s*,\s*\d{1,3}%?\s*\)|",
-        "lab\(\s*\d+(?:\.\d+)?\s*\d+(?:\.\d+)?\s*\d+(?:\.\d+)?\s*\)|",
-        "lch\(\s*\d+(?:\.\d+)?\s*\d+(?:\.\d+)?\s*\d+(?:\.\d+)?\s*\)|",
-        "oklab\(\s*\d+(?:\.\d+)?\s*\d+(?:\.\d+)?\s*\d+(?:\.\d+)?\s*\)|",
-        "oklch\(\s*\d+(?:\.\d+)?\s*\d+(?:\.\d+)?\s*\d+(?:\.\d+)?\s*\))$",
-      )}
-      autoFocus={focus}
-      autoComplete="off"
-      autoCapitalize="none"
-      autoCorrect="false"
-      spellCheck="false"
-      required={true}
-      value={focus ? input : currentColor}
-      id="any-color"
-      className={clsx(
-        "inline-grid h-10 cursor-pointer rounded-md px-4 py-2 font-mono ring outline-0 focus:cursor-text",
-        "bg-gray-100 ring-gray-200 focus:ring-gray-300 dark:bg-gray-900 dark:ring-gray-800 dark:focus:ring-gray-700",
-        focus
-          ? "text-gray-700 dark:text-gray-300"
-          : "text-gray-600 dark:text-gray-400",
-      )}
-      tabIndex={0}
-      onChange={handleInput}
-      onFocus={() => {
-        setInput(currentColor);
-        setFocus(true);
-      }}
-      onBlur={() => setFocus(false)}
-    />
+    <div role="form" aria-label="color input" className="grid">
+      <input
+        type="text"
+        autoFocus={focus}
+        autoComplete="off"
+        autoCapitalize="none"
+        autoCorrect="false"
+        spellCheck="false"
+        value={focus ? input : currentColor}
+        id="color-input"
+        className={clsx(
+          "inline-grid h-10 cursor-pointer rounded-md px-4 py-2 font-mono ring outline-0 focus:cursor-text",
+          "bg-gray-100 ring-gray-200 focus:ring-gray-300 dark:bg-gray-900 dark:ring-gray-800 dark:focus:ring-gray-700",
+          focus
+            ? "text-gray-700 dark:text-gray-300"
+            : "text-gray-600 dark:text-gray-400",
+        )}
+        tabIndex={0}
+        onChange={handleInput}
+        onFocus={() => {
+          setInput(currentColor);
+          setFocus(true);
+        }}
+        onBlur={() => setFocus(false)}
+      />
+    </div>
   );
 }
