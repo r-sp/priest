@@ -3,7 +3,7 @@
 import type { LchColor, LchColorMode } from "~/lib/types";
 import { useCallback, Fragment } from "react";
 import { useColorStore } from "~/hooks";
-import { formatLch } from "~/lib/format";
+import { formatLch } from "~/lib";
 import { Slider } from "~/components";
 
 export default function InputLch({

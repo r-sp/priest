@@ -10,7 +10,7 @@ import {
   parseLch,
   parseOklab,
   parseOklch,
-} from "~/lib/parse";
+} from "~/lib";
 import {
   InputRgb,
   InputHsl,

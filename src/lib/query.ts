@@ -1,58 +1,129 @@
-import type { ColorQuery, ColorSpace } from "./types";
+import type { ColorQuery, AnyColorMode } from "./types";
 
-export const extractColorQuery = (color: ColorQuery): ColorSpace => {
-  const { mode, r, g, b, h, s, l, w, a, c } = color;
+export const getColorQuery = (query: ColorQuery): AnyColorMode | undefined => {
+  const { mode, r, g, b, h, s, l, w, a, c } = query;
 
-  return {
-    rgb:
-      mode === "rgb" && r !== null && g !== null && b !== null
-        ? { r: r!, g: g!, b: b! }
-        : { r: 0, g: 0, b: 0 },
-    hsl:
-      mode === "hsl" && h !== null && s !== null && l !== null
-        ? { h: h!, s: s!, l: l! }
-        : { h: 0, s: 0, l: 0 },
-    hwb:
-      mode === "hwb" && h !== null && w !== null && b !== null
-        ? { h: h!, w: w!, b: b! }
-        : { h: 0, w: 0, b: 0 },
-    lab:
-      mode === "lab" && l !== null && a !== null && b !== null
-        ? { l: l!, a: a!, b: b! }
-        : { l: 0, a: 0, b: 0 },
-    lch:
-      mode === "lch" && l !== null && c !== null && h !== null
-        ? { l: l!, c: c!, h: h! }
-        : { l: 0, c: 0, h: 0 },
-    oklab:
-      mode === "oklab" && l !== null && a !== null && b !== null
-        ? { l: l!, a: a!, b: b! }
-        : { l: 0, a: 0, b: 0 },
-    oklch:
-      mode === "oklch" && l !== null && c !== null && h !== null
-        ? { l: l!, c: c!, h: h! }
-        : { l: 0, c: 0, h: 0 },
-  };
+  if (mode === "rgb" && r !== undefined && g !== undefined && b !== undefined) {
+    return { mode, r, g, b };
+  } else if (
+    mode === "hsl" &&
+    h !== undefined &&
+    s !== undefined &&
+    l !== undefined
+  ) {
+    return { mode, h, s, l };
+  } else if (
+    mode === "hwb" &&
+    h !== undefined &&
+    w !== undefined &&
+    b !== undefined
+  ) {
+    return { mode, h, w, b };
+  } else if (
+    mode === "lab" &&
+    l !== undefined &&
+    a !== undefined &&
+    b !== undefined
+  ) {
+    return { mode, l, a, b };
+  } else if (
+    mode === "lch" &&
+    l !== undefined &&
+    c !== undefined &&
+    h !== undefined
+  ) {
+    return { mode, l, c, h };
+  } else if (
+    mode === "oklab" &&
+    l !== undefined &&
+    a !== undefined &&
+    b !== undefined
+  ) {
+    return { mode, l, a, b };
+  } else if (
+    mode === "oklch" &&
+    l !== undefined &&
+    c !== undefined &&
+    h !== undefined
+  ) {
+    return { mode, l, c, h };
+  } else {
+    return undefined;
+  }
 };
 
-export const extractColorPath = (color: ColorQuery): string => {
-  const { mode, r, g, b, h, s, l, w, a, c } = color;
+export const getColorPath = (path: string, query: ColorQuery): string => {
+  const { mode, r, g, b, h, s, l, w, a, c } = query;
+  const searchParams = new URLSearchParams([]);
 
-  if (mode === "rgb" && r !== null && g !== null && b !== null) {
-    return `color?mode=rgb&r=${r!}&g=${g!}&b=${b!}`;
-  } else if (mode === "hsl" && h !== null && s !== null && l !== null) {
-    return `color?mode=hsl&h=${h!}&s=${s!}&l=${l!}`;
-  } else if (mode === "hwb" && h !== null && w !== null && b !== null) {
-    return `color?mode=hwb&h=${h!}&w=${w!}&b=${b!}`;
-  } else if (mode === "lab" && l !== null && a !== null && b !== null) {
-    return `color?mode=lab&l=${l!}&a=${a!}&b=${b!}`;
-  } else if (mode === "lch" && l !== null && c !== null && h !== null) {
-    return `color?mode=lch&l=${l!}&c=${c!}&h=${h!}`;
-  } else if (mode === "oklab" && l !== null && a !== null && b !== null) {
-    return `color?mode=oklab&l=${l!}&a=${a!}&b=${b!}`;
-  } else if (mode === "oklch" && l !== null && c !== null && h !== null) {
-    return `color?mode=oklch&l=${l!}&c=${c!}&h=${h!}`;
+  if (mode === "rgb" && r !== undefined && g !== undefined && b !== undefined) {
+    searchParams.set("mode", mode);
+    searchParams.set("r", `${r}`);
+    searchParams.set("g", `${g}`);
+    searchParams.set("b", `${b}`);
+  } else if (
+    mode === "hsl" &&
+    h !== undefined &&
+    s !== undefined &&
+    l !== undefined
+  ) {
+    searchParams.set("mode", mode);
+    searchParams.set("h", `${h}`);
+    searchParams.set("s", `${s}`);
+    searchParams.set("l", `${l}`);
+  } else if (
+    mode === "hwb" &&
+    h !== undefined &&
+    w !== undefined &&
+    b !== undefined
+  ) {
+    searchParams.set("mode", mode);
+    searchParams.set("h", `${h}`);
+    searchParams.set("w", `${w}`);
+    searchParams.set("b", `${b}`);
+  } else if (
+    mode === "lab" &&
+    l !== undefined &&
+    a !== undefined &&
+    b !== undefined
+  ) {
+    searchParams.set("mode", mode);
+    searchParams.set("l", `${l}`);
+    searchParams.set("a", `${a}`);
+    searchParams.set("b", `${b}`);
+  } else if (
+    mode === "lch" &&
+    l !== undefined &&
+    c !== undefined &&
+    h !== undefined
+  ) {
+    searchParams.set("mode", mode);
+    searchParams.set("l", `${l}`);
+    searchParams.set("c", `${c}`);
+    searchParams.set("h", `${h}`);
+  } else if (
+    mode === "oklab" &&
+    l !== undefined &&
+    a !== undefined &&
+    b !== undefined
+  ) {
+    searchParams.set("mode", mode);
+    searchParams.set("l", `${l}`);
+    searchParams.set("a", `${a}`);
+    searchParams.set("b", `${b}`);
+  } else if (
+    mode === "oklch" &&
+    l !== undefined &&
+    c !== undefined &&
+    h !== undefined
+  ) {
+    searchParams.set("mode", mode);
+    searchParams.set("l", `${l}`);
+    searchParams.set("c", `${c}`);
+    searchParams.set("h", `${h}`);
   } else {
-    return "color";
+    searchParams.set("error", "unknown-color-mode");
   }
+
+  return `${path}?${searchParams.toString()}`;
 };

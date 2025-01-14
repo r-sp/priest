@@ -9,7 +9,7 @@ import {
   parseOklab,
   parseOklch,
 } from "./parse";
-import { limiter } from "~/utils/number";
+import { limiter } from "~/utils";
 
 export const createColor = (newColor: AnyColorMode): ColorState => {
   return {

@@ -3,7 +3,7 @@
 import type { OklabColor, OklabColorMode } from "~/lib/types";
 import { useCallback, Fragment } from "react";
 import { useColorStore } from "~/hooks";
-import { formatOklab } from "~/lib/format";
+import { formatOklab } from "~/lib";
 import { Slider } from "~/components";
 
 export default function InputOklab({

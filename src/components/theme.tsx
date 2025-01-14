@@ -1,14 +1,54 @@
 "use client";
 
 import type { ThemeVariant } from "~/lib/types";
-import { useTheme } from "~/hooks";
 import { useState, useEffect, useCallback, Fragment } from "react";
-import {
-  addTheme,
-  removeTheme,
-  setLocalTheme,
-  getLocalTheme,
-} from "~/utils/theme";
+import { useTheme } from "~/hooks";
+import { isClient } from "~/utils";
+
+const getLocalStorage = (key: string): string | null | undefined => {
+  let local;
+  if (isClient) {
+    try {
+      local = window.localStorage.getItem(key);
+    } catch (e) {
+      console.error(e);
+    }
+  }
+  return local;
+};
+
+const setLocalStorage = (key: string, value: string): void => {
+  if (isClient) {
+    try {
+      window.localStorage.setItem(key, value);
+    } catch (e) {
+      console.error(e);
+    }
+  }
+};
+
+const removeTheme = (variant: ThemeVariant): void => {
+  document.documentElement.classList.remove(variant);
+};
+
+const addTheme = (variant: ThemeVariant): void => {
+  document.documentElement.classList.add(variant);
+  document.documentElement.style.colorScheme = variant;
+};
+
+const setLocalTheme = (variant: ThemeVariant): void => {
+  setLocalStorage("theme", variant);
+};
+
+const getLocalTheme = (): ThemeVariant => {
+  const local = getLocalStorage("theme") as ThemeVariant;
+  if (local) {
+    return local;
+  } else {
+    setLocalTheme("auto");
+    return "auto";
+  }
+};
 
 export function ThemeSwitcher() {
   const [theme, setTheme] = useTheme();

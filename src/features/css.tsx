@@ -3,12 +3,8 @@
 import type { ChangeEvent } from "react";
 import { useState, useCallback } from "react";
 import { useColor, useMode } from "~/hooks";
-import { createColor } from "~/lib/create";
-import { formatHex } from "~/lib/format";
-import { parseCss } from "~/lib/parse";
-import { switchCss } from "~/lib/switch";
-import { colorSpace } from "~/utils/regex";
-import { isValidCss } from "~/utils/prefix";
+import { createColor, formatHex, parseCss, switchCss } from "~/lib";
+import { isValidCss } from "~/utils";
 import clsx from "clsx";
 
 export default function InputCss() {
@@ -46,32 +42,31 @@ export default function InputCss() {
   );
 
   return (
-    <input
-      aria-label="any color"
-      type="text"
-      pattern={colorSpace}
-      autoFocus={focus}
-      autoComplete="off"
-      autoCapitalize="none"
-      autoCorrect="false"
-      spellCheck="false"
-      required={true}
-      value={focus ? input : currentColor}
-      id="any-color"
-      className={clsx(
-        "inline-grid h-10 cursor-pointer rounded-md px-4 py-2 font-mono ring outline-0 focus:cursor-text",
-        "bg-gray-100 ring-gray-200 focus:ring-gray-300 dark:bg-gray-900 dark:ring-gray-800 dark:focus:ring-gray-700",
-        focus
-          ? "text-gray-700 dark:text-gray-300"
-          : "text-gray-600 dark:text-gray-400",
-      )}
-      tabIndex={0}
-      onChange={handleInput}
-      onFocus={() => {
-        setInput(currentColor);
-        setFocus(true);
-      }}
-      onBlur={() => setFocus(false)}
-    />
+    <div role="form" aria-label="color input" className="grid">
+      <input
+        type="text"
+        autoFocus={focus}
+        autoComplete="off"
+        autoCapitalize="none"
+        autoCorrect="false"
+        spellCheck="false"
+        value={focus ? input : currentColor}
+        id="color-input"
+        className={clsx(
+          "inline-grid h-10 cursor-pointer rounded-md px-4 py-2 font-mono ring outline-0 focus:cursor-text",
+          "bg-gray-100 ring-gray-200 focus:ring-gray-300 dark:bg-gray-900 dark:ring-gray-800 dark:focus:ring-gray-700",
+          focus
+            ? "text-gray-700 dark:text-gray-300"
+            : "text-gray-600 dark:text-gray-400",
+        )}
+        tabIndex={0}
+        onChange={handleInput}
+        onFocus={() => {
+          setInput(currentColor);
+          setFocus(true);
+        }}
+        onBlur={() => setFocus(false)}
+      />
+    </div>
   );
 }
