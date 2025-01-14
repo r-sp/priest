@@ -1,14 +1,5 @@
-import type { ColorSpace, ColorFormat, AnyColor, AnyColorMode } from "./types";
+import type { ColorFormat, AnyColor, AnyColorMode } from "./types";
 import type { ColorState } from "~/context/store";
-import {
-  formatRgb,
-  formatHsl,
-  formatHwb,
-  formatLab,
-  formatLch,
-  formatOklab,
-  formatOklch,
-} from "./format";
 
 export const switchColor = (mode: ColorFormat, color: ColorState): AnyColor => {
   const { rgb, hsl, hwb, lab, lch, oklab, oklch } = color;
@@ -80,111 +71,49 @@ export const switchCss = (mode: ColorFormat, color: ColorState): string => {
   }
 };
 
-export const switchColorMode = (
-  type: ColorFormat,
-  color: ColorSpace,
-): AnyColorMode => {
-  switch (type) {
-    case "rgb": {
-      return { mode: type, ...color.rgb };
-      break;
-    }
-    case "hsl": {
-      return { mode: type, ...color.hsl };
-      break;
-    }
-    case "hwb": {
-      return { mode: type, ...color.hwb };
-      break;
-    }
-    case "lab": {
-      return { mode: type, ...color.lab };
-      break;
-    }
-    case "lch": {
-      return { mode: type, ...color.lch };
-      break;
-    }
-    case "oklab": {
-      return { mode: type, ...color.oklab };
-      break;
-    }
-    case "oklch": {
-      return { mode: type, ...color.oklch };
-      break;
-    }
-  }
-};
+export const switchPath = (path: string, color: AnyColorMode): string => {
+  const searchParams = new URLSearchParams([]);
+  searchParams.set("mode", color.mode);
 
-export const switchCssMode = (type: ColorFormat, color: ColorSpace): string => {
-  switch (type) {
-    case "rgb": {
-      return formatRgb(color.rgb);
-      break;
-    }
-    case "hsl": {
-      return formatHsl(color.hsl);
-      break;
-    }
-    case "hwb": {
-      return formatHwb(color.hwb);
-      break;
-    }
-    case "lab": {
-      return formatLab(color.lab);
-      break;
-    }
-    case "lch": {
-      return formatLch(color.lch);
-      break;
-    }
-    case "oklab": {
-      return formatOklab(color.oklab);
-      break;
-    }
-    case "oklch": {
-      return formatOklch(color.oklch);
-      break;
-    }
-  }
-};
-
-export const switchPathMode = (color: AnyColorMode): string => {
   switch (color.mode) {
     case "rgb": {
       const { r, g, b } = color;
-      return `/color?mode=rgb&r=${r}&g=${g}&b=${b}`;
+      searchParams.set("r", `${r}`);
+      searchParams.set("g", `${g}`);
+      searchParams.set("b", `${b}`);
       break;
     }
     case "hsl": {
       const { h, s, l } = color;
-      return `/color?mode=hsl&h=${h}&s=${s}&l=${l}`;
+      searchParams.set("h", `${h}`);
+      searchParams.set("s", `${s}`);
+      searchParams.set("l", `${l}`);
       break;
     }
     case "hwb": {
       const { h, w, b } = color;
-      return `/color?mode=hwb&h=${h}&w=${w}&b=${b}`;
+      searchParams.set("h", `${h}`);
+      searchParams.set("w", `${w}`);
+      searchParams.set("b", `${b}`);
       break;
     }
-    case "lab": {
-      const { l, a, b } = color;
-      return `/color?mode=lab&l=${l}&a=${a}&b=${b}`;
-      break;
-    }
-    case "lch": {
-      const { l, c, h } = color;
-      return `/color?mode=lch&l=${l}&c=${c}&h=${h}`;
-      break;
-    }
+    case "lab":
     case "oklab": {
       const { l, a, b } = color;
-      return `/color?mode=oklab&l=${l}&a=${a}&b=${b}`;
+      searchParams.set("l", `${l}`);
+      searchParams.set("a", `${a}`);
+      searchParams.set("b", `${b}`);
       break;
     }
+    case "lch":
     case "oklch": {
       const { l, c, h } = color;
-      return `/color?mode=oklch&l=${l}&c=${c}&h=${h}`;
+      searchParams.set("l", `${l}`);
+      searchParams.set("c", `${c}`);
+      searchParams.set("h", `${h}`);
       break;
     }
   }
+
+  return `${path}?${searchParams.toString()}`;
 };
