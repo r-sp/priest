@@ -122,7 +122,7 @@ export const getColorPath = (path: string, query: ColorQuery): string => {
     searchParams.set("c", `${c}`);
     searchParams.set("h", `${h}`);
   } else {
-    searchParams.set("error", "unknown-color-mode");
+    searchParams.set("error", "unknown-color-params");
   }
 
   return `${path}?${searchParams.toString()}`;
