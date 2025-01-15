@@ -1,17 +1,26 @@
 "use client";
 
 import { useColor, useMode } from "~/hooks";
-import { switchCss } from "~/lib";
+import { switchColor, switchCss, switchPath } from "~/lib";
+import Link from "next/link";
 
 export default function ColorView() {
   const [color] = useColor();
   const [mode] = useMode();
 
-  const currentColor = switchCss(mode, color);
+  const currentPath = switchPath("/color", switchColor(mode, color));
+  const currentCss = switchCss(mode, color);
 
   return (
-    <div style={{ ["--bg" as string]: currentColor }}>
-      <div className="bg-ref aspect-cinema rounded-md"></div>
+    <div className="flex" style={{ ["--bg" as string]: currentCss }}>
+      <Link
+        aria-label="view color"
+        href={currentPath}
+        className="bg-ref aspect-cinema inline-flex w-full rounded-md"
+        prefetch={false}
+      >
+        <code className="sr-only">{currentCss}</code>
+      </Link>
     </div>
   );
 }
