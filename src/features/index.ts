@@ -6,3 +6,13 @@ export { default as InputLab } from "./lab";
 export { default as InputLch } from "./lch";
 export { default as InputOklab } from "./oklab";
 export { default as InputOklch } from "./oklch";
+
+export {
+  CheckRgb,
+  CheckHsl,
+  CheckHwb,
+  CheckLab,
+  CheckLch,
+  CheckOklab,
+  CheckOklch,
+} from "./check";
