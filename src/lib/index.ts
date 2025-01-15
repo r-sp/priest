@@ -35,6 +35,6 @@ export {
   parseOklch,
 } from "./parse";
 
-export { switchColor, switchCss, switchPath } from "./switch";
+export { switchColor, switchCss, switchPath, switchCssMode } from "./switch";
 
 export { getColorQuery, getColorPath } from "./query";
