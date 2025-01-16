@@ -9,16 +9,10 @@ import { Slider } from "~/components";
 export default function InputHsl({
   onChange,
   dynamicPreview = true,
-  hue = true,
-  saturation = true,
-  lightness = true,
   prefix = "hsl",
 }: {
   onChange?: (color: HslColorMode) => void;
   dynamicPreview?: boolean;
-  hue?: boolean;
-  saturation?: boolean;
-  lightness?: boolean;
   prefix?: string;
 }) {
   const { color } = useColorStore((state) => state.hsl);
@@ -67,45 +61,39 @@ export default function InputHsl({
 
   return (
     <Fragment>
-      {hue && (
-        <Slider
-          prefix={prefix}
-          label="hue"
-          gradient={`${trackHueRed} 0%, ${trackHueYellow} 17%, ${trackHueGreen} 33%, ${trackHueCyan} 50%, ${trackHueBlue} 67%, ${trackHuePurple} 83%, ${trackHueRed} 100%`}
-          stepMin={1}
-          stepMax={0.01}
-          min={0}
-          max={360}
-          value={color.h}
-          onChange={(e) => updateColor({ h: e.target.valueAsNumber })}
-        />
-      )}
-      {saturation && (
-        <Slider
-          prefix={prefix}
-          label="saturation"
-          gradient={`${trackSaturationLeft}, ${trackSaturationRight}`}
-          stepMin={0.01}
-          stepMax={0.0001}
-          min={0}
-          max={1}
-          value={color.s}
-          onChange={(e) => updateColor({ s: e.target.valueAsNumber })}
-        />
-      )}
-      {lightness && (
-        <Slider
-          prefix={prefix}
-          label="lightness"
-          gradient={`hsl(0 0% 0%), ${trackLightnessCenter}, hsl(0 0% 100%)`}
-          stepMin={0.01}
-          stepMax={0.0001}
-          min={0}
-          max={1}
-          value={color.l}
-          onChange={(e) => updateColor({ l: e.target.valueAsNumber })}
-        />
-      )}
+      <Slider
+        prefix={prefix}
+        label="hue"
+        gradient={`${trackHueRed} 0%, ${trackHueYellow} 17%, ${trackHueGreen} 33%, ${trackHueCyan} 50%, ${trackHueBlue} 67%, ${trackHuePurple} 83%, ${trackHueRed} 100%`}
+        stepMin={1}
+        stepMax={0.01}
+        min={0}
+        max={360}
+        value={color.h}
+        onChange={(e) => updateColor({ h: e.target.valueAsNumber })}
+      />
+      <Slider
+        prefix={prefix}
+        label="saturation"
+        gradient={`${trackSaturationLeft}, ${trackSaturationRight}`}
+        stepMin={0.01}
+        stepMax={0.0001}
+        min={0}
+        max={1}
+        value={color.s}
+        onChange={(e) => updateColor({ s: e.target.valueAsNumber })}
+      />
+      <Slider
+        prefix={prefix}
+        label="lightness"
+        gradient={`hsl(0 0% 0%), ${trackLightnessCenter}, hsl(0 0% 100%)`}
+        stepMin={0.01}
+        stepMax={0.0001}
+        min={0}
+        max={1}
+        value={color.l}
+        onChange={(e) => updateColor({ l: e.target.valueAsNumber })}
+      />
     </Fragment>
   );
 }

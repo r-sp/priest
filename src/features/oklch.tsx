@@ -9,16 +9,10 @@ import { Slider } from "~/components";
 export default function InputOklch({
   onChange,
   dynamicPreview = true,
-  lightness = true,
-  chroma = true,
-  hue = true,
   prefix = "oklch",
 }: {
   onChange?: (color: OklchColorMode) => void;
   dynamicPreview?: boolean;
-  lightness?: boolean;
-  chroma?: boolean;
-  hue?: boolean;
   prefix?: string;
 }) {
   const { color } = useColorStore((state) => state.oklch);
@@ -75,45 +69,39 @@ export default function InputOklch({
 
   return (
     <Fragment>
-      {lightness && (
-        <Slider
-          prefix={prefix}
-          label="lightness"
-          gradient={`${trackLightnessLeft}, ${trackLightnessRight}`}
-          stepMin={0.01}
-          stepMax={0.001}
-          min={0}
-          max={1}
-          value={color.l}
-          onChange={(e) => updateColor({ l: e.target.valueAsNumber })}
-        />
-      )}
-      {chroma && (
-        <Slider
-          prefix={prefix}
-          label="chroma"
-          gradient={`${trackChromaLeft}, ${trackChromaRight}`}
-          stepMin={0.01}
-          stepMax={0.001}
-          min={0}
-          max={0.4}
-          value={color.c}
-          onChange={(e) => updateColor({ c: e.target.valueAsNumber })}
-        />
-      )}
-      {hue && (
-        <Slider
-          prefix={prefix}
-          label="hue"
-          gradient={`${trackHueLeft}, ${trackHueRed}, ${trackHueGreen}, ${trackHueCenter}, ${trackHueBlue}, ${trackHuePurple}, ${trackHueRight}`}
-          stepMin={1}
-          stepMax={0.001}
-          min={0}
-          max={360}
-          value={color.h}
-          onChange={(e) => updateColor({ h: e.target.valueAsNumber })}
-        />
-      )}
+      <Slider
+        prefix={prefix}
+        label="lightness"
+        gradient={`${trackLightnessLeft}, ${trackLightnessRight}`}
+        stepMin={0.01}
+        stepMax={0.001}
+        min={0}
+        max={1}
+        value={color.l}
+        onChange={(e) => updateColor({ l: e.target.valueAsNumber })}
+      />
+      <Slider
+        prefix={prefix}
+        label="chroma"
+        gradient={`${trackChromaLeft}, ${trackChromaRight}`}
+        stepMin={0.01}
+        stepMax={0.001}
+        min={0}
+        max={0.4}
+        value={color.c}
+        onChange={(e) => updateColor({ c: e.target.valueAsNumber })}
+      />
+      <Slider
+        prefix={prefix}
+        label="hue"
+        gradient={`${trackHueLeft}, ${trackHueRed}, ${trackHueGreen}, ${trackHueCenter}, ${trackHueBlue}, ${trackHuePurple}, ${trackHueRight}`}
+        stepMin={1}
+        stepMax={0.001}
+        min={0}
+        max={360}
+        value={color.h}
+        onChange={(e) => updateColor({ h: e.target.valueAsNumber })}
+      />
     </Fragment>
   );
 }
