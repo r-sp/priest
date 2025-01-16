@@ -9,16 +9,10 @@ import { Slider } from "~/components";
 export default function InputLab({
   onChange,
   dynamicPreview = true,
-  lightness = true,
-  greenRed = true,
-  blueYellow = true,
   prefix = "lab",
 }: {
   onChange?: (color: LabColorMode) => void;
   dynamicPreview?: boolean;
-  lightness?: boolean;
-  greenRed?: boolean;
-  blueYellow?: boolean;
   prefix?: string;
 }) {
   const { color } = useColorStore((state) => state.lab);
@@ -56,45 +50,39 @@ export default function InputLab({
 
   return (
     <Fragment>
-      {lightness && (
-        <Slider
-          prefix={prefix}
-          label="lightness"
-          gradient={`${trackLightnessLeft}, ${trackLightnessRight}`}
-          stepMin={1}
-          stepMax={0.01}
-          min={0}
-          max={100}
-          value={color.l}
-          onChange={(e) => updateColor({ l: e.target.valueAsNumber })}
-        />
-      )}
-      {greenRed && (
-        <Slider
-          prefix={prefix}
-          label="green-red"
-          gradient={`${trackGreenRedLeft}, ${trackGreenRedRight}`}
-          stepMin={1}
-          stepMax={0.01}
-          min={-100}
-          max={100}
-          value={color.a}
-          onChange={(e) => updateColor({ a: e.target.valueAsNumber })}
-        />
-      )}
-      {blueYellow && (
-        <Slider
-          prefix={prefix}
-          label="blue-yellow"
-          gradient={`${trackBlueYellowLeft}, ${trackBlueYellowRight}`}
-          stepMin={1}
-          stepMax={0.01}
-          min={-100}
-          max={100}
-          value={color.b}
-          onChange={(e) => updateColor({ b: e.target.valueAsNumber })}
-        />
-      )}
+      <Slider
+        prefix={prefix}
+        label="lightness"
+        gradient={`${trackLightnessLeft}, ${trackLightnessRight}`}
+        stepMin={1}
+        stepMax={0.01}
+        min={0}
+        max={100}
+        value={color.l}
+        onChange={(e) => updateColor({ l: e.target.valueAsNumber })}
+      />
+      <Slider
+        prefix={prefix}
+        label="green-red"
+        gradient={`${trackGreenRedLeft}, ${trackGreenRedRight}`}
+        stepMin={1}
+        stepMax={0.01}
+        min={-100}
+        max={100}
+        value={color.a}
+        onChange={(e) => updateColor({ a: e.target.valueAsNumber })}
+      />
+      <Slider
+        prefix={prefix}
+        label="blue-yellow"
+        gradient={`${trackBlueYellowLeft}, ${trackBlueYellowRight}`}
+        stepMin={1}
+        stepMax={0.01}
+        min={-100}
+        max={100}
+        value={color.b}
+        onChange={(e) => updateColor({ b: e.target.valueAsNumber })}
+      />
     </Fragment>
   );
 }

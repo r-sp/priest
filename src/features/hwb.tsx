@@ -9,16 +9,10 @@ import { Slider } from "~/components";
 export default function InputHwb({
   onChange,
   dynamicPreview = true,
-  hue = true,
-  whiteness = true,
-  blackness = true,
   prefix = "hwb",
 }: {
   onChange?: (color: HwbColorMode) => void;
   dynamicPreview?: boolean;
-  hue?: boolean;
-  whiteness?: boolean;
-  blackness?: boolean;
   prefix?: string;
 }) {
   const { color } = useColorStore((state) => state.hwb);
@@ -72,45 +66,39 @@ export default function InputHwb({
 
   return (
     <Fragment>
-      {hue && (
-        <Slider
-          prefix={prefix}
-          label="hue"
-          gradient={`${trackHueRed} 0%, ${trackHueYellow} 17%, ${trackHueGreen} 33%, ${trackHueCyan} 50%, ${trackHueBlue} 67%, ${trackHuePurple} 83%, ${trackHueRed} 100%`}
-          stepMin={1}
-          stepMax={0.01}
-          min={0}
-          max={360}
-          value={color.h}
-          onChange={(e) => updateColor({ h: e.target.valueAsNumber })}
-        />
-      )}
-      {whiteness && (
-        <Slider
-          prefix={prefix}
-          label="whiteness"
-          gradient={`${trackWhitenessLeft}, ${trackWhitenessRight}`}
-          stepMin={0.01}
-          stepMax={0.0001}
-          min={0}
-          max={1}
-          value={color.w}
-          onChange={(e) => updateColor({ w: e.target.valueAsNumber })}
-        />
-      )}
-      {blackness && (
-        <Slider
-          prefix={prefix}
-          label="blackness"
-          gradient={`${trackBlacknessLeft}, ${trackBlacknessRight}`}
-          stepMin={0.01}
-          stepMax={0.0001}
-          min={0}
-          max={1}
-          value={color.b}
-          onChange={(e) => updateColor({ b: e.target.valueAsNumber })}
-        />
-      )}
+      <Slider
+        prefix={prefix}
+        label="hue"
+        gradient={`${trackHueRed} 0%, ${trackHueYellow} 17%, ${trackHueGreen} 33%, ${trackHueCyan} 50%, ${trackHueBlue} 67%, ${trackHuePurple} 83%, ${trackHueRed} 100%`}
+        stepMin={1}
+        stepMax={0.01}
+        min={0}
+        max={360}
+        value={color.h}
+        onChange={(e) => updateColor({ h: e.target.valueAsNumber })}
+      />
+      <Slider
+        prefix={prefix}
+        label="whiteness"
+        gradient={`${trackWhitenessLeft}, ${trackWhitenessRight}`}
+        stepMin={0.01}
+        stepMax={0.0001}
+        min={0}
+        max={1}
+        value={color.w}
+        onChange={(e) => updateColor({ w: e.target.valueAsNumber })}
+      />
+      <Slider
+        prefix={prefix}
+        label="blackness"
+        gradient={`${trackBlacknessLeft}, ${trackBlacknessRight}`}
+        stepMin={0.01}
+        stepMax={0.0001}
+        min={0}
+        max={1}
+        value={color.b}
+        onChange={(e) => updateColor({ b: e.target.valueAsNumber })}
+      />
     </Fragment>
   );
 }
