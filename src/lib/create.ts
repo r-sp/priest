@@ -1,4 +1,4 @@
-import type { AnyColorMode, HslColorMode } from "./types";
+import type { AnyColorMode, HwbColorMode } from "./types";
 import type { ColorState } from "~/context/store";
 import {
   parseRgb,
@@ -9,7 +9,6 @@ import {
   parseOklab,
   parseOklch,
 } from "./parse";
-import { limiter } from "~/utils";
 
 export const createColor = (newColor: AnyColorMode): ColorState => {
   return {
@@ -23,20 +22,19 @@ export const createColor = (newColor: AnyColorMode): ColorState => {
   };
 };
 
-export const initColor = (): HslColorMode => {
-  const today = new Date();
-  const year = today.getUTCFullYear();
-  const month = today.getUTCMonth() + 1;
-  const day = today.getUTCDay();
+export const initColor = (): HwbColorMode => {
+  const now = new Date();
+  const date = now.getUTCDate();
+  const day = now.getUTCDay();
 
-  const hue = limiter((day * year) / month, 0, 360);
-  const saturation = limiter(month * 12, 0.64, 0.96);
-  const lightness = limiter(day * 30, 0.32, 0.64);
+  const hue = date * 11.612903225806452;
+  const whiteness = date * 0.01032258064516129;
+  const blackness = day * 0.034999999999999996;
 
   return {
-    mode: "hsl",
+    mode: "hwb",
     h: hue,
-    s: saturation,
-    l: lightness,
+    w: whiteness,
+    b: blackness,
   };
 };
