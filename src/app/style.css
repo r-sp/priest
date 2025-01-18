@@ -38,32 +38,11 @@
 }
 
 @layer utilities {
-  .h-svh-1\/2 {
-    height: 50svh;
-  }
   .bg-ref {
     background-color: var(--bg);
   }
   .bg-gradient-ref {
     background-image: var(--bg);
-  }
-  .frame {
-    overflow: hidden;
-    padding-top: 42.85%;
-    position: relative;
-  }
-  .frame > * {
-    height: 100%;
-    left: 0;
-    position: absolute;
-    top: 0;
-    width: 100%;
-  }
-  .overlay {
-    bottom: 0;
-    left: 0;
-    right: 0;
-    top: 0;
   }
 }
 
