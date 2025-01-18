@@ -42,7 +42,7 @@ export default async function ColorPage({ searchParams }: Props) {
 function Skeleton() {
   return (
     <div className="px-4">
-      <div className="mx-auto grid max-w-3xl gap-y-8 py-8">
+      <div className="mx-auto grid max-w-3xl gap-y-8">
         <div className="flex">
           <div className="skeleton aspect-cinema inline-flex w-full rounded-md"></div>
         </div>

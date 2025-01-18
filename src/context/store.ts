@@ -1,6 +1,6 @@
 import type { ThemeVariant, ColorFormat, ComposeColor } from "~/lib/types";
-import { createStore } from "zustand";
 import { createContext } from "react";
+import { create } from "zustand";
 
 export type SharedState = {
   theme: ThemeVariant | undefined;
@@ -26,7 +26,7 @@ export type ColorAction = {
 
 export type SharedStore = SharedState & SharedAction;
 export function createSharedStore(initValue: SharedState) {
-  return createStore<SharedStore>()((set) => ({
+  return create<SharedStore>()((set) => ({
     ...initValue,
     setTheme: (variant) => set(() => ({ theme: variant })),
     setMode: (format) => set(() => ({ mode: format })),
@@ -35,7 +35,7 @@ export function createSharedStore(initValue: SharedState) {
 
 export type ColorStore = ColorState & ColorAction;
 export function createColorStore(initValue: ColorState) {
-  return createStore<ColorStore>()((set) => ({
+  return create<ColorStore>()((set) => ({
     ...initValue,
     setColor: (state) => set((prev) => ({ ...prev, ...state })),
   }));
