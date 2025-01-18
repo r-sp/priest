@@ -21,8 +21,8 @@ export default function Preview({ color }: { color: AnyColorMode }) {
   const mode = color.mode;
 
   return (
-    <main className="px-4">
-      <div className="mx-auto grid max-w-3xl gap-y-8 py-8">
+    <div className="px-4">
+      <div className="mx-auto grid max-w-3xl gap-y-8">
         <div className="flex" style={{ ["--bg" as string]: currentCss }}>
           <div className="bg-ref aspect-cinema inline-flex w-full rounded-md"></div>
         </div>
@@ -60,7 +60,7 @@ export default function Preview({ color }: { color: AnyColorMode }) {
           </Css>
         </ul>
       </div>
-    </main>
+    </div>
   );
 }
 
@@ -79,12 +79,15 @@ function Css({
         href={switchPath("/color", color)}
         role="option"
         aria-selected={isActive}
+        aria-current={isActive ? "page" : undefined}
+        rel="alternate"
         className={clsx(
           "font-mono",
           isActive
             ? "font-medium text-gray-800 dark:text-gray-200"
             : "text-gray-600 dark:text-gray-400",
         )}
+        prefetch={false}
       >
         {children}
       </Link>
