@@ -1,9 +1,9 @@
-"use client";
-
 import type { ReactNode } from "react";
 import type { SharedState, ColorState } from "./store";
 import { createColor, initColor } from "~/lib";
-import Consumer from "./consumer";
+import { NuqsAdapter } from "nuqs/adapters/next/app";
+import SharedProvider from "./shared";
+import ColorProvider from "./color";
 
 export default function Provider({
   children,
@@ -16,8 +16,10 @@ export default function Provider({
   const colorState: ColorState = createColor(initColor());
 
   return (
-    <Consumer shared={sharedState} color={colorState}>
-      {children}
-    </Consumer>
+    <NuqsAdapter>
+      <SharedProvider initValue={sharedState}>
+        <ColorProvider initValue={colorState}>{children}</ColorProvider>
+      </SharedProvider>
+    </NuqsAdapter>
   );
 }
