@@ -3,12 +3,6 @@
 @variant dark (&:where(.dark, .dark *));
 
 @theme {
-  --font-sans: "Geist", "Geist Fallback", ui-sans-serif, system-ui, sans-serif,
-    "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
-  --font-mono: "Geist Mono", "Geist Mono Fallback", ui-monospace,
-    SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New",
-    monospace;
-
   --color-gray-50: oklch(1 0 0);
   --color-gray-100: oklch(0.96 0 0);
   --color-gray-200: oklch(0.864 0 0);
@@ -43,6 +37,12 @@
   }
   .bg-gradient-ref {
     background-image: var(--bg);
+  }
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+  .no-scrollbar {
+    scrollbar-width: 0;
   }
 }
 

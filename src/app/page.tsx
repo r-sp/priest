@@ -1,14 +1,17 @@
-import { InputCss } from "~/features";
-import { ColorInput, ColorMode, ColorView } from "~/components";
+import { ColorPicker } from "~/components";
+import { multiply } from "~/utils";
 
 export default function HomePage() {
   return (
-    <div className="px-4">
-      <div className="mx-auto grid max-w-3xl gap-y-8">
-        <ColorView />
-        <InputCss />
-        <ColorInput />
-        <ColorMode />
+    <div className="flex flex-col gap-y-8 px-4">
+      <ColorPicker />
+      <div className="max-w-8xl mx-auto grid w-full gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-6">
+        {multiply(1, 1, 36).map((index) => (
+          <span
+            key={index}
+            className="aspect-cinema grid-rows-subgrid rounded-md bg-gray-100 dark:bg-gray-900"
+          />
+        ))}
       </div>
     </div>
   );
