@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import type { ColorQuery } from "~/lib/types";
-import { getColorQuery, getColorPath, switchCssMode } from "~/lib";
+import { getColorQuery, getColorPath, switchMode } from "~/lib";
 import { permanentRedirect } from "next/navigation";
 import { Suspense } from "react";
 import Preview from "./preview";
@@ -14,7 +14,7 @@ export async function generateMetadata({
 }: Props): Promise<Metadata> {
   const query = await searchParams;
   const name = query.mode
-    ? `Color: ${switchCssMode(getColorQuery(query)!)}`
+    ? `Color: ${switchMode(getColorQuery(query)!)}`
     : "Color";
   const path = query.mode ? getColorPath("/color", query) : "/color";
 

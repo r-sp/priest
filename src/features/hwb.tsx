@@ -2,28 +2,24 @@
 
 import type { HwbColor, HwbColorMode } from "~/lib/types";
 import { useCallback, Fragment } from "react";
-import { useColorStore } from "~/hooks";
 import { formatHwb } from "~/lib";
 import { Slider } from "~/components";
 
 export default function InputHwb({
-  onChange,
+  color,
+  action,
   dynamicPreview = true,
   prefix = "hwb",
 }: {
-  onChange?: (color: HwbColorMode) => void;
+  color: HwbColor;
+  action: (color: HwbColorMode) => void;
   dynamicPreview?: boolean;
   prefix?: string;
 }) {
-  const { color } = useColorStore((state) => state.hwb);
-
   const updateColor = useCallback(
-    (newColor: Partial<HwbColor>) => {
-      if (onChange) {
-        onChange({ mode: "hwb", ...color, ...newColor });
-      }
-    },
-    [color, onChange],
+    (newColor: Partial<HwbColor>) =>
+      action({ mode: "hwb", ...color, ...newColor }),
+    [color, action],
   );
 
   const previewColor = useCallback(

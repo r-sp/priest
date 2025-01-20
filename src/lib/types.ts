@@ -1,5 +1,3 @@
-export type ThemeVariant = "auto" | "light" | "dark";
-
 export type ColorSpace = {
   rgb: { r: number; g: number; b: number };
   hsl: { h?: number; s: number; l: number };
@@ -10,16 +8,9 @@ export type ColorSpace = {
   oklch: { l: number; c: number; h?: number };
 };
 
-export type ColorFormat =
-  | "rgb"
-  | "hsl"
-  | "hwb"
-  | "lab"
-  | "lch"
-  | "oklab"
-  | "oklch";
+export type ColorFormat = keyof ColorSpace;
 
-export type ColorMode<T extends ColorFormat> = ColorSpace[T] & {
+type Mode<T extends ColorFormat> = ColorSpace[T] & {
   mode: T;
 };
 
@@ -39,13 +30,13 @@ export type AnyColor =
   | OklabColor
   | OklchColor;
 
-export type RgbColorMode = ColorMode<"rgb">;
-export type HslColorMode = ColorMode<"hsl">;
-export type HwbColorMode = ColorMode<"hwb">;
-export type LabColorMode = ColorMode<"lab">;
-export type LchColorMode = ColorMode<"lch">;
-export type OklabColorMode = ColorMode<"oklab">;
-export type OklchColorMode = ColorMode<"oklch">;
+export type RgbColorMode = Mode<"rgb">;
+export type HslColorMode = Mode<"hsl">;
+export type HwbColorMode = Mode<"hwb">;
+export type LabColorMode = Mode<"lab">;
+export type LchColorMode = Mode<"lch">;
+export type OklabColorMode = Mode<"oklab">;
+export type OklchColorMode = Mode<"oklch">;
 export type AnyColorMode =
   | RgbColorMode
   | HslColorMode
@@ -72,3 +63,18 @@ export type ColorQuery = {
   a?: number;
   c?: number;
 };
+
+export type ColorState = {
+  hex: string;
+  rgb: ComposeColor<"rgb">;
+  hsl: ComposeColor<"hsl">;
+  hwb: ComposeColor<"hwb">;
+  lab: ComposeColor<"lab">;
+  lch: ComposeColor<"lch">;
+  oklab: ComposeColor<"oklab">;
+  oklch: ComposeColor<"oklch">;
+};
+
+export type ColorMode = keyof ColorState;
+
+export type ColorScheme = "dark" | "light";

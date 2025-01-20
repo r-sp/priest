@@ -18,6 +18,15 @@ export default function ColorMode() {
       >
         <div className="inline-flex">
           <Chip
+            prefix="hex"
+            label="HEX"
+            group="mode"
+            isActive={mode === "hex"}
+            onChange={() => setMode("hex")}
+          />
+        </div>
+        <div className="inline-flex">
+          <Chip
             prefix="rgb"
             label="RGB"
             group="mode"

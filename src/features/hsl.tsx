@@ -2,28 +2,24 @@
 
 import type { HslColor, HslColorMode } from "~/lib/types";
 import { useCallback, Fragment } from "react";
-import { useColorStore } from "~/hooks";
 import { formatHsl } from "~/lib";
 import { Slider } from "~/components";
 
 export default function InputHsl({
-  onChange,
+  color,
+  action,
   dynamicPreview = true,
   prefix = "hsl",
 }: {
-  onChange?: (color: HslColorMode) => void;
+  color: HslColor;
+  action: (color: HslColorMode) => void;
   dynamicPreview?: boolean;
   prefix?: string;
 }) {
-  const { color } = useColorStore((state) => state.hsl);
-
   const updateColor = useCallback(
-    (newColor: Partial<HslColor>) => {
-      if (onChange) {
-        onChange({ mode: "hsl", ...color, ...newColor });
-      }
-    },
-    [color, onChange],
+    (newColor: Partial<HslColor>) =>
+      action({ mode: "hsl", ...color, ...newColor }),
+    [color, action],
   );
 
   const previewColor = useCallback(

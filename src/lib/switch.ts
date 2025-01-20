@@ -1,5 +1,4 @@
-import type { ColorFormat, AnyColorMode } from "./types";
-import type { ColorState } from "~/context/store";
+import type { ColorFormat, ColorState, ColorMode, AnyColorMode } from "./types";
 import {
   formatRgb,
   formatHsl,
@@ -48,10 +47,14 @@ export const switchColor = (
   }
 };
 
-export const switchCss = (mode: ColorFormat, color: ColorState): string => {
-  const { rgb, hsl, hwb, lab, lch, oklab, oklch } = color;
+export const switchCss = (mode: ColorMode, color: ColorState): string => {
+  const { hex, rgb, hsl, hwb, lab, lch, oklab, oklch } = color;
 
   switch (mode) {
+    case "hex": {
+      return hex;
+      break;
+    }
     case "rgb": {
       return rgb.css;
       break;
@@ -130,7 +133,7 @@ export const switchPath = (path: string, color: AnyColorMode): string => {
   return `${path}?${searchParams.toString()}`;
 };
 
-export const switchCssMode = (color: AnyColorMode): string => {
+export const switchMode = (color: AnyColorMode): string => {
   switch (color.mode) {
     case "rgb": {
       const { r, g, b } = color;

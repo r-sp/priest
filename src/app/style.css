@@ -42,7 +42,7 @@
     display: none;
   }
   .no-scrollbar {
-    scrollbar-width: 0;
+    scrollbar-width: none;
   }
 }
 

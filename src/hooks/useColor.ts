@@ -1,15 +1,12 @@
-import { type ColorState } from "~/context/store";
-import useColorStore from "./useColorStore";
+import type { AnyColorMode } from "~/lib/types";
+import useSession from "./useSession";
 
-export default function useColor(): [ColorState, (color: ColorState) => void] {
-  const rgb = useColorStore((state) => state.rgb);
-  const hsl = useColorStore((state) => state.hsl);
-  const hwb = useColorStore((state) => state.hwb);
-  const lab = useColorStore((state) => state.lab);
-  const lch = useColorStore((state) => state.lch);
-  const oklab = useColorStore((state) => state.oklab);
-  const oklch = useColorStore((state) => state.oklch);
-  const setColor = useColorStore((state) => state.setColor);
+export default function useColor(): [
+  AnyColorMode,
+  (state: AnyColorMode) => void,
+] {
+  const color = useSession((state) => state.color);
+  const setColor = useSession((state) => state.setColor);
 
-  return [{ rgb, hsl, hwb, lab, lch, oklab, oklch }, setColor];
+  return [color, setColor];
 }

@@ -2,28 +2,24 @@
 
 import type { LchColor, LchColorMode } from "~/lib/types";
 import { useCallback, Fragment } from "react";
-import { useColorStore } from "~/hooks";
 import { formatLch } from "~/lib";
 import { Slider } from "~/components";
 
 export default function InputLch({
-  onChange,
+  color,
+  action,
   dynamicPreview = true,
   prefix = "lch",
 }: {
-  onChange?: (color: LchColorMode) => void;
+  color: LchColor;
+  action: (color: LchColorMode) => void;
   dynamicPreview?: boolean;
   prefix?: string;
 }) {
-  const { color } = useColorStore((state) => state.lch);
-
   const updateColor = useCallback(
-    (newColor: Partial<LchColor>) => {
-      if (onChange) {
-        onChange({ mode: "lch", ...color, ...newColor });
-      }
-    },
-    [color, onChange],
+    (newColor: Partial<LchColor>) =>
+      action({ mode: "lch", ...color, ...newColor }),
+    [color, action],
   );
 
   const previewColor = useCallback(

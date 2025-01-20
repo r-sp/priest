@@ -1,25 +1,25 @@
 import type { ReactNode } from "react";
-import type { SharedState, ColorState } from "./store";
+import type { SessionState } from "./session";
 import { createColor, initColor } from "~/lib";
 import { NuqsAdapter } from "nuqs/adapters/next/app";
-import SharedProvider from "./shared";
-import ColorProvider from "./color";
+import Store from "./store";
 
 export default function Provider({
   children,
 }: Readonly<{ children: ReactNode }>) {
-  const sharedState: SharedState = {
-    theme: undefined,
-    mode: "oklch",
-  };
+  const currentColor = initColor();
+  const sharedColor = createColor(currentColor);
 
-  const colorState: ColorState = createColor(initColor());
+  const session: SessionState = {
+    theme: undefined,
+    color: currentColor,
+    mode: "hex",
+    shared: sharedColor,
+  };
 
   return (
     <NuqsAdapter>
-      <SharedProvider initValue={sharedState}>
-        <ColorProvider initValue={colorState}>{children}</ColorProvider>
-      </SharedProvider>
+      <Store initValue={session}>{children}</Store>
     </NuqsAdapter>
   );
 }

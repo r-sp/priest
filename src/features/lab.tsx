@@ -2,28 +2,24 @@
 
 import type { LabColor, LabColorMode } from "~/lib/types";
 import { useCallback, Fragment } from "react";
-import { useColorStore } from "~/hooks";
 import { formatLab } from "~/lib";
 import { Slider } from "~/components";
 
 export default function InputLab({
-  onChange,
+  color,
+  action,
   dynamicPreview = true,
   prefix = "lab",
 }: {
-  onChange?: (color: LabColorMode) => void;
+  color: LabColor;
+  action: (color: LabColorMode) => void;
   dynamicPreview?: boolean;
   prefix?: string;
 }) {
-  const { color } = useColorStore((state) => state.lab);
-
   const updateColor = useCallback(
-    (newColor: Partial<LabColor>) => {
-      if (onChange) {
-        onChange({ mode: "lab", ...color, ...newColor });
-      }
-    },
-    [color, onChange],
+    (newColor: Partial<LabColor>) =>
+      action({ mode: "lab", ...color, ...newColor }),
+    [color, action],
   );
 
   const previewColor = useCallback(

@@ -1,3 +1,11 @@
 export { default as Provider } from "./provider";
-export { default as ColorProvider } from "./color";
-export { default as SharedProvider } from "./shared";
+export { default as Store } from "./store";
+
+export type {
+  SessionState,
+  SessionAction,
+  SessionStore,
+  SessionApi,
+} from "./session";
+
+export { SessionContext } from "./store";

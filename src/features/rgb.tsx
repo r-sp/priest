@@ -2,28 +2,24 @@
 
 import type { RgbColor, RgbColorMode } from "~/lib/types";
 import { useCallback, Fragment } from "react";
-import { useColorStore } from "~/hooks";
 import { formatRgb } from "~/lib";
 import { Slider } from "~/components";
 
 export default function InputRgb({
-  onChange,
+  color,
+  action,
   dynamicPreview = true,
   prefix = "rgb",
 }: {
-  onChange?: (color: RgbColorMode) => void;
+  color: RgbColor;
+  action: (color: RgbColorMode) => void;
   dynamicPreview?: boolean;
   prefix?: string;
 }) {
-  const { color } = useColorStore((state) => state.rgb);
-
   const updateColor = useCallback(
-    (newColor: Partial<RgbColor>) => {
-      if (onChange) {
-        onChange({ mode: "rgb", ...color, ...newColor });
-      }
-    },
-    [color, onChange],
+    (newColor: Partial<RgbColor>) =>
+      action({ mode: "rgb", ...color, ...newColor }),
+    [color, action],
   );
 
   const previewColor = useCallback(

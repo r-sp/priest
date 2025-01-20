@@ -1,16 +1,6 @@
 "use client";
 
-import type { AnyColorMode } from "~/lib/types";
 import { useColorStore, useMode } from "~/hooks";
-import {
-  parseRgb,
-  parseHsl,
-  parseHwb,
-  parseLab,
-  parseLch,
-  parseOklab,
-  parseOklch,
-} from "~/lib";
 import {
   InputRgb,
   InputHsl,
@@ -26,9 +16,10 @@ export default function ColorInput({
 }: {
   dynamicPreview?: boolean;
 }) {
-  const setColor = useColorStore((state) => state.setColor);
+  const [{ rgb, hsl, hwb, lab, lch, oklab, oklch }, setColor] = useColorStore();
   const [mode] = useMode();
 
+  const modeHex = mode === "hex";
   const modeRgb = mode === "rgb";
   const modeHsl = mode === "hsl";
   const modeHwb = mode === "hwb";
@@ -37,53 +28,49 @@ export default function ColorInput({
   const modeOklab = mode === "oklab";
   const modeOklch = mode === "oklch";
 
-  const updateColor = (newColor: AnyColorMode) =>
-    setColor({
-      rgb: parseRgb(newColor),
-      hsl: parseHsl(newColor),
-      hwb: parseHwb(newColor),
-      lab: parseLab(newColor),
-      lch: parseLch(newColor),
-      oklab: parseOklab(newColor),
-      oklch: parseOklch(newColor),
-    });
-
   return (
     <div role="group" aria-label="color slider" className="grid gap-y-3">
-      {modeRgb ? (
+      {modeHex || modeRgb ? (
         <InputRgb
+          color={rgb.color}
+          action={setColor}
           dynamicPreview={dynamicPreview}
-          onChange={(c) => updateColor(c)}
         />
       ) : modeHsl ? (
         <InputHsl
+          color={hsl.color}
+          action={setColor}
           dynamicPreview={dynamicPreview}
-          onChange={(c) => updateColor(c)}
         />
       ) : modeHwb ? (
         <InputHwb
+          color={hwb.color}
+          action={setColor}
           dynamicPreview={dynamicPreview}
-          onChange={(c) => updateColor(c)}
         />
       ) : modeLch ? (
         <InputLch
+          color={lch.color}
+          action={setColor}
           dynamicPreview={dynamicPreview}
-          onChange={(c) => updateColor(c)}
         />
       ) : modeOklch ? (
         <InputOklch
+          color={oklch.color}
+          action={setColor}
           dynamicPreview={dynamicPreview}
-          onChange={(c) => updateColor(c)}
         />
       ) : modeLab ? (
         <InputLab
+          color={lab.color}
+          action={setColor}
           dynamicPreview={dynamicPreview}
-          onChange={(c) => updateColor(c)}
         />
       ) : modeOklab ? (
         <InputOklab
+          color={oklab.color}
+          action={setColor}
           dynamicPreview={dynamicPreview}
-          onChange={(c) => updateColor(c)}
         />
       ) : null}
     </div>

@@ -1,6 +1,6 @@
-import type { AnyColorMode, HwbColorMode } from "./types";
-import type { ColorState } from "~/context/store";
+import type { ColorState, AnyColorMode, HwbColorMode } from "./types";
 import {
+  parseHex,
   parseRgb,
   parseHsl,
   parseHwb,
@@ -12,6 +12,7 @@ import {
 
 export const createColor = (newColor: AnyColorMode): ColorState => {
   return {
+    hex: parseHex(newColor),
     rgb: parseRgb(newColor),
     hsl: parseHsl(newColor),
     hwb: parseHwb(newColor),
