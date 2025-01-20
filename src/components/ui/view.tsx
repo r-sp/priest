@@ -1,14 +1,17 @@
 "use client";
 
-import { useColor, useMode } from "~/hooks";
+import { useColorStore, useMode } from "~/hooks";
 import { switchColor, switchCss, switchPath } from "~/lib";
 import Link from "next/link";
 
 export default function ColorView() {
-  const [color] = useColor();
+  const [color] = useColorStore();
   const [mode] = useMode();
 
-  const currentPath = switchPath("/color", switchColor(mode, color));
+  const currentPath = switchPath(
+    "/color",
+    switchColor(mode === "hex" ? "rgb" : mode, color),
+  );
   const currentCss = switchCss(mode, color);
 
   return (
