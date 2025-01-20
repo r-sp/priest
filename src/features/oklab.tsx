@@ -2,28 +2,24 @@
 
 import type { OklabColor, OklabColorMode } from "~/lib/types";
 import { useCallback, Fragment } from "react";
-import { useColorStore } from "~/hooks";
 import { formatOklab } from "~/lib";
 import { Slider } from "~/components";
 
 export default function InputOklab({
-  onChange,
+  color,
+  action,
   dynamicPreview = true,
   prefix = "oklab",
 }: {
-  onChange?: (color: OklabColorMode) => void;
+  color: OklabColor;
+  action: (color: OklabColorMode) => void;
   dynamicPreview?: boolean;
   prefix?: string;
 }) {
-  const { color } = useColorStore((state) => state.oklab);
-
   const updateColor = useCallback(
-    (newColor: Partial<OklabColor>) => {
-      if (onChange) {
-        onChange({ mode: "oklab", ...color, ...newColor });
-      }
-    },
-    [color, onChange],
+    (newColor: Partial<OklabColor>) =>
+      action({ mode: "oklab", ...color, ...newColor }),
+    [color, action],
   );
 
   const previewColor = useCallback(

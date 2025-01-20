@@ -2,28 +2,24 @@
 
 import type { OklchColor, OklchColorMode } from "~/lib/types";
 import { useCallback, Fragment } from "react";
-import { useColorStore } from "~/hooks";
 import { formatOklch } from "~/lib";
 import { Slider } from "~/components";
 
 export default function InputOklch({
-  onChange,
+  color,
+  action,
   dynamicPreview = true,
   prefix = "oklch",
 }: {
-  onChange?: (color: OklchColorMode) => void;
+  color: OklchColor;
+  action: (color: OklchColorMode) => void;
   dynamicPreview?: boolean;
   prefix?: string;
 }) {
-  const { color } = useColorStore((state) => state.oklch);
-
   const updateColor = useCallback(
-    (newColor: Partial<OklchColor>) => {
-      if (onChange) {
-        onChange({ mode: "oklch", ...color, ...newColor });
-      }
-    },
-    [color, onChange],
+    (newColor: Partial<OklchColor>) =>
+      action({ mode: "oklch", ...color, ...newColor }),
+    [color, action],
   );
 
   const previewColor = useCallback(
