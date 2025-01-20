@@ -2,18 +2,16 @@
 
 import type { ChangeEvent } from "react";
 import { useState, useCallback } from "react";
-import { useColor, useMode } from "~/hooks";
-import { createColor, formatHex, parseCss, switchCss } from "~/lib";
+import { useColorStore, useMode } from "~/hooks";
+import { parseCss, switchCss } from "~/lib";
 import { isValidCss } from "~/utils";
 import clsx from "clsx";
 
 export default function InputCss() {
-  const [color, setColor] = useColor();
+  const [color, setColor] = useColorStore();
   const [mode, setMode] = useMode();
-  const [isHex, setIsHex] = useState<boolean>(false);
 
-  const { rgb } = color;
-  const currentColor = isHex ? formatHex(rgb.color) : switchCss(mode, color);
+  const currentColor = switchCss(mode, color);
 
   const [input, setInput] = useState<string>(currentColor);
   const [focus, setFocus] = useState<boolean>(false);
@@ -28,13 +26,12 @@ export default function InputCss() {
         if (validColor) {
           const [isHex, isColor] = isValidCss(newColor);
           if (isHex) {
-            setIsHex(true);
+            setMode("hex");
           }
           if (isColor) {
-            setIsHex(false);
+            setMode(validColor.mode);
           }
-          setColor(createColor(validColor));
-          setMode(validColor.mode);
+          setColor(validColor);
         }
       }
     },
