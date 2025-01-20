@@ -1,14 +1,12 @@
-import { type ColorStore, ColorContext } from "~/context/store";
-import { useContext } from "react";
-import { useStore } from "zustand";
-import { useShallow } from "zustand/shallow";
+import type { AnyColorMode, ColorState } from "~/lib/types";
+import useSession from "./useSession";
 
-export default function useColorStore<T>(selector: (store: ColorStore) => T) {
-  const context = useContext(ColorContext);
+export default function useColorStore(): [
+  ColorState,
+  (state: AnyColorMode) => void,
+] {
+  const color = useSession((state) => state.shared);
+  const setColor = useSession((state) => state.setColor);
 
-  if (!context) {
-    throw new Error("useColorStore must be used within ColorProvider");
-  }
-
-  return useStore(context, useShallow(selector));
+  return [color, setColor];
 }

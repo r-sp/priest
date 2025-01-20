@@ -1,9 +1,6 @@
-import { type ColorFormat } from "~/lib/types";
-import useSharedStore from "./useSharedStore";
+import type { ColorMode } from "~/lib/types";
+import useSession from "./useSession";
 
-export default function useMode(): [
-  ColorFormat,
-  (format: ColorFormat) => void,
-] {
-  return useSharedStore((state) => [state.mode, state.setMode]);
+export default function useMode(): [ColorMode, (state: ColorMode) => void] {
+  return useSession((state) => [state.mode, state.setMode]);
 }

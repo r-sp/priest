@@ -1,9 +1,9 @@
-import { type ThemeVariant } from "~/lib/types";
-import useSharedStore from "./useSharedStore";
+import type { ColorScheme } from "~/lib/types";
+import useSession from "./useSession";
 
 export default function useTheme(): [
-  ThemeVariant | undefined,
-  (variant: ThemeVariant) => void,
+  ColorScheme | undefined,
+  (state: ColorScheme) => void,
 ] {
-  return useSharedStore((state) => [state.theme, state.setTheme]);
+  return useSession((state) => [state.theme, state.setTheme]);
 }
