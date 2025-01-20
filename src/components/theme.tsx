@@ -1,6 +1,6 @@
 "use client";
 
-import type { ThemeVariant } from "~/lib/types";
+import type { ColorScheme } from "~/lib/types";
 import { useState, useEffect, useCallback, Fragment } from "react";
 import { useTheme } from "~/hooks";
 import { isClient } from "~/utils";
@@ -27,27 +27,17 @@ const setLocalStorage = (key: string, value: string): void => {
   }
 };
 
-const removeTheme = (variant: ThemeVariant): void => {
+const removeTheme = (variant: ColorScheme): void => {
   document.documentElement.classList.remove(variant);
 };
 
-const addTheme = (variant: ThemeVariant): void => {
+const addTheme = (variant: ColorScheme): void => {
   document.documentElement.classList.add(variant);
   document.documentElement.style.colorScheme = variant;
 };
 
-const setLocalTheme = (variant: ThemeVariant): void => {
+const setLocalTheme = (variant: ColorScheme): void => {
   setLocalStorage("theme", variant);
-};
-
-const getLocalTheme = (): ThemeVariant => {
-  const local = getLocalStorage("theme") as ThemeVariant;
-  if (local) {
-    return local;
-  } else {
-    setLocalTheme("auto");
-    return "auto";
-  }
 };
 
 export function ThemeSwitcher() {
@@ -58,7 +48,7 @@ export function ThemeSwitcher() {
 
   useEffect(() => {
     if (theme === undefined) {
-      const localTheme = getLocalTheme();
+      const localTheme = getLocalStorage("theme") as ColorScheme;
       if (localTheme === dark) {
         setTheme(dark);
       } else if (localTheme === light) {
@@ -76,7 +66,7 @@ export function ThemeSwitcher() {
   }, [theme, dark, light, setTheme]);
 
   const handleTheme = useCallback(
-    (clean: ThemeVariant, apply: ThemeVariant) => {
+    (clean: ColorScheme, apply: ColorScheme) => {
       removeTheme(clean);
       addTheme(apply);
       setTheme(apply);
@@ -133,10 +123,7 @@ export function ThemeSwitcher() {
           </svg>
         </button>
       )}
-      {theme === "auto" ||
-        (theme === undefined && (
-          <div className="skeleton size-8 rounded-full" />
-        ))}
+      {theme === undefined && <div className="skeleton size-8 rounded-full" />}
     </Fragment>
   );
 }
