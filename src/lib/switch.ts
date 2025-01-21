@@ -1,5 +1,6 @@
-import type { ColorFormat, ColorState, ColorMode, AnyColorMode } from "./types";
+import type { AnyColorMode } from "./types";
 import {
+  formatHex,
   formatRgb,
   formatHsl,
   formatHwb,
@@ -8,83 +9,6 @@ import {
   formatOklab,
   formatOklch,
 } from "./format";
-
-export const switchColor = (
-  mode: ColorFormat,
-  color: ColorState,
-): AnyColorMode => {
-  const { rgb, hsl, hwb, lab, lch, oklab, oklch } = color;
-
-  switch (mode) {
-    case "rgb": {
-      return { mode, ...rgb.color };
-      break;
-    }
-    case "hsl": {
-      return { mode, ...hsl.color };
-      break;
-    }
-    case "hwb": {
-      return { mode, ...hwb.color };
-      break;
-    }
-    case "lab": {
-      return { mode, ...lab.color };
-      break;
-    }
-    case "lch": {
-      return { mode, ...lch.color };
-      break;
-    }
-    case "oklab": {
-      return { mode, ...oklab.color };
-      break;
-    }
-    case "oklch": {
-      return { mode, ...oklch.color };
-      break;
-    }
-  }
-};
-
-export const switchCss = (mode: ColorMode, color: ColorState): string => {
-  const { hex, rgb, hsl, hwb, lab, lch, oklab, oklch } = color;
-
-  switch (mode) {
-    case "hex": {
-      return hex;
-      break;
-    }
-    case "rgb": {
-      return rgb.css;
-      break;
-    }
-    case "hsl": {
-      return hsl.css;
-      break;
-    }
-    case "hwb": {
-      return hwb.css;
-      break;
-    }
-    case "lab": {
-      return lab.css;
-      break;
-    }
-    case "lch": {
-      return lch.css;
-      break;
-    }
-    case "oklab": {
-      return oklab.css;
-      break;
-    }
-    case "oklch": {
-      return oklch.css;
-      break;
-    }
-  }
-};
 
 export const switchPath = (path: string, color: AnyColorMode): string => {
   const searchParams = new URLSearchParams([]);
@@ -133,9 +57,10 @@ export const switchPath = (path: string, color: AnyColorMode): string => {
   return `${path}?${searchParams.toString()}`;
 };
 
-export const switchMode = (color: AnyColorMode): string => {
+export const switchCss = (color: AnyColorMode, hex?: boolean): string => {
   switch (color.mode) {
     case "rgb": {
+      if (hex) return formatHex(color);
       const { r, g, b } = color;
       return formatRgb({ r, g, b });
       break;
