@@ -4,7 +4,6 @@ import type {
   ColorMode,
   ColorState,
 } from "~/lib/types";
-import { createColor } from "~/lib";
 import { create } from "zustand";
 
 export type SessionState = {
@@ -18,6 +17,7 @@ export type SessionAction = {
   setColor: (state: AnyColorMode) => void;
   setMode: (state: ColorMode) => void;
   setTheme: (state: ColorScheme) => void;
+  setShared: (state: ColorState) => void;
 };
 
 export type SessionStore = SessionState & SessionAction;
@@ -25,10 +25,10 @@ export type SessionStore = SessionState & SessionAction;
 export function createSession(initValue: SessionState) {
   return create<SessionStore>()((set) => ({
     ...initValue,
-    setColor: (state) =>
-      set(() => ({ color: state, shared: createColor(state) })),
+    setColor: (state) => set(() => ({ color: state })),
     setMode: (state) => set(() => ({ mode: state })),
     setTheme: (state) => set(() => ({ theme: state })),
+    setShared: (state) => set(() => ({ shared: state })),
   }));
 }
 

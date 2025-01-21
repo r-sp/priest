@@ -1,6 +1,6 @@
 import type { ReactNode } from "react";
 import type { AnyColorMode } from "~/lib/types";
-import { createColor, parseCss, switchMode, switchPath } from "~/lib";
+import { createColor, parseCss, switchCss, switchPath } from "~/lib";
 import {
   CheckRgb,
   CheckHsl,
@@ -14,18 +14,24 @@ import clsx from "clsx";
 import Link from "next/link";
 
 export default function Preview({ color }: { color: AnyColorMode }) {
-  const currentCss = switchMode(color);
-  const { rgb, hsl, hwb, lab, lch, oklab, oklch } = createColor(
+  const currentCss = switchCss(color);
+  const { hex, rgb, hsl, hwb, lab, lch, oklab, oklch } = createColor(
     parseCss(currentCss)!,
   );
   const mode = color.mode;
 
   return (
     <div className="px-4">
-      <div className="mx-auto grid max-w-3xl gap-y-8">
-        <div className="flex" style={{ ["--bg" as string]: currentCss }}>
+      <article className="mx-auto grid max-w-3xl gap-y-8">
+        <header
+          className="flex flex-col gap-y-4"
+          style={{ ["--bg" as string]: currentCss }}
+        >
           <div className="bg-ref aspect-cinema inline-flex w-full rounded-md"></div>
-        </div>
+          <h1 className="text-xl text-gray-800 dark:text-gray-200">
+            <code>{hex}</code>
+          </h1>
+        </header>
         <ul
           role="listbox"
           aria-label="color space"
@@ -59,7 +65,7 @@ export default function Preview({ color }: { color: AnyColorMode }) {
             <CheckOklab color={oklab.color} />
           </Css>
         </ul>
-      </div>
+      </article>
     </div>
   );
 }

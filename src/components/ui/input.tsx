@@ -1,6 +1,6 @@
 "use client";
 
-import { useColorStore, useMode } from "~/hooks";
+import type { AnyColorMode, ColorState, ColorMode } from "~/lib/types";
 import {
   InputRgb,
   InputHsl,
@@ -12,12 +12,21 @@ import {
 } from "~/features";
 
 export default function ColorInput({
+  color,
+  mode,
+  action,
   dynamicPreview = true,
+  prefix = "slider",
+  label = "color slider",
 }: {
+  color: ColorState;
+  mode: ColorMode;
+  action: (state: AnyColorMode) => void;
   dynamicPreview?: boolean;
+  prefix?: string;
+  label?: string;
 }) {
-  const [{ rgb, hsl, hwb, lab, lch, oklab, oklch }, setColor] = useColorStore();
-  const [mode] = useMode();
+  const { rgb, hsl, hwb, lab, lch, oklab, oklch } = color;
 
   const modeHex = mode === "hex";
   const modeRgb = mode === "rgb";
@@ -29,48 +38,55 @@ export default function ColorInput({
   const modeOklch = mode === "oklch";
 
   return (
-    <div role="group" aria-label="color slider" className="grid gap-y-3">
+    <div role="group" aria-label={label} className="grid gap-y-3">
       {modeHex || modeRgb ? (
         <InputRgb
           color={rgb.color}
-          action={setColor}
+          action={action}
           dynamicPreview={dynamicPreview}
+          prefix={`${prefix}-rgb`}
         />
       ) : modeHsl ? (
         <InputHsl
           color={hsl.color}
-          action={setColor}
+          action={action}
           dynamicPreview={dynamicPreview}
+          prefix={`${prefix}-hsl`}
         />
       ) : modeHwb ? (
         <InputHwb
           color={hwb.color}
-          action={setColor}
+          action={action}
           dynamicPreview={dynamicPreview}
+          prefix={`${prefix}-hwb`}
         />
       ) : modeLch ? (
         <InputLch
           color={lch.color}
-          action={setColor}
+          action={action}
           dynamicPreview={dynamicPreview}
+          prefix={`${prefix}-lch`}
         />
       ) : modeOklch ? (
         <InputOklch
           color={oklch.color}
-          action={setColor}
+          action={action}
           dynamicPreview={dynamicPreview}
+          prefix={`${prefix}-oklch`}
         />
       ) : modeLab ? (
         <InputLab
           color={lab.color}
-          action={setColor}
+          action={action}
           dynamicPreview={dynamicPreview}
+          prefix={`${prefix}-lab`}
         />
       ) : modeOklab ? (
         <InputOklab
           color={oklab.color}
-          action={setColor}
+          action={action}
           dynamicPreview={dynamicPreview}
+          prefix={`${prefix}-oklab`}
         />
       ) : null}
     </div>
