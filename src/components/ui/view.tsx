@@ -1,18 +1,10 @@
-"use client";
-
-import { useColorStore, useMode } from "~/hooks";
-import { switchColor, switchCss, switchPath } from "~/lib";
+import type { AnyColorMode } from "~/lib/types";
+import { switchCss, switchPath } from "~/lib";
 import Link from "next/link";
 
-export default function ColorView() {
-  const [color] = useColorStore();
-  const [mode] = useMode();
-
-  const currentPath = switchPath(
-    "/color",
-    switchColor(mode === "hex" ? "rgb" : mode, color),
-  );
-  const currentCss = switchCss(mode, color);
+export default function ColorView({ color }: { color: AnyColorMode }) {
+  const currentPath = switchPath("/color", color);
+  const currentCss = switchCss(color);
 
   return (
     <div className="flex" style={{ ["--bg" as string]: currentCss }}>
