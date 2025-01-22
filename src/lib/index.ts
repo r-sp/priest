@@ -35,6 +35,8 @@ export {
   parseOklch,
 } from "./parse";
 
+export { getGamut, setGamut, checkGamut } from "./gamut";
+
 export { switchPath, switchCss } from "./switch";
 
 export { getColorQuery, getColorPath } from "./query";
