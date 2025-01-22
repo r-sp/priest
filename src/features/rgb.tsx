@@ -31,15 +31,15 @@ export default function InputRgb({
 
   const trackRedLeft = previewColor({ r: 0 });
   const trackRedRight = previewColor(
-    dynamicPreview ? { r: 1 } : { r: 1, g: 0, b: 0 },
+    dynamicPreview ? { r: 255 } : { r: 255, g: 0, b: 0 },
   );
   const trackGreenLeft = previewColor({ g: 0 });
   const trackGreenRight = previewColor(
-    dynamicPreview ? { g: 1 } : { r: 0, g: 1, b: 0 },
+    dynamicPreview ? { g: 255 } : { r: 0, g: 255, b: 0 },
   );
   const trackBlueLeft = previewColor({ b: 0 });
   const trackBlueRight = previewColor(
-    dynamicPreview ? { b: 1 } : { r: 0, g: 0, b: 1 },
+    dynamicPreview ? { b: 255 } : { r: 0, g: 0, b: 255 },
   );
 
   return (
@@ -48,9 +48,9 @@ export default function InputRgb({
         prefix={prefix}
         label="red"
         gradient={`${trackRedLeft}, ${trackRedRight}`}
-        stepMin={0.0045}
+        stepMin={1}
         min={0}
-        max={1}
+        max={255}
         value={color.r}
         onChange={(e) => updateColor({ r: e.target.valueAsNumber })}
       />
@@ -58,9 +58,9 @@ export default function InputRgb({
         prefix={prefix}
         label="green"
         gradient={`${trackGreenLeft}, ${trackGreenRight}`}
-        stepMin={0.0045}
+        stepMin={1}
         min={0}
-        max={1}
+        max={255}
         value={color.g}
         onChange={(e) => updateColor({ g: e.target.valueAsNumber })}
       />
@@ -68,9 +68,9 @@ export default function InputRgb({
         prefix={prefix}
         label="blue"
         gradient={`${trackBlueLeft}, ${trackBlueRight}`}
-        stepMin={0.0045}
+        stepMin={1}
         min={0}
-        max={1}
+        max={255}
         value={color.b}
         onChange={(e) => updateColor({ b: e.target.valueAsNumber })}
       />

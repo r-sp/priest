@@ -3,7 +3,7 @@
 import type { ChangeEvent } from "react";
 import type { AnyColorMode, ColorMode } from "~/lib/types";
 import { useState, useCallback } from "react";
-import { parseCss, parseHex, switchCss } from "~/lib";
+import { parseCss, parseHex, switchCss, setGamut } from "~/lib";
 import clsx from "clsx";
 
 export default function InputCss({
@@ -32,7 +32,7 @@ export default function InputCss({
       if (focus) {
         setInput(newColor);
         if (validColor) {
-          action(validColor, newColor);
+          action(setGamut(validColor), newColor);
         }
       }
     },

@@ -30,30 +30,30 @@ export default function InputHsl({
   );
 
   const trackHueRed = previewColor(
-    dynamicPreview ? { h: 0 } : { h: 0, s: 1, l: 0.5 },
+    dynamicPreview ? { h: 0 } : { h: 0, s: 100, l: 50 },
   );
   const trackHueYellow = previewColor(
-    dynamicPreview ? { h: 60 } : { h: 60, s: 1, l: 0.5 },
+    dynamicPreview ? { h: 60 } : { h: 60, s: 100, l: 50 },
   );
   const trackHueGreen = previewColor(
-    dynamicPreview ? { h: 120 } : { h: 120, s: 1, l: 0.5 },
+    dynamicPreview ? { h: 120 } : { h: 120, s: 100, l: 50 },
   );
   const trackHueCyan = previewColor(
-    dynamicPreview ? { h: 180 } : { h: 180, s: 1, l: 0.5 },
+    dynamicPreview ? { h: 180 } : { h: 180, s: 100, l: 50 },
   );
   const trackHueBlue = previewColor(
-    dynamicPreview ? { h: 240 } : { h: 240, s: 1, l: 0.5 },
+    dynamicPreview ? { h: 240 } : { h: 240, s: 100, l: 50 },
   );
   const trackHuePurple = previewColor(
-    dynamicPreview ? { h: 300 } : { h: 300, s: 1, l: 0.5 },
+    dynamicPreview ? { h: 300 } : { h: 300, s: 100, l: 50 },
   );
   const trackSaturationLeft = previewColor(
-    dynamicPreview ? { s: 0 } : { s: 0, l: 0.5 },
+    dynamicPreview ? { s: 0 } : { s: 0, l: 50 },
   );
   const trackSaturationRight = previewColor(
-    dynamicPreview ? { s: 1 } : { s: 1, l: 0.5 },
+    dynamicPreview ? { s: 100 } : { s: 100, l: 50 },
   );
-  const trackLightnessCenter = previewColor({ s: 1, l: 0.5 });
+  const trackLightnessCenter = previewColor({ s: 100, l: 50 });
 
   return (
     <Fragment>
@@ -72,10 +72,10 @@ export default function InputHsl({
         prefix={prefix}
         label="saturation"
         gradient={`${trackSaturationLeft}, ${trackSaturationRight}`}
-        stepMin={0.01}
-        stepMax={0.0001}
+        stepMin={1}
+        stepMax={0.01}
         min={0}
-        max={1}
+        max={100}
         value={color.s}
         onChange={(e) => updateColor({ s: e.target.valueAsNumber })}
       />
@@ -83,10 +83,10 @@ export default function InputHsl({
         prefix={prefix}
         label="lightness"
         gradient={`hsl(0 0% 0%), ${trackLightnessCenter}, hsl(0 0% 100%)`}
-        stepMin={0.01}
-        stepMax={0.0001}
+        stepMin={1}
+        stepMax={0.01}
         min={0}
-        max={1}
+        max={100}
         value={color.l}
         onChange={(e) => updateColor({ l: e.target.valueAsNumber })}
       />
