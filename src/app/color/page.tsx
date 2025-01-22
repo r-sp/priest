@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import type { ColorQuery } from "~/lib/types";
-import { getColorQuery, getColorPath, switchCss } from "~/lib";
+import { getColorQuery, getColorPath, switchCss, checkGamut } from "~/lib";
 import { permanentRedirect } from "next/navigation";
 import { Suspense } from "react";
 import Preview from "./preview";
@@ -27,10 +27,13 @@ export async function generateMetadata({
 
 export default async function ColorPage({ searchParams }: Props) {
   const query = await searchParams;
-  if (!query.mode) permanentRedirect("/?error=unknown-color-query");
+  if (!query.mode) permanentRedirect("/status?error=unknown-color-query");
 
   const color = getColorQuery(query);
-  if (!color) permanentRedirect("/?error=unknown-color-mode");
+  if (!color) permanentRedirect("/status?error=unknown-color-mode");
+
+  const offset = checkGamut(color);
+  if (offset) permanentRedirect(`/status?error=${offset}`);
 
   return (
     <Suspense fallback={<Skeleton />}>

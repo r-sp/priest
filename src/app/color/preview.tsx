@@ -1,6 +1,6 @@
 import type { ReactNode } from "react";
 import type { AnyColorMode } from "~/lib/types";
-import { createColor, parseCss, switchCss, switchPath } from "~/lib";
+import { createColor, switchCss, switchPath } from "~/lib";
 import {
   CheckRgb,
   CheckHsl,
@@ -15,9 +15,7 @@ import Link from "next/link";
 
 export default function Preview({ color }: { color: AnyColorMode }) {
   const currentCss = switchCss(color);
-  const { hex, rgb, hsl, hwb, lab, lch, oklab, oklch } = createColor(
-    parseCss(currentCss)!,
-  );
+  const { hex, rgb, hsl, hwb, lab, lch, oklab, oklch } = createColor(color);
   const mode = color.mode;
 
   return (

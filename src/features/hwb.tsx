@@ -48,16 +48,16 @@ export default function InputHwb({
     dynamicPreview ? { h: 300 } : { h: 300, w: 0, b: 0 },
   );
   const trackWhitenessLeft = previewColor(
-    dynamicPreview ? { w: 0 } : { w: 0, b: 0.5 },
+    dynamicPreview ? { w: 0 } : { w: 0, b: 50 },
   );
   const trackWhitenessRight = previewColor(
-    dynamicPreview ? { w: 1 } : { w: 1, b: 0 },
+    dynamicPreview ? { w: 100 } : { w: 100, b: 0 },
   );
   const trackBlacknessLeft = previewColor(
     dynamicPreview ? { b: 0 } : { w: 0, b: 0 },
   );
   const trackBlacknessRight = previewColor(
-    dynamicPreview ? { b: 1 } : { w: 0, b: 1 },
+    dynamicPreview ? { b: 100 } : { w: 0, b: 100 },
   );
 
   return (
@@ -77,10 +77,10 @@ export default function InputHwb({
         prefix={prefix}
         label="whiteness"
         gradient={`${trackWhitenessLeft}, ${trackWhitenessRight}`}
-        stepMin={0.01}
-        stepMax={0.0001}
+        stepMin={1}
+        stepMax={0.01}
         min={0}
-        max={1}
+        max={100}
         value={color.w}
         onChange={(e) => updateColor({ w: e.target.valueAsNumber })}
       />
@@ -88,10 +88,10 @@ export default function InputHwb({
         prefix={prefix}
         label="blackness"
         gradient={`${trackBlacknessLeft}, ${trackBlacknessRight}`}
-        stepMin={0.01}
-        stepMax={0.0001}
+        stepMin={1}
+        stepMax={0.01}
         min={0}
-        max={1}
+        max={100}
         value={color.b}
         onChange={(e) => updateColor({ b: e.target.valueAsNumber })}
       />

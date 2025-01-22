@@ -10,38 +10,82 @@ import type {
 } from "./types";
 import { rgb, hsl, hwb, lab, lch, oklab, oklch } from "./model";
 import { clampGamut } from "culori/fn";
+import { getGamut } from "./gamut";
+import { round } from "~/utils";
 
 export const convertRgb = (color: string | AnyColorMode): RgbColorMode => {
   const format = clampGamut("rgb");
-  return rgb(format(color)) || { mode: "rgb", r: 0, g: 0, b: 0 };
+  const valid = rgb(format(getGamut(color)));
+  return {
+    mode: "rgb",
+    r: valid ? round(valid.r * 255) : 0,
+    g: valid ? round(valid.g * 255) : 0,
+    b: valid ? round(valid.b * 255) : 0,
+  };
 };
 
 export const convertHsl = (color: string | AnyColorMode): HslColorMode => {
   const format = clampGamut("hsl");
-  return hsl(format(color)) || { mode: "hsl", h: 0, s: 0, l: 0 };
+  const valid = hsl(format(getGamut(color)));
+  return {
+    mode: "hsl",
+    h: valid ? round(valid.h || 0, 2) : 0,
+    s: valid ? round(valid.s * 100, 2) : 0,
+    l: valid ? round(valid.l * 100, 2) : 0,
+  };
 };
 
 export const convertHwb = (color: string | AnyColorMode): HwbColorMode => {
   const format = clampGamut("hwb");
-  return hwb(format(color)) || { mode: "hwb", h: 0, w: 0, b: 0 };
+  const valid = hwb(format(getGamut(color)));
+  return {
+    mode: "hwb",
+    h: valid ? round(valid.h || 0, 2) : 0,
+    w: valid ? round(valid.w * 100) : 0,
+    b: valid ? round(valid.b * 100) : 0,
+  };
 };
 
 export const convertLab = (color: string | AnyColorMode): LabColorMode => {
   const format = clampGamut("lab");
-  return lab(format(color)) || { mode: "lab", l: 0, a: 0, b: 0 };
+  const valid = lab(format(getGamut(color)));
+  return {
+    mode: "lab",
+    l: valid ? round(valid.l, 3) : 0,
+    a: valid ? round(valid.a, 3) : 0,
+    b: valid ? round(valid.b, 3) : 0,
+  };
 };
 
 export const convertLch = (color: string | AnyColorMode): LchColorMode => {
   const format = clampGamut("lch");
-  return lch(format(color)) || { mode: "lch", l: 0, c: 0, h: 0 };
+  const valid = lch(format(getGamut(color)));
+  return {
+    mode: "lch",
+    l: valid ? round(valid.l, 3) : 0,
+    c: valid ? round(valid.c, 3) : 0,
+    h: valid ? round(valid.h || 0, 3) : 0,
+  };
 };
 
 export const convertOklab = (color: string | AnyColorMode): OklabColorMode => {
   const format = clampGamut("oklab");
-  return oklab(format(color)) || { mode: "oklab", l: 0, a: 0, b: 0 };
+  const valid = oklab(format(getGamut(color)));
+  return {
+    mode: "oklab",
+    l: valid ? round(valid.l, 3) : 0,
+    a: valid ? round(valid.a, 3) : 0,
+    b: valid ? round(valid.b, 3) : 0,
+  };
 };
 
 export const convertOklch = (color: string | AnyColorMode): OklchColorMode => {
   const format = clampGamut("oklch");
-  return oklch(format(color)) || { mode: "oklch", l: 0, c: 0, h: 0 };
+  const valid = oklch(format(getGamut(color)));
+  return {
+    mode: "oklch",
+    l: valid ? round(valid.l, 3) : 0,
+    c: valid ? round(valid.c, 3) : 0,
+    h: valid ? round(valid.h || 0, 3) : 0,
+  };
 };

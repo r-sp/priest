@@ -29,8 +29,8 @@ export const initColor = (): HwbColorMode => {
   const day = now.getUTCDay();
 
   const hue = date * 11.612903225806452;
-  const whiteness = date * 0.01032258064516129;
-  const blackness = day * 0.034999999999999996;
+  const whiteness = date * 1.032258064516129;
+  const blackness = day * 3.5;
 
   return {
     mode: "hwb",
