@@ -1,5 +1,5 @@
-import type { AnyColorMode } from "~/lib/types";
-import { createColor, switchCss } from "~/lib";
+import type { AnyColorMode } from "~/lib/color";
+import { createColor, parseCss } from "~/lib/color";
 import {
   CheckRgb,
   CheckHsl,
@@ -19,7 +19,7 @@ export default function Preview({
   color: AnyColorMode;
   error?: string;
 }) {
-  const currentCss = switchCss(color);
+  const currentCss = parseCss(color);
   const { hex, rgb, hsl, hwb, lab, lch, oklab, oklch } = createColor(color);
   const mode = color.mode;
 

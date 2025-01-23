@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
-import type { ColorQuery } from "~/lib/types";
-import { getColorQuery, getColorPath, switchCss, checkGamut } from "~/lib";
+import type { ColorQuery } from "~/lib/color";
+import { getColorQuery, getColorPath } from "~/lib/query";
+import { parseCss } from "~/lib/color";
+import { checkGamut } from "~/lib/gamut";
 import { permanentRedirect } from "next/navigation";
 import { Suspense } from "react";
 import Preview from "./preview";
@@ -26,9 +28,9 @@ export async function generateMetadata({
 
   const color = query.error
     ? includes
-      ? switchCss(getColorQuery(repaint)!)
+      ? parseCss(getColorQuery(repaint)!)
       : "Error"
-    : switchCss(getColorQuery(repaint)!);
+    : parseCss(getColorQuery(repaint)!);
 
   const name = createMetadata(`Color: ${color}`, "Error");
   const text = createMetadata(

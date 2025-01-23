@@ -1,8 +1,10 @@
 import type { ReactNode } from "react";
 import type { Metadata } from "next";
+import type { SessionState } from "~/lib/types";
+import { currentColor } from "~/lib/color";
 import { Geist, Geist_Mono } from "next/font/google";
 import { ThemeScript, ThemeSwitcher } from "~/components/theme";
-import { Provider } from "~/context";
+import { Store } from "~/context";
 import clsx from "clsx";
 import Link from "next/link";
 import "./style.css";
@@ -48,6 +50,15 @@ export const metadata: Metadata = {
 export default function RootLayout({
   children,
 }: Readonly<{ children: ReactNode }>) {
+  const [current, shared] = currentColor();
+
+  const session: SessionState = {
+    theme: undefined,
+    color: current,
+    mode: "hex",
+    shared: shared,
+  };
+
   return (
     <html
       lang="en"
@@ -57,7 +68,7 @@ export default function RootLayout({
     >
       <body className={clsx("antialiased", "bg-gray-50 dark:bg-gray-950")}>
         <ThemeScript />
-        <Provider>
+        <Store initValue={session}>
           <div
             role="none"
             id="root"
@@ -106,7 +117,7 @@ export default function RootLayout({
               </div>
             </footer>
           </div>
-        </Provider>
+        </Store>
       </body>
     </html>
   );

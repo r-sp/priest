@@ -1,6 +1,6 @@
 "use client";
 
-import type { AnyColorMode, ColorState, ColorMode } from "~/lib/types";
+import type { AnyColorMode, ColorState, ColorMode } from "~/lib/color";
 import {
   InputRgb,
   InputHsl,

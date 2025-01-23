@@ -1,9 +1,10 @@
 "use client";
 
 import type { ChangeEvent } from "react";
-import type { AnyColorMode, ColorMode } from "~/lib/types";
+import type { AnyColorMode, ColorMode } from "~/lib/color";
 import { useState, useCallback } from "react";
-import { parseCss, parseHex, switchCss, setGamut } from "~/lib";
+import { convertCss, convertHex, parseCss } from "~/lib/color";
+import { setGamut } from "~/lib/gamut";
 import clsx from "clsx";
 
 export default function InputCss({
@@ -19,7 +20,7 @@ export default function InputCss({
   prefix?: string;
   label?: string;
 }) {
-  const currentCss = mode === "hex" ? parseHex(color) : switchCss(color);
+  const currentCss = mode === "hex" ? convertHex(color) : parseCss(color);
 
   const [input, setInput] = useState<string>(currentCss);
   const [focus, setFocus] = useState<boolean>(false);
@@ -27,7 +28,7 @@ export default function InputCss({
   const handleInput = useCallback(
     (e: ChangeEvent<HTMLInputElement>) => {
       const newColor = e.target.value;
-      const validColor = parseCss(newColor);
+      const validColor = convertCss(newColor);
 
       if (focus) {
         setInput(newColor);
