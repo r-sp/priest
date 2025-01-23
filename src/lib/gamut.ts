@@ -116,7 +116,7 @@ export const checkGamut = (color: AnyColorMode): string | null => {
     }
     case "oklab": {
       check("lightness", color.l, 0, 1);
-      check("green-yellow", color.a, -0.4, 0.4);
+      check("green-red", color.a, -0.4, 0.4);
       check("blue-yellow", color.b, -0.4, 0.4);
       break;
     }

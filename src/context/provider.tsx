@@ -1,7 +1,6 @@
 import type { ReactNode } from "react";
 import type { SessionState } from "./session";
 import { createColor, initColor } from "~/lib";
-import { NuqsAdapter } from "nuqs/adapters/next/app";
 import Store from "./store";
 
 export default function Provider({
@@ -17,9 +16,5 @@ export default function Provider({
     shared: sharedColor,
   };
 
-  return (
-    <NuqsAdapter>
-      <Store initValue={session}>{children}</Store>
-    </NuqsAdapter>
-  );
+  return <Store initValue={session}>{children}</Store>;
 }

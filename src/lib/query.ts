@@ -61,47 +61,32 @@ export const getColorPath = (path: string, query: ColorQuery): string => {
     searchParams.set("r", `${r}`);
     searchParams.set("g", `${g}`);
     searchParams.set("b", `${b}`);
-  } else if (
-    mode === "hsl" &&
-    h !== undefined &&
-    s !== undefined &&
-    l !== undefined
-  ) {
+  }
+  if (mode === "hsl" && h !== undefined && s !== undefined && l !== undefined) {
     searchParams.set("mode", mode);
     searchParams.set("h", `${h}`);
     searchParams.set("s", `${s}`);
     searchParams.set("l", `${l}`);
-  } else if (
-    mode === "hwb" &&
-    h !== undefined &&
-    w !== undefined &&
-    b !== undefined
-  ) {
+  }
+  if (mode === "hwb" && h !== undefined && w !== undefined && b !== undefined) {
     searchParams.set("mode", mode);
     searchParams.set("h", `${h}`);
     searchParams.set("w", `${w}`);
     searchParams.set("b", `${b}`);
-  } else if (
-    mode === "lab" &&
-    l !== undefined &&
-    a !== undefined &&
-    b !== undefined
-  ) {
+  }
+  if (mode === "lab" && l !== undefined && a !== undefined && b !== undefined) {
     searchParams.set("mode", mode);
     searchParams.set("l", `${l}`);
     searchParams.set("a", `${a}`);
     searchParams.set("b", `${b}`);
-  } else if (
-    mode === "lch" &&
-    l !== undefined &&
-    c !== undefined &&
-    h !== undefined
-  ) {
+  }
+  if (mode === "lch" && l !== undefined && c !== undefined && h !== undefined) {
     searchParams.set("mode", mode);
     searchParams.set("l", `${l}`);
     searchParams.set("c", `${c}`);
     searchParams.set("h", `${h}`);
-  } else if (
+  }
+  if (
     mode === "oklab" &&
     l !== undefined &&
     a !== undefined &&
@@ -111,7 +96,8 @@ export const getColorPath = (path: string, query: ColorQuery): string => {
     searchParams.set("l", `${l}`);
     searchParams.set("a", `${a}`);
     searchParams.set("b", `${b}`);
-  } else if (
+  }
+  if (
     mode === "oklch" &&
     l !== undefined &&
     c !== undefined &&
@@ -121,8 +107,6 @@ export const getColorPath = (path: string, query: ColorQuery): string => {
     searchParams.set("l", `${l}`);
     searchParams.set("c", `${c}`);
     searchParams.set("h", `${h}`);
-  } else {
-    searchParams.set("error", "unknown-color-params");
   }
 
   return `${path}?${searchParams.toString()}`;
