@@ -1,4 +1,4 @@
-import type { ColorQuery, AnyColorMode } from "./types";
+import type { ColorQuery, AnyColorMode } from "./color";
 
 export const getColorQuery = (query: ColorQuery): AnyColorMode | undefined => {
   const { mode, r, g, b, h, s, l, w, a, c } = query;
@@ -107,6 +107,53 @@ export const getColorPath = (path: string, query: ColorQuery): string => {
     searchParams.set("l", `${l}`);
     searchParams.set("c", `${c}`);
     searchParams.set("h", `${h}`);
+  }
+
+  return `${path}?${searchParams.toString()}`;
+};
+
+export const switchColorPath = (path: string, color: AnyColorMode): string => {
+  const searchParams = new URLSearchParams([]);
+  searchParams.set("mode", color.mode);
+
+  switch (color.mode) {
+    case "rgb": {
+      const { r, g, b } = color;
+      searchParams.set("r", `${r}`);
+      searchParams.set("g", `${g}`);
+      searchParams.set("b", `${b}`);
+      break;
+    }
+    case "hsl": {
+      const { h, s, l } = color;
+      searchParams.set("h", `${h}`);
+      searchParams.set("s", `${s}`);
+      searchParams.set("l", `${l}`);
+      break;
+    }
+    case "hwb": {
+      const { h, w, b } = color;
+      searchParams.set("h", `${h}`);
+      searchParams.set("w", `${w}`);
+      searchParams.set("b", `${b}`);
+      break;
+    }
+    case "lab":
+    case "oklab": {
+      const { l, a, b } = color;
+      searchParams.set("l", `${l}`);
+      searchParams.set("a", `${a}`);
+      searchParams.set("b", `${b}`);
+      break;
+    }
+    case "lch":
+    case "oklch": {
+      const { l, c, h } = color;
+      searchParams.set("l", `${l}`);
+      searchParams.set("c", `${c}`);
+      searchParams.set("h", `${h}`);
+      break;
+    }
   }
 
   return `${path}?${searchParams.toString()}`;
