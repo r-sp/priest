@@ -262,7 +262,7 @@ export const createColor = (src: AnyColorMode): ColorState => {
   };
 };
 
-export const currentColor = (): [HwbColorMode, ColorState] => {
+export const currentColor = (): [RgbColorMode, ColorState] => {
   const now = new Date();
   const date = now.getUTCDate();
   const day = now.getUTCDay();
@@ -277,7 +277,11 @@ export const currentColor = (): [HwbColorMode, ColorState] => {
     b: blackness,
   };
 
-  return [src, createColor(src)];
+  const current = createColor(src);
+
+  const alt: RgbColorMode = { mode: "rgb", ...current.rgb.color };
+
+  return [alt, current];
 };
 
 export const parseCss = (color: AnyColorMode, hex?: boolean): string => {
@@ -315,6 +319,7 @@ export const parseCss = (color: AnyColorMode, hex?: boolean): string => {
     case "oklch": {
       const { l, c, h } = color;
       return formatOklch({ l, c, h });
+      break;
     }
   }
 };
