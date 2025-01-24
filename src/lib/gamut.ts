@@ -1,4 +1,4 @@
-import type { AnyColorMode } from "./types";
+import type { AnyColorMode } from "./color";
 
 export const getGamut = (
   color: string | AnyColorMode,
@@ -61,7 +61,7 @@ export const setGamut = (color: AnyColorMode): AnyColorMode => {
 };
 
 export const checkGamut = (color: AnyColorMode): string | null => {
-  const reports: string[] = [];
+  let reports: string | null = null;
 
   const revalidate = (
     label: string,
@@ -73,64 +73,58 @@ export const checkGamut = (color: AnyColorMode): string | null => {
       return `${label}-under-${min}`;
     } else if (value > max) {
       return `${label}-above-${max}`;
-    } else {
-      return null;
     }
+    return null;
   };
 
   const check = (label: string, value: number, min: number, max: number) => {
     const invalid = revalidate(label, value, min, max);
-    if (invalid) reports.push(invalid);
+    if (invalid) {
+      if (!reports) {
+        reports = invalid;
+      } else {
+        reports += `-and-${invalid}`;
+      }
+    }
   };
 
   switch (color.mode) {
-    case "rgb": {
+    case "rgb":
       check("red", color.r, 0, 255);
       check("green", color.g, 0, 255);
       check("blue", color.b, 0, 255);
       break;
-    }
-    case "hsl": {
+    case "hsl":
       check("hue", color.h!, 0, 360);
       check("saturation", color.s, 0, 100);
       check("lightness", color.l, 0, 100);
       break;
-    }
-    case "hwb": {
+    case "hwb":
       check("hue", color.h!, 0, 360);
       check("whiteness", color.w, 0, 100);
       check("blackness", color.b, 0, 100);
       break;
-    }
-    case "lab": {
+    case "lab":
       check("lightness", color.l, 0, 100);
       check("green-red", color.a, -100, 100);
       check("blue-yellow", color.b, -100, 100);
       break;
-    }
-    case "lch": {
+    case "lch":
       check("lightness", color.l, 0, 100);
       check("chroma", color.c, 0, 150);
       check("hue", color.h!, 0, 360);
       break;
-    }
-    case "oklab": {
+    case "oklab":
       check("lightness", color.l, 0, 1);
       check("green-red", color.a, -0.4, 0.4);
       check("blue-yellow", color.b, -0.4, 0.4);
       break;
-    }
-    case "oklch": {
+    case "oklch":
       check("lightness", color.l, 0, 1);
       check("chroma", color.c, 0, 0.4);
       check("hue", color.h!, 0, 360);
       break;
-    }
   }
 
-  if (reports.length < 0) {
-    return null;
-  } else {
-    return reports.join("-and-");
-  }
+  return reports;
 };
