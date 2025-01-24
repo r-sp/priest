@@ -1,6 +1,7 @@
 import type { ReactNode } from "react";
-import type { AnyColorMode } from "~/lib/types";
-import { checkGamut, switchPath } from "~/lib";
+import type { AnyColorMode } from "~/lib/color";
+import { switchColorPath } from "~/lib/query";
+import { checkGamut } from "~/lib/gamut";
 import clsx from "clsx";
 import Link from "next/link";
 
@@ -13,7 +14,7 @@ export default function Option({
   color: AnyColorMode;
   isActive: boolean;
 }) {
-  const link = switchPath("/color", color);
+  const link = switchColorPath("/color", color);
   const offset = checkGamut(color);
   const path = offset ? `${link}&error=${offset}` : link;
 

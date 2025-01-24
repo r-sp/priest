@@ -1,4 +1,4 @@
-import type { AnyColorMode } from "~/lib/types";
+import type { AnyColorMode } from "~/lib/color";
 import clsx from "clsx";
 
 export default function Notice({

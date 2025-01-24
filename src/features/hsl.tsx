@@ -1,8 +1,8 @@
 "use client";
 
-import type { HslColor, HslColorMode } from "~/lib/types";
-import { useCallback, Fragment } from "react";
-import { formatHsl } from "~/lib";
+import type { HslColor, HslColorMode } from "~/lib/color";
+import { useMemo, useCallback, Fragment } from "react";
+import { createTracks } from "~/lib/tracks";
 import { Slider } from "~/components";
 
 export default function InputHsl({
@@ -22,45 +22,19 @@ export default function InputHsl({
     [color, action],
   );
 
-  const previewColor = useCallback(
-    (newColor: Partial<HslColor>) => {
-      return formatHsl({ ...color, ...newColor });
-    },
-    [color],
+  const previewColor = useMemo(
+    () => createTracks({ mode: "hsl", ...color }, dynamicPreview),
+    [color, dynamicPreview],
   );
 
-  const trackHueRed = previewColor(
-    dynamicPreview ? { h: 0 } : { h: 0, s: 100, l: 50 },
-  );
-  const trackHueYellow = previewColor(
-    dynamicPreview ? { h: 60 } : { h: 60, s: 100, l: 50 },
-  );
-  const trackHueGreen = previewColor(
-    dynamicPreview ? { h: 120 } : { h: 120, s: 100, l: 50 },
-  );
-  const trackHueCyan = previewColor(
-    dynamicPreview ? { h: 180 } : { h: 180, s: 100, l: 50 },
-  );
-  const trackHueBlue = previewColor(
-    dynamicPreview ? { h: 240 } : { h: 240, s: 100, l: 50 },
-  );
-  const trackHuePurple = previewColor(
-    dynamicPreview ? { h: 300 } : { h: 300, s: 100, l: 50 },
-  );
-  const trackSaturationLeft = previewColor(
-    dynamicPreview ? { s: 0 } : { s: 0, l: 50 },
-  );
-  const trackSaturationRight = previewColor(
-    dynamicPreview ? { s: 100 } : { s: 100, l: 50 },
-  );
-  const trackLightnessCenter = previewColor({ s: 100, l: 50 });
+  const [hue, saturation, lightness] = previewColor;
 
   return (
     <Fragment>
       <Slider
         prefix={prefix}
         label="hue"
-        gradient={`${trackHueRed} 0%, ${trackHueYellow} 17%, ${trackHueGreen} 33%, ${trackHueCyan} 50%, ${trackHueBlue} 67%, ${trackHuePurple} 83%, ${trackHueRed} 100%`}
+        gradient={hue}
         stepMin={1}
         stepMax={0.01}
         min={0}
@@ -71,7 +45,7 @@ export default function InputHsl({
       <Slider
         prefix={prefix}
         label="saturation"
-        gradient={`${trackSaturationLeft}, ${trackSaturationRight}`}
+        gradient={saturation}
         stepMin={1}
         stepMax={0.01}
         min={0}
@@ -82,7 +56,7 @@ export default function InputHsl({
       <Slider
         prefix={prefix}
         label="lightness"
-        gradient={`hsl(0 0% 0%), ${trackLightnessCenter}, hsl(0 0% 100%)`}
+        gradient={lightness}
         stepMin={1}
         stepMax={0.01}
         min={0}

@@ -1,9 +1,21 @@
 "use client";
 
 import type { ReactNode } from "react";
-import type { SessionApi, SessionState } from "./session";
-import { createSession } from "./session";
+import type { SessionState, SessionStore } from "~/lib/types";
 import { createContext, useRef } from "react";
+import { create } from "zustand";
+
+export function createSession(initValue: SessionState) {
+  return create<SessionStore>()((set) => ({
+    ...initValue,
+    setColor: (state) => set(() => ({ color: state })),
+    setMode: (state) => set(() => ({ mode: state })),
+    setTheme: (state) => set(() => ({ theme: state })),
+    setShared: (state) => set(() => ({ shared: state })),
+  }));
+}
+
+export type SessionApi = ReturnType<typeof createSession>;
 
 export const SessionContext = createContext<SessionApi | undefined>(undefined);
 

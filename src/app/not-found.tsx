@@ -1,5 +1,5 @@
 import { type Metadata } from "next";
-import { multiply } from "~/utils";
+import { multiply } from "~/lib/utils";
 
 export const metadata: Metadata = {
   title: "404: Error",

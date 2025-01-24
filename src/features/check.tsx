@@ -6,7 +6,7 @@ import type {
   LchColor,
   OklabColor,
   OklchColor,
-} from "~/lib/types";
+} from "~/lib/color";
 
 function Check({
   value,
@@ -35,8 +35,10 @@ export function CheckRgb({ color }: { color: RgbColor }) {
   return (
     <code>
       <span>{`rgb(`}</span>
-      <Check value={r} min={0} max={255} />{" "}
-      <Check value={g} min={0} max={255} />{" "}
+      <Check value={r} min={0} max={255} />
+      {` `}
+      <Check value={g} min={0} max={255} />
+      {` `}
       <Check value={b} min={0} max={255} />
       <span>{`)`}</span>
     </code>
@@ -48,8 +50,10 @@ export function CheckHsl({ color }: { color: HslColor }) {
   return (
     <code>
       <span>{`hsl(`}</span>
-      <Check value={h!} min={0} max={360} />{" "}
-      <Check value={s} min={0} max={100} />{" "}
+      <Check value={h!} min={0} max={360} />
+      {` `}
+      <Check value={s} min={0} max={100} />
+      {` `}
       <Check value={l} min={0} max={100} />
       <span>{`)`}</span>
     </code>
@@ -61,8 +65,10 @@ export function CheckHwb({ color }: { color: HwbColor }) {
   return (
     <code>
       <span>{`hwb(`}</span>
-      <Check value={h!} min={0} max={360} />{" "}
-      <Check value={w} min={0} max={100} />{" "}
+      <Check value={h!} min={0} max={360} />
+      {` `}
+      <Check value={w} min={0} max={100} />
+      {` `}
       <Check value={b} min={0} max={100} />
       <span>{`)`}</span>
     </code>
@@ -74,8 +80,10 @@ export function CheckLab({ color }: { color: LabColor }) {
   return (
     <code>
       <span>{`lab(`}</span>
-      <Check value={l} min={0} max={100} />{" "}
-      <Check value={a} min={-100} max={100} />{" "}
+      <Check value={l} min={0} max={100} />
+      {` `}
+      <Check value={a} min={-100} max={100} />
+      {` `}
       <Check value={b} min={-100} max={100} />
       <span>{`)`}</span>
     </code>
@@ -87,8 +95,10 @@ export function CheckLch({ color }: { color: LchColor }) {
   return (
     <code>
       <span>{`lch(`}</span>
-      <Check value={l} min={0} max={100} />{" "}
-      <Check value={c} min={0} max={150} />{" "}
+      <Check value={l} min={0} max={100} />
+      {` `}
+      <Check value={c} min={0} max={150} />
+      {` `}
       <Check value={h!} min={0} max={360} />
       <span>{`)`}</span>
     </code>
@@ -100,8 +110,10 @@ export function CheckOklab({ color }: { color: OklabColor }) {
   return (
     <code>
       <span>{`oklab(`}</span>
-      <Check value={l} min={0} max={1} />{" "}
-      <Check value={a} min={-0.4} max={0.4} />{" "}
+      <Check value={l} min={0} max={1} />
+      {` `}
+      <Check value={a} min={-0.4} max={0.4} />
+      {` `}
       <Check value={b} min={-0.4} max={0.4} />
       <span>{`)`}</span>
     </code>
@@ -113,7 +125,10 @@ export function CheckOklch({ color }: { color: OklchColor }) {
   return (
     <code>
       <span>{`oklch(`}</span>
-      <Check value={l} min={0} max={1} /> <Check value={c} min={0} max={0.4} />{" "}
+      <Check value={l} min={0} max={1} />
+      {` `}
+      <Check value={c} min={0} max={0.4} />
+      {` `}
       <Check value={h!} min={0} max={360} />
       <span>{`)`}</span>
     </code>

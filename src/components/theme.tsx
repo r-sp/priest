@@ -1,9 +1,9 @@
 "use client";
 
-import type { ColorScheme } from "~/lib/types";
+import type { ColorScheme } from "~/lib/color";
 import { useEffect, useMemo, useCallback, Fragment } from "react";
 import { useSession } from "~/hooks";
-import { isClient } from "~/utils";
+import { isClient } from "~/lib/utils";
 
 const getLocalStorage = (key: string): string | null | undefined => {
   let local;

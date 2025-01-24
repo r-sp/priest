@@ -1,5 +1,5 @@
 import { ColorPicker } from "~/components";
-import { multiply } from "~/utils";
+import { multiply } from "~/lib/utils";
 
 export default function HomePage() {
   return (

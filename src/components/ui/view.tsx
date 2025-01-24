@@ -1,10 +1,11 @@
-import type { AnyColorMode } from "~/lib/types";
-import { switchCss, switchPath } from "~/lib";
+import type { AnyColorMode } from "~/lib/color";
+import { switchColorPath } from "~/lib/query";
+import { parseCss } from "~/lib/color";
 import Link from "next/link";
 
 export default function ColorView({ color }: { color: AnyColorMode }) {
-  const currentPath = switchPath("/color", color);
-  const currentCss = switchCss(color);
+  const currentPath = switchColorPath("/color", color);
+  const currentCss = parseCss(color);
 
   return (
     <div className="flex" style={{ ["--bg" as string]: currentCss }}>

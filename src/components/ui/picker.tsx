@@ -1,11 +1,11 @@
 "use client";
 
 import type { ReactNode } from "react";
-import type { AnyColorMode, ColorState } from "~/lib/types";
+import type { AnyColorMode, ColorState } from "~/lib/color";
 import { useMemo } from "react";
 import { useSession } from "~/hooks";
-import { createColor } from "~/lib";
-import { isValidCss } from "~/utils";
+import { createColor } from "~/lib/color";
+import { isValidCss } from "~/lib/utils";
 import { InputCss } from "~/features";
 import ColorMode from "./mode";
 import ColorView from "./view";
@@ -31,10 +31,11 @@ export default function ColorPicker({ children }: { children?: ReactNode }) {
 
   const handleCss = (state: AnyColorMode, target: string) => {
     const [isHex, isColor] = isValidCss(target);
-    if (isHex) {
-      setMode("hex");
-    }
     if (isColor) {
+      setMode(state.mode);
+    } else if (isHex) {
+      setMode("hex");
+    } else {
       setMode(state.mode);
     }
     setColor(state);
