@@ -1,8 +1,8 @@
 "use client";
 
-import type { LchColor, LchColorMode } from "~/lib/types";
-import { useCallback, Fragment } from "react";
-import { formatLch } from "~/lib";
+import type { LchColor, LchColorMode } from "~/lib/color";
+import { useMemo, useCallback, Fragment } from "react";
+import { createTracks } from "~/lib/tracks";
 import { Slider } from "~/components";
 
 export default function InputLch({
@@ -22,53 +22,19 @@ export default function InputLch({
     [color, action],
   );
 
-  const previewColor = useCallback(
-    (newColor: Partial<LchColor>) => {
-      return formatLch({ ...color, ...newColor });
-    },
-    [color],
+  const previewColor = useMemo(
+    () => createTracks({ mode: "lch", ...color }, dynamicPreview),
+    [color, dynamicPreview],
   );
 
-  const trackLightnessLeft = previewColor(
-    dynamicPreview ? { l: 0 } : { l: 0, c: 73.06 },
-  );
-  const trackLightnessRight = previewColor(
-    dynamicPreview ? { l: 100 } : { l: 100, c: 73.06 },
-  );
-  const trackChromaLeft = previewColor(
-    dynamicPreview ? { c: 0 } : { l: 90, c: 0 },
-  );
-  const trackChromaRight = previewColor(
-    dynamicPreview ? { c: 150 } : { l: 90, c: 150 },
-  );
-  const trackHueLeft = previewColor(
-    dynamicPreview ? { h: 0 } : { l: 67, c: 106.45, h: 0 },
-  );
-  const trackHueRed = previewColor(
-    dynamicPreview ? { h: 60 } : { l: 67, c: 106.45, h: 60 },
-  );
-  const trackHueGreen = previewColor(
-    dynamicPreview ? { h: 120 } : { l: 67, c: 106.45, h: 120 },
-  );
-  const trackHueCenter = previewColor(
-    dynamicPreview ? { h: 180 } : { l: 67, c: 106.45, h: 180 },
-  );
-  const trackHueBlue = previewColor(
-    dynamicPreview ? { h: 240 } : { l: 67, c: 106.45, h: 240 },
-  );
-  const trackHuePurple = previewColor(
-    dynamicPreview ? { h: 300 } : { l: 67, c: 106.45, h: 300 },
-  );
-  const trackHueRight = previewColor(
-    dynamicPreview ? { h: 360 } : { l: 67, c: 106.45, h: 360 },
-  );
+  const [lightness, chroma, hue] = previewColor;
 
   return (
     <Fragment>
       <Slider
         prefix={prefix}
         label="lightness"
-        gradient={`${trackLightnessLeft}, ${trackLightnessRight}`}
+        gradient={lightness}
         stepMin={1}
         stepMax={0.01}
         min={0}
@@ -79,7 +45,7 @@ export default function InputLch({
       <Slider
         prefix={prefix}
         label="chroma"
-        gradient={`${trackChromaLeft}, ${trackChromaRight}`}
+        gradient={chroma}
         stepMin={1}
         stepMax={0.01}
         min={0}
@@ -90,7 +56,7 @@ export default function InputLch({
       <Slider
         prefix={prefix}
         label="hue"
-        gradient={`${trackHueLeft}, ${trackHueRed}, ${trackHueGreen}, ${trackHueCenter}, ${trackHueBlue}, ${trackHuePurple}, ${trackHueRight}`}
+        gradient={hue}
         stepMin={1}
         stepMax={0.001}
         min={0}

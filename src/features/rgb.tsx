@@ -1,8 +1,8 @@
 "use client";
 
-import type { RgbColor, RgbColorMode } from "~/lib/types";
-import { useCallback, Fragment } from "react";
-import { formatRgb } from "~/lib";
+import type { RgbColor, RgbColorMode } from "~/lib/color";
+import { useMemo, useCallback, Fragment } from "react";
+import { createTracks } from "~/lib/tracks";
 import { Slider } from "~/components";
 
 export default function InputRgb({
@@ -22,32 +22,19 @@ export default function InputRgb({
     [color, action],
   );
 
-  const previewColor = useCallback(
-    (newColor: Partial<RgbColor>) => {
-      return formatRgb({ ...color, ...newColor });
-    },
-    [color],
+  const previewColor = useMemo(
+    () => createTracks({ mode: "rgb", ...color }, dynamicPreview),
+    [color, dynamicPreview],
   );
 
-  const trackRedLeft = previewColor({ r: 0 });
-  const trackRedRight = previewColor(
-    dynamicPreview ? { r: 255 } : { r: 255, g: 0, b: 0 },
-  );
-  const trackGreenLeft = previewColor({ g: 0 });
-  const trackGreenRight = previewColor(
-    dynamicPreview ? { g: 255 } : { r: 0, g: 255, b: 0 },
-  );
-  const trackBlueLeft = previewColor({ b: 0 });
-  const trackBlueRight = previewColor(
-    dynamicPreview ? { b: 255 } : { r: 0, g: 0, b: 255 },
-  );
+  const [red, green, blue] = previewColor;
 
   return (
     <Fragment>
       <Slider
         prefix={prefix}
         label="red"
-        gradient={`${trackRedLeft}, ${trackRedRight}`}
+        gradient={red}
         stepMin={1}
         min={0}
         max={255}
@@ -57,7 +44,7 @@ export default function InputRgb({
       <Slider
         prefix={prefix}
         label="green"
-        gradient={`${trackGreenLeft}, ${trackGreenRight}`}
+        gradient={green}
         stepMin={1}
         min={0}
         max={255}
@@ -67,7 +54,7 @@ export default function InputRgb({
       <Slider
         prefix={prefix}
         label="blue"
-        gradient={`${trackBlueLeft}, ${trackBlueRight}`}
+        gradient={blue}
         stepMin={1}
         min={0}
         max={255}

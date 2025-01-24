@@ -1,8 +1,8 @@
 "use client";
 
-import type { OklchColor, OklchColorMode } from "~/lib/types";
-import { useCallback, Fragment } from "react";
-import { formatOklch } from "~/lib";
+import type { OklchColor, OklchColorMode } from "~/lib/color";
+import { useMemo, useCallback, Fragment } from "react";
+import { createTracks } from "~/lib/tracks";
 import { Slider } from "~/components";
 
 export default function InputOklch({
@@ -22,53 +22,19 @@ export default function InputOklch({
     [color, action],
   );
 
-  const previewColor = useCallback(
-    (newColor: Partial<OklchColor>) => {
-      return formatOklch({ ...color, ...newColor });
-    },
-    [color],
+  const previewColor = useMemo(
+    () => createTracks({ mode: "oklch", ...color }, dynamicPreview),
+    [color, dynamicPreview],
   );
 
-  const trackLightnessLeft = previewColor(
-    dynamicPreview ? { l: 0 } : { l: 0, c: 0.235 },
-  );
-  const trackLightnessRight = previewColor(
-    dynamicPreview ? { l: 1 } : { l: 1, c: 0.235 },
-  );
-  const trackChromaLeft = previewColor(
-    dynamicPreview ? { c: 0 } : { l: 0.875, c: 0 },
-  );
-  const trackChromaRight = previewColor(
-    dynamicPreview ? { c: 0.4 } : { l: 0.875, c: 0.4 },
-  );
-  const trackHueLeft = previewColor(
-    dynamicPreview ? { h: 0 } : { l: 0.75, c: 0.333, h: 0 },
-  );
-  const trackHueRed = previewColor(
-    dynamicPreview ? { h: 60 } : { l: 0.75, c: 0.333, h: 60 },
-  );
-  const trackHueGreen = previewColor(
-    dynamicPreview ? { h: 120 } : { l: 0.75, c: 0.333, h: 120 },
-  );
-  const trackHueCenter = previewColor(
-    dynamicPreview ? { h: 180 } : { l: 0.75, c: 0.333, h: 180 },
-  );
-  const trackHueBlue = previewColor(
-    dynamicPreview ? { h: 240 } : { l: 0.75, c: 0.333, h: 240 },
-  );
-  const trackHuePurple = previewColor(
-    dynamicPreview ? { h: 300 } : { l: 0.75, c: 0.333, h: 300 },
-  );
-  const trackHueRight = previewColor(
-    dynamicPreview ? { h: 360 } : { l: 0.75, c: 0.333, h: 360 },
-  );
+  const [lightness, chroma, hue] = previewColor;
 
   return (
     <Fragment>
       <Slider
         prefix={prefix}
         label="lightness"
-        gradient={`${trackLightnessLeft}, ${trackLightnessRight}`}
+        gradient={lightness}
         stepMin={0.01}
         stepMax={0.001}
         min={0}
@@ -79,7 +45,7 @@ export default function InputOklch({
       <Slider
         prefix={prefix}
         label="chroma"
-        gradient={`${trackChromaLeft}, ${trackChromaRight}`}
+        gradient={chroma}
         stepMin={0.01}
         stepMax={0.001}
         min={0}
@@ -90,7 +56,7 @@ export default function InputOklch({
       <Slider
         prefix={prefix}
         label="hue"
-        gradient={`${trackHueLeft}, ${trackHueRed}, ${trackHueGreen}, ${trackHueCenter}, ${trackHueBlue}, ${trackHuePurple}, ${trackHueRight}`}
+        gradient={hue}
         stepMin={1}
         stepMax={0.001}
         min={0}

@@ -1,8 +1,8 @@
 "use client";
 
-import type { OklabColor, OklabColorMode } from "~/lib/types";
-import { useCallback, Fragment } from "react";
-import { formatOklab } from "~/lib";
+import type { OklabColor, OklabColorMode } from "~/lib/color";
+import { useMemo, useCallback, Fragment } from "react";
+import { createTracks } from "~/lib/tracks";
 import { Slider } from "~/components";
 
 export default function InputOklab({
@@ -22,34 +22,19 @@ export default function InputOklab({
     [color, action],
   );
 
-  const previewColor = useCallback(
-    (newColor: Partial<OklabColor>) => {
-      return formatOklab({ ...color, ...newColor });
-    },
-    [color],
+  const previewColor = useMemo(
+    () => createTracks({ mode: "oklab", ...color }, dynamicPreview),
+    [color, dynamicPreview],
   );
 
-  const trackLightnessLeft = previewColor({ l: 0 });
-  const trackLightnessRight = previewColor({ l: 1 });
-  const trackGreenRedLeft = previewColor(
-    dynamicPreview ? { a: -0.4 } : { a: -0.4, b: 0.4 },
-  );
-  const trackGreenRedRight = previewColor(
-    dynamicPreview ? { a: 0.4 } : { a: 0.4, b: 0.4 },
-  );
-  const trackBlueYellowLeft = previewColor(
-    dynamicPreview ? { b: -0.4 } : { a: 0, b: -0.4 },
-  );
-  const trackBlueYellowRight = previewColor(
-    dynamicPreview ? { b: 0.4 } : { a: 0, b: 0.4 },
-  );
+  const [lightness, greenRed, blueYellow] = previewColor;
 
   return (
     <Fragment>
       <Slider
         prefix={prefix}
         label="lightness"
-        gradient={`${trackLightnessLeft}, ${trackLightnessRight}`}
+        gradient={lightness}
         stepMin={0.01}
         stepMax={0.001}
         min={0}
@@ -60,7 +45,7 @@ export default function InputOklab({
       <Slider
         prefix={prefix}
         label="green-red"
-        gradient={`${trackGreenRedLeft}, ${trackGreenRedRight}`}
+        gradient={greenRed}
         stepMin={0.01}
         stepMax={0.001}
         min={-0.4}
@@ -71,7 +56,7 @@ export default function InputOklab({
       <Slider
         prefix={prefix}
         label="blue-yellow"
-        gradient={`${trackBlueYellowLeft}, ${trackBlueYellowRight}`}
+        gradient={blueYellow}
         stepMin={0.01}
         stepMax={0.001}
         min={-0.4}
