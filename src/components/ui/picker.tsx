@@ -5,7 +5,6 @@ import type { AnyColorMode, ColorState } from "~/lib/color";
 import { useMemo } from "react";
 import { useSession } from "~/hooks";
 import { createColor } from "~/lib/color";
-import { isValidCss } from "~/lib/utils";
 import { InputCss } from "~/features";
 import ColorMode from "./mode";
 import ColorView from "./view";
@@ -24,16 +23,18 @@ export default function ColorPicker({ children }: { children?: ReactNode }) {
   const setMode = useSession((state) => state.setMode);
   const setShared = useSession((state) => state.setShared);
 
+  const COLOR_MODE = /^(rgb|hsl|hwb|lab|lch|oklab|oklch)\(/;
+  const HEX_MODE = /^#([0-9A-Fa-f]{3}){1,2}$/;
+
   const handleInput = (state: AnyColorMode) => {
     setColor(state);
     setShared(createColor(state));
   };
 
   const handleCss = (state: AnyColorMode, target: string) => {
-    const [isHex, isColor] = isValidCss(target);
-    if (isColor) {
+    if (COLOR_MODE.test(target)) {
       setMode(state.mode);
-    } else if (isHex) {
+    } else if (HEX_MODE.test(target)) {
       setMode("hex");
     } else {
       setMode(state.mode);
