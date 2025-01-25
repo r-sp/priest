@@ -102,35 +102,35 @@ export const composeLch = add(modeLch);
 export const composeOklab = add(modeOklab);
 export const composeOklch = add(modeOklch);
 
-export const formatHex = (color: RgbColor): string => {
+export const formatHex = (color: RgbColor | RgbColorMode): string => {
   const { r, g, b } = color;
   return "#" + ((1 << 24) | (r << 16) | (g << 8) | b).toString(16).slice(1);
 };
-export const formatRgb = (color: RgbColor): string => {
+export const formatRgb = (color: RgbColor | RgbColorMode): string => {
   const { r, g, b } = color;
   return `rgb(${r} ${g} ${b})`;
 };
-export const formatHsl = (color: HslColor): string => {
+export const formatHsl = (color: HslColor | HslColorMode): string => {
   const { h, s, l } = color;
   return `hsl(${h} ${s}% ${l}%)`;
 };
-export const formatHwb = (color: HwbColor): string => {
+export const formatHwb = (color: HwbColor | HwbColorMode): string => {
   const { h, w, b } = color;
   return `hwb(${h} ${w}% ${b}%)`;
 };
-export const formatLab = (color: LabColor): string => {
+export const formatLab = (color: LabColor | LabColorMode): string => {
   const { l, a, b } = color;
   return `lab(${l} ${a} ${b})`;
 };
-export const formatLch = (color: LchColor): string => {
+export const formatLch = (color: LchColor | LchColorMode): string => {
   const { l, c, h } = color;
   return `lch(${l} ${c} ${h})`;
 };
-export const formatOklab = (color: OklabColor): string => {
+export const formatOklab = (color: OklabColor | OklabColorMode): string => {
   const { l, a, b } = color;
   return `oklab(${l} ${a} ${b})`;
 };
-export const formatOklch = (color: OklchColor): string => {
+export const formatOklch = (color: OklchColor | OklchColorMode): string => {
   const { l, c, h } = color;
   return `oklch(${l} ${c} ${h})`;
 };
@@ -249,6 +249,31 @@ export const convertCss = (color: string): AnyColorMode | undefined => {
   return parse(color) as AnyColorMode | undefined;
 };
 
+type FormatCss = {
+  [Key in ColorFormat]: (color: Extract<AnyColorMode, { mode: Key }>) => string;
+};
+
+const formatCss: FormatCss = {
+  rgb: formatRgb,
+  hsl: formatHsl,
+  hwb: formatHwb,
+  lab: formatLab,
+  lch: formatLch,
+  oklab: formatOklab,
+  oklch: formatOklch,
+};
+
+const parseMode = <T extends ColorFormat>(
+  mode: T,
+): ((color: Extract<AnyColorMode, { mode: T }>) => string) => {
+  return formatCss[mode];
+};
+
+export const parseCss = (color: AnyColorMode): string => {
+  const compose = parseMode(color.mode);
+  return compose(color);
+};
+
 export const createColor = (src: AnyColorMode): ColorState => {
   return {
     hex: convertHex(src),
@@ -282,44 +307,4 @@ export const currentColor = (): [RgbColorMode, ColorState] => {
   const alt: RgbColorMode = { mode: "rgb", ...current.rgb.color };
 
   return [alt, current];
-};
-
-export const parseCss = (color: AnyColorMode, hex?: boolean): string => {
-  switch (color.mode) {
-    case "rgb": {
-      if (hex) return formatHex(color);
-      const { r, g, b } = color;
-      return formatRgb({ r, g, b });
-      break;
-    }
-    case "hsl": {
-      const { h, s, l } = color;
-      return formatHsl({ h, s, l });
-      break;
-    }
-    case "hwb": {
-      const { h, w, b } = color;
-      return formatHwb({ h, w, b });
-      break;
-    }
-    case "lab": {
-      const { l, a, b } = color;
-      return formatLab({ l, a, b });
-      break;
-    }
-    case "lch": {
-      const { l, c, h } = color;
-      return formatLch({ l, c, h });
-    }
-    case "oklab": {
-      const { l, a, b } = color;
-      return formatOklab({ l, a, b });
-      break;
-    }
-    case "oklch": {
-      const { l, c, h } = color;
-      return formatOklch({ l, c, h });
-      break;
-    }
-  }
 };
