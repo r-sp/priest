@@ -94,6 +94,19 @@ export type ColorMode = keyof ColorState;
 
 export type ColorScheme = "dark" | "light";
 
+export type ColorLabel =
+  | "red"
+  | "green"
+  | "blue"
+  | "green-red"
+  | "blue-yellow"
+  | "hue"
+  | "saturation"
+  | "lightness"
+  | "whiteness"
+  | "blackness"
+  | "chroma";
+
 export const composeRgb = add(modeRgb);
 export const composeHsl = add(modeHsl);
 export const composeHwb = add(modeHwb);
