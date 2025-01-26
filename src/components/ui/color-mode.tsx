@@ -1,8 +1,9 @@
 "use client";
 
+import type { ComponentPropsWithoutRef } from "react";
 import type { AnyColorMode, ColorState, ColorMode } from "~/lib/color";
-import { useCallback } from "react";
-import { Chip } from "~/components";
+import { useCallback, Fragment } from "react";
+import clsx from "clsx";
 
 export default function ColorMode({
   color,
@@ -22,14 +23,17 @@ export default function ColorMode({
 
   return (
     <div role="none" className="relative block h-7">
-      <div className="no-scrollbar absolute -right-4 -left-4 -my-2 grid overflow-x-auto px-4 py-2 whitespace-nowrap">
+      <div
+        role="none"
+        className="no-scrollbar absolute -right-4 -left-4 -my-2 grid overflow-x-auto px-4 py-2 whitespace-nowrap"
+      >
         <fieldset
           role="radiogroup"
           aria-label="color mode"
           className="flex flex-nowrap items-center gap-3 font-mono text-sm font-medium select-none"
         >
           <div className="inline-flex">
-            <Chip
+            <Button
               prefix="hex"
               label="HEX"
               group="mode"
@@ -38,7 +42,7 @@ export default function ColorMode({
             />
           </div>
           <div className="inline-flex">
-            <Chip
+            <Button
               prefix="rgb"
               label="RGB"
               group="mode"
@@ -47,7 +51,7 @@ export default function ColorMode({
             />
           </div>
           <div className="inline-flex">
-            <Chip
+            <Button
               prefix="hsl"
               label="HSL"
               group="mode"
@@ -56,7 +60,7 @@ export default function ColorMode({
             />
           </div>
           <div className="inline-flex">
-            <Chip
+            <Button
               prefix="hwb"
               label="HWB"
               group="mode"
@@ -65,7 +69,7 @@ export default function ColorMode({
             />
           </div>
           <div className="inline-flex">
-            <Chip
+            <Button
               prefix="lch"
               label="LCH"
               group="mode"
@@ -74,7 +78,7 @@ export default function ColorMode({
             />
           </div>
           <div className="inline-flex">
-            <Chip
+            <Button
               prefix="oklch"
               label="OKLCH"
               group="mode"
@@ -83,7 +87,7 @@ export default function ColorMode({
             />
           </div>
           <div className="inline-flex">
-            <Chip
+            <Button
               prefix="lab"
               label="LAB"
               group="mode"
@@ -92,7 +96,7 @@ export default function ColorMode({
             />
           </div>
           <div className="inline-flex">
-            <Chip
+            <Button
               prefix="oklab"
               label="OKLAB"
               group="mode"
@@ -111,5 +115,43 @@ export default function ColorMode({
         className="pointer-events-none absolute -top-2 -right-4 -bottom-2 z-1 w-4 bg-linear-to-l from-gray-50 to-gray-950/0 dark:from-gray-950"
       ></span>
     </div>
+  );
+}
+
+function Button({
+  prefix,
+  label,
+  group,
+  isActive,
+  ...props
+}: {
+  prefix: string;
+  label: string;
+  group: string;
+  isActive: boolean;
+} & ComponentPropsWithoutRef<"input">) {
+  return (
+    <Fragment>
+      <input
+        type="radio"
+        id={`${group}-${prefix}`}
+        name={group}
+        value={prefix}
+        checked={isActive}
+        className="sr-only"
+        {...props}
+      />
+      <label
+        htmlFor={`${group}-${prefix}`}
+        className={clsx(
+          "cursor-pointer rounded-md px-2 py-1 ring",
+          isActive
+            ? "bg-gray-900 text-gray-200 ring-gray-800 dark:bg-gray-100 dark:text-gray-800 dark:ring-gray-200"
+            : "bg-gray-100 text-gray-600 ring-gray-200 hover:bg-gray-200 hover:ring-gray-300 dark:bg-gray-900 dark:text-gray-400 dark:ring-gray-800 dark:hover:bg-gray-800 dark:hover:ring-gray-700",
+        )}
+      >
+        {label}
+      </label>
+    </Fragment>
   );
 }

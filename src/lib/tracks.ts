@@ -1,4 +1,9 @@
-import type { ColorFormat, AnyColorMode } from "./color";
+import type {
+  ColorSpace,
+  ColorFormat,
+  ColorLabel,
+  AnyColorMode,
+} from "~/lib/color";
 import {
   formatRgb,
   formatHsl,
@@ -18,7 +23,7 @@ type FormatTracks = {
   ) => [string, string, string];
 };
 
-export const formatTracks: FormatTracks = {
+const formatTracks: FormatTracks = {
   rgb: (color, dynamic) => {
     const compose = (track: Partial<typeof color>): string => {
       return formatRgb({ ...color, ...track });
@@ -223,7 +228,7 @@ export const formatTracks: FormatTracks = {
   },
 };
 
-export const trackMode = <T extends ColorFormat>(
+const trackMode = <T extends ColorFormat>(
   mode: T,
 ): ((
   color: Extract<AnyColorMode, { mode: T }>,
@@ -238,4 +243,225 @@ export const createTracks = (
 ): [string, string, string] => {
   const compose = trackMode(color.mode);
   return compose(color, dynamic);
+};
+
+type TrackRange = {
+  label: ColorLabel;
+  min: number;
+  max: number;
+  base: number;
+  decimal?: number;
+};
+
+type TrackUpdate<T extends ColorFormat> = {
+  update: (
+    value: number,
+    color: Extract<AnyColorMode, { mode: T }>,
+    store: (key: Extract<AnyColorMode, { mode: T }>) => void,
+  ) => void;
+};
+
+type TrackFormat<T extends ColorFormat> = TrackRange & TrackUpdate<T>;
+
+type FormatRange = {
+  [Key in ColorFormat]: {
+    [Value in keyof ColorSpace[Key]]: TrackFormat<Key>;
+  };
+};
+
+const formatRange: FormatRange = {
+  rgb: {
+    r: {
+      label: "red",
+      min: 0,
+      max: 255,
+      base: 1,
+      update: (value, color, store) => store({ ...color, r: value }),
+    },
+    g: {
+      label: "green",
+      min: 0,
+      max: 255,
+      base: 1,
+      update: (value, color, store) => store({ ...color, g: value }),
+    },
+    b: {
+      label: "blue",
+      min: 0,
+      max: 255,
+      base: 1,
+      update: (value, color, store) => store({ ...color, b: value }),
+    },
+  },
+  hsl: {
+    h: {
+      label: "hue",
+      min: 0,
+      max: 360,
+      base: 1,
+      decimal: 0.01,
+      update: (value, color, store) => store({ ...color, h: value }),
+    },
+    s: {
+      label: "saturation",
+      min: 0,
+      max: 100,
+      base: 1,
+      decimal: 0.01,
+      update: (value, color, store) => store({ ...color, s: value }),
+    },
+    l: {
+      label: "lightness",
+      min: 0,
+      max: 100,
+      base: 1,
+      decimal: 0.01,
+      update: (value, color, store) => store({ ...color, l: value }),
+    },
+  },
+  hwb: {
+    h: {
+      label: "hue",
+      min: 0,
+      max: 360,
+      base: 1,
+      decimal: 0.01,
+      update: (value, color, store) => store({ ...color, h: value }),
+    },
+    w: {
+      label: "whiteness",
+      min: 0,
+      max: 100,
+      base: 1,
+      decimal: 0.01,
+      update: (value, color, store) => store({ ...color, w: value }),
+    },
+    b: {
+      label: "blackness",
+      min: 0,
+      max: 100,
+      base: 1,
+      decimal: 0.01,
+      update: (value, color, store) => store({ ...color, b: value }),
+    },
+  },
+  lab: {
+    l: {
+      label: "lightness",
+      min: 0,
+      max: 100,
+      base: 1,
+      decimal: 0.01,
+      update: (value, color, store) => store({ ...color, l: value }),
+    },
+    a: {
+      label: "green-red",
+      min: -100,
+      max: 100,
+      base: 1,
+      decimal: 0.01,
+      update: (value, color, store) => store({ ...color, a: value }),
+    },
+    b: {
+      label: "blue-yellow",
+      min: -100,
+      max: 100,
+      base: 1,
+      decimal: 0.01,
+      update: (value, color, store) => store({ ...color, b: value }),
+    },
+  },
+  lch: {
+    l: {
+      label: "lightness",
+      min: 0,
+      max: 100,
+      base: 1,
+      decimal: 0.01,
+      update: (value, color, store) => store({ ...color, l: value }),
+    },
+    c: {
+      label: "chroma",
+      min: 0,
+      max: 150,
+      base: 1,
+      decimal: 0.01,
+      update: (value, color, store) => store({ ...color, c: value }),
+    },
+    h: {
+      label: "hue",
+      min: 0,
+      max: 360,
+      base: 1,
+      decimal: 0.001,
+      update: (value, color, store) => store({ ...color, h: value }),
+    },
+  },
+  oklab: {
+    l: {
+      label: "lightness",
+      min: 0,
+      max: 1,
+      base: 0.01,
+      decimal: 0.001,
+      update: (value, color, store) => store({ ...color, l: value }),
+    },
+    a: {
+      label: "green-red",
+      min: -0.4,
+      max: 0.4,
+      base: 0.01,
+      decimal: 0.001,
+      update: (value, color, store) => store({ ...color, a: value }),
+    },
+    b: {
+      label: "blue-yellow",
+      min: -0.4,
+      max: 0.4,
+      base: 0.01,
+      decimal: 0.001,
+      update: (value, color, store) => store({ ...color, b: value }),
+    },
+  },
+  oklch: {
+    l: {
+      label: "lightness",
+      min: 0,
+      max: 1,
+      base: 0.01,
+      decimal: 0.001,
+      update: (value, color, store) => store({ ...color, l: value }),
+    },
+    c: {
+      label: "chroma",
+      min: 0,
+      max: 0.4,
+      base: 0.01,
+      decimal: 0.001,
+      update: (value, color, store) => store({ ...color, c: value }),
+    },
+    h: {
+      label: "hue",
+      min: 0,
+      max: 360,
+      base: 1,
+      decimal: 0.001,
+      update: (value, color, store) => store({ ...color, h: value }),
+    },
+  },
+};
+
+export const createRange = (
+  color: AnyColorMode,
+): [
+  TrackFormat<typeof color.mode>,
+  TrackFormat<typeof color.mode>,
+  TrackFormat<typeof color.mode>,
+] => {
+  const compose = formatRange[color.mode];
+  return [
+    Object.values(compose)[0],
+    Object.values(compose)[1],
+    Object.values(compose)[2],
+  ];
 };

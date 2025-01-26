@@ -5,10 +5,10 @@ import type { AnyColorMode, ColorState } from "~/lib/color";
 import { useMemo } from "react";
 import { useSession } from "~/hooks";
 import { createColor } from "~/lib/color";
-import { InputCss } from "~/features";
-import ColorMode from "./mode";
-import ColorView from "./view";
-import ColorInput from "./input";
+import ColorMode from "./color-mode";
+import ColorView from "./color-view";
+import InputCss from "./input-css";
+import InputSlider from "./input-slider";
 
 export default function ColorPicker({ children }: { children?: ReactNode }) {
   const color = useSession((state) => state.color);
@@ -52,7 +52,7 @@ export default function ColorPicker({ children }: { children?: ReactNode }) {
     <div className="max-w-8xl mx-auto flex w-full flex-col gap-x-4 gap-y-6 md:flex-row">
       <div className="inline-flex grow-1 flex-col gap-y-6">
         <ColorView color={getColor} />
-        <ColorInput color={getShared} mode={getMode} action={handleInput} />
+        <InputSlider color={getColor} action={handleInput} dynamic={true} />
       </div>
       <div className="inline-flex grow-1 flex-col gap-y-6">
         <InputCss color={getColor} mode={getMode} action={handleCss} />
