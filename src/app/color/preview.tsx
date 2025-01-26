@@ -8,7 +8,7 @@ import {
   CheckLch,
   CheckOklab,
   CheckOklch,
-} from "~/features";
+} from "./check";
 import Option from "./option";
 import Notice from "./notice";
 
