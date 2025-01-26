@@ -3,7 +3,7 @@ import type { Metadata } from "next";
 import type { SessionState } from "~/lib/types";
 import { currentColor } from "~/lib/color";
 import { Geist, Geist_Mono } from "next/font/google";
-import { ThemeScript, ThemeSwitcher } from "~/components/theme";
+import { ThemeScript, ThemeSwitcher } from "~/components/common";
 import { Store } from "~/context";
 import clsx from "clsx";
 import Link from "next/link";

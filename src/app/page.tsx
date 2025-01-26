@@ -1,4 +1,4 @@
-import { ColorPicker } from "~/components";
+import { ColorPicker } from "~/components/ui";
 import { multiply } from "~/lib/utils";
 
 export default function HomePage() {
