@@ -57,7 +57,7 @@ export default function InputSlider({
             startRange.update(e.target.valueAsNumber, color, action)
           }
           onKeyDown={() => setFocusStart(true)}
-          onBlur={() => setFocusStart(true)}
+          onBlur={() => setFocusStart(false)}
         />
         <span
           role="presentation"
@@ -90,7 +90,7 @@ export default function InputSlider({
             middleRange.update(e.target.valueAsNumber, color, action)
           }
           onKeyDown={() => setFocusMiddle(true)}
-          onBlur={() => setFocusMiddle(true)}
+          onBlur={() => setFocusMiddle(false)}
         />
         <span
           role="presentation"
@@ -121,7 +121,7 @@ export default function InputSlider({
             endRange.update(e.target.valueAsNumber, color, action)
           }
           onKeyDown={() => setFocusEnd(true)}
-          onBlur={() => setFocusEnd(true)}
+          onBlur={() => setFocusEnd(false)}
         />
         <span
           role="presentation"

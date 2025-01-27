@@ -1,15 +1,6 @@
 import type { AnyColorMode } from "~/lib/color";
 import { createColor, parseCss } from "~/lib/color";
-import {
-  CheckRgb,
-  CheckHsl,
-  CheckHwb,
-  CheckLab,
-  CheckLch,
-  CheckOklab,
-  CheckOklch,
-} from "./check";
-import Option from "./option";
+import Range from "./range";
 import Notice from "./notice";
 
 export default function Preview({
@@ -21,7 +12,7 @@ export default function Preview({
 }) {
   const currentCss = parseCss(color);
   const { hex, rgb, hsl, hwb, lab, lch, oklab, oklch } = createColor(color);
-  const mode = color.mode;
+  const { mode } = color;
 
   return (
     <div className="px-4">
@@ -40,48 +31,34 @@ export default function Preview({
           aria-label="color space"
           className="grid gap-y-2 break-words"
         >
-          <Option
+          <Range
             color={{ mode: "rgb", ...rgb.color }}
-            isActive={mode === "rgb"}
-          >
-            <CheckRgb color={rgb.color} />
-          </Option>
-          <Option
+            offset={mode === "rgb"}
+          />
+          <Range
             color={{ mode: "hsl", ...hsl.color }}
-            isActive={mode === "hsl"}
-          >
-            <CheckHsl color={hsl.color} />
-          </Option>
-          <Option
+            offset={mode === "hsl"}
+          />
+          <Range
             color={{ mode: "hwb", ...hwb.color }}
-            isActive={mode === "hwb"}
-          >
-            <CheckHwb color={hwb.color} />
-          </Option>
-          <Option
-            color={{ mode: "lch", ...lch.color }}
-            isActive={mode === "lch"}
-          >
-            <CheckLch color={lch.color} />
-          </Option>
-          <Option
-            color={{ mode: "oklch", ...oklch.color }}
-            isActive={mode === "oklch"}
-          >
-            <CheckOklch color={oklch.color} />
-          </Option>
-          <Option
+            offset={mode === "hwb"}
+          />
+          <Range
             color={{ mode: "lab", ...lab.color }}
-            isActive={mode === "lab"}
-          >
-            <CheckLab color={lab.color} />
-          </Option>
-          <Option
+            offset={mode === "lab"}
+          />
+          <Range
+            color={{ mode: "lch", ...lch.color }}
+            offset={mode === "lch"}
+          />
+          <Range
             color={{ mode: "oklab", ...oklab.color }}
-            isActive={mode === "oklab"}
-          >
-            <CheckOklab color={oklab.color} />
-          </Option>
+            offset={mode === "oklab"}
+          />
+          <Range
+            color={{ mode: "oklch", ...oklch.color }}
+            offset={mode === "oklch"}
+          />
         </ul>
         {error && <Notice color={color} error={error} />}
       </article>
