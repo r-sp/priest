@@ -1,4 +1,4 @@
-import type { ColorFormat, AnyColorMode } from "./color";
+import type { ColorFormat, ColorLabel, AnyColorMode } from "./color";
 
 type ColorGamut = {
   [Key in ColorFormat]: {
@@ -128,7 +128,7 @@ type FormatGamut = {
   [Key in ColorFormat]: (color: Extract<AnyColorMode, { mode: Key }>) => void;
 };
 
-export const formatGamut: FormatGamut = {
+const formatGamut: FormatGamut = {
   rgb: (color) => {
     setGamutRange("red", color.r, 0, 255);
     setGamutRange("green", color.g, 0, 255);
@@ -177,4 +177,81 @@ export const checkGamut = (color: AnyColorMode): string | null => {
   currentGamut = "";
   compose(color);
   return currentGamut;
+};
+
+type OffsetRange = {
+  offset: ColorLabel;
+  range: string;
+};
+
+const offsetRange = (
+  label: ColorLabel,
+  min: number,
+  max: number,
+): OffsetRange => {
+  return { offset: label, range: `${label} [${min}, ${max}]` };
+};
+
+type OffsetGamut = {
+  [Key in ColorFormat]: [OffsetRange, OffsetRange, OffsetRange];
+};
+
+const offsetGamut: OffsetGamut = {
+  rgb: [
+    offsetRange("red", 0, 255),
+    offsetRange("green", 0, 255),
+    offsetRange("blue", 0, 255),
+  ],
+  hsl: [
+    offsetRange("hue", 0, 360),
+    offsetRange("saturation", 0, 100),
+    offsetRange("lightness", 0, 100),
+  ],
+  hwb: [
+    offsetRange("hue", 0, 360),
+    offsetRange("whiteness", 0, 100),
+    offsetRange("blackness", 0, 100),
+  ],
+  lab: [
+    offsetRange("lightness", 0, 100),
+    offsetRange("green-red", -100, 100),
+    offsetRange("blue-yellow", -100, 100),
+  ],
+  lch: [
+    offsetRange("lightness", 0, 100),
+    offsetRange("chroma", 0, 150),
+    offsetRange("hue", 0, 360),
+  ],
+  oklab: [
+    offsetRange("lightness", 0, 1),
+    offsetRange("green-red", -0.4, 0.4),
+    offsetRange("blue-yellow", -0.4, 0.4),
+  ],
+  oklch: [
+    offsetRange("lightness", 0, 1),
+    offsetRange("chroma", 0, 0.4),
+    offsetRange("hue", 0, 360),
+  ],
+};
+
+const offsetMode = <T extends ColorFormat>(mode: T): OffsetGamut[T] => {
+  return offsetGamut[mode];
+};
+
+export const gamutRange = (
+  color: AnyColorMode,
+  error: string,
+): [[boolean, boolean, boolean], [string, string, string]] => {
+  const [start, middle, end] = offsetMode(color.mode);
+  const offset: [boolean, boolean, boolean] = [
+    error.includes(start.offset),
+    error.includes(middle.offset),
+    error.includes(end.offset),
+  ];
+  const range: [string, string, string] = [
+    start.range,
+    middle.range,
+    end.range,
+  ];
+  return [offset, range];
 };
