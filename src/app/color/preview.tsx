@@ -1,7 +1,6 @@
 import type { AnyColorMode } from "~/lib/color";
 import { createColor, parseCss } from "~/lib/color";
-import Range from "./range";
-import Notice from "./notice";
+import { ColorRange, ColorNotice } from "~/components/ui";
 
 export default function Preview({
   color,
@@ -12,7 +11,6 @@ export default function Preview({
 }) {
   const currentCss = parseCss(color);
   const { hex, rgb, hsl, hwb, lab, lch, oklab, oklch } = createColor(color);
-  const { mode } = color;
 
   return (
     <div className="px-4">
@@ -31,36 +29,78 @@ export default function Preview({
           aria-label="color space"
           className="grid gap-y-2 break-words"
         >
-          <Range
+          <ColorRange
             color={{ mode: "rgb", ...rgb.color }}
-            offset={mode === "rgb"}
+            label={["red", "green", "blue"]}
+            offset={[
+              { min: 0, max: 255 },
+              { min: 0, max: 255 },
+              { min: 0, max: 255 },
+            ]}
+            isActive={color.mode === "rgb"}
           />
-          <Range
+          <ColorRange
             color={{ mode: "hsl", ...hsl.color }}
-            offset={mode === "hsl"}
+            label={["hue", "saturation", "lightness"]}
+            offset={[
+              { min: 0, max: 360 },
+              { min: 0, max: 100 },
+              { min: 0, max: 100 },
+            ]}
+            isActive={color.mode === "hsl"}
           />
-          <Range
+          <ColorRange
             color={{ mode: "hwb", ...hwb.color }}
-            offset={mode === "hwb"}
+            label={["hue", "whiteness", "blackness"]}
+            offset={[
+              { min: 0, max: 360 },
+              { min: 0, max: 100 },
+              { min: 0, max: 100 },
+            ]}
+            isActive={color.mode === "hwb"}
           />
-          <Range
+          <ColorRange
             color={{ mode: "lab", ...lab.color }}
-            offset={mode === "lab"}
+            label={["lightness", "green-red", "blue-yellow"]}
+            offset={[
+              { min: 0, max: 100 },
+              { min: -100, max: 100 },
+              { min: -100, max: 100 },
+            ]}
+            isActive={color.mode === "lab"}
           />
-          <Range
+          <ColorRange
             color={{ mode: "lch", ...lch.color }}
-            offset={mode === "lch"}
+            label={["lightness", "chroma", "hue"]}
+            offset={[
+              { min: 0, max: 100 },
+              { min: 0, max: 150 },
+              { min: 0, max: 360 },
+            ]}
+            isActive={color.mode === "lch"}
           />
-          <Range
+          <ColorRange
             color={{ mode: "oklab", ...oklab.color }}
-            offset={mode === "oklab"}
+            label={["lightness", "green-red", "blue-yellow"]}
+            offset={[
+              { min: 0, max: 1 },
+              { min: -0.4, max: 0.4 },
+              { min: -0.4, max: 0.4 },
+            ]}
+            isActive={color.mode === "oklab"}
           />
-          <Range
+          <ColorRange
             color={{ mode: "oklch", ...oklch.color }}
-            offset={mode === "oklch"}
+            label={["lightness", "chroma", "hue"]}
+            offset={[
+              { min: 0, max: 1 },
+              { min: 0, max: 0.4 },
+              { min: 0, max: 360 },
+            ]}
+            isActive={color.mode === "oklch"}
           />
         </ul>
-        {error && <Notice color={color} error={error} />}
+        {error && <ColorNotice color={color} error={error} />}
       </article>
     </div>
   );

@@ -1,21 +1,15 @@
-"use client";
-
 import type { AnyColorMode } from "~/lib/color";
-import { useMemo } from "react";
 import { gamutRange } from "~/lib/gamut";
 import clsx from "clsx";
 
-export default function Notice({
+export default function ColorNotice({
   color,
   error,
 }: {
   color: AnyColorMode;
   error: string;
 }) {
-  const [offset, range] = useMemo(
-    () => gamutRange(color, error),
-    [color, error],
-  );
+  const [offset, range] = gamutRange(color, error);
   const [startOffset, middleOffset, endOffset] = offset;
   const [startRange, middleRange, endRange] = range;
 
