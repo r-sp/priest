@@ -14,6 +14,7 @@ export default function ColorView({ color }: { color: AnyColorMode }) {
         href={currentPath}
         className="bg-ref aspect-cinema inline-flex w-full rounded-md"
         prefetch={false}
+        scroll={false}
       >
         <code className="sr-only">{currentCss}</code>
       </Link>

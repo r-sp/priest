@@ -29,3 +29,7 @@ export const multiply = (value: number, min: number, max: number): number[] => {
   }
   return range;
 };
+
+export const limit = (value: number, min: number, max: number): number => {
+  return value < min ? min : value > max ? max : value;
+};

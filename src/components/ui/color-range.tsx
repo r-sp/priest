@@ -1,22 +1,30 @@
-import type { AnyColorMode } from "~/lib/color";
+import type { ColorLabel, AnyColorMode } from "~/lib/color";
 import { switchColorPath } from "~/lib/query";
-import { createRange } from "~/lib/tracks";
 import { checkGamut } from "~/lib/gamut";
 import clsx from "clsx";
 import Link from "next/link";
 
-export default function Range({
+export default function ColorRange({
   color,
+  label,
   offset,
+  isActive,
 }: {
   color: AnyColorMode;
-  offset: boolean;
+  label: [ColorLabel, ColorLabel, ColorLabel];
+  offset: [
+    { min: number; max: number },
+    { min: number; max: number },
+    { min: number; max: number },
+  ];
+  isActive: boolean;
 }) {
   const range = checkGamut(color);
   const link = switchColorPath("/color", color);
   const path = range ? `${link}&error=${range}` : link;
-  const [start, middle, end] = createRange(color);
 
+  const [startLabel, middleLabel, endLabel] = label;
+  const [startOffset, middleOffset, endOffset] = offset;
   const startValue = Object.values(color)[1] as number;
   const middleValue = Object.values(color)[2] as number;
   const endValue = Object.values(color)[3] as number;
@@ -26,24 +34,26 @@ export default function Range({
       <Link
         href={path}
         role="option"
-        aria-selected={offset}
-        aria-current={offset ? "page" : undefined}
+        aria-selected={isActive}
+        aria-current={isActive ? "page" : undefined}
         rel="alternate"
         className={clsx(
           "font-mono",
-          offset
+          isActive
             ? "font-medium text-gray-800 dark:text-gray-200"
             : "text-gray-600 dark:text-gray-400",
         )}
         prefetch={false}
+        scroll={false}
+        replace={true}
       >
         <code>
           <span>{`${color.mode}(`}</span>
           <span
             role="none"
-            title={start.label}
+            title={startLabel}
             className={
-              startValue < start.min || startValue > start.max
+              startValue < startOffset.min || startValue > startOffset.max
                 ? "text-red-700 dark:text-red-400"
                 : undefined
             }
@@ -53,9 +63,9 @@ export default function Range({
           {` `}
           <span
             role="none"
-            title={middle.label}
+            title={middleLabel}
             className={
-              middleValue < middle.min || middleValue > middle.max
+              middleValue < middleOffset.min || middleValue > middleOffset.max
                 ? "text-red-700 dark:text-red-400"
                 : undefined
             }
@@ -65,9 +75,9 @@ export default function Range({
           {` `}
           <span
             role="none"
-            title={end.label}
+            title={endLabel}
             className={
-              endValue < end.min || endValue > end.max
+              endValue < endOffset.min || endValue > endOffset.max
                 ? "text-red-700 dark:text-red-400"
                 : undefined
             }

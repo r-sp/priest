@@ -5,7 +5,7 @@ import { createColorMetadata } from "~/lib/service";
 import { getColorQuery, getColorPath } from "~/lib/query";
 import { checkGamut } from "~/lib/gamut";
 import { Suspense } from "react";
-import { SkeletonColor } from "~/components/common";
+import { Modal, SkeletonColor } from "~/components/common";
 import { ColorPreview, ColorResolve } from "~/components/ui";
 
 type Props = {
@@ -40,11 +40,13 @@ export default async function ColorPage({ searchParams }: Props) {
 
   return (
     <Suspense fallback={<SkeletonColor />}>
-      {color ? (
-        <ColorPreview color={color} error={query.error} />
-      ) : (
-        <ColorResolve error={query.error!} />
-      )}
+      <Modal>
+        {color ? (
+          <ColorPreview color={color} error={query.error} />
+        ) : (
+          <ColorResolve error={query.error!} />
+        )}
+      </Modal>
     </Suspense>
   );
 }

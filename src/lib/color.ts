@@ -60,6 +60,11 @@ export type AnyColorMode =
   | LchColorMode
   | OklabColorMode
   | OklchColorMode;
+export type HueColorMode =
+  | HslColorMode
+  | HwbColorMode
+  | LchColorMode
+  | OklchColorMode;
 
 export type ComposeColor<T extends ColorFormat> = {
   color: ColorSpace[T];
@@ -106,6 +111,14 @@ export type ColorLabel =
   | "whiteness"
   | "blackness"
   | "chroma";
+
+export type ColorHue = [
+  ColorMode,
+  HslColorMode,
+  HwbColorMode,
+  LchColorMode,
+  OklchColorMode,
+];
 
 export const composeRgb = add(modeRgb);
 export const composeHsl = add(modeHsl);

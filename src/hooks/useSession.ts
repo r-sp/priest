@@ -8,7 +8,7 @@ export default function useSession<T>(selector: (store: SessionStore) => T) {
   const context = useContext(SessionContext);
 
   if (!context) {
-    throw new Error("useSession must be used within Provider");
+    throw new Error("useSession must be used within RootLayout");
   }
 
   return useStore(context, useShallow(selector));

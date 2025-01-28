@@ -1,4 +1,4 @@
-export default function Resolve({ error }: { error: string }) {
+export default function ColorResolve({ error }: { error: string }) {
   const title = error.replaceAll("-", " ");
 
   return (

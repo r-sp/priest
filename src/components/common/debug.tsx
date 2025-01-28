@@ -8,6 +8,7 @@ export default function DebugMode() {
     (state) => state.shared,
   );
   const color = useSession((state) => state.color);
+  const hue = useSession((state) => state.hue);
 
   return (
     <ul className="max-w-8xl mx-auto grid w-full gap-y-4 break-words">
@@ -15,6 +16,9 @@ export default function DebugMode() {
         <code className="text-gray-700 dark:text-gray-300">
           {`source: ${JSON.stringify(color)}`}
         </code>
+      </li>
+      <li className="inline-grid">
+        <code className="text-gray-700 dark:text-gray-300">{`hue: ${JSON.stringify(hue)}`}</code>
       </li>
       <li className="inline-grid">
         <code className="text-gray-700 dark:text-gray-300">{`hex: ${hex}`}</code>

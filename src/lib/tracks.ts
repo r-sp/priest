@@ -130,7 +130,7 @@ const formatTracks: FormatTracks = {
         dynamic ? { ...color, ...track } : { ...color, ...shade },
       );
     };
-    const lightness = tracks([compose({ l: 100 }), compose({ l: 0 })]);
+    const lightness = tracks([compose({ l: 0 }), compose({ l: 100 })]);
     const greenRed = tracks([
       preview({ a: -100 }, { a: -100, b: 50 }),
       preview({ a: 100 }, { a: 100, b: 50 }),
