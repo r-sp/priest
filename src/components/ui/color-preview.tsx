@@ -2,7 +2,7 @@ import type { AnyColorMode } from "~/lib/color";
 import { createColor, parseCss } from "~/lib/color";
 import { ColorRange, ColorNotice } from "~/components/ui";
 
-export default function Preview({
+export default function ColorPreview({
   color,
   error,
 }: {

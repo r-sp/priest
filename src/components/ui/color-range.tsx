@@ -44,6 +44,8 @@ export default function ColorRange({
             : "text-gray-600 dark:text-gray-400",
         )}
         prefetch={false}
+        scroll={false}
+        replace={true}
       >
         <code>
           <span>{`${color.mode}(`}</span>

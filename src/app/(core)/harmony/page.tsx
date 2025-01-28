@@ -1,10 +1,13 @@
-import { ColorPicker } from "~/components/ui";
+import type { Metadata } from "next";
 import { multiply } from "~/lib/utils";
 
-export default function HomePage() {
+export const metadata: Metadata = {
+  title: "Harmony",
+};
+
+export default function HarmonyPage() {
   return (
-    <div className="flex flex-col gap-y-8 px-4">
-      <ColorPicker />
+    <div>
       <div className="max-w-8xl mx-auto grid w-full gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-6">
         {multiply(1, 1, 36).map((index) => (
           <span
