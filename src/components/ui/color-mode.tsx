@@ -22,10 +22,10 @@ export default function ColorMode({
   );
 
   return (
-    <div role="none" className="relative block h-7">
+    <div role="none" className="relative grid h-7">
       <div
         role="none"
-        className="no-scrollbar pointer-events-none absolute -right-4 -left-4 -my-2 grid overflow-x-auto px-4 py-2 whitespace-nowrap"
+        className="no-scrollbar pointer-events-none absolute -right-4 -left-4 -my-2 inline-grid overflow-x-auto px-4 py-2 whitespace-nowrap"
       >
         <fieldset
           role="radiogroup"

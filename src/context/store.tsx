@@ -12,6 +12,8 @@ export function createSession(initValue: SessionState) {
     setMode: (state) => set(() => ({ mode: state })),
     setTheme: (state) => set(() => ({ theme: state })),
     setShared: (state) => set(() => ({ shared: state })),
+    setHue: (state) =>
+      set((current) => ({ hue: { ...current.hue, ...state } })),
   }));
 }
 

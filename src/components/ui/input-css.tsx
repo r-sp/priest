@@ -41,7 +41,7 @@ export default function InputCss({
   );
 
   return (
-    <div role="form" aria-label={label} className="relative block h-10">
+    <div role="form" aria-label={label} className="relative grid h-10">
       <input
         type="text"
         autoFocus={focus}
@@ -52,7 +52,7 @@ export default function InputCss({
         value={focus ? input : currentCss}
         id={prefix}
         className={clsx(
-          "absolute top-0 right-0 bottom-0 left-0 inline-block rounded-md px-4 py-2 font-mono ring outline-0",
+          "absolute top-0 right-0 bottom-0 left-0 inline-grid rounded-md px-4 py-2 font-mono ring outline-0",
           "bg-gray-100 dark:bg-gray-900",
           focus
             ? "cursor-text text-gray-700 ring-gray-300 dark:text-gray-300 dark:ring-gray-700"
