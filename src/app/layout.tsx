@@ -1,7 +1,6 @@
 import type { ReactNode } from "react";
 import type { Metadata } from "next";
-import type { SessionState } from "~/lib/types";
-import { currentColor } from "~/lib/color";
+import { createService } from "~/lib/service";
 import { Geist, Geist_Mono } from "next/font/google";
 import { ThemeScript, ThemeSwitcher } from "~/components/common";
 import { Store } from "~/context";
@@ -49,15 +48,9 @@ export const metadata: Metadata = {
 
 export default function RootLayout({
   children,
-}: Readonly<{ children: ReactNode }>) {
-  const [current, shared] = currentColor();
-
-  const session: SessionState = {
-    theme: undefined,
-    color: current,
-    mode: "hex",
-    shared: shared,
-  };
+  portal,
+}: Readonly<{ children: ReactNode; portal: ReactNode }>) {
+  const session = createService();
 
   return (
     <html
@@ -95,7 +88,10 @@ export default function RootLayout({
               </div>
             </div>
           </header>
-          <main>{children}</main>
+          <main>
+            {children}
+            {portal}
+          </main>
           <footer>
             <div className="mt-16 px-4 py-8">
               <div className="max-w-8xl mx-auto">
