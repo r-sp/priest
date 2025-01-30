@@ -1,13 +1,12 @@
 "use client";
 
-import type { ColorScheme } from "~/lib/color";
+import type { ColorScheme } from "~/types/color";
 import { useEffect, useMemo, useCallback, Fragment } from "react";
 import { useSession } from "~/hooks";
-import { isClient } from "~/lib/utils";
 
 const getLocalStorage = (key: string): string | null | undefined => {
   let local;
-  if (isClient) {
+  if (typeof window !== "undefined") {
     try {
       local = window.localStorage.getItem(key);
     } catch (e) {
@@ -18,7 +17,7 @@ const getLocalStorage = (key: string): string | null | undefined => {
 };
 
 const setLocalStorage = (key: string, value: string): void => {
-  if (isClient) {
+  if (typeof window !== "undefined") {
     try {
       window.localStorage.setItem(key, value);
     } catch (e) {

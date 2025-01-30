@@ -1,17 +1,16 @@
-import type { ColorFormat, ColorLabel, AnyColorMode } from "./color";
+import type {
+  AnyColorMode,
+  ColorFormat,
+  ColorLabel,
+  ExtractColorMode,
+} from "~/types/color";
 
-type ColorGamut = {
+const colorGamut: {
   [Key in ColorFormat]: {
-    get: (
-      color: Extract<AnyColorMode, { mode: Key }>,
-    ) => Extract<AnyColorMode, { mode: Key }>;
-    set: (
-      color: Extract<AnyColorMode, { mode: Key }>,
-    ) => Extract<AnyColorMode, { mode: Key }>;
+    get: (color: ExtractColorMode<Key>) => ExtractColorMode<Key>;
+    set: (color: ExtractColorMode<Key>) => ExtractColorMode<Key>;
   };
-};
-
-const colorGamut: ColorGamut = {
+} = {
   rgb: {
     get: (color) => ({
       mode: "rgb",
@@ -62,32 +61,25 @@ const colorGamut: ColorGamut = {
 
 const increaseGamut = <T extends ColorFormat>(
   mode: T,
-): ((
-  color: Extract<AnyColorMode, { mode: T }>,
-) => Extract<AnyColorMode, { mode: T }>) => {
+): ((color: ExtractColorMode<T>) => ExtractColorMode<T>) => {
   return colorGamut[mode].set;
 };
 
 const decreaseGamut = <T extends ColorFormat>(
   mode: T,
-): ((
-  color: Extract<AnyColorMode, { mode: T }>,
-) => Extract<AnyColorMode, { mode: T }>) => {
+): ((color: ExtractColorMode<T>) => ExtractColorMode<T>) => {
   return colorGamut[mode].get;
 };
 
-export const getGamut = (
-  color: string | AnyColorMode,
-): string | AnyColorMode => {
+const getGamut = (color: string | AnyColorMode): string | AnyColorMode => {
   if (typeof color === "string") {
     return color;
   }
-
   const compose = decreaseGamut(color.mode);
   return compose(color);
 };
 
-export const setGamut = (color: AnyColorMode): AnyColorMode => {
+const setGamut = (color: AnyColorMode): AnyColorMode => {
   const compose = increaseGamut(color.mode);
   return compose(color);
 };
@@ -124,11 +116,9 @@ const setGamutRange = (
   }
 };
 
-type FormatGamut = {
-  [Key in ColorFormat]: (color: Extract<AnyColorMode, { mode: Key }>) => void;
-};
-
-const formatGamut: FormatGamut = {
+const formatGamut: {
+  [Key in ColorFormat]: (color: ExtractColorMode<Key>) => void;
+} = {
   rgb: (color) => {
     setGamutRange("red", color.r, 0, 255);
     setGamutRange("green", color.g, 0, 255);
@@ -168,11 +158,11 @@ const formatGamut: FormatGamut = {
 
 const gamutMode = <T extends ColorFormat>(
   mode: T,
-): ((color: Extract<AnyColorMode, { mode: T }>) => void) => {
+): ((color: ExtractColorMode<T>) => void) => {
   return formatGamut[mode];
 };
 
-export const checkGamut = (color: AnyColorMode): string | null => {
+const checkGamut = (color: AnyColorMode): string | null => {
   const compose = gamutMode(color.mode);
   currentGamut = "";
   compose(color);
@@ -238,7 +228,7 @@ const offsetMode = <T extends ColorFormat>(mode: T): OffsetGamut[T] => {
   return offsetGamut[mode];
 };
 
-export const gamutRange = (
+const gamutRange = (
   color: AnyColorMode,
   error: string,
 ): [[boolean, boolean, boolean], [string, string, string]] => {
@@ -255,3 +245,5 @@ export const gamutRange = (
   ];
   return [offset, range];
 };
+
+export { getGamut, setGamut, checkGamut, gamutRange };

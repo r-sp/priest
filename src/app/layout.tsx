@@ -1,6 +1,6 @@
 import type { ReactNode } from "react";
 import type { Metadata } from "next";
-import { createService } from "~/lib/service";
+import { createService } from "~/utils/process";
 import { Geist, Geist_Mono } from "next/font/google";
 import { ThemeScript, ThemeSwitcher } from "~/components/common";
 import { Store } from "~/context";
@@ -46,10 +46,12 @@ export const metadata: Metadata = {
   robots: "index, follow",
 };
 
-export default function RootLayout({
-  children,
-  portal,
-}: Readonly<{ children: ReactNode; portal: ReactNode }>) {
+interface Props {
+  children: ReactNode;
+  portal: ReactNode;
+}
+
+export default function RootLayout({ children, portal }: Props) {
   const session = createService();
 
   return (

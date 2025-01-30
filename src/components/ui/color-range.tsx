@@ -1,15 +1,10 @@
-import type { ColorLabel, AnyColorMode } from "~/lib/color";
-import { switchColorPath } from "~/lib/query";
-import { checkGamut } from "~/lib/gamut";
+import type { AnyColorMode, ColorLabel } from "~/types/color";
+import { switchColorPath } from "~/utils/query";
+import { checkGamut } from "~/utils/gamut";
 import clsx from "clsx";
 import Link from "next/link";
 
-export default function ColorRange({
-  color,
-  label,
-  offset,
-  isActive,
-}: {
+interface Props {
   color: AnyColorMode;
   label: [ColorLabel, ColorLabel, ColorLabel];
   offset: [
@@ -18,7 +13,9 @@ export default function ColorRange({
     { min: number; max: number },
   ];
   isActive: boolean;
-}) {
+}
+
+export default function ColorRange({ color, label, offset, isActive }: Props) {
   const range = checkGamut(color);
   const link = switchColorPath("/color", color);
   const path = range ? `${link}&error=${range}` : link;

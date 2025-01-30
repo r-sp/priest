@@ -1,9 +1,10 @@
 import type {
-  ColorSpace,
+  AnyColorMode,
   ColorFormat,
   ColorLabel,
-  AnyColorMode,
-} from "~/lib/color";
+  ExtractColor,
+  ExtractColorMode,
+} from "~/types/color";
 import {
   formatRgb,
   formatHsl,
@@ -12,18 +13,16 @@ import {
   formatLch,
   formatOklab,
   formatOklch,
-} from "./color";
+} from "./format";
 
 const tracks = (shades: string[]): string => shades.join(", ");
 
-type FormatTracks = {
+const formatTracks: {
   [Key in ColorFormat]: (
-    color: Extract<AnyColorMode, { mode: Key }>,
+    color: ExtractColorMode<Key>,
     dynamic: boolean,
   ) => [string, string, string];
-};
-
-const formatTracks: FormatTracks = {
+} = {
   rgb: (color, dynamic) => {
     const compose = (track: Partial<typeof color>): string => {
       return formatRgb({ ...color, ...track });
@@ -231,13 +230,13 @@ const formatTracks: FormatTracks = {
 const trackMode = <T extends ColorFormat>(
   mode: T,
 ): ((
-  color: Extract<AnyColorMode, { mode: T }>,
+  color: ExtractColorMode<T>,
   dynamic: boolean,
 ) => [string, string, string]) => {
   return formatTracks[mode];
 };
 
-export const createTracks = (
+const createTracks = (
   color: AnyColorMode,
   dynamic: boolean,
 ): [string, string, string] => {
@@ -256,20 +255,18 @@ type TrackRange = {
 type TrackUpdate<T extends ColorFormat> = {
   update: (
     value: number,
-    color: Extract<AnyColorMode, { mode: T }>,
-    store: (key: Extract<AnyColorMode, { mode: T }>) => void,
+    color: ExtractColorMode<T>,
+    store: (key: ExtractColorMode<T>) => void,
   ) => void;
 };
 
 type TrackFormat<T extends ColorFormat> = TrackRange & TrackUpdate<T>;
 
-type FormatRange = {
+const formatRange: {
   [Key in ColorFormat]: {
-    [Value in keyof ColorSpace[Key]]: TrackFormat<Key>;
+    [Value in keyof ExtractColor<Key>]: TrackFormat<Key>;
   };
-};
-
-const formatRange: FormatRange = {
+} = {
   rgb: {
     r: {
       label: "red",
@@ -451,7 +448,7 @@ const formatRange: FormatRange = {
   },
 };
 
-export const createRange = (
+const createRange = (
   color: AnyColorMode,
 ): [
   TrackFormat<typeof color.mode>,
@@ -465,3 +462,5 @@ export const createRange = (
     Object.values(compose)[2],
   ];
 };
+
+export { createTracks, createRange };

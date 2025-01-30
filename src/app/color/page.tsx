@@ -1,22 +1,21 @@
 import type { Metadata } from "next";
-import type { ColorQuery } from "~/lib/color";
+import type { ColorQuery } from "~/types/color";
 import { permanentRedirect } from "next/navigation";
-import { createColorMetadata } from "~/lib/service";
-import { getColorQuery, getColorPath } from "~/lib/query";
-import { checkGamut } from "~/lib/gamut";
+import { getColorQuery, getColorPath, createMetadata } from "~/utils/query";
+import { checkGamut } from "~/utils/gamut";
 import { Suspense } from "react";
 import { SkeletonColor } from "~/components/common";
 import { ColorPreview, ColorResolve } from "~/components/ui";
 
-type Props = {
+interface Props {
   searchParams: Promise<ColorQuery & { error?: string }>;
-};
+}
 
 export async function generateMetadata({
   searchParams,
 }: Props): Promise<Metadata> {
   const query = await searchParams;
-  const metadata = createColorMetadata(query);
+  const metadata = createMetadata(query);
   return metadata;
 }
 

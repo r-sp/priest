@@ -1,6 +1,8 @@
-import type { ColorQuery, AnyColorMode } from "./color";
+import type { Metadata } from "next";
+import type { AnyColorMode, ColorQuery } from "~/types/color";
+import { formatCss } from "./format";
 
-export const getColorQuery = (query: ColorQuery): AnyColorMode | undefined => {
+const getColorQuery = (query: ColorQuery): AnyColorMode | undefined => {
   const { mode, r, g, b, h, s, l, w, a, c } = query;
 
   switch (mode) {
@@ -44,7 +46,7 @@ export const getColorQuery = (query: ColorQuery): AnyColorMode | undefined => {
   return undefined;
 };
 
-export const getColorPath = (path: string, query: ColorQuery): string => {
+const getColorPath = (path: string, query: ColorQuery): string => {
   const { mode, r, g, b, h, s, l, w, a, c } = query;
   let queryString = "";
 
@@ -86,7 +88,7 @@ export const getColorPath = (path: string, query: ColorQuery): string => {
   return queryString ? `${path}?${queryString}` : path;
 };
 
-export const switchColorPath = (path: string, color: AnyColorMode): string => {
+const switchColorPath = (path: string, color: AnyColorMode): string => {
   let queryString = `mode=${color.mode}`;
 
   switch (color.mode) {
@@ -116,3 +118,43 @@ export const switchColorPath = (path: string, color: AnyColorMode): string => {
 
   return `${path}?${queryString}`;
 };
+
+const createMetadata = (query: ColorQuery & { error?: string }): Metadata => {
+  const includes =
+    query.error?.includes("under") || query.error?.includes("above");
+
+  const createMetadata = (valid: string, invalid: string) => {
+    return query.error ? (includes ? valid : invalid) : valid;
+  };
+
+  const repaint: ColorQuery =
+    query.error || query.mode ? query : { mode: "rgb", r: 0, g: 0, b: 0 };
+
+  const color = query.error
+    ? includes
+      ? formatCss(getColorQuery(repaint)!)
+      : "Error"
+    : formatCss(getColorQuery(repaint)!);
+
+  const name = createMetadata(`Color: ${color}`, "Error");
+  const text = createMetadata(
+    `Explore color conversions from ${color} to various color models: RGB, HSL, HWB, LAB, LCH, OKLAB, OKLCH.`,
+    "Something",
+  );
+
+  const colorParams = getColorPath("/color", query);
+  const path = query.error
+    ? includes
+      ? `${colorParams}&error=${query.error}`
+      : `/color?error=${query.error}`
+    : colorParams;
+
+  return {
+    title: name,
+    description: text,
+    openGraph: { title: name, url: path },
+    alternates: { canonical: path },
+  };
+};
+
+export { getColorQuery, getColorPath, switchColorPath, createMetadata };
