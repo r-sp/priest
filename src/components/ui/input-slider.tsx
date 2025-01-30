@@ -1,30 +1,46 @@
 "use client";
 
-import type { AnyColorMode } from "~/lib/color";
-import { useState, useMemo } from "react";
-import { createRange, createTracks } from "~/lib/tracks";
+import { SessionSlider } from "~/types/session";
+import { useState, useMemo, useCallback } from "react";
+import { useSession } from "~/hooks";
+import { createColor, createHue } from "~/utils/format";
+import { createRange, createTracks } from "~/utils/tracks";
 
-export default function InputSlider({
-  color,
-  action,
-  dynamic,
-}: {
-  color: AnyColorMode;
-  action: (store: AnyColorMode) => void;
-  dynamic: boolean;
-}) {
+interface Props {
+  dynamic?: boolean;
+}
+
+export default function InputSlider({ dynamic = true }: Props) {
+  const session: SessionSlider = useSession((state) => [
+    state.color,
+    state.mode,
+    state.setColor,
+    state.setHue,
+  ]);
+  const [color, mode, setColor, setHue] = useMemo(() => session, [session]);
+
   const [focusStart, setFocusStart] = useState<boolean>(false);
   const [focusMiddle, setFocusMiddle] = useState<boolean>(false);
   const [focusEnd, setFocusEnd] = useState<boolean>(false);
 
-  const colorRange = useMemo(() => createRange(color), [color]);
-  const [startRange, middleRange, endRange] = colorRange;
-
-  const colorTrack = useMemo(
+  const [startRange, middleRange, endRange] = useMemo(
+    () => createRange(color),
+    [color],
+  );
+  const [startTrack, middleTrack, endTrack] = useMemo(
     () => createTracks(color, dynamic),
     [color, dynamic],
   );
-  const [startTrack, middleTrack, endTrack] = colorTrack;
+
+  const action = useCallback(
+    (input: typeof color) => {
+      const shared = createColor(input);
+      const hue = createHue(shared, mode);
+      setColor(input);
+      setHue({ color: hue, value: hue.h });
+    },
+    [mode, setColor, setHue],
+  );
 
   return (
     <div

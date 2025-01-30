@@ -1,15 +1,14 @@
-import type { AnyColorMode } from "~/lib/color";
-import { createColor, parseCss } from "~/lib/color";
+import type { AnyColorMode } from "~/types/color";
+import { createColor, formatCss } from "~/utils/format";
 import { ColorRange, ColorNotice } from "~/components/ui";
 
-export default function ColorPreview({
-  color,
-  error,
-}: {
+interface Props {
   color: AnyColorMode;
   error?: string;
-}) {
-  const currentCss = parseCss(color);
+}
+
+export default function ColorPreview({ color, error }: Props) {
+  const currentCss = formatCss(color);
   const { hex, rgb, hsl, hwb, lab, lch, oklab, oklch } = createColor(color);
 
   return (

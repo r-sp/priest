@@ -1,14 +1,13 @@
-import type { AnyColorMode } from "~/lib/color";
-import { gamutRange } from "~/lib/gamut";
+import type { AnyColorMode } from "~/types/color";
+import { gamutRange } from "~/utils/gamut";
 import clsx from "clsx";
 
-export default function ColorNotice({
-  color,
-  error,
-}: {
+interface Props {
   color: AnyColorMode;
   error: string;
-}) {
+}
+
+export default function ColorNotice({ color, error }: Props) {
   const [offset, range] = gamutRange(color, error);
   const [startOffset, middleOffset, endOffset] = offset;
   const [startRange, middleRange, endRange] = range;

@@ -1,4 +1,8 @@
-export default function ColorResolve({ error }: { error: string }) {
+interface Props {
+  error: string;
+}
+
+export default function ColorResolve({ error }: Props) {
   const title = error.replaceAll("-", " ");
 
   return (
