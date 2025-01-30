@@ -1,4 +1,4 @@
-import type { SessionStore } from "~/lib/types";
+import type { SessionStore } from "~/types/session";
 import { useContext } from "react";
 import { useStore } from "zustand";
 import { useShallow } from "zustand/shallow";
