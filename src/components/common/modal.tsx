@@ -1,10 +1,14 @@
 "use client";
 
-import type { KeyboardEvent } from "react";
+import type { ReactNode, KeyboardEvent } from "react";
 import { useRouter } from "next/navigation";
 import { useEffect } from "react";
 
-export default function Modal({ children }: { children: React.ReactNode }) {
+interface Props {
+  children: ReactNode;
+}
+
+export default function Modal({ children }: Props) {
   const router = useRouter();
 
   const handleClose = () => {

@@ -1,14 +1,12 @@
 "use client";
 
-import type { AnyColor } from "~/lib/color";
+import type { AnyColor } from "~/types/color";
+import { createColor } from "~/utils/format";
 import { useSession } from "~/hooks";
 
 export default function DebugMode() {
-  const { hex, rgb, hsl, hwb, lab, lch, oklab, oklch } = useSession(
-    (state) => state.shared,
-  );
-  const color = useSession((state) => state.color);
-  const hue = useSession((state) => state.hue);
+  const [color, hue] = useSession((state) => [state.color, state.hue]);
+  const { hex, rgb, hsl, hwb, lab, lch, oklab, oklch } = createColor(color);
 
   return (
     <ul className="max-w-8xl mx-auto grid w-full gap-y-4 break-words">
