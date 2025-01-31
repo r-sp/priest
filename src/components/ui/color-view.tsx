@@ -1,8 +1,7 @@
 "use client";
 
 import { useSession } from "~/hooks";
-import { switchColorPath } from "~/utils/query";
-import { formatCss } from "~/utils/format";
+import { switchColorPath, formatCss } from "~/utils";
 import Link from "next/link";
 
 export default function ColorView() {

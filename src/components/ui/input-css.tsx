@@ -2,14 +2,20 @@
 
 import type { ChangeEvent, KeyboardEvent } from "react";
 import type { SessionCss } from "~/types/session";
-import type { AnyColorMode, ColorState, ColorLabel } from "~/types/color";
-import { useState, useMemo, useCallback, Fragment } from "react";
+import type { AnyColorMode, ColorState } from "~/types/color";
+import { useState, useMemo, useCallback, useRef, Fragment } from "react";
 import { useSession } from "~/hooks";
-import { createColor, createHue, createCss } from "~/utils/format";
-import { convertCss } from "~/utils/convert";
-import { setGamut } from "~/utils/gamut";
+import { createPortal } from "react-dom";
+import {
+  createColor,
+  createHue,
+  createCss,
+  convertCss,
+  setGamut,
+} from "~/utils";
 import clsx from "clsx";
 import Form from "next/form";
+import ColorOptions from "./color-options";
 
 export default function InputCss() {
   const session: SessionCss = useSession((state) => [
@@ -32,6 +38,7 @@ export default function InputCss() {
   const [input, setInput] = useState<string>(currentCss);
   const [focus, setFocus] = useState<boolean>(false);
   const [modal, setModal] = useState<boolean>(false);
+  const ref = useRef<HTMLFormElement>(null);
 
   const handleInput = useCallback(
     (e: ChangeEvent<HTMLInputElement>) => {
@@ -65,42 +72,69 @@ export default function InputCss() {
   );
 
   const handleMode = useCallback(
-    (state: AnyColorMode, format: keyof ColorState) => {
-      const hue = createHue(currentColor, format);
+    (state: AnyColorMode, format?: keyof ColorState) => {
+      const hue = createHue(currentColor, format ? format : mode);
       setColor(state);
-      setMode(format);
+      setMode(format ? format : mode);
       setHue({ color: hue, value: hue.h });
     },
-    [currentColor, setColor, setMode, setHue],
+    [currentColor, mode, setColor, setMode, setHue],
   );
 
   const handleKeyboard = useCallback(
     (e: KeyboardEvent) => {
-      switch (e.key) {
-        case "Enter":
-        case "Escape": {
-          setModal(false);
-          e.preventDefault();
-          break;
+      const list = ref.current;
+      if (!list) return;
+
+      const tabs = Array.from<HTMLButtonElement>(
+        list.querySelectorAll("button"),
+      );
+
+      const index = tabs.indexOf(document.activeElement as HTMLButtonElement);
+      if (index < 0) return;
+
+      const prevTab = () => {
+        const next = (index - 1 + tabs.length) % tabs.length;
+        tabs[next]?.focus();
+        e.preventDefault();
+      };
+
+      const nextTab = () => {
+        const next = (index + 1 + tabs.length) % tabs.length;
+        tabs[next]?.focus();
+        e.preventDefault();
+      };
+
+      if (!modal) return;
+
+      if (e.shiftKey && e.key === "Tab") {
+        prevTab();
+      } else {
+        switch (e.key) {
+          case "ArrowUp":
+          case "ArrowLeft": {
+            prevTab();
+            break;
+          }
+          case "Tab":
+          case "ArrowDown":
+          case "ArrowRight": {
+            nextTab();
+            break;
+          }
+          case "Escape": {
+            setModal(false);
+            break;
+          }
         }
       }
     },
-    [setModal],
+    [ref, modal, setModal],
   );
-
-  const { hex, rgb, hsl, hwb, lab, lch, oklab, oklch } = currentColor;
-
-  const modeHex = mode === "hex";
-  const modeRgb = mode === "rgb";
-  const modeHsl = mode === "hsl";
-  const modeHwb = mode === "hwb";
-  const modeLab = mode === "lab";
-  const modeLch = mode === "lch";
-  const modeOklab = mode === "oklab";
-  const modeOklch = mode === "oklch";
 
   return (
     <Form
+      ref={ref}
       aria-label="color input"
       action="/color"
       id="color-input"
@@ -130,7 +164,6 @@ export default function InputCss() {
               ? "cursor-text text-gray-700 ring-gray-300 dark:text-gray-300 dark:ring-gray-700"
               : "cursor-pointer text-gray-600 ring-gray-200 dark:text-gray-400 dark:ring-gray-800",
           )}
-          tabIndex={0}
           onChange={handleInput}
           onFocus={() => {
             setInput(currentCss);
@@ -140,234 +173,27 @@ export default function InputCss() {
           onBlur={() => setFocus(false)}
         />
       </div>
-      {modal ? (
-        <Fragment>
-          <fieldset
-            role="listbox"
-            className={clsx(
-              "absolute top-0 right-0 left-0 z-3 grid rounded-md px-2 pt-12 pb-2 break-words ring select-none",
-              "bg-gray-100 text-gray-600 ring-gray-200 dark:bg-gray-900 dark:text-gray-400 dark:ring-gray-800",
-            )}
-          >
-            <legend className="sr-only">select color mode</legend>
-            {!modeHex ? (
-              <div role="none">
-                <input
-                  role="option"
-                  aria-selected={modeHex}
-                  type="radio"
-                  checked={modeHex}
-                  id="mode-hex"
-                  className="sr-only"
-                  name="mode"
-                  value="hex"
-                  onChange={() =>
-                    handleMode({ mode: "rgb", ...rgb.color }, "hex")
-                  }
+      <div role="none" id="input-portal">
+        {modal
+          ? createPortal(
+              <Fragment>
+                <ColorOptions
+                  color={currentColor}
+                  mode={mode}
+                  action={handleMode}
                 />
-                <label
-                  htmlFor="mode-hex"
-                  className={clsx(
-                    "flex cursor-pointer rounded-md px-2 py-2",
-                    "hover:bg-gray-200 hover:text-gray-800 dark:hover:bg-gray-800 dark:hover:text-gray-200",
-                  )}
-                >
-                  <code>{hex}</code>
-                </label>
-              </div>
-            ) : null}
-            {!modeRgb ? (
-              <InputOption
-                color={{ mode: "rgb", ...rgb.color }}
-                label={["red", "green", "blue"]}
-                offset={[
-                  { min: 0, max: 255 },
-                  { min: 0, max: 255 },
-                  { min: 0, max: 255 },
-                ]}
-                isActive={modeRgb}
-                action={handleMode}
-              />
-            ) : null}
-            {!modeHsl ? (
-              <InputOption
-                color={{ mode: "hsl", ...hsl.color }}
-                label={["hue", "saturation", "lightness"]}
-                offset={[
-                  { min: 0, max: 360 },
-                  { min: 0, max: 100 },
-                  { min: 0, max: 100 },
-                ]}
-                isActive={modeHsl}
-                action={handleMode}
-              />
-            ) : null}
-            {!modeHwb ? (
-              <InputOption
-                color={{ mode: "hwb", ...hwb.color }}
-                label={["hue", "whiteness", "blackness"]}
-                offset={[
-                  { min: 0, max: 360 },
-                  { min: 0, max: 100 },
-                  { min: 0, max: 100 },
-                ]}
-                isActive={modeHwb}
-                action={handleMode}
-              />
-            ) : null}
-            <div
-              role="none"
-              className="my-2 border-t border-t-gray-200 dark:border-t-gray-800"
-            ></div>
-            {!modeLch ? (
-              <InputOption
-                color={{ mode: "lch", ...lch.color }}
-                label={["lightness", "chroma", "hue"]}
-                offset={[
-                  { min: 0, max: 100 },
-                  { min: 0, max: 150 },
-                  { min: 0, max: 360 },
-                ]}
-                isActive={modeLch}
-                action={handleMode}
-              />
-            ) : null}
-            {!modeOklch ? (
-              <InputOption
-                color={{ mode: "oklch", ...oklch.color }}
-                label={["lightness", "chroma", "hue"]}
-                offset={[
-                  { min: 0, max: 1 },
-                  { min: 0, max: 0.4 },
-                  { min: 0, max: 360 },
-                ]}
-                isActive={modeOklch}
-                action={handleMode}
-              />
-            ) : null}
-            {!modeLab ? (
-              <InputOption
-                color={{ mode: "lab", ...lab.color }}
-                label={["lightness", "green-red", "blue-yellow"]}
-                offset={[
-                  { min: 0, max: 100 },
-                  { min: -100, max: 100 },
-                  { min: -100, max: 100 },
-                ]}
-                isActive={modeLab}
-                action={handleMode}
-              />
-            ) : null}
-            {!modeOklab ? (
-              <InputOption
-                color={{ mode: "oklab", ...oklab.color }}
-                label={["lightness", "green-red", "blue-yellow"]}
-                offset={[
-                  { min: 0, max: 1 },
-                  { min: -0.4, max: 0.4 },
-                  { min: -0.4, max: 0.4 },
-                ]}
-                isActive={modeOklab}
-                action={handleMode}
-              />
-            ) : null}
-          </fieldset>
-          <span
-            role="button"
-            aria-label="close color mode"
-            className="fixed top-0 right-0 bottom-0 left-0 z-1"
-            tabIndex={0}
-            onFocus={() => {
-              setFocus(false);
-              setModal(false);
-            }}
-          ></span>
-        </Fragment>
-      ) : null}
+                <span
+                  role="button"
+                  aria-label="close color input mode"
+                  className="fixed top-0 right-0 bottom-0 left-0 z-2"
+                  tabIndex={0}
+                  onFocus={() => setModal(false)}
+                />
+              </Fragment>,
+              document.getElementById("input-portal") || document.body,
+            )
+          : null}
+      </div>
     </Form>
-  );
-}
-
-interface ColorOption {
-  color: AnyColorMode;
-  label: [ColorLabel, ColorLabel, ColorLabel];
-  offset: [
-    { min: number; max: number },
-    { min: number; max: number },
-    { min: number; max: number },
-  ];
-  action: (color: AnyColorMode, mode: keyof ColorState) => void;
-  isActive: boolean;
-}
-
-function InputOption({ color, label, offset, action, isActive }: ColorOption) {
-  const mode = color.mode;
-  const option = `mode-${mode}`;
-
-  const [startLabel, middleLabel, endLabel] = label;
-  const [startOffset, middleOffset, endOffset] = offset;
-  const startValue = Object.values(color)[1] as number;
-  const middleValue = Object.values(color)[2] as number;
-  const endValue = Object.values(color)[3] as number;
-
-  const noticeError = (range: boolean): string | undefined => {
-    return range ? "text-red-700 dark:text-red-400" : undefined;
-  };
-
-  return (
-    <div role="none">
-      <input
-        role="option"
-        aria-selected={isActive}
-        type="radio"
-        checked={isActive}
-        id={option}
-        className="sr-only"
-        name="mode"
-        value={mode}
-        onChange={() => action(color, mode)}
-      />
-      <label
-        htmlFor={option}
-        className={clsx(
-          "flex cursor-pointer rounded-md px-2 py-2",
-          "hover:bg-gray-200 hover:text-gray-800 dark:hover:bg-gray-800 dark:hover:text-gray-200",
-        )}
-      >
-        <code>
-          <span>{`${mode}(`}</span>
-          <span
-            role="none"
-            title={startLabel}
-            className={noticeError(
-              startValue < startOffset.min || startValue > startOffset.max,
-            )}
-          >
-            {startValue}
-          </span>
-          {` `}
-          <span
-            role="none"
-            title={middleLabel}
-            className={noticeError(
-              middleValue < middleOffset.min || middleValue > middleOffset.max,
-            )}
-          >
-            {middleValue}
-          </span>
-          {` `}
-          <span
-            role="none"
-            title={endLabel}
-            className={noticeError(
-              endValue < endOffset.min || endValue > endOffset.max,
-            )}
-          >
-            {endValue}
-          </span>
-          <span>{`)`}</span>
-        </code>
-      </label>
-    </div>
   );
 }
