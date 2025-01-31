@@ -1,7 +1,7 @@
 "use client";
 
 import type { AnyColor } from "~/types/color";
-import { createColor } from "~/utils/format";
+import { createColor } from "~/utils";
 import { useSession } from "~/hooks";
 
 export default function DebugMode() {
