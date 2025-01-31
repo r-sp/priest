@@ -3,8 +3,7 @@
 import { SessionSlider } from "~/types/session";
 import { useState, useMemo, useCallback } from "react";
 import { useSession } from "~/hooks";
-import { createColor, createHue } from "~/utils/format";
-import { createRange, createTracks } from "~/utils/tracks";
+import { createColor, createHue, createRange, createTracks } from "~/utils";
 
 interface Props {
   dynamic?: boolean;
