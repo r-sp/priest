@@ -1,4 +1,10 @@
-import type { AnyColorMode, ColorState, ColorScheme, ColorMode } from "./color";
+import type {
+  AnyColorMode,
+  ColorState,
+  ColorScheme,
+  ColorMode,
+  ColorQuery,
+} from "./color";
 
 export interface ColorHue {
   color:
@@ -26,6 +32,10 @@ export interface SessionAction {
 }
 
 export type SessionStore = SessionState & SessionAction;
+
+export interface SessionQuery {
+  searchParams: Promise<ColorQuery & { error?: string }>;
+}
 
 export type SessionCss = [
   AnyColorMode,
