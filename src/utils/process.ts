@@ -1,7 +1,6 @@
 import type { ColorMode, ColorState } from "~/types/color";
 import type { SessionState } from "~/types/session";
 import { convertRgb } from "./convert";
-import { createColor, createHue } from "./format";
 
 const createService = (): SessionState => {
   const now = new Date();
@@ -16,14 +15,11 @@ const createService = (): SessionState => {
 
   const format: keyof ColorState = "hex";
   const rgb = convertRgb(hwb);
-  const state = createColor(hwb);
-  const hue = createHue(state, format);
 
   return {
     theme: undefined,
     color: rgb,
     mode: format,
-    hue: { color: hue, value: hue.h!, min: 1, max: 36 },
   };
 };
 
