@@ -28,69 +28,72 @@ const getColorOklch = setColor(modeOklch);
 
 type ColorInput = string | AnyColorMode;
 
-type ColorOutput<T extends ColorFormat> = ExtractColorMode<T> | undefined;
+type ColorOutput<T extends ColorFormat> = NonNullable<
+  ExtractColorMode<T> | undefined
+>;
 
 const rgb = (color: ColorInput): ColorOutput<"rgb"> => {
   const format = clampGamut("rgb");
   const mode = getGamut(color);
-  return getColorRgb(format(mode));
+  return getColorRgb(format(mode)) as ColorOutput<"rgb">;
 };
 
 const hsl = (color: ColorInput): ColorOutput<"hsl"> => {
   const format = clampGamut("hsl");
   const mode = getGamut(color);
-  return getColorHsl(format(mode));
+  return getColorHsl(format(mode)) as ColorOutput<"hsl">;
 };
 
 const hwb = (color: ColorInput): ColorOutput<"hwb"> => {
   const format = clampGamut("hwb");
   const mode = getGamut(color);
-  return getColorHwb(format(mode));
+  return getColorHwb(format(mode)) as ColorOutput<"hwb">;
 };
 
 const lab = (color: ColorInput): ColorOutput<"lab"> => {
   const format = clampGamut("lab");
   const mode = getGamut(color);
-  return getColorLab(format(mode));
+  return getColorLab(format(mode)) as ColorOutput<"lab">;
 };
 
 const lch = (color: ColorInput): ColorOutput<"lch"> => {
   const format = clampGamut("lch");
   const mode = getGamut(color);
-  return getColorLch(format(mode));
+  return getColorLch(format(mode)) as ColorOutput<"lch">;
 };
 
 const oklab = (color: ColorInput): ColorOutput<"oklab"> => {
   const format = clampGamut("oklab");
   const mode = getGamut(color);
-  return getColorOklab(format(mode));
+  return getColorOklab(format(mode)) as ColorOutput<"oklab">;
 };
 
 const oklch = (color: ColorInput): ColorOutput<"oklch"> => {
   const format = clampGamut("oklch");
   const mode = getGamut(color);
-  return getColorOklch(format(mode));
+  return getColorOklch(format(mode)) as ColorOutput<"oklch">;
 };
 
-const round = (value: number, digits: number = 0): number => {
+const round = (value: number | undefined, digits: number = 0): number => {
+  const current = value ?? 0;
   if (digits === 0) {
-    return Math.round(value);
+    return Math.round(current);
   }
   if (digits < 0) {
     const base = 10 ** -digits;
-    return Math.round(value / base) * base;
+    return Math.round(current / base) * base;
   }
   const base = 10 ** digits;
-  return Math.round(value * base) / base;
+  return Math.round(current * base) / base;
 };
 
 const convertRgb = (color: ColorInput): ColorMode<"rgb"> => {
   const compose = rgb(color);
   return {
     mode: "rgb",
-    r: compose ? round(compose.r * 255) : 0,
-    g: compose ? round(compose.g * 255) : 0,
-    b: compose ? round(compose.b * 255) : 0,
+    r: round(compose.r * 255),
+    g: round(compose.g * 255),
+    b: round(compose.b * 255),
   };
 };
 
@@ -98,9 +101,9 @@ const convertHsl = (color: ColorInput): ColorMode<"hsl"> => {
   const compose = hsl(color);
   return {
     mode: "hsl",
-    h: compose ? round(compose.h || 0, 2) : 0,
-    s: compose ? round(compose.s * 100, 2) : 0,
-    l: compose ? round(compose.l * 100, 2) : 0,
+    h: round(compose.h, 2),
+    s: round(compose.s * 100, 2),
+    l: round(compose.l * 100, 2),
   };
 };
 
@@ -108,9 +111,9 @@ const convertHwb = (color: ColorInput): ColorMode<"hwb"> => {
   const compose = hwb(color);
   return {
     mode: "hwb",
-    h: compose ? round(compose.h || 0, 2) : 0,
-    w: compose ? round(compose.w * 100) : 0,
-    b: compose ? round(compose.b * 100) : 0,
+    h: round(compose.h, 2),
+    w: round(compose.w * 100),
+    b: round(compose.b * 100),
   };
 };
 
@@ -118,9 +121,9 @@ const convertLab = (color: ColorInput): ColorMode<"lab"> => {
   const compose = lab(color);
   return {
     mode: "lab",
-    l: compose ? round(compose.l, 3) : 0,
-    a: compose ? round(compose.a, 3) : 0,
-    b: compose ? round(compose.b, 3) : 0,
+    l: round(compose.l, 3),
+    a: round(compose.a, 3),
+    b: round(compose.b, 3),
   };
 };
 
@@ -128,9 +131,9 @@ const convertLch = (color: ColorInput): ColorMode<"lch"> => {
   const compose = lch(color);
   return {
     mode: "lch",
-    l: compose ? round(compose.l, 3) : 0,
-    c: compose ? round(compose.c, 3) : 0,
-    h: compose ? round(compose.h || 0, 3) : 0,
+    l: round(compose.l, 3),
+    c: round(compose.c, 3),
+    h: round(compose.h, 3),
   };
 };
 
@@ -138,9 +141,9 @@ const convertOklab = (color: ColorInput): ColorMode<"oklab"> => {
   const compose = oklab(color);
   return {
     mode: "oklab",
-    l: compose ? round(compose.l, 3) : 0,
-    a: compose ? round(compose.a, 3) : 0,
-    b: compose ? round(compose.b, 3) : 0,
+    l: round(compose.l, 3),
+    a: round(compose.a, 3),
+    b: round(compose.b, 3),
   };
 };
 
@@ -148,9 +151,9 @@ const convertOklch = (color: ColorInput): ColorMode<"oklch"> => {
   const compose = oklch(color);
   return {
     mode: "oklch",
-    l: compose ? round(compose.l, 3) : 0,
-    c: compose ? round(compose.c, 3) : 0,
-    h: compose ? round(compose.h || 0, 3) : 0,
+    l: round(compose.l, 3),
+    c: round(compose.c, 3),
+    h: round(compose.h, 3),
   };
 };
 

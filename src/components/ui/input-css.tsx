@@ -3,16 +3,10 @@
 import type { ChangeEvent, KeyboardEvent } from "react";
 import type { SessionCss } from "~/types/session";
 import type { AnyColorMode, ColorState } from "~/types/color";
-import { useState, useMemo, useCallback, useRef, Fragment } from "react";
+import { useState, useMemo, useCallback, useRef } from "react";
 import { useSession } from "~/hooks";
 import { createPortal } from "react-dom";
-import {
-  createColor,
-  createHue,
-  createCss,
-  convertCss,
-  setGamut,
-} from "~/utils";
+import { createColor, createCss, convertCss, setGamut } from "~/utils";
 import clsx from "clsx";
 import Form from "next/form";
 import ColorOptions from "./color-options";
@@ -23,12 +17,8 @@ export default function InputCss() {
     state.mode,
     state.setColor,
     state.setMode,
-    state.setHue,
   ]);
-  const [color, mode, setColor, setMode, setHue] = useMemo(
-    () => session,
-    [session],
-  );
+  const [color, mode, setColor, setMode] = useMemo(() => session, [session]);
   const currentColor = useMemo(() => createColor(color), [color]);
   const currentCss = useMemo(
     () => createCss(color, mode === "hex"),
@@ -48,37 +38,26 @@ export default function InputCss() {
       if (focus) {
         setInput(value);
         if (validColor) {
-          const COLOR_MODE = /^(rgb|hsl|hwb|lab|lch|oklab|oklch)\(/;
-          const HEX_MODE = /^#([0-9A-Fa-f]{3}){1,2}$/;
-
-          const currentColor = setGamut(validColor);
-          const sharedColor = createColor(currentColor);
-
-          const hue = createHue(sharedColor, currentColor.mode);
-
-          if (COLOR_MODE.test(value)) {
-            setMode(currentColor.mode);
-          } else if (HEX_MODE.test(value)) {
+          if (/^(rgb|hsl|hwb|lab|lch|oklab|oklch)\(/.test(value)) {
+            setMode(validColor.mode);
+          } else if (/^#([0-9A-Fa-f]{3}){1,2}$/.test(value)) {
             setMode("hex");
           } else {
-            setMode(currentColor.mode);
+            setMode(validColor.mode);
           }
-          setColor(currentColor);
-          setHue({ color: hue, value: hue.h });
+          setColor(setGamut(validColor));
         }
       }
     },
-    [focus, setColor, setMode, setHue],
+    [focus, setColor, setMode],
   );
 
   const handleMode = useCallback(
     (state: AnyColorMode, format?: keyof ColorState) => {
-      const hue = createHue(currentColor, format ? format : mode);
       setColor(state);
       setMode(format ? format : mode);
-      setHue({ color: hue, value: hue.h });
     },
-    [currentColor, mode, setColor, setMode, setHue],
+    [mode, setColor, setMode],
   );
 
   const handleKeyboard = useCallback(
@@ -176,7 +155,7 @@ export default function InputCss() {
       <div role="none" id="input-portal">
         {modal
           ? createPortal(
-              <Fragment>
+              <>
                 <ColorOptions
                   color={currentColor}
                   mode={mode}
@@ -189,8 +168,8 @@ export default function InputCss() {
                   tabIndex={0}
                   onFocus={() => setModal(false)}
                 />
-              </Fragment>,
-              document.getElementById("input-portal") || document.body,
+              </>,
+              document.getElementById("input-portal") ?? document.body,
             )
           : null}
       </div>

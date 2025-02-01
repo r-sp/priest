@@ -5,7 +5,7 @@ import { createColor } from "~/utils";
 import { useSession } from "~/hooks";
 
 export default function DebugMode() {
-  const [color, hue] = useSession((state) => [state.color, state.hue]);
+  const color = useSession((state) => state.color);
   const { hex, rgb, hsl, hwb, lab, lch, oklab, oklch } = createColor(color);
 
   return (
@@ -14,9 +14,6 @@ export default function DebugMode() {
         <code className="text-gray-700 dark:text-gray-300">
           {`source: ${JSON.stringify(color)}`}
         </code>
-      </li>
-      <li className="inline-grid">
-        <code className="text-gray-700 dark:text-gray-300">{`hue: ${JSON.stringify(hue)}`}</code>
       </li>
       <li className="inline-grid">
         <code className="text-gray-700 dark:text-gray-300">{`hex: ${hex}`}</code>

@@ -448,19 +448,16 @@ const formatRange: {
   },
 };
 
-const createRange = (
-  color: AnyColorMode,
-): [
-  TrackFormat<typeof color.mode>,
-  TrackFormat<typeof color.mode>,
-  TrackFormat<typeof color.mode>,
-] => {
+type Range<T extends ColorFormat> = [
+  TrackFormat<T>,
+  TrackFormat<T>,
+  TrackFormat<T>,
+];
+
+const createRange = (color: AnyColorMode): Range<typeof color.mode> => {
   const compose = formatRange[color.mode];
-  return [
-    Object.values(compose)[0],
-    Object.values(compose)[1],
-    Object.values(compose)[2],
-  ];
+  const values = Object.values(compose) as Range<typeof color.mode>;
+  return [values[0], values[1], values[2]];
 };
 
 export { createTracks, createRange };
