@@ -1,5 +1,5 @@
 import type { SessionQuery } from "~/types/session";
-import type { AnyColorMode } from "~/types/color";
+import type { AnyColorMode, ColorFormat, ExtractColor } from "~/types/color";
 import { permanentRedirect } from "next/navigation";
 import {
   getColorQuery,
@@ -92,6 +92,15 @@ interface ColorAlert {
   error: string;
 }
 
+type ColorKeys<T extends ColorFormat> = [
+  keyof ExtractColor<T>,
+  keyof ExtractColor<T>,
+  keyof ExtractColor<T>,
+  keyof ExtractColor<T>,
+];
+
+type ColorValues<T extends ColorFormat> = [T, number, number, number];
+
 function NoticeColor({ color, error }: ColorAlert) {
   const [offset, range] = gamutRange(color, error);
   const [startOffset, middleOffset, endOffset] = offset;
@@ -118,6 +127,9 @@ function NoticeColor({ color, error }: ColorAlert) {
     );
   };
 
+  const keys = Object.keys(color) as ColorKeys<typeof color.mode>;
+  const values = Object.values(color) as ColorValues<typeof color.mode>;
+
   return (
     <section aria-labelledby="color-notice">
       <h2
@@ -143,13 +155,13 @@ function NoticeColor({ color, error }: ColorAlert) {
         >
           <code aria-hidden="true">{`{`}</code>
           <code aria-hidden="true">
-            <span>{`  ${Object.keys(color)[0]}`}</span>
+            <span>{`  ${keys[0]}`}</span>
             <span>{`: `}</span>
-            <span>{`"${Object.values(color)[0]}",`}</span>
+            <span>{`"${values[0]}",`}</span>
           </code>
           <code aria-describedby="start-props" className="flex items-center">
             <span className="relative z-1">
-              <span>{`  ${Object.keys(color)[1]}: ${Object.values(color)[1]}, `}</span>
+              <span>{`  ${keys[1]}: ${values[1]}, `}</span>
               <span className={foreground(startOffset)}>{"// "}</span>
               <em
                 id="start-props"
@@ -160,7 +172,7 @@ function NoticeColor({ color, error }: ColorAlert) {
           </code>
           <code aria-describedby="middle-props" className="flex items-center">
             <span className="relative z-1">
-              <span>{`  ${Object.keys(color)[2]} : ${Object.values(color)[2]}, `}</span>
+              <span>{`  ${keys[2]} : ${values[2]}, `}</span>
               <span className={foreground(middleOffset)}>{"// "}</span>
               <em
                 id="middle-props"
@@ -171,7 +183,7 @@ function NoticeColor({ color, error }: ColorAlert) {
           </code>
           <code aria-describedby="end-props" className="flex items-center">
             <span className="relative z-1 inline-flex">
-              <span>{`  ${Object.keys(color)[3]} : ${Object.values(color)[3]}, `}</span>
+              <span>{`  ${keys[3]} : ${values[3]}, `}</span>
               <span className={foreground(endOffset)}>{"// "}</span>
               <em
                 id="end-props"
