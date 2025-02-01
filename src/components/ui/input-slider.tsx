@@ -1,9 +1,11 @@
 "use client";
 
-import { SessionSlider } from "~/types/session";
-import { useState, useMemo, useCallback } from "react";
+import type { ComponentPropsWithoutRef } from "react";
+import type { SessionSlider } from "~/types/session";
+import type { ColorFormat, ColorLabel } from "~/types/color";
+import { useState, useMemo } from "react";
 import { useSession } from "~/hooks";
-import { createColor, createHue, createRange, createTracks } from "~/utils";
+import { createRange, createTracks } from "~/utils";
 
 interface Props {
   dynamic?: boolean;
@@ -12,137 +14,115 @@ interface Props {
 export default function InputSlider({ dynamic = true }: Props) {
   const session: SessionSlider = useSession((state) => [
     state.color,
-    state.mode,
     state.setColor,
-    state.setHue,
   ]);
-  const [color, mode, setColor, setHue] = useMemo(() => session, [session]);
+  const [color, setColor] = useMemo(() => session, [session]);
 
   const [focusStart, setFocusStart] = useState<boolean>(false);
   const [focusMiddle, setFocusMiddle] = useState<boolean>(false);
   const [focusEnd, setFocusEnd] = useState<boolean>(false);
 
-  const [startRange, middleRange, endRange] = useMemo(
-    () => createRange(color),
-    [color],
-  );
-  const [startTrack, middleTrack, endTrack] = useMemo(
-    () => createTracks(color, dynamic),
-    [color, dynamic],
-  );
+  const [startRange, middleRange, endRange] = createRange(color);
+  const [startTrack, middleTrack, endTrack] = createTracks(color, dynamic);
 
-  const action = useCallback(
-    (input: typeof color) => {
-      const shared = createColor(input);
-      const hue = createHue(shared, mode);
-      setColor(input);
-      setHue({ color: hue, value: hue.h });
-    },
-    [mode, setColor, setHue],
-  );
+  const mode = color.mode;
+  const values = Object.values(color) as [typeof mode, number, number, number];
 
   return (
     <div
       role="group"
-      aria-label={`${color.mode} slider`}
-      id={`${color.mode}-slider`}
+      aria-label={`${mode} slider`}
+      id={`${mode}-slider`}
       className="grid gap-y-3"
     >
-      <div
-        role="none"
-        className="relative z-0 inline-grid"
-        style={{ ["--bg" as string]: `linear-gradient(135deg, ${startTrack})` }}
-      >
-        <input
-          type="range"
-          aria-label={startRange.label}
-          id={`${color.mode}-${startRange.label}`}
-          className="slider relative z-2 text-gray-400"
-          value={Object.values(color)[1]}
-          min={startRange.min}
-          max={startRange.max}
-          step={
-            startRange.decimal
-              ? focusStart
-                ? startRange.base
-                : startRange.decimal
-              : startRange.base
-          }
-          onChange={(e) =>
-            startRange.update(e.target.valueAsNumber, color, action)
-          }
-          onKeyDown={() => setFocusStart(true)}
-          onBlur={() => setFocusStart(false)}
-        />
-        <span
-          role="presentation"
-          className="bg-gradient-ref pointer-events-none absolute top-1 right-0 bottom-1 left-0 z-0 rounded-md"
-        ></span>
-      </div>
-      <div
-        role="none"
-        className="relative z-0 inline-grid"
-        style={{
-          ["--bg" as string]: `linear-gradient(135deg, ${middleTrack})`,
-        }}
-      >
-        <input
-          type="range"
-          aria-label={middleRange.label}
-          id={`${color.mode}-${middleRange.label}`}
-          className="slider relative z-2 text-gray-400"
-          value={Object.values(color)[2]}
-          min={middleRange.min}
-          max={middleRange.max}
-          step={
-            middleRange.decimal
-              ? focusMiddle
-                ? middleRange.base
-                : middleRange.decimal
-              : middleRange.base
-          }
-          onChange={(e) =>
-            middleRange.update(e.target.valueAsNumber, color, action)
-          }
-          onKeyDown={() => setFocusMiddle(true)}
-          onBlur={() => setFocusMiddle(false)}
-        />
-        <span
-          role="presentation"
-          className="bg-gradient-ref pointer-events-none absolute top-1 right-0 bottom-1 left-0 z-0 rounded-md"
-        ></span>
-      </div>
-      <div
-        role="none"
-        className="relative z-0 inline-grid"
-        style={{ ["--bg" as string]: `linear-gradient(135deg, ${endTrack})` }}
-      >
-        <input
-          type="range"
-          aria-label={endRange.label}
-          id={`${color.mode}-${endRange.label}`}
-          className="slider relative z-2 text-gray-400"
-          value={Object.values(color)[3]}
-          min={endRange.min}
-          max={endRange.max}
-          step={
-            endRange.decimal
-              ? focusEnd
-                ? endRange.base
-                : endRange.decimal
-              : endRange.base
-          }
-          onChange={(e) =>
-            endRange.update(e.target.valueAsNumber, color, action)
-          }
-          onKeyDown={() => setFocusEnd(true)}
-          onBlur={() => setFocusEnd(false)}
-        />
-        <span
-          role="presentation"
-          className="bg-gradient-ref pointer-events-none absolute top-1 right-0 bottom-1 left-0 z-0 rounded-md"
-        ></span>
-      </div>
+      <Slider
+        mode={mode}
+        label={startRange.label}
+        gradient={startTrack}
+        value={values[1]}
+        min={startRange.min}
+        max={startRange.max}
+        step={
+          startRange.decimal
+            ? focusStart
+              ? startRange.base
+              : startRange.decimal
+            : startRange.base
+        }
+        onChange={(e) =>
+          startRange.update(e.target.valueAsNumber, color, setColor)
+        }
+        onKeyDown={() => setFocusStart(true)}
+        onBlur={() => setFocusStart(false)}
+      />
+      <Slider
+        mode={mode}
+        label={middleRange.label}
+        gradient={middleTrack}
+        value={values[2]}
+        min={middleRange.min}
+        max={middleRange.max}
+        step={
+          middleRange.decimal
+            ? focusMiddle
+              ? middleRange.base
+              : middleRange.decimal
+            : middleRange.base
+        }
+        onChange={(e) =>
+          middleRange.update(e.target.valueAsNumber, color, setColor)
+        }
+        onKeyDown={() => setFocusMiddle(true)}
+        onBlur={() => setFocusMiddle(false)}
+      />
+      <Slider
+        mode={mode}
+        label={endRange.label}
+        gradient={endTrack}
+        value={values[3]}
+        min={endRange.min}
+        max={endRange.max}
+        step={
+          endRange.decimal
+            ? focusEnd
+              ? endRange.base
+              : endRange.decimal
+            : endRange.base
+        }
+        onChange={(e) =>
+          endRange.update(e.target.valueAsNumber, color, setColor)
+        }
+        onKeyDown={() => setFocusEnd(true)}
+        onBlur={() => setFocusEnd(false)}
+      />
+    </div>
+  );
+}
+
+interface ColorSlider extends ComponentPropsWithoutRef<"input"> {
+  mode: ColorFormat;
+  label: ColorLabel;
+  gradient: string;
+}
+
+function Slider({ mode, label, gradient, ...props }: ColorSlider) {
+  return (
+    <div
+      role="none"
+      className="relative z-0 inline-grid"
+      style={{ ["--bg" as string]: `linear-gradient(135deg, ${gradient})` }}
+    >
+      <input
+        type="range"
+        aria-label={label}
+        id={`${mode}-${label}`}
+        className="slider relative z-2 h-5 text-gray-300 dark:text-gray-200"
+        {...props}
+      />
+      <span
+        role="presentation"
+        className="bg-gradient-ref pointer-events-none absolute top-0.75 right-0 bottom-0.75 left-0 z-0 rounded-lg"
+      ></span>
     </div>
   );
 }

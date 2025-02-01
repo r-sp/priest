@@ -79,6 +79,7 @@
   }
   .slider::-webkit-slider-thumb {
     background-color: currentColor;
+    border-color: currentColor;
     border-radius: 50%;
     cursor: e-resize;
     height: 1.25rem;
@@ -91,6 +92,7 @@
   }
   .slider::-moz-range-thumb {
     background-color: currentColor;
+    border-color: currentColor;
     border-radius: 50%;
     cursor: e-resize;
     height: 1.25rem;
