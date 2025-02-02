@@ -214,7 +214,7 @@ function Option<Key extends ColorFormat>({
         aria-label={css}
         name={mode}
         className={clsx(
-          "no-scrollbar flex cursor-pointer flex-nowrap overflow-x-auto rounded-md px-2 py-2 whitespace-nowrap outline-0",
+          "flex cursor-pointer rounded-md px-2 py-2 outline-0",
           "hover:bg-gray-200 hover:text-gray-800 dark:hover:bg-gray-800 dark:hover:text-gray-200",
           "focus:bg-gray-200 focus:text-gray-800 dark:focus:bg-gray-800 dark:focus:text-gray-200",
         )}

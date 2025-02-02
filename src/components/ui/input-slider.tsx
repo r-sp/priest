@@ -116,7 +116,7 @@ function Slider({ mode, label, gradient, ...props }: ColorSlider) {
         type="range"
         aria-label={label}
         id={`${mode}-${label}`}
-        className="slider relative z-2 h-5 text-gray-300 dark:text-gray-200"
+        className="slider relative z-2 h-5 rounded-xl text-gray-300 dark:text-gray-200"
         {...props}
       />
       <span
