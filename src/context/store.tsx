@@ -2,7 +2,7 @@
 
 import type { ReactNode } from "react";
 import type { SessionState, SessionStore } from "~/types/session";
-import { createContext, useRef, useEffect } from "react";
+import { createContext, useRef } from "react";
 import { create } from "zustand";
 
 export function createSession(initValue: SessionState) {
@@ -29,18 +29,6 @@ export default function Store({ children, initValue }: Props) {
   if (!ref.current) {
     ref.current = createSession(initValue);
   }
-
-  useEffect(() => {
-    const handleRouter = () => {
-      const body = document.body;
-      if (body.hasAttribute("style")) {
-        body.removeAttribute("style");
-      }
-    };
-
-    window.addEventListener("popstate", handleRouter);
-    return () => window.removeEventListener("popstate", handleRouter);
-  });
 
   return (
     <SessionContext.Provider value={ref.current}>
