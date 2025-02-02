@@ -17,6 +17,7 @@ import {
   parse,
 } from "culori/fn";
 import { getGamut } from "./gamut";
+import { round } from "./units";
 
 const getColorRgb = setColor(modeRgb);
 const getColorHsl = setColor(modeHsl);
@@ -72,19 +73,6 @@ const oklch = (color: ColorInput): ColorOutput<"oklch"> => {
   const format = clampGamut("oklch");
   const mode = getGamut(color);
   return getColorOklch(format(mode)) as ColorOutput<"oklch">;
-};
-
-const round = (value: number | undefined, digits: number = 0): number => {
-  const current = value ?? 0;
-  if (digits === 0) {
-    return Math.round(current);
-  }
-  if (digits < 0) {
-    const base = 10 ** -digits;
-    return Math.round(current / base) * base;
-  }
-  const base = 10 ** digits;
-  return Math.round(current * base) / base;
 };
 
 const convertRgb = (color: ColorInput): ColorMode<"rgb"> => {

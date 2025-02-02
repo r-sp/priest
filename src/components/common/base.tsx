@@ -17,14 +17,16 @@ export default function BaseLayout({ children, portal }: Props) {
       <ThemeScript />
       <div className="md:px-4">
         <div className="max-w-8xl mx-auto grid min-h-svh content-baseline gap-y-8 md:grid-cols-[20rem_1fr] md:gap-x-4 lg:grid-cols-[24rem_1fr] xl:grid-cols-[28rem_1fr]">
-          <nav className="flex flex-col gap-y-6 px-4 pt-4 md:px-0">
-            <div className="flex items-center justify-between">
-              <Logo />
-              <ThemeSwitcher />
-            </div>
-            <InputCss />
-            <InputSlider />
-          </nav>
+          <header>
+            <nav className="flex flex-col gap-y-6 px-4 pt-4 md:sticky md:top-0 md:px-0">
+              <div className="flex items-center justify-between">
+                <Logo />
+                <ThemeSwitcher />
+              </div>
+              <InputCss />
+              <InputSlider />
+            </nav>
+          </header>
           <main>
             {children}
             {portal}

@@ -61,8 +61,8 @@ interface ColorDisplay {
 function PreviewColor({ color, error }: ColorDisplay) {
   const currentCss = formatCss(color);
   return (
-    <div className="px-4">
-      <article className="max-w-8xl mx-auto grid gap-y-4">
+    <div className="px-4 md:px-0 md:py-4">
+      <article aria-label={currentCss} className="grid gap-y-4">
         <div className="flex" style={{ ["--bg" as string]: currentCss }}>
           <div className="bg-ref aspect-cinema inline-flex w-full rounded-md"></div>
         </div>
@@ -79,8 +79,8 @@ interface ColorError {
 function ResolveColor({ error }: ColorError) {
   const title = error.replaceAll("-", " ");
   return (
-    <div className="px-4">
-      <article className="max-w-8xl mx-auto">
+    <div className="px-4 md:px-0 md:py-4">
+      <article className="grid gap-y-4">
         <h1 className="text-xl text-gray-800 dark:text-gray-200">{title}</h1>
       </article>
     </div>

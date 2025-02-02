@@ -43,3 +43,5 @@ export {
 } from "./query";
 
 export { createTracks, createRange } from "./tracks";
+
+export { round, multiply, limiter } from "./units";
