@@ -31,3 +31,5 @@ export type SessionCss = [
 ];
 
 export type SessionSlider = [AnyColorMode, (state: AnyColorMode) => void];
+
+export type SessionPalettes = [AnyColorMode, keyof ColorState];
