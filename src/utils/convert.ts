@@ -2,6 +2,7 @@ import type {
   AnyColorMode,
   ColorFormat,
   ColorMode,
+  ColorState,
   ExtractColorMode,
 } from "~/types/color";
 import {
@@ -155,6 +156,30 @@ const convertHex = (color: ColorInput): string => {
   return "#" + ((1 << 24) | (r << 16) | (g << 8) | b).toString(16).slice(1);
 };
 
+type ColorHue =
+  | ColorMode<"hsl">
+  | ColorMode<"hwb">
+  | ColorMode<"lch">
+  | ColorMode<"oklch">;
+
+const hueConversions: {
+  [Key in keyof ColorState]: (color: ColorHue) => AnyColorMode;
+} = {
+  hex: convertRgb,
+  rgb: convertRgb,
+  hsl: (color) => color,
+  hwb: (color) => color,
+  lab: convertLab,
+  lch: (color) => color,
+  oklab: convertOklab,
+  oklch: (color) => color,
+};
+
+const convertHue = (color: ColorHue, mode: keyof ColorState): AnyColorMode => {
+  const compose = hueConversions[mode];
+  return compose(color);
+};
+
 export {
   rgb,
   hsl,
@@ -172,4 +197,5 @@ export {
   convertOklch,
   convertCss,
   convertHex,
+  convertHue,
 };

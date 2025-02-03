@@ -15,6 +15,7 @@ export {
   convertOklch,
   convertCss,
   convertHex,
+  convertHue,
 } from "./convert";
 
 export {

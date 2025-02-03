@@ -1,6 +1,7 @@
 "use client";
 
 import type { SessionPalettes } from "~/types/session";
+import type { ColorState } from "~/types/color";
 import { useMemo, useCallback } from "react";
 import { useSession } from "~/hooks";
 import {
@@ -10,6 +11,7 @@ import {
   multiply,
   limiter,
   formatCss,
+  convertHue,
   switchColorPath,
 } from "~/utils";
 import Link from "next/link";
@@ -45,7 +47,7 @@ export default function ColorPalettes() {
   return (
     <ol className="grid gap-4 sm:grid-cols-2 xl:grid-cols-3">
       {hueShades.map((shade, index) => (
-        <Palette key={index} color={shade} />
+        <Palette key={index} color={shade} type={mode} />
       ))}
     </ol>
   );
@@ -53,11 +55,13 @@ export default function ColorPalettes() {
 
 interface ColorCard {
   color: ReturnType<typeof createHue>;
+  type: keyof ColorState;
 }
 
-function Palette({ color }: ColorCard) {
-  const css = formatCss(color);
-  const path = switchColorPath("/color", color);
+function Palette({ color, type }: ColorCard) {
+  const hue = convertHue(color, type);
+  const css = formatCss(hue);
+  const path = switchColorPath("/color", hue);
 
   return (
     <li className="inline-grid" style={{ ["--bg" as string]: css }}>
@@ -71,7 +75,7 @@ function Palette({ color }: ColorCard) {
           role="presentation"
           className="bg-ref aspect-cinema inline-flex w-full rounded-md"
         ></div>
-        <code className="sr-only">{css}</code>
+        <code className="sr-only">{`Color: ${css}`}</code>
       </Link>
     </li>
   );
