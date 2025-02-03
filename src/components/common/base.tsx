@@ -27,10 +27,7 @@ export default function BaseLayout({ children, portal }: Props) {
               <InputSlider />
             </nav>
           </header>
-          <main>
-            {children}
-            {portal}
-          </main>
+          <main>{children}</main>
           <footer>
             <div className="mt-16 px-4 py-8">
               <div className="max-w-8xl mx-auto">
@@ -40,6 +37,7 @@ export default function BaseLayout({ children, portal }: Props) {
           </footer>
         </div>
       </div>
+      {portal}
     </Store>
   );
 }

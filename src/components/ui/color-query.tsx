@@ -37,7 +37,7 @@ export default async function ColorQuery({ searchParams, portal }: Props) {
   return (
     <Suspense>
       {portal ? (
-        <Modal>
+        <Modal color={color ? formatCss(color) : "Error"}>
           {color ? (
             <PreviewColor color={color} error={query.error} />
           ) : (

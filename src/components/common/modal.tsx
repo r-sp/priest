@@ -2,12 +2,14 @@
 
 import type { ReactNode, KeyboardEvent } from "react";
 import { useRouter } from "next/navigation";
+import { useEffect } from "react";
 
 interface Props {
   children: ReactNode;
+  color: string;
 }
 
-export default function Modal({ children }: Props) {
+export default function Modal({ children, color }: Props) {
   const router = useRouter();
 
   const handleClose = () => {
@@ -25,8 +27,19 @@ export default function Modal({ children }: Props) {
     }
   };
 
+  const title = `Color: ${color}`;
+
+  useEffect(() => {
+    const pageTitle = document.title;
+    document.title = title;
+
+    return () => {
+      document.title = pageTitle;
+    };
+  });
+
   return (
-    <aside onKeyDown={handleKeyboard}>
+    <div role="dialog" aria-label={title} onKeyDown={handleKeyboard}>
       <div role="none" className="fixed inset-0 z-90 overflow-y-auto md:px-4">
         <div
           role="none"
@@ -41,7 +54,7 @@ export default function Modal({ children }: Props) {
                 onClick={handleClose}
               >
                 <svg
-                  className="pointer-events-none size-6"
+                  className="animate-narrow pointer-events-none size-6"
                   width={24}
                   height={24}
                   viewBox="0 0 24 24"
@@ -55,18 +68,18 @@ export default function Modal({ children }: Props) {
               </button>
             </div>
           </nav>
-          <div role="none" className="relative z-4">
+          <div role="none" className="animate-slide relative z-4">
             {children}
           </div>
           <span
             role="button"
             aria-label="close modal"
-            className="fixed top-0 right-0 bottom-0 left-0 z-2 bg-gray-50/75 backdrop-blur-xl dark:bg-gray-950/75"
+            className="animate-fade fixed top-0 right-0 bottom-0 left-0 z-2 bg-gray-50/75 backdrop-blur-xl dark:bg-gray-950/75"
             tabIndex={0}
             onFocus={handleClose}
           ></span>
         </div>
       </div>
-    </aside>
+    </div>
   );
 }
