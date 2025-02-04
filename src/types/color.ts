@@ -92,17 +92,6 @@ export type AnyColorType<T extends keyof ColorSpace> =
   | Extract<AnyColorMode, { mode: T }>
   | ColorSpace[T];
 
-export interface HueColorMode {
-  color:
-    | ColorMode<"hsl">
-    | ColorMode<"hwb">
-    | ColorMode<"lch">
-    | ColorMode<"oklch">;
-  value: number;
-  min: number;
-  max: number;
-}
-
 export interface ColorState {
   hex: string;
   rgb: ComposeColor<"rgb">;
@@ -125,6 +114,12 @@ export interface ColorQuery {
   w?: number;
   a?: number;
   c?: number;
+}
+
+export interface ColorHue {
+  base: number;
+  min: number;
+  max: number;
 }
 
 export type ColorFormat = keyof ColorSpace;

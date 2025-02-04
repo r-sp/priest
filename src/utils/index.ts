@@ -45,4 +45,4 @@ export {
 
 export { createTracks, createRange } from "./tracks";
 
-export { round, multiply, limiter } from "./units";
+export { round, multiply, limiter, copy } from "./units";

@@ -11,6 +11,7 @@ export function createSession(initValue: SessionState) {
     setColor: (state) => set(() => ({ color: state })),
     setMode: (state) => set(() => ({ mode: state })),
     setTheme: (state) => set(() => ({ theme: state })),
+    setHue: (state) => set(() => ({ hue: state })),
   }));
 }
 

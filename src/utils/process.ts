@@ -20,6 +20,7 @@ const createService = (): SessionState => {
     theme: undefined,
     color: rgb,
     mode: format,
+    hue: { base: 15, min: 0, max: 345 },
   };
 };
 

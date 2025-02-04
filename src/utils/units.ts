@@ -29,4 +29,14 @@ const limiter = (value: number, min: number, max: number): number => {
   return (mod < 0 ? mod + range : mod) + min;
 };
 
-export { round, multiply, limiter };
+const copy = async (value: string): Promise<"pass" | "fail"> => {
+  try {
+    await navigator.clipboard.writeText(value);
+    return "pass";
+  } catch (e) {
+    console.error(e);
+    return "fail";
+  }
+};
+
+export { round, multiply, limiter, copy };

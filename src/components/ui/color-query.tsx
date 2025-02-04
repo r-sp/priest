@@ -7,6 +7,7 @@ import {
   checkGamut,
   gamutRange,
   formatCss,
+  convertHex,
 } from "~/utils";
 import { Suspense } from "react";
 import { Modal } from "../common";
@@ -60,11 +61,20 @@ interface ColorDisplay {
 
 function PreviewColor({ color, error }: ColorDisplay) {
   const currentCss = formatCss(color);
+  const hex = convertHex(color);
   return (
     <div className="px-4 md:px-0 md:py-4">
       <article aria-label={currentCss} className="grid gap-y-4">
         <div className="flex" style={{ ["--bg" as string]: currentCss }}>
           <div className="bg-ref aspect-cinema inline-flex w-full rounded-md"></div>
+        </div>
+        <div role="none" className="grid">
+          <h1 className="text-lg text-gray-800 dark:text-gray-200">
+            <code>{currentCss}</code>
+          </h1>
+          <p className="text-gray-600 dark:text-gray-400">
+            <code>{hex}</code>
+          </p>
         </div>
         {error && <NoticeColor color={color} error={error} />}
       </article>
@@ -131,7 +141,10 @@ function NoticeColor({ color, error }: ColorAlert) {
   const values = Object.values(color) as ColorValues<typeof color.mode>;
 
   return (
-    <section aria-labelledby="color-notice">
+    <section
+      aria-labelledby="color-notice"
+      className="border-t border-t-gray-200 pt-4 dark:border-t-gray-800"
+    >
       <h2
         id="color-notice"
         className="text-lg font-semibold text-gray-800 dark:text-gray-200"
