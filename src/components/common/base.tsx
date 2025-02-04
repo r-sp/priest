@@ -1,7 +1,7 @@
 import type { ReactNode } from "react";
 import { createService } from "~/utils";
 import { Store } from "~/context";
-import { InputCss, InputSlider } from "../ui";
+import { InputCss, InputSlider, ColorHue } from "../ui";
 import ThemeSwitcher from "./theme";
 import Link from "next/link";
 
@@ -25,6 +25,7 @@ export default function BaseLayout({ children, portal }: Props) {
               </div>
               <InputCss />
               <InputSlider />
+              <ColorHue />
             </nav>
           </header>
           <main>{children}</main>

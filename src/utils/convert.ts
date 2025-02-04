@@ -156,14 +156,14 @@ const convertHex = (color: ColorInput): string => {
   return "#" + ((1 << 24) | (r << 16) | (g << 8) | b).toString(16).slice(1);
 };
 
-type ColorHue =
+type HueColorMode =
   | ColorMode<"hsl">
   | ColorMode<"hwb">
   | ColorMode<"lch">
   | ColorMode<"oklch">;
 
 const hueConversions: {
-  [Key in keyof ColorState]: (color: ColorHue) => AnyColorMode;
+  [Key in keyof ColorState]: (color: HueColorMode) => AnyColorMode;
 } = {
   hex: convertRgb,
   rgb: convertRgb,
@@ -175,7 +175,10 @@ const hueConversions: {
   oklch: (color) => color,
 };
 
-const convertHue = (color: ColorHue, mode: keyof ColorState): AnyColorMode => {
+const convertHue = (
+  color: HueColorMode,
+  mode: keyof ColorState,
+): AnyColorMode => {
   const compose = hueConversions[mode];
   return compose(color);
 };

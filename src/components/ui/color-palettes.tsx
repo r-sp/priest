@@ -12,6 +12,7 @@ import {
   limiter,
   formatCss,
   convertHue,
+  checkGamut,
   switchColorPath,
 } from "~/utils";
 import Link from "next/link";
@@ -20,8 +21,9 @@ export default function ColorPalettes() {
   const session: SessionPalettes = useSession((state) => [
     state.color,
     state.mode,
+    state.hue,
   ]);
-  const [color, mode] = useMemo(() => session, [session]);
+  const [color, mode, hue] = useMemo(() => session, [session]);
 
   const hueBase = useMemo(
     () => createHue(createColor(color), mode),
@@ -42,7 +44,10 @@ export default function ColorPalettes() {
     [hueBase],
   );
 
-  const hueShades = useMemo(() => hueShift(multiply(15, 0, 345)), [hueShift]);
+  const hueShades = useMemo(() => {
+    const { base, min, max } = hue;
+    return hueShift(multiply(base, min, max));
+  }, [hueShift, hue]);
 
   return (
     <ol className="grid gap-4 sm:grid-cols-2 xl:grid-cols-3">
@@ -61,12 +66,14 @@ interface ColorCard {
 function Palette({ color, type }: ColorCard) {
   const hue = convertHue(color, type);
   const css = formatCss(hue);
+  const offset = checkGamut(hue);
   const path = switchColorPath("/color", hue);
+  const link = offset ? `${path}&error=${offset}` : path;
 
   return (
     <li className="inline-grid" style={{ ["--bg" as string]: css }}>
       <Link
-        href={path}
+        href={link}
         className="flex rounded-md"
         prefetch={false}
         scroll={false}
