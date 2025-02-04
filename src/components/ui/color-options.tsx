@@ -8,6 +8,7 @@ import type {
   ComposeColor,
   ColorMode,
 } from "~/types/color";
+import { copy } from "~/utils";
 import clsx from "clsx";
 
 interface Props {
@@ -219,6 +220,10 @@ function Option<Key extends ColorFormat>({
           "focus:bg-gray-200 focus:text-gray-800 dark:focus:bg-gray-800 dark:focus:text-gray-200",
         )}
         onClick={() => update({ mode, ...color }, mode)}
+        onContextMenu={(e) => {
+          e.preventDefault();
+          copy(css);
+        }}
       >
         <code>
           <span>{`${mode}(`}</span>
@@ -235,7 +240,7 @@ function Option<Key extends ColorFormat>({
             title={noticeLabel(middleLabel, middleValue, middleOffset)}
             className={noticeError(middleValue, middleOffset)}
           >
-            {middleValue}
+            {mode === "hsl" || mode === "hwb" ? `${middleValue}%` : middleValue}
           </span>
           {` `}
           <span
@@ -243,7 +248,7 @@ function Option<Key extends ColorFormat>({
             title={noticeLabel(endLabel, endValue, endOffset)}
             className={noticeError(endValue, endOffset)}
           >
-            {endValue}
+            {mode === "hsl" || mode === "hwb" ? `${endValue}%` : endValue}
           </span>
           <span>{`)`}</span>
         </code>
