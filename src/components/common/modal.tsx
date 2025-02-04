@@ -13,7 +13,6 @@ export default function Modal({ children, color }: Props) {
   const router = useRouter();
 
   const handleClose = () => {
-    document.body.removeAttribute("style");
     router.back();
   };
 
@@ -32,9 +31,10 @@ export default function Modal({ children, color }: Props) {
   useEffect(() => {
     const pageTitle = document.title;
     document.title = title;
-
+    document.body.style.overflowY = "hidden";
     return () => {
       document.title = pageTitle;
+      document.body.removeAttribute("style");
     };
   });
 
