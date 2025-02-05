@@ -2,8 +2,8 @@
 
 import type { ComponentPropsWithoutRef } from "react";
 import type { SessionHue } from "~/types/session";
-import { useSession } from "~/hooks";
 import { useMemo } from "react";
+import { useSession } from "~/hooks";
 import clsx from "clsx";
 
 export default function ColorHue() {
@@ -16,6 +16,10 @@ export default function ColorHue() {
     return isNaN(value) ? 0 : value;
   };
 
+  const getBase = fixupHue(base);
+  const getMin = fixupHue(min);
+  const getMax = fixupHue(max);
+
   return (
     <div
       role="group"
@@ -26,26 +30,28 @@ export default function ColorHue() {
       <ColorValue
         label="Hue Base"
         id="color-hue-base"
-        value={base}
-        onChange={(e) =>
-          setHue({ ...hue, base: fixupHue(e.target.valueAsNumber) })
-        }
+        value={getBase}
+        min={15}
+        max={getMax / 5}
+        onChange={(e) => setHue({ ...hue, base: e.target.valueAsNumber })}
       />
       <ColorValue
         label="Min"
         id="color-hue-min"
-        value={min}
-        onChange={(e) =>
-          setHue({ ...hue, min: fixupHue(e.target.valueAsNumber) })
-        }
+        value={getMin}
+        min={0}
+        max={getBase * 5}
+        step={getBase}
+        onChange={(e) => setHue({ ...hue, min: e.target.valueAsNumber })}
       />
       <ColorValue
         label="Max"
         id="color-hue-max"
-        value={max}
-        onChange={(e) =>
-          setHue({ ...hue, max: fixupHue(e.target.valueAsNumber) })
-        }
+        value={getMax}
+        min={getMin}
+        max={360}
+        step={getBase}
+        onChange={(e) => setHue({ ...hue, max: e.target.valueAsNumber })}
       />
     </div>
   );
@@ -71,14 +77,17 @@ function ColorValue({ label, id, value, ...props }: ColorInput) {
           type="number"
           aria-label={label.toLowerCase()}
           value={value}
-          min={0}
-          max={360}
           id={id}
           className={clsx(
             "absolute top-0 right-0 bottom-0 left-0 inline-grid rounded-md py-2 pr-2 pl-4 font-mono ring outline-0",
             "cursor-pointer bg-gray-100 text-gray-600 ring-gray-200 dark:bg-gray-900 dark:text-gray-400 dark:ring-gray-800",
             "focus:cursor-text focus:text-gray-700 focus:ring-gray-300 dark:focus:text-gray-300 dark:focus:ring-gray-700",
           )}
+          onFocus={(e) => {
+            e.target.onwheel = (s) => {
+              s.preventDefault();
+            };
+          }}
           {...props}
         />
       </div>
