@@ -15,6 +15,7 @@ import {
   checkGamut,
   switchColorPath,
 } from "~/utils";
+import clsx from "clsx";
 import Link from "next/link";
 
 export default function ColorPalettes() {
@@ -50,7 +51,12 @@ export default function ColorPalettes() {
   }, [hueShift, hue]);
 
   return (
-    <ol className="grid gap-4 sm:grid-cols-2 xl:grid-cols-3">
+    <ol
+      className={clsx(
+        "grid gap-4 sm:grid-cols-2",
+        hueShades.length > 8 && "xl:grid-cols-3",
+      )}
+    >
       {hueShades.map((shade, index) => (
         <Palette key={index} color={shade} type={mode} />
       ))}
@@ -75,6 +81,7 @@ function Palette({ color, type }: ColorCard) {
       <Link
         href={link}
         className="flex rounded-md"
+        data-color={JSON.stringify(hue)}
         prefetch={false}
         scroll={false}
       >
