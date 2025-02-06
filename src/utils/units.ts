@@ -1,5 +1,5 @@
 const round = (value: number | undefined, digits: number = 0): number => {
-  const current = value ?? 0;
+  const current = Number(value) ?? 0;
   if (digits === 0) {
     return Math.round(current);
   }

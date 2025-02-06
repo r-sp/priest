@@ -133,6 +133,11 @@
     height: 1.25rem;
     width: 1.25rem;
   }
+  .spinner::-webkit-inner-spin-button,
+  .spinner::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    appearance: none;
+  }
 }
 
 @keyframes skeleton_loading {

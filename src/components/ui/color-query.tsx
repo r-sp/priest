@@ -12,6 +12,7 @@ import {
 import { Suspense } from "react";
 import { Modal } from "../common";
 import clsx from "clsx";
+import ColorHarmony from "./color-harmony";
 
 interface Props extends SessionQuery {
   portal: boolean;
@@ -77,6 +78,7 @@ function PreviewColor({ color, error }: ColorDisplay) {
           </p>
         </div>
         {error && <NoticeColor color={color} error={error} />}
+        <ColorHarmony color={color} />
       </article>
     </div>
   );
