@@ -22,7 +22,6 @@
   --ease-snappy: cubic-bezier(0.2, 0, 0, 1);
 
   --aspect-cinema: 21 / 9;
-  --toolbar: 1.5fr 1fr;
 
   --animate-narrow: narrow 200ms var(--ease-fluid);
   --animate-slide: slide 200ms var(--ease-snappy);
@@ -39,7 +38,7 @@
 
   @keyframes slide {
     0% {
-      opacity: 0;
+      opacity: 0.5;
       pointer-events: none;
       transform: translateY(8rem);
     }
@@ -52,7 +51,7 @@
 
   @keyframes fade {
     0% {
-      opacity: 0;
+      opacity: 0.5;
     }
     100% {
       opacity: 1;
