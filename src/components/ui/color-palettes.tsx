@@ -77,13 +77,13 @@ function Palette({ color, type }: ColorCard) {
   const link = offset ? `${path}&error=${offset}` : path;
 
   return (
-    <li className="inline-grid" style={{ ["--bg" as string]: css }}>
+    <li className="inline-grid">
       <Link
         href={link}
         className="flex rounded-md"
-        data-color={JSON.stringify(hue)}
         prefetch={false}
         scroll={false}
+        style={{ ["--bg" as string]: css }}
       >
         <div
           role="presentation"
