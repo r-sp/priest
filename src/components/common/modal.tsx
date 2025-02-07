@@ -39,12 +39,13 @@ export default function Modal({ children, color }: Props) {
   });
 
   return (
-    <div role="dialog" aria-label={title} onKeyDown={handleKeyboard}>
-      <div role="none" className="fixed inset-0 z-90 overflow-y-auto md:px-4">
-        <div
-          role="none"
-          className="max-w-8xl mx-auto grid min-h-svh content-baseline gap-y-4 md:grid-cols-[20rem_1fr] md:gap-x-4 lg:grid-cols-[24rem_1fr] xl:grid-cols-[28rem_1fr]"
-        >
+    <div role="none" onKeyDown={handleKeyboard}>
+      <div
+        role="dialog"
+        aria-label={title}
+        className="fixed inset-0 z-90 overflow-y-auto md:px-4"
+      >
+        <div className="max-w-8xl mx-auto grid min-h-svh content-baseline gap-y-4 md:grid-cols-[20rem_1fr] md:gap-x-4 lg:grid-cols-[24rem_1fr]">
           <nav className="pointer-events-none relative z-3 flex flex-col gap-y-6 px-4 pt-4 md:sticky md:top-0 md:px-0">
             <div className="pointer-events-auto flex items-center justify-start md:justify-end">
               <button
@@ -74,7 +75,8 @@ export default function Modal({ children, color }: Props) {
           <span
             role="button"
             aria-label="close modal"
-            className="animate-fade fixed top-0 right-0 bottom-0 left-0 z-2 bg-gray-50/75 backdrop-blur-xl dark:bg-gray-950/75"
+            className="animate-fade fixed right-0 left-0 z-2 bg-gray-50/75 backdrop-blur-xl dark:bg-gray-950/75"
+            style={{ bottom: "-4rem", top: "-4rem" }}
             tabIndex={0}
             onFocus={handleClose}
           ></span>
