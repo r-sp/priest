@@ -1,5 +1,9 @@
 const round = (value: number | undefined, digits: number = 0): number => {
-  const current = Number(value) ?? 0;
+  if (value === undefined) {
+    return 0;
+  }
+  const num = typeof value === "string" ? Number(value) : value;
+  const current = isNaN(num) ? 0 : num;
   if (digits === 0) {
     return Math.round(current);
   }
