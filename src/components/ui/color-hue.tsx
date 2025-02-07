@@ -113,11 +113,6 @@ function AdjustHue({
             "cursor-pointer bg-gray-100 text-gray-600 ring-gray-200 dark:bg-gray-900 dark:text-gray-400 dark:ring-gray-800",
             "focus:cursor-text focus:text-gray-700 focus:ring-gray-300 dark:focus:text-gray-300 dark:focus:ring-gray-700",
           )}
-          onFocus={(e) => {
-            e.target.onwheel = (s) => {
-              s.preventDefault();
-            };
-          }}
           {...props}
         />
         <div
