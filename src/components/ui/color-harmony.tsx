@@ -130,6 +130,7 @@ function Palette({ color }: ColorPalette) {
       className="inline-flex grow-1 rounded-md"
       prefetch={false}
       replace={true}
+      scroll={false}
       style={{ ["--bg" as string]: css }}
     >
       <div className="bg-ref pointer-events-none h-full w-full rounded-md" />

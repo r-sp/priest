@@ -34,6 +34,8 @@ export {
 
 export { getGamut, setGamut, checkGamut, gamutRange } from "./gamut";
 
+export { getBrightness, getLuminance, getContrast } from "./measure";
+
 export { createService } from "./process";
 
 export {
