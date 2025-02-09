@@ -79,7 +79,10 @@ export default function ColorHarmony({ color }: Props) {
   ];
 
   return (
-    <ul className="-mx-2 mt-4 grid gap-x-4 gap-y-6 pb-8 md:grid-cols-2">
+    <ul
+      aria-label="color harmony"
+      className="-mx-2 grid gap-x-4 gap-y-6 pb-8 md:grid-cols-2"
+    >
       {hueShades.map((shade, index) => (
         <Harmony key={index} color={shade} />
       ))}
@@ -98,7 +101,10 @@ interface ColorCard {
 function Harmony({ color }: ColorCard) {
   const { harmony, label, ratio } = color;
   return (
-    <li className="inline-grid gap-y-3 rounded-md bg-gray-100 px-2 pt-2 pb-4 dark:bg-gray-900">
+    <li
+      aria-label={label.toLowerCase()}
+      className="inline-grid gap-y-3 rounded-md bg-gray-100 px-2 pt-2 pb-4 dark:bg-gray-900"
+    >
       <div role="presentation" className="aspect-cinema flex gap-x-2">
         {harmony.map((shade, index) => (
           <Palette key={index} color={shade} />

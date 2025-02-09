@@ -2,7 +2,8 @@
 
 import type { ReactNode, KeyboardEvent } from "react";
 import { useRouter } from "next/navigation";
-import { useEffect } from "react";
+import { useState, useEffect } from "react";
+import clsx from "clsx";
 
 interface Props {
   children: ReactNode;
@@ -10,6 +11,7 @@ interface Props {
 }
 
 export default function Modal({ children, color }: Props) {
+  const [scroll, setScroll] = useState<boolean>(false);
   const router = useRouter();
 
   const handleClose = () => {
@@ -30,28 +32,39 @@ export default function Modal({ children, color }: Props) {
 
   useEffect(() => {
     const pageTitle = document.title;
+    const pageRoot = document.documentElement.style;
+    const pageBody = document.body.style;
     document.title = title;
-    document.body.style.overflowY = "hidden";
+    pageRoot.overflowY = "hidden";
+    pageBody.overflowY = "scroll";
+    pageBody.pointerEvents = "none";
+    setScroll(true);
+
     return () => {
       document.title = pageTitle;
-      document.body.removeAttribute("style");
+      pageRoot.removeProperty("overflow-y");
+      pageBody.removeProperty("overflow-y");
+      pageBody.removeProperty("pointer-events");
     };
-  });
+  }, [title, setScroll]);
 
   return (
     <div role="none" onKeyDown={handleKeyboard}>
       <div
         role="dialog"
         aria-label={title}
-        className="fixed inset-0 z-90 overflow-y-auto md:px-4"
+        className={clsx(
+          "fixed top-0 right-0 bottom-0 left-0 z-90 md:px-4",
+          scroll ? "overflow-y-auto" : "overflow-y-hidden",
+        )}
       >
         <div className="max-w-8xl mx-auto grid min-h-svh content-baseline gap-y-4 md:grid-cols-[20rem_1fr] md:gap-x-4 lg:grid-cols-[24rem_1fr]">
-          <nav className="pointer-events-none relative z-3 flex flex-col gap-y-6 px-4 pt-4 md:sticky md:top-0 md:px-0">
-            <div className="pointer-events-auto flex items-center justify-start md:justify-end">
+          <nav className="flex flex-col gap-y-6 px-4 pt-4 md:sticky md:top-0 md:px-0">
+            <div className="flex items-center justify-start md:justify-end">
               <button
                 autoFocus={true}
                 aria-label="return back"
-                className="ml-[-0.3rem] inline-flex size-8 items-center justify-center rounded-full text-gray-800 md:mr-[-0.3rem] md:ml-0 dark:text-gray-200"
+                className="pointer-events-auto ml-[-0.3rem] inline-flex size-8 items-center justify-center rounded-full text-gray-800 md:mr-[-0.3rem] md:ml-0 dark:text-gray-200"
                 onClick={handleClose}
               >
                 <svg
@@ -69,19 +82,25 @@ export default function Modal({ children, color }: Props) {
               </button>
             </div>
           </nav>
-          <div role="none" className="animate-slide relative z-4">
+          <div
+            role="none"
+            className={clsx(
+              "pointer-events-auto",
+              scroll ? "animate-slide" : "invisible",
+            )}
+          >
             {children}
           </div>
-          <span
-            role="button"
-            aria-label="close modal"
-            className="animate-fade fixed right-0 left-0 z-2 bg-gray-50/75 backdrop-blur-xl dark:bg-gray-950/75"
-            style={{ bottom: "-4rem", top: "-4rem" }}
-            tabIndex={0}
-            onFocus={handleClose}
-          ></span>
         </div>
       </div>
+      <span
+        role="button"
+        aria-label="close modal"
+        className="animate-fade pointer-events-auto fixed right-0 left-0 z-2 bg-gray-50/75 backdrop-blur-xl dark:bg-gray-950/75"
+        style={{ bottom: "-4rem", top: "-4rem" }}
+        tabIndex={0}
+        onFocus={handleClose}
+      ></span>
     </div>
   );
 }
