@@ -16,6 +16,7 @@ export {
   convertCss,
   convertHex,
   convertHue,
+  convertColor,
 } from "./convert";
 
 export {
@@ -33,8 +34,6 @@ export {
 } from "./format";
 
 export { getGamut, setGamut, checkGamut, gamutRange } from "./gamut";
-
-export { getBrightness, getLuminance, getContrast } from "./measure";
 
 export { createService } from "./process";
 

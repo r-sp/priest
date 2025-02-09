@@ -183,6 +183,27 @@ const convertHue = (
   return compose(color);
 };
 
+const colorConversions: {
+  [Key in keyof ColorState]: (color: ColorInput) => AnyColorMode;
+} = {
+  hex: convertRgb,
+  rgb: convertRgb,
+  hsl: convertHsl,
+  hwb: convertHwb,
+  lab: convertLab,
+  lch: convertLch,
+  oklab: convertOklab,
+  oklch: convertOklch,
+};
+
+const convertColor = (
+  color: AnyColorMode,
+  mode: keyof ColorState,
+): AnyColorMode => {
+  const compose = colorConversions[mode];
+  return compose(color);
+};
+
 export {
   rgb,
   hsl,
@@ -201,4 +222,5 @@ export {
   convertCss,
   convertHex,
   convertHue,
+  convertColor,
 };
