@@ -66,10 +66,13 @@ function PreviewColor({ color, error, modal }: ColorDisplay) {
   const currentCss = formatCss(color);
   const hex = convertHex(color);
   return (
-    <div className={modal ? undefined : "px-4"}>
+    <div
+      className={modal ? undefined : "px-4"}
+      style={{ ["--currentColor" as string]: currentCss }}
+    >
       <article
         aria-label={currentCss}
-        className="pointer-events-auto mx-auto grid w-full max-w-5xl gap-y-8"
+        className="pointer-events-auto mx-auto grid w-full max-w-5xl gap-y-12"
       >
         <div className="grid gap-y-4">
           <div className="flex" style={{ ["--bg" as string]: currentCss }}>
