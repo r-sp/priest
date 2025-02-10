@@ -69,13 +69,13 @@ export default function ColorContrast({ color }: Props) {
   const trackLuminanceWhite = previewColor({ c: 0 });
 
   return (
-    <section aria-label="color contrast" className="grid gap-y-6">
+    <section aria-label="color contrast" className="grid gap-y-8">
       <Contrast
         ratio={ratio}
         normal={[normalAA, normalAAA]}
         large={[largeAA, largeAAA]}
       />
-      <div className="grid gap-x-4 gap-y-4 border-t border-t-gray-200 pt-4 md:grid-cols-2 dark:border-t-gray-800">
+      <div className="grid gap-x-8 gap-y-4 border-t border-t-gray-200 pt-6 md:grid-cols-2 dark:border-t-gray-800">
         <div
           role="group"
           aria-describedby="color-brightness"

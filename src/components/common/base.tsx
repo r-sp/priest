@@ -1,7 +1,7 @@
 import type { ReactNode } from "react";
 import { createService } from "~/utils";
 import { Store } from "~/context";
-import { InputCss, InputSlider, ColorHue } from "../ui";
+import { InputCss } from "../ui";
 import ThemeSwitcher from "./theme";
 import Link from "next/link";
 
@@ -15,30 +15,22 @@ export default function BaseLayout({ children, portal }: Props) {
   return (
     <Store initValue={session}>
       <ThemeScript />
-      <div className="md:px-4">
-        <div className="max-w-8xl mx-auto grid min-h-svh content-baseline gap-y-8 md:grid-cols-[20rem_1fr] md:gap-x-4 lg:grid-cols-[24rem_1fr]">
-          <header>
-            <nav className="flex flex-col gap-y-6 px-4 pt-4 md:sticky md:top-0 md:px-0">
-              <div className="flex items-center justify-between">
-                <Logo />
-                <ThemeSwitcher />
-              </div>
-              <InputCss />
-              <InputSlider />
-              <ColorHue />
-            </nav>
-          </header>
-          <main>{children}</main>
-          <footer>
-            <div className="mt-16 px-4 py-8">
-              <div className="max-w-8xl mx-auto">
-                <Slogan />
-              </div>
-            </div>
-          </footer>
+      <header className="px-4">
+        <nav className="max-w-8xl mx-auto flex h-16 w-full items-center justify-between">
+          <Logo />
+          <span className="w-4" />
+          <InputCss />
+          <span className="w-3 sm:w-5" />
+          <ThemeSwitcher />
+        </nav>
+      </header>
+      <main>{children}</main>
+      {portal}
+      <footer className="px-4 pb-8">
+        <div className="max-w-8xl mx-auto w-full">
+          <Slogan />
         </div>
-        {portal}
-      </div>
+      </footer>
     </Store>
   );
 }

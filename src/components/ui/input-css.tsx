@@ -117,7 +117,7 @@ export default function InputCss() {
       aria-label="color input"
       action="/color"
       id="color-input"
-      className={clsx("relative grid", modal ? "z-69" : "z-0")}
+      className={clsx("relative grid max-w-128 grow-1", modal ? "z-50" : "z-0")}
       onSubmit={(e) => {
         e.preventDefault();
         setModal(false);
@@ -161,7 +161,7 @@ export default function InputCss() {
                 />
                 <span
                   role="button"
-                  aria-label="close color input mode"
+                  aria-label="close color input"
                   className="fixed top-0 right-0 bottom-0 left-0 z-2"
                   tabIndex={0}
                   onFocus={() => setModal(false)}
@@ -170,6 +170,7 @@ export default function InputCss() {
               document.getElementById("input-portal") ?? document.body,
             )
           : null}
+        {}
       </div>
     </Form>
   );

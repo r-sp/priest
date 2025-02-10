@@ -15,7 +15,6 @@ import {
   checkGamut,
   switchColorPath,
 } from "~/utils";
-import clsx from "clsx";
 import Link from "next/link";
 
 export default function ColorPalettes() {
@@ -51,12 +50,7 @@ export default function ColorPalettes() {
   }, [hueShift, hue]);
 
   return (
-    <ol
-      className={clsx(
-        "grid gap-4 sm:grid-cols-2",
-        hueShades.length > 8 && "xl:grid-cols-3",
-      )}
-    >
+    <ol className="grid gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
       {hueShades.map((shade, index) => (
         <Palette key={index} color={shade} type={mode} />
       ))}

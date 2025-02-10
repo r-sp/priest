@@ -32,7 +32,7 @@ export default function ColorHue() {
       role="group"
       aria-label="color hue"
       id="color-hue"
-      className="flex justify-between gap-4 border-t border-t-gray-200 pt-6 max-[20rem]:flex-col dark:border-t-gray-800"
+      className="mx-auto flex w-full max-w-128 justify-between gap-4 max-[20rem]:flex-col"
     >
       <AdjustHue
         label="Hue Base"

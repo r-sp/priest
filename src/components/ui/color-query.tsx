@@ -42,9 +42,9 @@ export default async function ColorQuery({ searchParams, portal }: Props) {
       {portal ? (
         <Modal color={color ? formatCss(color) : "Error"}>
           {color ? (
-            <PreviewColor color={color} error={query.error} />
+            <PreviewColor color={color} error={query.error} modal={true} />
           ) : (
-            <ResolveColor error={query.error!} />
+            <ResolveColor error={query.error!} modal={true} />
           )}
         </Modal>
       ) : color ? (
@@ -59,14 +59,18 @@ export default async function ColorQuery({ searchParams, portal }: Props) {
 interface ColorDisplay {
   color: AnyColorMode;
   error?: string;
+  modal?: boolean;
 }
 
-function PreviewColor({ color, error }: ColorDisplay) {
+function PreviewColor({ color, error, modal }: ColorDisplay) {
   const currentCss = formatCss(color);
   const hex = convertHex(color);
   return (
-    <div className="px-4 md:px-0 md:py-4">
-      <article aria-label={currentCss} className="grid gap-y-8">
+    <div className={modal ? undefined : "px-4"}>
+      <article
+        aria-label={currentCss}
+        className="pointer-events-auto mx-auto grid w-full max-w-5xl gap-y-8"
+      >
         <div className="grid gap-y-4">
           <div className="flex" style={{ ["--bg" as string]: currentCss }}>
             <div className="bg-ref aspect-cinema inline-flex w-full rounded-md"></div>
@@ -90,13 +94,14 @@ function PreviewColor({ color, error }: ColorDisplay) {
 
 interface ColorError {
   error: string;
+  modal?: boolean;
 }
 
-function ResolveColor({ error }: ColorError) {
+function ResolveColor({ error, modal }: ColorError) {
   const title = error.replaceAll("-", " ");
   return (
-    <div className="px-4 md:px-0 md:py-4">
-      <article className="grid gap-y-4">
+    <div className={modal ? undefined : "px-4"}>
+      <article className="max-w-8xl mx-auto grid w-full gap-y-4">
         <h1 className="text-xl text-gray-800 dark:text-gray-200">{title}</h1>
       </article>
     </div>
