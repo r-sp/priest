@@ -155,10 +155,7 @@ function NoticeColor({ color, error }: ColorAlert) {
   const values = Object.values(color) as ColorValues<typeof color.mode>;
 
   return (
-    <section
-      aria-labelledby="color-notice"
-      className="border-t border-t-gray-200 pt-4 dark:border-t-gray-800"
-    >
+    <section aria-labelledby="color-notice">
       <h2
         id="color-notice"
         className="text-lg font-semibold text-gray-800 dark:text-gray-200"
