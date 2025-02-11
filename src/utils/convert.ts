@@ -162,6 +162,24 @@ type HueColorMode =
   | ColorMode<"lch">
   | ColorMode<"oklch">;
 
+const hueFormat: {
+  [Key in keyof ColorState]: (color: AnyColorMode) => HueColorMode;
+} = {
+  hex: convertHsl,
+  rgb: convertHwb,
+  hsl: convertHsl,
+  hwb: convertHwb,
+  lab: convertLch,
+  lch: convertLch,
+  oklab: convertOklch,
+  oklch: convertOklch,
+};
+
+const createHue = (color: AnyColorMode): HueColorMode => {
+  const compose = hueFormat[color.mode];
+  return compose(color);
+};
+
 const hueConversions: {
   [Key in keyof ColorState]: (color: HueColorMode) => AnyColorMode;
 } = {
@@ -221,6 +239,7 @@ export {
   convertOklch,
   convertCss,
   convertHex,
+  createHue,
   convertHue,
   convertColor,
 };
