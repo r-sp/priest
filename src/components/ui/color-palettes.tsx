@@ -6,7 +6,6 @@ import { useMemo, useCallback } from "react";
 import { useSession } from "~/hooks";
 import {
   createHue,
-  createColor,
   round,
   multiply,
   limiter,
@@ -25,10 +24,7 @@ export default function ColorPalettes() {
   ]);
   const [color, mode, hue] = useMemo(() => session, [session]);
 
-  const hueBase = useMemo(
-    () => createHue(createColor(color), mode),
-    [color, mode],
-  );
+  const hueBase = useMemo(() => createHue(color), [color]);
 
   const hueShift = useCallback(
     (angle: number[]) =>

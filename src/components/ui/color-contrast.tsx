@@ -1,6 +1,6 @@
 import type { AnyColorMode, OklchColorMode } from "~/types/color";
 import {
-  convertRgb,
+  createRgb,
   convertOklch,
   convertColor,
   formatCss,
@@ -17,7 +17,7 @@ type Readable = "Pass" | "Fail";
 
 export default function ColorContrast({ color }: Props) {
   const { mode } = color;
-  const currentColor = convertRgb(color);
+  const currentColor = createRgb(color);
   const { r, g, b } = currentColor;
 
   const trackColor = convertOklch(color);
@@ -53,16 +53,6 @@ export default function ColorContrast({ color }: Props) {
   const blue = relativeLuminance(b);
   const luminance = calculateLuminance(red, green, blue);
 
-  const light = relativeLuminance(255);
-  const lightness = calculateLuminance(light, light, light);
-  const dark = relativeLuminance(0);
-  const darkness = calculateLuminance(dark, dark, dark);
-
-  const fgLight = Math.max(luminance, lightness);
-  const bgLight = Math.min(luminance, lightness);
-  const fgDark = Math.max(luminance, darkness);
-  const bgDark = Math.min(luminance, darkness);
-
   return (
     <section aria-label="color contrast" className="grid gap-8 md:grid-cols-2">
       <h2 className="sr-only">Color Contrast</h2>
@@ -96,8 +86,8 @@ export default function ColorContrast({ color }: Props) {
           style={`linear-gradient(to right, ${trackLuminanceBlue}, ${trackLuminanceGreen} 25%, ${trackLuminanceYellow} 50%, ${trackLuminanceWhite} 80%)`}
         />
       </div>
-      <Contrast color="white" foreground={fgLight} background={bgLight} />
-      <Contrast color="black" foreground={fgDark} background={bgDark} />
+      <Contrast color="white" foreground={luminance} background={1} />
+      <Contrast color="black" foreground={luminance} background={0} />
     </section>
   );
 }
@@ -146,7 +136,9 @@ interface ContrastChecker {
 }
 
 function Contrast({ color, foreground, background }: ContrastChecker) {
-  const ratio = (foreground + 0.05) / (background + 0.05);
+  const fg = Math.max(foreground, background);
+  const bg = Math.min(foreground, background);
+  const ratio = (fg + 0.05) / (bg + 0.05);
   const contrast = round(ratio, 2);
 
   const check = (current: number, threshold: number): Readable => {
@@ -191,8 +183,7 @@ function Contrast({ color, foreground, background }: ContrastChecker) {
           <span
             className={clsx(
               "text-xl",
-              ratio === 4.5 ||
-                (ratio > 4.5 && "text-green-700 dark:text-green-400"),
+              ratio >= 4.5 && "text-green-700 dark:text-green-400",
               ratio < 4.5 && "text-red-700 dark:text-red-400",
             )}
           >
@@ -203,19 +194,31 @@ function Contrast({ color, foreground, background }: ContrastChecker) {
           <div className="flex flex-nowrap justify-between text-sm text-gray-600 dark:text-gray-400">
             <p>WCAG Normal</p>
             <p>
-              AA: <span className={status(normalAA)}>{normalAA}</span>
+              AA:{" "}
+              <span className={status(normalAA)} title={`${contrast} >= 4.5`}>
+                {normalAA}
+              </span>
             </p>
             <p>
-              AAA: <span className={status(normalAAA)}>{normalAAA}</span>
+              AAA:{" "}
+              <span className={status(normalAAA)} title={`${contrast} >= 7.0`}>
+                {normalAAA}
+              </span>
             </p>
           </div>
           <div className="mt-2 flex flex-nowrap justify-between border-t border-t-gray-200 pt-2 text-sm text-gray-600 dark:border-t-gray-800 dark:text-gray-400">
             <p>WCAG Large</p>
             <p>
-              AA: <span className={status(largeAA)}>{largeAA}</span>
+              AA:{" "}
+              <span className={status(largeAA)} title={`${contrast} >= 3.0`}>
+                {largeAA}
+              </span>
             </p>
             <p>
-              AAA: <span className={status(largeAAA)}>{largeAAA}</span>
+              AAA:{" "}
+              <span className={status(largeAAA)} title={`${contrast} >= 4.5`}>
+                {largeAAA}
+              </span>
             </p>
           </div>
         </div>

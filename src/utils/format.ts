@@ -3,7 +3,6 @@ import type {
   AnyColorMode,
   ColorFormat,
   ColorState,
-  ColorMode,
   ComposeColor,
   ExtractColorMode,
 } from "~/types/color";
@@ -17,6 +16,8 @@ import {
   convertOklab,
   convertOklch,
 } from "./convert";
+import { setGamut } from "./gamut";
+import { clampRgb } from "culori/fn";
 
 const formatRgb = (color: AnyColorType<"rgb">): string => {
   const { r, g, b } = color;
@@ -135,48 +136,11 @@ const createCss = (color: AnyColorMode, hex: boolean): string => {
   return hex ? convertHex(color) : formatCss(color);
 };
 
-type HueInput = [
-  keyof ColorState,
-  ColorMode<"hsl">,
-  ColorMode<"hwb">,
-  ColorMode<"lch">,
-  ColorMode<"oklch">,
-];
-
-type HueOutput =
-  | ColorMode<"hsl">
-  | ColorMode<"hwb">
-  | ColorMode<"lch">
-  | ColorMode<"oklch">;
-
-const hueFormat: {
-  [Key in keyof ColorState]: (color: HueInput) => HueOutput;
-} = {
-  hex: (color) => color[1],
-  rgb: (color) => color[2],
-  hsl: (color) => color[1],
-  hwb: (color) => color[2],
-  lab: (color) => color[3],
-  lch: (color) => color[3],
-  oklab: (color) => color[4],
-  oklch: (color) => color[4],
-};
-
-const hueMode = (color: HueInput): HueOutput => {
-  const [mode] = color;
-  const compose = hueFormat[mode];
-  return compose(color);
-};
-
-const createHue = (color: ColorState, mode: keyof ColorState): HueOutput => {
-  const { hsl, hwb, lch, oklch } = color;
-  return hueMode([
-    mode,
-    { mode: "hsl", ...hsl.color },
-    { mode: "hwb", ...hwb.color },
-    { mode: "lch", ...lch.color },
-    { mode: "oklch", ...oklch.color },
-  ]);
+const createRgb = (color: AnyColorMode) => {
+  const css = formatCss(color);
+  const clamp = clampRgb(css) as AnyColorMode;
+  const gamut = setGamut(clamp);
+  return convertRgb(gamut);
 };
 
 export {
@@ -188,7 +152,7 @@ export {
   formatOklab,
   formatOklch,
   formatCss,
-  createCss,
-  createHue,
   createColor,
+  createCss,
+  createRgb,
 };
