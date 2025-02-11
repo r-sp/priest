@@ -1,7 +1,6 @@
 import type { AnyColorMode } from "~/types/color";
 import {
   createHue,
-  createColor,
   round,
   formatCss,
   convertHue,
@@ -16,7 +15,7 @@ interface Props {
 
 export default function ColorHarmony({ color }: Props) {
   const mode = color.mode;
-  const hueBase = createHue(createColor(color), mode);
+  const hueBase = createHue(color);
   const current = hueBase.h!;
 
   const hue = (deg: number): number => {
@@ -81,7 +80,7 @@ export default function ColorHarmony({ color }: Props) {
   return (
     <ul aria-label="color harmony" className="grid gap-8 pb-8 md:grid-cols-2">
       {hueShades.map((shade, index) => (
-        <Harmony key={index} color={shade} />
+        <Harmony key={index} color={shade} origin={color} />
       ))}
     </ul>
   );
@@ -93,15 +92,16 @@ interface ColorCard {
     label: string;
     ratio: string;
   };
+  origin: AnyColorMode;
 }
 
-function Harmony({ color }: ColorCard) {
+function Harmony({ color, origin }: ColorCard) {
   const { harmony, label, ratio } = color;
   return (
     <li aria-label={label.toLowerCase()} className="inline-grid gap-y-3">
       <div role="presentation" className="aspect-cinema flex gap-x-2">
         {harmony.map((shade, index) => (
-          <Palette key={index} color={shade} />
+          <Palette key={index} color={shade} base={origin} />
         ))}
       </div>
       <div role="none" className="grid">
@@ -116,15 +116,24 @@ function Harmony({ color }: ColorCard) {
 
 interface ColorPalette {
   color: AnyColorMode;
+  base: AnyColorMode;
 }
 
-function Palette({ color }: ColorPalette) {
+function Palette({ color, base }: ColorPalette) {
   const css = formatCss(color);
   const offset = checkGamut(color);
   const path = switchColorPath("/color", color);
   const link = offset ? `${path}&error=${offset}` : path;
+  const origin = formatCss(base);
 
-  return (
+  return css === origin ? (
+    <div
+      className="inline-flex grow-1 rounded-md"
+      style={{ ["--bg" as string]: css }}
+    >
+      <div className="bg-ref pointer-events-none h-full w-full rounded-md" />
+    </div>
+  ) : (
     <Link
       href={link}
       className="inline-flex grow-1 rounded-md"
