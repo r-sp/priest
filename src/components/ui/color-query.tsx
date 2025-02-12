@@ -7,11 +7,12 @@ import {
   checkGamut,
   gamutRange,
   formatCss,
-  convertHex,
+  createHex,
 } from "~/utils";
 import { Suspense } from "react";
 import { Modal } from "../common";
 import clsx from "clsx";
+import Link from "next/link";
 import ColorContrast from "./color-contrast";
 import ColorHarmony from "./color-harmony";
 
@@ -64,7 +65,7 @@ interface ColorDisplay {
 
 function PreviewColor({ color, error, modal }: ColorDisplay) {
   const currentCss = formatCss(color);
-  const hex = convertHex(color);
+  const hex = createHex(color);
   return (
     <div
       className={modal ? undefined : "px-4"}
@@ -75,9 +76,16 @@ function PreviewColor({ color, error, modal }: ColorDisplay) {
         className="pointer-events-auto mx-auto grid w-full max-w-5xl gap-y-12"
       >
         <div className="grid gap-y-4">
-          <div className="flex" style={{ ["--bg" as string]: currentCss }}>
+          <Link
+            aria-label={"download color"}
+            href={`/color/${hex.replace("#", "")}`}
+            prefetch={false}
+            rel="alternate"
+            className="flex"
+            style={{ ["--bg" as string]: currentCss }}
+          >
             <div className="bg-ref aspect-cinema inline-flex w-full rounded-md"></div>
-          </div>
+          </Link>
           <div role="none" className="grid">
             <h1 className="text-lg text-gray-800 dark:text-gray-200">
               <code>{currentCss}</code>

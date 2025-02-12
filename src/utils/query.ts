@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import type { AnyColorMode, ColorQuery } from "~/types/color";
-import { formatCss } from "./format";
+import { formatCss, createHex } from "./format";
 
 const getColorQuery = (query: ColorQuery): AnyColorMode | undefined => {
   const { mode, r, g, b, h, s, l, w, a, c } = query;
@@ -136,6 +136,12 @@ const createMetadata = (query: ColorQuery & { error?: string }): Metadata => {
       : "Error"
     : formatCss(getColorQuery(repaint)!);
 
+  const hex = query.error
+    ? includes
+      ? createHex(getColorQuery(repaint)!)
+      : "#696969"
+    : createHex(getColorQuery(repaint)!);
+
   const name = createMetadata(`Color: ${color}`, "Error");
   const text = createMetadata(
     `Explore color conversions from ${color} to various color models: RGB, HSL, HWB, LAB, LCH, OKLAB, OKLCH.`,
@@ -152,7 +158,16 @@ const createMetadata = (query: ColorQuery & { error?: string }): Metadata => {
   return {
     title: name,
     description: text,
-    openGraph: { title: name, url: path },
+    openGraph: {
+      title: name,
+      url: path,
+      images: [
+        {
+          url: `/color/${hex.replace("#", "")}`,
+          alt: `Color: ${color}`,
+        },
+      ],
+    },
     alternates: { canonical: path },
   };
 };

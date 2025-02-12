@@ -54,40 +54,40 @@ export default function ColorContrast({ color }: Props) {
   const luminance = calculateLuminance(red, green, blue);
 
   return (
-    <section aria-label="color contrast" className="grid gap-8 md:grid-cols-2">
+    <section aria-label="color contrast" className="grid gap-y-12">
       <h2 className="sr-only">Color Contrast</h2>
-      <div
-        role="group"
-        aria-describedby="color-brightness"
-        className="inline-grid gap-y-3"
-      >
-        <p id="color-brightness" className="text-gray-800 dark:text-gray-200">
-          Brightness
-        </p>
-        <Progress
-          value={brightness}
-          min={0}
-          max={1}
-          style={`linear-gradient(to right, ${trackBrightnessLeft}, ${trackBrightnessRight})`}
-        />
+      <div className="grid gap-x-8 gap-y-4 md:grid-cols-2">
+        <div
+          role="group"
+          aria-label="color brightness"
+          className="inline-grid gap-y-3"
+        >
+          <p className="text-gray-800 dark:text-gray-200">Brightness</p>
+          <Progress
+            value={brightness}
+            min={0}
+            max={1}
+            style={`linear-gradient(to right, ${trackBrightnessLeft}, ${trackBrightnessRight})`}
+          />
+        </div>
+        <div
+          role="group"
+          aria-label="color luminance"
+          className="inline-grid gap-y-3"
+        >
+          <p className="text-gray-800 dark:text-gray-200">Luminance</p>
+          <Progress
+            value={luminance}
+            min={0}
+            max={1}
+            style={`linear-gradient(to right, ${trackLuminanceBlue}, ${trackLuminanceGreen} 25%, ${trackLuminanceYellow} 50%, ${trackLuminanceWhite} 80%)`}
+          />
+        </div>
       </div>
-      <div
-        role="group"
-        aria-describedby="color-luminance"
-        className="inline-grid gap-y-3"
-      >
-        <p id="color-luminance" className="text-gray-800 dark:text-gray-200">
-          Luminance
-        </p>
-        <Progress
-          value={luminance}
-          min={0}
-          max={1}
-          style={`linear-gradient(to right, ${trackLuminanceBlue}, ${trackLuminanceGreen} 25%, ${trackLuminanceYellow} 50%, ${trackLuminanceWhite} 80%)`}
-        />
+      <div className="grid gap-x-8 gap-y-6 md:grid-cols-2">
+        <Contrast color="white" foreground={luminance} background={1} />
+        <Contrast color="black" foreground={luminance} background={0} />
       </div>
-      <Contrast color="white" foreground={luminance} background={1} />
-      <Contrast color="black" foreground={luminance} background={0} />
     </section>
   );
 }
