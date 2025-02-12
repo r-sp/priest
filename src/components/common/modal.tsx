@@ -54,8 +54,10 @@ export default function Modal({ children, color }: Props) {
         role="dialog"
         aria-label={title}
         className={clsx(
-          "pointer-events-auto fixed top-0 right-0 bottom-0 left-0 z-50 bg-gray-50/80 px-4 backdrop-blur-2xl dark:bg-gray-950/80",
-          scroll ? "overflow-y-auto" : "overflow-y-hidden",
+          "fixed top-0 right-0 bottom-0 left-0 z-50 bg-gray-50/80 px-4 backdrop-blur-2xl dark:bg-gray-950/80",
+          scroll
+            ? "pointer-events-auto overflow-y-auto"
+            : "overflow-y-hidden opacity-0",
         )}
       >
         <nav className="mx-auto flex h-16 max-w-5xl items-center justify-start">
@@ -66,7 +68,7 @@ export default function Modal({ children, color }: Props) {
             onClick={handleClose}
           >
             <svg
-              className="animate-narrow pointer-events-none size-6"
+              className="pointer-events-none size-6"
               width={24}
               height={24}
               viewBox="0 0 24 24"
@@ -79,13 +81,7 @@ export default function Modal({ children, color }: Props) {
             </svg>
           </button>
         </nav>
-        <div
-          role="none"
-          className={clsx(
-            "pointer-events-none relative",
-            scroll ? "animate-slide" : "invisible",
-          )}
-        >
+        <div role="none" className="pointer-events-none relative">
           {children}
           <span
             role="button"
