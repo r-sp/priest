@@ -7,7 +7,7 @@ import {
   checkGamut,
   gamutRange,
   formatCss,
-  convertHex,
+  createHex,
 } from "~/utils";
 import { Suspense } from "react";
 import { Modal } from "../common";
@@ -64,7 +64,7 @@ interface ColorDisplay {
 
 function PreviewColor({ color, error, modal }: ColorDisplay) {
   const currentCss = formatCss(color);
-  const hex = convertHex(color);
+  const hex = createHex(color);
   return (
     <div
       className={modal ? undefined : "px-4"}

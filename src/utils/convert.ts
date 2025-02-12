@@ -150,12 +150,6 @@ const convertCss = (color: string): NonNullable<AnyColorMode | undefined> => {
   return parse(color) as NonNullable<AnyColorMode | undefined>;
 };
 
-const convertHex = (color: ColorInput): string => {
-  const compose = convertRgb(color);
-  const { r, g, b } = compose;
-  return "#" + ((1 << 24) | (r << 16) | (g << 8) | b).toString(16).slice(1);
-};
-
 type HueColorMode =
   | ColorMode<"hsl">
   | ColorMode<"hwb">
@@ -238,7 +232,6 @@ export {
   convertOklab,
   convertOklch,
   convertCss,
-  convertHex,
   createHue,
   convertHue,
   convertColor,

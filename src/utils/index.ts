@@ -14,7 +14,6 @@ export {
   convertOklab,
   convertOklch,
   convertCss,
-  convertHex,
   createHue,
   convertHue,
   convertColor,
@@ -29,9 +28,10 @@ export {
   formatOklab,
   formatOklch,
   formatCss,
+  createRgb,
+  createHex,
   createColor,
   createCss,
-  createRgb,
 } from "./format";
 
 export { getGamut, setGamut, checkGamut, gamutRange } from "./gamut";

@@ -3,11 +3,11 @@ import type {
   AnyColorMode,
   ColorFormat,
   ColorState,
+  ColorMode,
   ComposeColor,
   ExtractColorMode,
 } from "~/types/color";
 import {
-  convertHex,
   convertRgb,
   convertHsl,
   convertHwb,
@@ -96,19 +96,6 @@ const composeOklch = (color: AnyColorMode): ComposeColor<"oklch"> => {
   return { color: { l, c, h }, css: formatOklch(mode) };
 };
 
-const createColor = (color: AnyColorMode): ColorState => {
-  return {
-    hex: convertHex(color),
-    rgb: composeRgb(color),
-    hsl: composeHsl(color),
-    hwb: composeHwb(color),
-    lab: composeLab(color),
-    lch: composeLch(color),
-    oklab: composeOklab(color),
-    oklch: composeOklch(color),
-  };
-};
-
 const formatColor: {
   [Key in ColorFormat]: (color: ExtractColorMode<Key>) => string;
 } = {
@@ -132,15 +119,34 @@ const formatCss = (color: AnyColorMode): string => {
   return compose(color);
 };
 
-const createCss = (color: AnyColorMode, hex: boolean): string => {
-  return hex ? convertHex(color) : formatCss(color);
-};
-
-const createRgb = (color: AnyColorMode) => {
+const createRgb = (color: AnyColorMode): ColorMode<"rgb"> => {
   const css = formatCss(color);
   const clamp = clampRgb(css) as AnyColorMode;
   const gamut = setGamut(clamp);
   return convertRgb(gamut);
+};
+
+const createHex = (color: AnyColorMode): string => {
+  const compose = createRgb(color);
+  const { r, g, b } = compose;
+  return "#" + ((1 << 24) | (r << 16) | (g << 8) | b).toString(16).slice(1);
+};
+
+const createColor = (color: AnyColorMode): ColorState => {
+  return {
+    hex: createHex(color),
+    rgb: composeRgb(color),
+    hsl: composeHsl(color),
+    hwb: composeHwb(color),
+    lab: composeLab(color),
+    lch: composeLch(color),
+    oklab: composeOklab(color),
+    oklch: composeOklch(color),
+  };
+};
+
+const createCss = (color: AnyColorMode, hex: boolean): string => {
+  return hex ? createHex(color) : formatCss(color);
 };
 
 export {
@@ -152,7 +158,8 @@ export {
   formatOklab,
   formatOklch,
   formatCss,
+  createRgb,
+  createHex,
   createColor,
   createCss,
-  createRgb,
 };
