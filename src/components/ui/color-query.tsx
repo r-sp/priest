@@ -13,6 +13,8 @@ import { Suspense } from "react";
 import { Modal } from "../common";
 import clsx from "clsx";
 import Link from "next/link";
+import Download from "./download";
+import Subscribe from "./subscribe";
 import ColorContrast from "./color-contrast";
 import ColorHarmony from "./color-harmony";
 
@@ -66,6 +68,8 @@ interface ColorDisplay {
 function PreviewColor({ color, error, modal }: ColorDisplay) {
   const currentCss = formatCss(color);
   const hex = createHex(color);
+  const path = hex.replace("#", "");
+  const link = `/color/${path}`;
   return (
     <div
       className={modal ? undefined : "px-4"}
@@ -77,8 +81,8 @@ function PreviewColor({ color, error, modal }: ColorDisplay) {
       >
         <div className="grid gap-y-4">
           <Link
-            aria-label={"download color"}
-            href={`/color/${hex.replace("#", "")}`}
+            aria-label="view color as image"
+            href={link}
             prefetch={false}
             rel="alternate"
             className="flex"
@@ -86,13 +90,30 @@ function PreviewColor({ color, error, modal }: ColorDisplay) {
           >
             <div className="bg-ref aspect-cinema inline-flex w-full rounded-md"></div>
           </Link>
-          <div role="none" className="grid">
-            <h1 className="text-lg text-gray-800 dark:text-gray-200">
-              <code>{currentCss}</code>
-            </h1>
-            <p className="text-gray-600 dark:text-gray-400">
-              <code>{hex}</code>
-            </p>
+          <div className="flex flex-col gap-6 sm:flex-row">
+            <div className="flex grow-1 flex-col">
+              <h1 className="text-lg text-gray-800 dark:text-gray-200">
+                <code>{currentCss}</code>
+              </h1>
+              <p className="text-gray-600 dark:text-gray-400">
+                <code>{hex}</code>
+              </p>
+            </div>
+            <div
+              role="group"
+              aria-label="color actions"
+              className="xs:flex-row flex grow-0 flex-col justify-between gap-4"
+            >
+              <Subscribe
+                aria-label="set current color as primary"
+                currentColor={color}
+              />
+              <Download
+                aria-label="download color as image"
+                href={link}
+                filename={path}
+              />
+            </div>
           </div>
         </div>
         {error && <NoticeColor color={color} error={error} />}
