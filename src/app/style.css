@@ -14,6 +14,7 @@
   --color-gray-800: oklch(0.288 0 0);
   --color-gray-900: oklch(0.192 0 0);
   --color-gray-950: oklch(0 0 0);
+  --breakpoint-xs: 20rem;
   --breakpoint-2xl: 90rem;
   --container-8xl: 90rem;
   --aspect-cinema: 21 / 9;
@@ -39,6 +40,36 @@
   .no-scrollbar {
     scrollbar-width: none;
   }
+  .action {
+    background-color: var(--color-gray-100);
+    color: var(--color-gray-600);
+    @variant dark {
+      background-color: var(--color-gray-900);
+      color: var(--color-gray-400);
+    }
+  }
+  .action:hover,
+  .action:focus {
+    background-color: var(--color-gray-200);
+    color: var(--color-gray-800);
+    @variant dark {
+      background-color: var(--color-gray-800);
+      color: var(--color-gray-200);
+    }
+  }
+  .action.ring {
+    --tw-ring-color: var(--color-gray-200);
+    @variant dark {
+      --tw-ring-color: var(--color-gray-800);
+    }
+  }
+  .action.ring:hover,
+  .action.ring:focus {
+    --tw-ring-color: var(--color-gray-300);
+    @variant dark {
+      --tw-ring-color: var(--color-gray-700);
+    }
+  }
 }
 
 @layer components {
@@ -52,7 +83,6 @@
     );
     background-size: 400% 100%;
     animation: skeleton_loading 6s ease-in-out infinite;
-
     @variant dark {
       background-image: linear-gradient(
         270deg,
