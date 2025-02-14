@@ -4,6 +4,7 @@ import type { ReactNode, KeyboardEvent } from "react";
 import { useRouter } from "next/navigation";
 import { useState, useEffect } from "react";
 import clsx from "clsx";
+import Icon from "./icons";
 
 interface Props {
   children: ReactNode;
@@ -67,18 +68,11 @@ export default function Modal({ children, color }: Props) {
             className="ml-[-0.4rem] inline-flex size-8 items-center justify-center rounded-full text-gray-800 outline-0 dark:text-gray-200"
             onClick={handleClose}
           >
-            <svg
+            <Icon
+              size="24"
+              type="arrow-back"
               className="pointer-events-none size-6"
-              width={24}
-              height={24}
-              viewBox="0 0 24 24"
-              fill="none"
-            >
-              <path
-                fill="currentColor"
-                d="M7.373 12.75L13.0693 18.4462L12 19.5L4.5 12L12 4.5L13.0693 5.55375L7.373 11.25H19.5V12.75H7.373Z"
-              />
-            </svg>
+            />
           </button>
         </nav>
         <div role="none" className="pointer-events-none relative">

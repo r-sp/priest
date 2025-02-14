@@ -1,6 +1,7 @@
 "use client";
 
 import type { ComponentPropsWithoutRef } from "react";
+import { Icon } from "../common";
 
 interface Props
   extends Omit<ComponentPropsWithoutRef<"button">, "href" | "filename"> {
@@ -48,10 +49,11 @@ export default function Download({ href, filename, ...props }: Props) {
 
   return (
     <button
-      className="action inline-flex h-9 grow-1 cursor-pointer items-center justify-center rounded-md px-4 text-sm ring"
+      className="action inline-flex h-9 grow-1 cursor-pointer items-center justify-center gap-x-2 rounded-md px-3 text-sm ring"
       onClick={handleDownload}
       {...props}
     >
+      <Icon size="20" type="download" className="pointer-events-none size-5" />
       <span>Download</span>
     </button>
   );

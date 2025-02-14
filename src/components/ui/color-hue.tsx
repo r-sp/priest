@@ -4,6 +4,7 @@ import type { ComponentPropsWithoutRef } from "react";
 import type { SessionHue } from "~/types/session";
 import { useMemo, useCallback } from "react";
 import { useSession } from "~/hooks";
+import { Icon } from "../common";
 import clsx from "clsx";
 
 export default function ColorHue() {
@@ -134,17 +135,11 @@ function AdjustHue({
               }
             }}
           >
-            <svg
+            <Icon
+              size="12"
+              type="arrow-up"
               className="pointer-events-none size-3"
-              width={12}
-              height={12}
-              viewBox="0 0 24 24"
-            >
-              <path
-                fill="currentColor"
-                d="M21.6538 16L12 6.34625L2.34625 16L3.7655 17.4193L12 9.1845L20.2345 17.4193L21.6538 16Z"
-              />
-            </svg>
+            />
           </button>
           <button
             aria-label={`decrease ${id} hue`}
@@ -161,17 +156,11 @@ function AdjustHue({
               }
             }}
           >
-            <svg
+            <Icon
+              size="12"
+              type="arrow-down"
               className="pointer-events-none size-3"
-              width={12}
-              height={12}
-              viewBox="0 0 24 24"
-            >
-              <path
-                fill="currentColor"
-                d="M21.6537 8L12 17.6538L2.34625 8L3.7655 6.58075L12 14.8155L20.2345 6.58075L21.6537 8Z"
-              />
-            </svg>
+            />
           </button>
         </div>
       </div>
