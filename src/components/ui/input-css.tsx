@@ -7,6 +7,7 @@ import { useState, useMemo, useCallback, useRef } from "react";
 import { useSession } from "~/hooks";
 import { createPortal } from "react-dom";
 import { createColor, createCss, convertCss, setGamut } from "~/utils";
+import { Icon } from "../common";
 import clsx from "clsx";
 import Form from "next/form";
 import ColorOptions from "./color-options";
@@ -137,7 +138,7 @@ export default function InputCss() {
           value={focus ? input : currentCss}
           id="input-css"
           className={clsx(
-            "absolute top-0 right-0 bottom-0 left-0 inline-grid rounded-md px-4 py-2 font-mono ring outline-0",
+            "absolute top-0 right-0 bottom-0 left-0 inline-grid rounded-md py-2 pr-10 pl-4 font-mono ring outline-0",
             "cursor-pointer bg-gray-100 text-gray-600 ring-gray-200 dark:bg-gray-900 dark:text-gray-400 dark:ring-gray-800",
             "focus:cursor-text focus:text-gray-700 focus:ring-gray-300 dark:focus:text-gray-300 dark:focus:ring-gray-700",
           )}
@@ -149,6 +150,12 @@ export default function InputCss() {
           }}
           onBlur={() => setFocus(false)}
         />
+        <div
+          aria-hidden="true"
+          className="pointer-events-none absolute top-0 right-0 bottom-0 z-1 flex size-10 items-center justify-center rounded-md text-gray-600 dark:text-gray-400"
+        >
+          <Icon size="24" type="palette" className="size-6" />
+        </div>
       </div>
       <div role="none" id="input-portal">
         {modal
