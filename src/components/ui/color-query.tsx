@@ -51,7 +51,7 @@ export default async function ColorQuery({ searchParams, portal }: Props) {
           )}
         </Modal>
       ) : color ? (
-        <PreviewColor color={color} error={query.error} />
+        <PreviewColor color={color} error={query.error} modal={false} />
       ) : (
         <ResolveColor error={query.error!} />
       )}
@@ -62,7 +62,7 @@ export default async function ColorQuery({ searchParams, portal }: Props) {
 interface ColorDisplay {
   color: AnyColorMode;
   error?: string;
-  modal?: boolean;
+  modal: boolean;
 }
 
 function PreviewColor({ color, error, modal }: ColorDisplay) {
@@ -118,7 +118,7 @@ function PreviewColor({ color, error, modal }: ColorDisplay) {
         </div>
         {error && <NoticeColor color={color} error={error} />}
         <ColorContrast color={color} />
-        <ColorHarmony color={color} />
+        <ColorHarmony color={color} modal={modal} />
       </article>
     </div>
   );

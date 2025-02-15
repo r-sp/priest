@@ -28,7 +28,7 @@ export default function Editable({ normal, large }: Props) {
     () => (
       <Textarea
         value={large}
-        className="text-xl font-semibold md:text-2xl"
+        className="max-xs:text-xl text-2xl font-semibold"
         tabIndex={-1}
       />
     ),
@@ -39,7 +39,7 @@ export default function Editable({ normal, large }: Props) {
     <div
       role="presentation"
       className={clsx(
-        "relative flex rounded-md",
+        "max-xs:size-10 relative flex rounded-md",
         !invert && "ring",
         !invert && reflect && "ring-gray-800",
         !invert && !reflect && "ring-gray-200",
@@ -58,7 +58,7 @@ export default function Editable({ normal, large }: Props) {
             }
       }
     >
-      <div className="mr-8 inline-flex grow flex-col gap-y-1 px-3 pt-3 pb-4 text-left">
+      <div className="max-xs:hidden inline-flex grow flex-col gap-y-1 pt-3 pr-12 pb-4 pl-3 text-left">
         {title}
         {description}
       </div>
@@ -68,7 +68,7 @@ export default function Editable({ normal, large }: Props) {
             ? "set current color as foreground"
             : "set current color as background"
         }
-        className="absolute top-2 right-[0.35rem] z-1 inline-flex size-8 items-center justify-center rounded-2xl"
+        className="max-xs:left-1 max-xs:top-1 absolute top-2 right-[0.35rem] z-1 inline-flex size-8 items-center justify-center rounded-2xl"
         onClick={() => setInvert(!invert)}
       >
         <Icon size="24" type="compare" className="pointer-events-none size-6" />

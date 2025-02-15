@@ -118,7 +118,10 @@ export default function InputCss() {
       aria-label="color input"
       action="/color"
       id="color-input"
-      className={clsx("relative grid max-w-128 grow-1", modal ? "z-50" : "z-0")}
+      className={clsx(
+        "max-xs:hidden relative mx-auto grid max-w-128 grow-1",
+        modal ? "z-50 max-sm:-mr-10 max-sm:-ml-12" : "z-0",
+      )}
       onSubmit={(e) => {
         e.preventDefault();
         setModal(false);
@@ -138,7 +141,7 @@ export default function InputCss() {
           value={focus ? input : currentCss}
           id="input-css"
           className={clsx(
-            "absolute top-0 right-0 bottom-0 left-0 inline-grid rounded-md py-2 pr-10 pl-4 font-mono ring outline-0",
+            "xs:pr-8 absolute top-0 right-0 bottom-0 left-0 inline-grid rounded-md px-4 py-2 font-mono ring outline-0",
             "cursor-pointer bg-gray-100 text-gray-600 ring-gray-200 dark:bg-gray-900 dark:text-gray-400 dark:ring-gray-800",
             "focus:cursor-text focus:text-gray-700 focus:ring-gray-300 dark:focus:text-gray-300 dark:focus:ring-gray-700",
           )}
@@ -152,7 +155,10 @@ export default function InputCss() {
         />
         <div
           aria-hidden="true"
-          className="pointer-events-none absolute top-0 right-0 bottom-0 z-1 flex size-10 items-center justify-center rounded-md text-gray-600 dark:text-gray-400"
+          className={clsx(
+            "max-xs:hidden pointer-events-none absolute top-0 right-0 bottom-0 z-1 flex h-10 w-12 items-center justify-end rounded-md pr-2",
+            "bg-gradient-to-r from-gray-950/0 to-gray-100 to-40% text-gray-600 dark:to-gray-900 dark:text-gray-400",
+          )}
         >
           <Icon size="24" type="palette" className="size-6" />
         </div>
@@ -169,7 +175,7 @@ export default function InputCss() {
                 <span
                   role="button"
                   aria-label="close color input"
-                  className="fixed top-0 right-0 bottom-0 left-0 z-2"
+                  className="fixed top-0 right-0 bottom-0 left-0 z-2 bg-gray-50/80 opacity-0 backdrop-blur-lg max-sm:opacity-100 dark:bg-gray-950/80"
                   tabIndex={0}
                   onFocus={() => setModal(false)}
                 />

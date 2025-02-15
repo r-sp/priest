@@ -177,8 +177,8 @@ function Contrast({ color, foreground, background }: ContrastChecker) {
       style={{ ["--contrastColor" as string]: currentCss }}
     >
       <Editable normal={normalText} large={largeText} />
-      <div className="flex">
-        <h3 className="inline-flex grow-0 flex-col text-gray-800 dark:text-gray-200">
+      <div className="max-xs:flex-col flex flex-row">
+        <h3 className="inline-flex min-w-16 grow-0 flex-col text-gray-800 dark:text-gray-200">
           Contrast{" "}
           <span
             className={clsx(
@@ -190,36 +190,43 @@ function Contrast({ color, foreground, background }: ContrastChecker) {
             {`${contrast}:1`}
           </span>
         </h3>
-        <div className="ml-4 grow border-l border-l-gray-200 pl-4 dark:border-l-gray-800">
-          <div className="flex flex-nowrap justify-between text-sm text-gray-600 dark:text-gray-400">
-            <p>WCAG Normal</p>
-            <p>
-              AA:{" "}
-              <span className={status(normalAA)} title={`${contrast} >= 4.5`}>
-                {normalAA}
-              </span>
-            </p>
-            <p>
-              AAA:{" "}
-              <span className={status(normalAAA)} title={`${contrast} >= 7.0`}>
-                {normalAAA}
-              </span>
-            </p>
+        <div className="max-xs:ml-0 max-xs:pl-0 max-xs:border-l-0 ml-4 grow border-l border-gray-200 pl-4 dark:border-gray-800">
+          <div className="max-xs:mt-2 max-xs:pt-2 max-xs:border-t flex flex-wrap justify-between gap-x-4 border-gray-200 text-sm text-gray-600 max-[24rem]:flex-col dark:border-gray-800 dark:text-gray-400">
+            <p className="min-w-24">WCAG Normal</p>
+            <div className="contents flex-wrap justify-between gap-x-4 max-sm:inline-flex max-[15rem]:flex-col">
+              <p className="min-w-17">
+                AA:{" "}
+                <span className={status(normalAA)} title={`${contrast} >= 4.5`}>
+                  {normalAA}
+                </span>
+              </p>
+              <p className="min-w-17">
+                AAA:{" "}
+                <span
+                  className={status(normalAAA)}
+                  title={`${contrast} >= 7.0`}
+                >
+                  {normalAAA}
+                </span>
+              </p>
+            </div>
           </div>
-          <div className="mt-2 flex flex-nowrap justify-between border-t border-t-gray-200 pt-2 text-sm text-gray-600 dark:border-t-gray-800 dark:text-gray-400">
-            <p>WCAG Large</p>
-            <p>
-              AA:{" "}
-              <span className={status(largeAA)} title={`${contrast} >= 3.0`}>
-                {largeAA}
-              </span>
-            </p>
-            <p>
-              AAA:{" "}
-              <span className={status(largeAAA)} title={`${contrast} >= 4.5`}>
-                {largeAAA}
-              </span>
-            </p>
+          <div className="mt-2 flex flex-wrap justify-between gap-x-4 border-t border-gray-200 pt-2 text-sm text-gray-600 max-[24rem]:flex-col dark:border-gray-800 dark:text-gray-400">
+            <p className="min-w-24">WCAG Large</p>
+            <div className="contents flex-wrap justify-between gap-x-4 max-sm:inline-flex max-[15rem]:flex-col">
+              <p className="min-w-17">
+                AA:{" "}
+                <span className={status(largeAA)} title={`${contrast} >= 3.0`}>
+                  {largeAA}
+                </span>
+              </p>
+              <p className="min-w-17">
+                AAA:{" "}
+                <span className={status(largeAAA)} title={`${contrast} >= 4.5`}>
+                  {largeAAA}
+                </span>
+              </p>
+            </div>
           </div>
         </div>
       </div>

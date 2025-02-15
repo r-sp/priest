@@ -7,13 +7,14 @@ import {
   checkGamut,
   switchColorPath,
 } from "~/utils";
-import Link from "next/link";
+import { Porter } from "../common";
 
 interface Props {
   color: AnyColorMode;
+  modal: boolean;
 }
 
-export default function ColorHarmony({ color }: Props) {
+export default function ColorHarmony({ color, modal }: Props) {
   const mode = color.mode;
   const hueBase = createHue(color);
   const current = hueBase.h!;
@@ -80,7 +81,7 @@ export default function ColorHarmony({ color }: Props) {
   return (
     <ul aria-label="color harmony" className="grid gap-8 pb-8 md:grid-cols-2">
       {hueShades.map((shade, index) => (
-        <Harmony key={index} color={shade} origin={color} />
+        <Harmony key={index} color={shade} origin={color} modal={modal} />
       ))}
     </ul>
   );
@@ -93,15 +94,16 @@ interface ColorCard {
     ratio: string;
   };
   origin: AnyColorMode;
+  modal: boolean;
 }
 
-function Harmony({ color, origin }: ColorCard) {
+function Harmony({ color, origin, modal }: ColorCard) {
   const { harmony, label, ratio } = color;
   return (
     <li aria-label={label.toLowerCase()} className="inline-grid gap-y-3">
       <div role="presentation" className="aspect-cinema flex gap-x-2">
         {harmony.map((shade, index) => (
-          <Palette key={index} color={shade} base={origin} />
+          <Palette key={index} color={shade} base={origin} modal={modal} />
         ))}
       </div>
       <div role="none" className="grid">
@@ -117,9 +119,10 @@ function Harmony({ color, origin }: ColorCard) {
 interface ColorPalette {
   color: AnyColorMode;
   base: AnyColorMode;
+  modal: boolean;
 }
 
-function Palette({ color, base }: ColorPalette) {
+function Palette({ color, base, modal }: ColorPalette) {
   const css = formatCss(color);
   const offset = checkGamut(color);
   const path = switchColorPath("/color", color);
@@ -134,16 +137,14 @@ function Palette({ color, base }: ColorPalette) {
       <div className="bg-ref pointer-events-none h-full w-full rounded-md" />
     </div>
   ) : (
-    <Link
+    <Porter
       href={link}
+      modal={modal}
       className="inline-flex grow-1 rounded-md"
-      prefetch={false}
-      replace={true}
-      scroll={false}
       style={{ ["--bg" as string]: css }}
     >
       <div className="bg-ref pointer-events-none h-full w-full rounded-md" />
       <code className="sr-only">{css}</code>
-    </Link>
+    </Porter>
   );
 }
