@@ -55,7 +55,7 @@ export default function Modal({ children, color }: Props) {
         role="dialog"
         aria-label={title}
         className={clsx(
-          "fixed top-0 right-0 bottom-0 left-0 z-50 bg-gray-50/80 px-4 backdrop-blur-2xl dark:bg-gray-950/80",
+          "fixed top-0 right-0 bottom-0 left-0 z-50 bg-gray-50/80 px-4 backdrop-blur-lg dark:bg-gray-950/80",
           scroll
             ? "pointer-events-auto overflow-y-auto"
             : "overflow-y-hidden opacity-0",

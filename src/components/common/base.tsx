@@ -18,9 +18,9 @@ export default function BaseLayout({ children, portal }: Props) {
       <header className="px-4">
         <nav className="max-w-8xl mx-auto flex h-16 w-full items-center justify-between">
           <Logo />
-          <span className="w-4" />
+          <span className="max-xs:hidden w-4" />
           <InputCss />
-          <span className="w-3 sm:w-5" />
+          <span className="max-xs:hidden w-3 sm:w-5" />
           <ThemeSwitcher />
         </nav>
       </header>
