@@ -127,6 +127,10 @@
     -webkit-appearance: none;
     appearance: none;
   }
+  .spinner {
+    -moz-appearance: textfield;
+    appearance: textfield;
+  }
 }
 
 @keyframes skeleton_loading {
