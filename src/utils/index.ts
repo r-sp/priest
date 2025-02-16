@@ -43,6 +43,8 @@ export {
   getColorPath,
   switchColorPath,
   createMetadata,
+  createColorId,
+  getColorById,
 } from "./query";
 
 export { createTracks, createRange } from "./tracks";
