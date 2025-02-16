@@ -13,6 +13,7 @@ import {
   convertHue,
   checkGamut,
   switchColorPath,
+  createColorId,
 } from "~/utils";
 import Link from "next/link";
 
@@ -46,9 +47,13 @@ export default function ColorPalettes() {
   }, [hueShift, hue]);
 
   return (
-    <ol className="grid gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
+    <ol
+      id="color-palettes"
+      data-length={hueShades.length}
+      className="grid gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4"
+    >
       {hueShades.map((shade, index) => (
-        <Palette key={index} color={shade} type={mode} />
+        <Palette key={index} color={shade} type={mode} id={index + 1} />
       ))}
     </ol>
   );
@@ -57,27 +62,30 @@ export default function ColorPalettes() {
 interface ColorCard {
   color: ReturnType<typeof createHue>;
   type: keyof ColorState;
+  id: number;
 }
 
-function Palette({ color, type }: ColorCard) {
+function Palette({ color, type, id }: ColorCard) {
   const hue = convertHue(color, type);
   const css = formatCss(hue);
   const offset = checkGamut(hue);
   const path = switchColorPath("/color", hue);
   const link = offset ? `${path}&error=${offset}` : path;
+  const index = createColorId(hue);
 
   return (
-    <li className="inline-grid">
+    <li className="inline-grid" style={{ ["--bg" as string]: css }}>
       <Link
         href={link}
+        id={`color-palette-${id}`}
+        data-color={index}
         className="flex rounded-md"
         prefetch={false}
         scroll={false}
-        style={{ ["--bg" as string]: css }}
       >
         <div
           role="presentation"
-          className="bg-ref aspect-cinema inline-flex w-full rounded-md"
+          className="bg-ref aspect-cinema pointer-events-none inline-flex w-full rounded-md"
         ></div>
         <code className="sr-only">{`Color: ${css}`}</code>
       </Link>
