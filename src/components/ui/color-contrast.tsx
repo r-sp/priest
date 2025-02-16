@@ -56,7 +56,7 @@ export default function ColorContrast({ color }: Props) {
   return (
     <section aria-label="color contrast" className="grid gap-y-12">
       <h2 className="sr-only">Color Contrast</h2>
-      <div className="grid gap-x-8 gap-y-4 md:grid-cols-2">
+      <div className="grid gap-y-4 md:grid-cols-2 md:gap-x-6 lg:gap-x-8">
         <div
           role="group"
           aria-label="color brightness"
@@ -84,7 +84,7 @@ export default function ColorContrast({ color }: Props) {
           />
         </div>
       </div>
-      <div className="grid gap-x-8 gap-y-6 md:grid-cols-2">
+      <div className="grid gap-y-6 md:grid-cols-2 md:gap-x-6 lg:gap-x-8">
         <Contrast color="white" foreground={luminance} background={1} />
         <Contrast color="black" foreground={luminance} background={0} />
       </div>

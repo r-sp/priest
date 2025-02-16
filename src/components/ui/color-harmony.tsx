@@ -79,7 +79,10 @@ export default function ColorHarmony({ color, modal }: Props) {
   ];
 
   return (
-    <ul aria-label="color harmony" className="grid gap-8 pb-8 md:grid-cols-2">
+    <ul
+      aria-label="color harmony"
+      className="grid gap-y-8 pb-8 md:grid-cols-2 md:gap-x-6 lg:gap-x-8"
+    >
       {hueShades.map((shade, index) => (
         <Harmony key={index} color={shade} origin={color} modal={modal} />
       ))}

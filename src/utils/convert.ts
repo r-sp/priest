@@ -101,8 +101,8 @@ const convertHwb = (color: ColorInput): ColorMode<"hwb"> => {
   return {
     mode: "hwb",
     h: round(compose.h, 2),
-    w: round(compose.w * 100),
-    b: round(compose.b * 100),
+    w: round(compose.w * 100, 2),
+    b: round(compose.b * 100, 2),
   };
 };
 
