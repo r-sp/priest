@@ -13,8 +13,7 @@ import { Suspense } from "react";
 import { Modal } from "../common";
 import clsx from "clsx";
 import Link from "next/link";
-import Download from "./download";
-import Subscribe from "./subscribe";
+import ColorActions from "./color-actions";
 import ColorContrast from "./color-contrast";
 import ColorHarmony from "./color-harmony";
 
@@ -99,21 +98,7 @@ function PreviewColor({ color, error, modal }: ColorDisplay) {
                 <code>{hex}</code>
               </p>
             </div>
-            <div
-              role="group"
-              aria-label="color actions"
-              className="xs:flex-row flex grow-0 flex-col justify-between gap-4"
-            >
-              <Subscribe
-                aria-label="set current color as primary"
-                currentColor={color}
-              />
-              <Download
-                aria-label="download color as image"
-                href={link}
-                filename={path}
-              />
-            </div>
+            <ColorActions color={color} link={link} path={path} />
           </div>
         </div>
         {error && <NoticeColor color={color} error={error} />}
