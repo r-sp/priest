@@ -1,17 +1,13 @@
 "use client";
 
-import type { ComponentPropsWithoutRef } from "react";
+import type { ComponentPropsWithoutRef, MouseEvent } from "react";
 import type { SessionSlider } from "~/types/session";
 import type { ColorFormat, ColorLabel } from "~/types/color";
-import { useState, useMemo } from "react";
+import { useState, useMemo, useCallback } from "react";
 import { useSession } from "~/hooks";
 import { createRange, createTracks } from "~/utils";
 
-interface Props {
-  dynamic?: boolean;
-}
-
-export default function InputSlider({ dynamic = true }: Props) {
+export default function InputSlider() {
   const session: SessionSlider = useSession((state) => [
     state.color,
     state.setColor,
@@ -21,12 +17,21 @@ export default function InputSlider({ dynamic = true }: Props) {
   const [focusStart, setFocusStart] = useState<boolean>(false);
   const [focusMiddle, setFocusMiddle] = useState<boolean>(false);
   const [focusEnd, setFocusEnd] = useState<boolean>(false);
+  const [dynamicTrack, setDynamicTrack] = useState<boolean>(true);
 
   const [startRange, middleRange, endRange] = createRange(color);
-  const [startTrack, middleTrack, endTrack] = createTracks(color, dynamic);
+  const [startTrack, middleTrack, endTrack] = createTracks(color, dynamicTrack);
 
   const mode = color.mode;
   const values = Object.values(color) as [typeof mode, number, number, number];
+
+  const handleTrack = useCallback(
+    (e: MouseEvent) => {
+      e.preventDefault();
+      setDynamicTrack(!dynamicTrack);
+    },
+    [dynamicTrack, setDynamicTrack],
+  );
 
   return (
     <div
@@ -34,6 +39,8 @@ export default function InputSlider({ dynamic = true }: Props) {
       aria-label={`${mode} slider`}
       id={`${mode}-slider`}
       className="grid gap-y-3"
+      tabIndex={-1}
+      onContextMenu={handleTrack}
     >
       <Slider
         mode={mode}
