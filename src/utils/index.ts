@@ -36,7 +36,7 @@ export {
 
 export { getGamut, setGamut, checkGamut, gamutRange } from "./gamut";
 
-export { createService } from "./process";
+export { createService, generateColor } from "./process";
 
 export {
   getColorQuery,

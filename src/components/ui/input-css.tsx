@@ -6,7 +6,13 @@ import type { AnyColorMode, ColorState } from "~/types/color";
 import { useState, useMemo, useCallback, useRef } from "react";
 import { useSession } from "~/hooks";
 import { createPortal } from "react-dom";
-import { createColor, createCss, convertCss, setGamut } from "~/utils";
+import {
+  createColor,
+  createCss,
+  convertCss,
+  setGamut,
+  generateColor,
+} from "~/utils";
 import { Icon } from "../common";
 import clsx from "clsx";
 import Form from "next/form";
@@ -29,7 +35,7 @@ export default function InputCss() {
   const [input, setInput] = useState<string>(currentCss);
   const [focus, setFocus] = useState<boolean>(false);
   const [modal, setModal] = useState<boolean>(false);
-  const ref = useRef<HTMLFormElement>(null);
+  const ref = useRef<HTMLDivElement>(null);
 
   const handleInput = useCallback(
     (e: ChangeEvent<HTMLInputElement>) => {
@@ -112,9 +118,12 @@ export default function InputCss() {
     [ref, modal, setModal],
   );
 
+  const handleColor = useCallback(() => {
+    setColor(generateColor(color.mode));
+  }, [color, setColor]);
+
   return (
     <Form
-      ref={ref}
       aria-label="color input"
       action="/color"
       id="color-input"
@@ -154,16 +163,23 @@ export default function InputCss() {
           onBlur={() => setFocus(false)}
         />
         <div
-          aria-hidden="true"
+          role="none"
           className={clsx(
-            "max-xs:hidden pointer-events-none absolute top-0 right-0 bottom-0 z-1 flex h-10 w-12 items-center justify-end rounded-md pr-2",
+            "max-xs:hidden pointer-events-none absolute top-0 right-0 bottom-0 z-1 flex h-10 w-12 items-center justify-end overflow-hidden rounded-md",
             "bg-gradient-to-r from-gray-950/0 to-gray-100 to-40% text-gray-600 dark:to-gray-900 dark:text-gray-400",
           )}
         >
-          <Icon size="24" type="palette" className="size-6" />
+          <button
+            aria-label="generate random color"
+            className="pointer-events-auto inline-flex size-10 cursor-pointer items-center justify-center rounded-md"
+            tabIndex={-1}
+            onClick={handleColor}
+          >
+            <Icon size="24" type="palette" className="size-6" />
+          </button>
         </div>
       </div>
-      <div role="none" id="input-portal">
+      <div ref={ref} role="none" id="input-portal">
         {modal
           ? createPortal(
               <>
