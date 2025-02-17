@@ -7,7 +7,7 @@ import {
   round,
 } from "~/utils";
 import clsx from "clsx";
-import Editable from "./editable";
+import { Preview } from "../common";
 
 interface Props {
   color: AnyColorMode;
@@ -176,7 +176,7 @@ function Contrast({ color, foreground, background }: ContrastChecker) {
       className="grid gap-y-3"
       style={{ ["--contrastColor" as string]: currentCss }}
     >
-      <Editable normal={normalText} large={largeText} />
+      <Preview normal={normalText} large={largeText} />
       <div className="max-xs:flex-col flex flex-row">
         <h3 className="inline-flex min-w-16 grow-0 flex-col text-gray-800 dark:text-gray-200">
           Contrast{" "}
