@@ -6,7 +6,4 @@ export { default as ColorPalettes } from "./color-palettes";
 export { default as ColorHue } from "./color-hue";
 export { default as ColorContrast } from "./color-contrast";
 export { default as ColorHarmony } from "./color-harmony";
-
-export { default as Download } from "./download";
-export { default as Editable } from "./editable";
-export { default as Subscribe } from "./subscribe";
+export { default as ColorActions } from "./color-actions";

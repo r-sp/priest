@@ -1,7 +1,8 @@
 "use client";
 
+import type { ComponentPropsWithoutRef } from "react";
 import { useState, useEffect, useMemo } from "react";
-import { Textarea, Icon } from "../common";
+import Icon from "./icons";
 import clsx from "clsx";
 
 interface Props {
@@ -9,7 +10,7 @@ interface Props {
   large: string;
 }
 
-export default function Editable({ normal, large }: Props) {
+export default function Preview({ normal, large }: Props) {
   const [invert, setInvert] = useState<boolean>(false);
   const [reflect, setReflect] = useState<boolean>(false);
 
@@ -63,16 +64,34 @@ export default function Editable({ normal, large }: Props) {
         {description}
       </div>
       <button
-        aria-label={
-          invert
-            ? "set current color as foreground"
-            : "set current color as background"
-        }
+        aria-label={`set current color as ${invert ? "foreground" : "background"}`}
         className="max-xs:left-1 max-xs:top-1 absolute top-2 right-[0.35rem] z-1 inline-flex size-8 items-center justify-center rounded-2xl"
         onClick={() => setInvert(!invert)}
       >
         <Icon size="24" type="compare" className="pointer-events-none size-6" />
       </button>
     </div>
+  );
+}
+
+interface TextInput
+  extends Omit<ComponentPropsWithoutRef<"span">, "className"> {
+  value: string;
+  className: string;
+}
+
+function Textarea({ value, className, ...props }: TextInput) {
+  const [content, setContent] = useState<string>(value);
+
+  return (
+    <span
+      role="textbox"
+      className={clsx(className, "resize-none overflow-hidden")}
+      contentEditable
+      tabIndex={0}
+      dangerouslySetInnerHTML={{ __html: content }}
+      onBlur={(e) => setContent(e.currentTarget.innerText)}
+      {...props}
+    />
   );
 }
