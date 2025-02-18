@@ -3,7 +3,7 @@
 import type { ReactNode, KeyboardEvent } from "react";
 import type { AnyColorMode } from "~/types/color";
 import { useRouter } from "next/navigation";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { getColorById, switchColorPath, formatCss } from "~/utils";
 import clsx from "clsx";
 import Icon from "./icons";
@@ -33,7 +33,7 @@ export default function Modal({ children, color }: Props) {
     .replaceAll(" ", "-");
   const currentElement = `a[data-color="${currentId}"]`;
 
-  const handleClose = () => {
+  const handleClose = useCallback(() => {
     router.back();
 
     const recentColor = document.querySelector(currentElement) as
@@ -48,17 +48,20 @@ export default function Modal({ children, color }: Props) {
         inline: "nearest",
       });
     }
-  };
+  }, [router, currentElement]);
 
-  const handleKeyboard = (e: KeyboardEvent) => {
-    switch (e.key) {
-      case "Escape": {
-        handleClose();
-        e.preventDefault();
-        break;
+  const handleKeyboard = useCallback(
+    (e: KeyboardEvent) => {
+      switch (e.key) {
+        case "Escape": {
+          handleClose();
+          e.preventDefault();
+          break;
+        }
       }
-    }
-  };
+    },
+    [handleClose],
+  );
 
   useEffect(() => {
     const pageTitle = document.title;
