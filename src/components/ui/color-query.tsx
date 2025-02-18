@@ -16,6 +16,7 @@ import Link from "next/link";
 import ColorActions from "./color-actions";
 import ColorContrast from "./color-contrast";
 import ColorHarmony from "./color-harmony";
+import ColorScales from "./color-scales";
 
 interface Props extends SessionQuery {
   portal: boolean;
@@ -102,6 +103,7 @@ function PreviewColor({ color, error, modal }: ColorDisplay) {
           </div>
         </div>
         {error && <NoticeColor color={color} error={error} />}
+        <ColorScales color={hex} mode={color.mode} modal={modal} />
         <ColorContrast color={color} />
         <ColorHarmony color={color} modal={modal} />
       </article>
