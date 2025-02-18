@@ -3,7 +3,7 @@
 import type { ComponentPropsWithoutRef } from "react";
 import type { SessionSubscribe } from "~/types/session";
 import type { AnyColorMode } from "~/types/color";
-import { useMemo } from "react";
+import { useMemo, useCallback } from "react";
 import { useSession } from "~/hooks";
 import { formatCss } from "~/utils";
 import { Icon } from "../common";
@@ -51,9 +51,9 @@ function SubscribeColor({ currentColor, ...props }: SubscribeAction) {
   const currentCss = formatCss(currentColor);
   const isEqualColor = storeCss === currentCss;
 
-  const handleSubscribe = () => {
+  const handleSubscribe = useCallback(() => {
     setColor(currentColor);
-  };
+  }, [setColor, currentColor]);
 
   return (
     <button
@@ -82,7 +82,7 @@ interface DownloadAction
 function DownloadColor({ href, filename, ...props }: DownloadAction) {
   const hiddenLink = "link-download";
 
-  const handleDownload = async () => {
+  const handleDownload = useCallback(async () => {
     try {
       const response = await fetch(href);
       if (!response.ok) {
@@ -115,7 +115,7 @@ function DownloadColor({ href, filename, ...props }: DownloadAction) {
         document.body.removeChild(next);
       }
     }
-  };
+  }, [href, filename]);
 
   return (
     <button
