@@ -12,11 +12,9 @@ import {
 import { Suspense } from "react";
 import { Modal } from "../common";
 import clsx from "clsx";
-import Link from "next/link";
 import ColorActions from "./color-actions";
 import ColorContrast from "./color-contrast";
 import ColorHarmony from "./color-harmony";
-import ColorScales from "./color-scales";
 
 interface Props extends SessionQuery {
   portal: boolean;
@@ -67,9 +65,8 @@ interface ColorDisplay {
 
 function PreviewColor({ color, error, modal }: ColorDisplay) {
   const currentCss = formatCss(color);
-  const hex = createHex(color);
-  const path = hex.replace("#", "");
-  const link = `/color/${path}`;
+  const currentHex = createHex(color);
+  const hex = currentHex.replace("#", "");
   return (
     <div
       className={modal ? undefined : "px-4"}
@@ -80,30 +77,22 @@ function PreviewColor({ color, error, modal }: ColorDisplay) {
         className="pointer-events-auto mx-auto grid w-full max-w-5xl gap-y-12"
       >
         <div className="grid gap-y-4">
-          <Link
-            aria-label="view color as image"
-            href={link}
-            prefetch={false}
-            rel="alternate"
-            className="flex"
-            style={{ ["--bg" as string]: currentCss }}
-          >
+          <div className="flex" style={{ ["--bg" as string]: currentCss }}>
             <div className="bg-ref aspect-cinema inline-flex w-full rounded-md"></div>
-          </Link>
+          </div>
           <div className="flex flex-col gap-6 sm:flex-row">
             <div className="flex grow-1 flex-col">
               <h1 className="text-lg text-gray-800 dark:text-gray-200">
                 <code>{currentCss}</code>
               </h1>
               <p className="text-gray-600 dark:text-gray-400">
-                <code>{hex}</code>
+                <code>{currentHex}</code>
               </p>
             </div>
-            <ColorActions color={color} link={link} path={path} />
+            <ColorActions color={color} hex={hex} />
           </div>
         </div>
         {error && <NoticeColor color={color} error={error} />}
-        <ColorScales color={hex} mode={color.mode} modal={modal} />
         <ColorContrast color={color} />
         <ColorHarmony color={color} modal={modal} />
       </article>

@@ -8,9 +8,9 @@ export const contentType = "image/png";
 
 export async function GET(
   request: NextRequest,
-  { params }: { params: Promise<{ hex: string }> },
+  { params }: { params: Promise<{ slug: string }> },
 ) {
-  const color = (await params).hex;
+  const color = (await params).slug;
 
   if (!/^(?:[0-9A-Fa-f]{3}){1,2}$/.test(color)) {
     permanentRedirect("/color?error=unknown-color-hex");
