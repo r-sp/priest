@@ -168,7 +168,7 @@ const createMetadata = (query: ColorQuery & { error?: string }): Metadata => {
       url: path,
       images: [
         {
-          url: `/color/${hex.replace("#", "")}`,
+          url: `/color-hex/${hex.replace("#", "")}`,
           alt: `Color: ${color}`,
           width: 1680,
           height: 720,

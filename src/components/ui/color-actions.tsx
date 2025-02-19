@@ -2,89 +2,41 @@
 
 import type { ComponentPropsWithoutRef } from "react";
 import type { SessionSubscribe } from "~/types/session";
-import type { AnyColorMode } from "~/types/color";
-import { useMemo, useCallback } from "react";
+import type { AnyColorMode, RgbColorMode } from "~/types/color";
+import { useState, useMemo, useCallback } from "react";
 import { useSession } from "~/hooks";
-import { formatCss } from "~/utils";
+import { createPortal } from "react-dom";
+import { formatCss, setGamut } from "~/utils";
+import { samples, interpolate } from "culori/fn";
 import { Icon } from "../common";
 import clsx from "clsx";
+import Link from "next/link";
 
 interface Props {
   color: AnyColorMode;
-  link: string;
-  path: string;
+  hex: string;
 }
 
-export default function ColorActions({ color, link, path }: Props) {
-  return (
-    <div
-      role="group"
-      aria-label="color actions"
-      className="xs:flex-row flex grow-0 flex-col justify-between gap-4"
-    >
-      <SubscribeColor
-        aria-label="set current color as primary"
-        currentColor={color}
-      />
-      <DownloadColor
-        aria-label="download color as image"
-        href={link}
-        filename={path}
-      />
-    </div>
-  );
-}
-
-interface SubscribeAction
-  extends Omit<ComponentPropsWithoutRef<"button">, "currentColor"> {
-  currentColor: AnyColorMode;
-}
-
-function SubscribeColor({ currentColor, ...props }: SubscribeAction) {
+export default function ColorActions({ color, hex }: Props) {
   const session: SessionSubscribe = useSession((state) => [
     state.color,
     state.setColor,
   ]);
-  const [color, setColor] = useMemo(() => session, [session]);
+  const [store, setStore] = useMemo(() => session, [session]);
 
-  const storeCss = formatCss(color);
-  const currentCss = formatCss(currentColor);
+  const currentCss = formatCss(color);
+  const storeCss = formatCss(store);
   const isEqualColor = storeCss === currentCss;
 
   const handleSubscribe = useCallback(() => {
-    setColor(currentColor);
-  }, [setColor, currentColor]);
+    setStore(color);
+  }, [color, setStore]);
 
-  return (
-    <button
-      suppressHydrationWarning
-      className={clsx(
-        "action inline-flex h-9 grow-1 cursor-pointer items-center justify-center gap-x-2 rounded-md px-3 text-sm ring",
-        isEqualColor ? "pointer-events-none opacity-60" : "cursor-pointer",
-      )}
-      disabled={isEqualColor}
-      tabIndex={isEqualColor ? -1 : 0}
-      onClick={handleSubscribe}
-      {...props}
-    >
-      <Icon size="20" type="palette" className="pointer-events-none size-5" />
-      <span>{isEqualColor ? "Subscribed" : "Subscribe"}</span>
-    </button>
-  );
-}
+  const handleDownload = useCallback(async (src: string, filename: string) => {
+    const hiddenElement = "link-download";
 
-interface DownloadAction
-  extends Omit<ComponentPropsWithoutRef<"button">, "href" | "filename"> {
-  href: string;
-  filename: string;
-}
-
-function DownloadColor({ href, filename, ...props }: DownloadAction) {
-  const hiddenLink = "link-download";
-
-  const handleDownload = useCallback(async () => {
     try {
-      const response = await fetch(href);
+      const response = await fetch(src);
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);
       }
@@ -95,9 +47,9 @@ function DownloadColor({ href, filename, ...props }: DownloadAction) {
       const link = document.createElement("a");
       link.href = url;
       link.download = filename;
-      link.id = hiddenLink;
+      link.id = hiddenElement;
 
-      const prev = document.getElementById(hiddenLink);
+      const prev = document.getElementById(hiddenElement);
       if (prev) {
         body.removeChild(prev);
         body.appendChild(link);
@@ -110,21 +62,151 @@ function DownloadColor({ href, filename, ...props }: DownloadAction) {
     } catch (e) {
       console.error(e);
     } finally {
-      const next = document.getElementById(hiddenLink);
+      const next = document.getElementById(hiddenElement);
       if (next) {
         document.body.removeChild(next);
       }
     }
-  }, [href, filename]);
+  }, []);
+
+  const scales = useMemo(() => {
+    return samples(13)
+      .map(interpolate(["#ffffff", `#${hex}`, "#000000"]))
+      .filter((_, index, arr) => index > 0 && index < arr.length - 1)
+      .map((src: RgbColorMode) => {
+        const { r, g, b } = setGamut(src) as RgbColorMode;
+        return ((1 << 24) | (r << 16) | (g << 8) | b).toString(16).slice(1);
+      })
+      .join("-");
+  }, [hex]);
+
+  const [modal, setModal] = useState<boolean>(false);
+
+  const handleModal = useCallback(() => {
+    setModal(!modal);
+  }, [modal, setModal]);
+
+  const linkHex = `/color-hex/${hex}`;
+  const fileHex = `color-hex-${hex}`;
+
+  const linkScales = `/color-scales/${scales}`;
+  const fileScales = `color-scales-${hex}`;
 
   return (
-    <button
-      className="action inline-flex h-9 grow-1 cursor-pointer items-center justify-center gap-x-2 rounded-md px-3 text-sm ring"
-      onClick={handleDownload}
-      {...props}
+    <div
+      role="group"
+      aria-label="color actions"
+      className="max-xs:flex-wrap flex min-h-9 grow-0 items-center justify-between gap-4"
     >
-      <Icon size="20" type="download" className="pointer-events-none size-5" />
-      <span>Download</span>
-    </button>
+      <button
+        aria-label="set current color as primary"
+        className={clsx(
+          "action inline-flex h-9 grow-1 items-center justify-center gap-x-2 rounded-md px-3 text-sm ring",
+          isEqualColor ? "pointer-events-none opacity-60" : "cursor-pointer",
+        )}
+        disabled={isEqualColor}
+        tabIndex={isEqualColor ? -1 : 0}
+        onClick={handleSubscribe}
+        suppressHydrationWarning
+      >
+        <Icon size="20" type="palette" className="pointer-events-none size-5" />
+        <span>{isEqualColor ? "Subscribed" : "Subscribe"}</span>
+      </button>
+      <button
+        className="action inline-flex size-8 grow-0 cursor-pointer items-center justify-center rounded-2xl ring"
+        onClick={handleModal}
+      >
+        <Icon size="24" type="more" className="pointer-events-none size-6" />
+        <span className="sr-only">More</span>
+      </button>
+      {modal
+        ? createPortal(
+            <div role="none" className="pointer-events-auto">
+              <div
+                role="dialog"
+                aria-label="more color options"
+                className="pointer-events-none fixed top-0 right-0 bottom-0 left-0 z-64 flex items-end sm:items-center"
+              >
+                <div className="pointer-events-auto mx-auto grid max-h-screen w-full max-w-xl gap-y-3 overflow-y-auto rounded-t-lg bg-gray-100 px-4 pt-4 pb-12 ring ring-gray-200 sm:rounded-lg sm:pb-6 dark:bg-gray-900 dark:ring-gray-800">
+                  <h2 className="text-gray-600 dark:text-gray-400">
+                    More Options
+                  </h2>
+                  <ul role="listbox" className="grid gap-y-6">
+                    <Button
+                      label="Color Hex"
+                      link={linkHex}
+                      onClick={() => handleDownload(linkHex, fileHex)}
+                    />
+                    <Button
+                      label="Color Scales"
+                      link={linkScales}
+                      onClick={() => handleDownload(linkScales, fileScales)}
+                    />
+                  </ul>
+                </div>
+              </div>
+              <span
+                role="button"
+                aria-label="close color options"
+                className="fixed top-0 right-0 bottom-0 left-0 z-54 bg-gray-50/80 backdrop-blur-lg dark:bg-gray-950/80"
+                tabIndex={0}
+                onFocus={() => setModal(false)}
+              />
+            </div>,
+            document.body,
+          )
+        : null}
+    </div>
+  );
+}
+
+interface DownloadActions
+  extends Omit<ComponentPropsWithoutRef<"button">, "label" | "label"> {
+  label: string;
+  link: string;
+}
+
+function Button({ label, link, ...props }: DownloadActions) {
+  const item = label.toLowerCase();
+  return (
+    <li
+      role="option"
+      aria-selected={false}
+      aria-label={item}
+      className="inline-grid gap-y-2 border-t border-t-gray-200 pt-3 dark:border-t-gray-800"
+    >
+      <h3 className="text-lg font-medium text-gray-800 dark:text-gray-200">
+        {label}
+      </h3>
+      <div className="flex h-8 gap-x-4">
+        <button
+          aria-label={`download ${item}`}
+          className="action inline-flex h-9 grow-1 cursor-pointer items-center justify-center gap-x-2 rounded-md px-3 text-sm ring"
+          {...props}
+        >
+          <span>Download</span>
+          <Icon
+            size="20"
+            className="pointer-events-none size-5"
+            type="download"
+          />
+        </button>
+        <Link
+          aria-label={`view ${item}`}
+          href={link}
+          className="action inline-flex h-9 grow-1 cursor-pointer items-center justify-center gap-x-2 rounded-md px-3 text-sm ring"
+          prefetch={false}
+          target="_blank"
+          rel="noopener"
+        >
+          <span>View</span>
+          <Icon
+            size="20"
+            className="pointer-events-none size-5"
+            type="newtab"
+          />
+        </Link>
+      </div>
+    </li>
   );
 }
