@@ -1,6 +1,8 @@
 import type { NextRequest } from "next/server";
+import type { CSSProperties } from "react";
 import { permanentRedirect } from "next/navigation";
 import { ImageResponse } from "next/og";
+import { decodeScale } from "~/utils";
 
 export const runtime = "edge";
 
@@ -16,27 +18,49 @@ export async function GET(
     permanentRedirect("/color?error=unknown-color-scales");
   }
 
-  const shades = color.split("-").map((c) => "#" + c);
+  const shades = decodeScale(color);
+
+  const img: CSSProperties = {
+    backgroundColor: "#1e1e1e",
+    height: "100%",
+    width: "100%",
+    display: "flex",
+    flexDirection: "row",
+    gap: "16px",
+    padding: "16px",
+  };
+
+  const card: CSSProperties = {
+    display: "flex",
+    flexDirection: "column",
+    gap: "16px",
+  };
+
+  const detail: CSSProperties = {
+    display: "flex",
+    flexDirection: "column",
+    gap: "8px",
+  };
+
+  const title: CSSProperties = {
+    display: "flex",
+    fontSize: "16px",
+    lineHeight: "1",
+    color: "#f2f2f2",
+  };
+
+  const text: CSSProperties = {
+    display: "flex",
+    fontSize: "14px",
+    lineHeight: "1",
+    color: "#969696",
+  };
 
   return new ImageResponse(
     (
-      <div
-        style={{
-          backgroundColor: "#000000",
-          height: "100%",
-          width: "100%",
-          display: "flex",
-          flexDirection: "row",
-          alignItems: "center",
-          justifyContent: "center",
-          gap: "16px",
-        }}
-      >
+      <div style={img}>
         {shades.map((shade, index) => (
-          <div
-            key={index}
-            style={{ display: "flex", flexDirection: "column", gap: "16px" }}
-          >
+          <div key={index} style={card}>
             <div
               style={{
                 backgroundColor: shade,
@@ -46,27 +70,9 @@ export async function GET(
                 height: "96px",
               }}
             ></div>
-            <div
-              style={{ display: "flex", flexDirection: "column", gap: "4px" }}
-            >
-              <div
-                style={{
-                  display: "flex",
-                  fontSize: "16px",
-                  lineHeight: "1",
-                  color: "#f2f2f2",
-                }}
-              >
-                {shade}
-              </div>
-              <div
-                style={{
-                  display: "flex",
-                  fontSize: "14px",
-                  lineHeight: "1",
-                  color: "#969696",
-                }}
-              >
+            <div style={detail}>
+              <div style={title}>{shade}</div>
+              <div style={text}>
                 {index === 0 ? 50 : index === 10 ? 950 : index * 100}
               </div>
             </div>
@@ -76,7 +82,7 @@ export async function GET(
     ),
     {
       width: 1248,
-      height: 184,
+      height: 182,
     },
   );
 }

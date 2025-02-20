@@ -2,11 +2,14 @@ import type {
   ColorMode,
   ColorState,
   ColorFormat,
+  ColorValues,
   ExtractColorMode,
 } from "~/types/color";
 import type { SessionState } from "~/types/session";
 import { convertRgb } from "./convert";
 import { round } from "./units";
+import { setGamut } from "./gamut";
+import { samples, interpolate } from "culori/fn";
 
 const createService = (): SessionState => {
   const now = new Date();
@@ -92,4 +95,92 @@ const generateColor = (type: ColorFormat) => {
   return compose();
 };
 
-export { createService, generateColor };
+const colorFormat: {
+  [Key in ColorFormat]: (
+    k: number,
+    e: number,
+    y: number,
+  ) => ExtractColorMode<Key>;
+} = {
+  rgb: (r, g, b) => ({ mode: "rgb", r, g, b }),
+  hsl: (h, s, l) => ({ mode: "hsl", h, s, l }),
+  hwb: (h, w, b) => ({ mode: "hwb", h, w, b }),
+  lab: (l, a, b) => ({ mode: "lab", l, a, b }),
+  lch: (l, c, h) => ({ mode: "lch", l, c, h }),
+  oklab: (l, a, b) => ({ mode: "oklab", l, a, b }),
+  oklch: (l, c, h) => ({ mode: "oklch", l, c, h }),
+};
+
+const colorMode = <T extends ColorFormat>(
+  mode: T,
+): ((k: number, e: number, y: number) => ExtractColorMode<T>) => {
+  return colorFormat[mode];
+};
+
+const parseColor = (color: string): ExtractColorMode<ColorFormat> => {
+  const [mode, k, e, y] = color.split(" ");
+  const compose = colorMode(mode as ColorFormat);
+  return compose(Number(k), Number(e), Number(y));
+};
+
+const encodeColor = (values: ColorValues): string => {
+  return values
+    .join("|")
+    .replaceAll(".", "u")
+    .replaceAll("-", "n")
+    .replaceAll("|", "-");
+};
+
+const decodeColor = (value: string): string => {
+  return value.replaceAll("-", " ").replaceAll("u", ".").replaceAll("n", "-");
+};
+
+const encodeId = (values: ColorValues): string => {
+  return values
+    .join("|")
+    .replaceAll(".", ":")
+    .replaceAll("-", "/")
+    .replaceAll("|", "-");
+};
+
+const decodeId = (value: string): string => {
+  return value.replaceAll("-", " ").replaceAll(":", ".").replaceAll("/", "-");
+};
+
+const encodeScale = (hex: string): string => {
+  return samples(13)
+    .map(interpolate(["#ffffff", hex, "#000000"]))
+    .filter((_, index, arr) => index > 0 && index < arr.length - 1)
+    .map((src: ColorMode<"rgb">) => {
+      const { r, g, b } = setGamut(src) as ColorMode<"rgb">;
+      return ((1 << 24) | (r << 16) | (g << 8) | b).toString(16).slice(1);
+    })
+    .join("-");
+};
+
+const decodeScale = (value: string): string[] => {
+  return value.split("-").map((c) => "#" + c);
+};
+
+const encodeCss = (value: string): string => {
+  return value
+    .replace("(", " ")
+    .replace(")", "")
+    .replaceAll("%", "")
+    .replaceAll("-", "/")
+    .replaceAll(".", ":")
+    .replaceAll(" ", "-");
+};
+
+export {
+  createService,
+  generateColor,
+  parseColor,
+  encodeColor,
+  decodeColor,
+  encodeId,
+  decodeId,
+  encodeScale,
+  decodeScale,
+  encodeCss,
+};

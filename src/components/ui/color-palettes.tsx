@@ -1,7 +1,7 @@
 "use client";
 
 import type { SessionPalettes } from "~/types/session";
-import type { ColorState } from "~/types/color";
+import type { ColorState, ColorValues } from "~/types/color";
 import { useMemo, useCallback } from "react";
 import { useSession } from "~/hooks";
 import {
@@ -13,7 +13,7 @@ import {
   convertHue,
   checkGamut,
   switchColorPath,
-  createColorId,
+  encodeId,
 } from "~/utils";
 import Link from "next/link";
 
@@ -71,7 +71,7 @@ function Palette({ color, type, id }: ColorCard) {
   const offset = checkGamut(hue);
   const path = switchColorPath("/color", hue);
   const link = offset ? `${path}&error=${offset}` : path;
-  const index = createColorId(hue);
+  const index = encodeId(Object.values(hue) as ColorValues);
 
   return (
     <li className="inline-grid" style={{ ["--bg" as string]: css }}>
