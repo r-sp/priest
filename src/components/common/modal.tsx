@@ -4,7 +4,13 @@ import type { ReactNode, KeyboardEvent } from "react";
 import type { AnyColorMode } from "~/types/color";
 import { useRouter } from "next/navigation";
 import { useState, useEffect, useCallback } from "react";
-import { getColorById, switchColorPath, formatCss } from "~/utils";
+import {
+  encodeCss,
+  decodeId,
+  parseColor,
+  formatCss,
+  switchColorPath,
+} from "~/utils";
 import clsx from "clsx";
 import Icon from "./icons";
 import Link from "next/link";
@@ -24,13 +30,7 @@ export default function Modal({ children, color }: Props) {
   const title = `Color: ${color}`;
 
   const currentCss = color === "Error" ? "unknown-color-error" : color;
-  const currentId = currentCss
-    .replace("(", " ")
-    .replace(")", "")
-    .replaceAll("%", "")
-    .replaceAll("-", "/")
-    .replaceAll(".", ":")
-    .replaceAll(" ", "-");
+  const currentId = encodeCss(currentCss);
   const currentElement = `a[data-color="${currentId}"]`;
 
   const handleClose = useCallback(() => {
@@ -100,10 +100,10 @@ export default function Modal({ children, color }: Props) {
       const resolveColor: AnyColorMode = { mode: "rgb", r: 0, g: 0, b: 0 };
 
       const colorPrev: AnyColorMode = findPrevId
-        ? getColorById(findPrevId)
+        ? parseColor(decodeId(findPrevId))
         : resolveColor;
       const colorNext: AnyColorMode = findNextId
-        ? getColorById(findNextId)
+        ? parseColor(decodeId(findNextId))
         : resolveColor;
 
       setColorState({ prev: colorPrev, next: colorNext });

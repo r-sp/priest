@@ -124,6 +124,8 @@ export interface ColorHue {
 
 export type ColorFormat = keyof ColorSpace;
 
+export type ColorValues = [ColorFormat, number, number, number];
+
 export type ColorScheme = "dark" | "light";
 
 export type ColorLabel =

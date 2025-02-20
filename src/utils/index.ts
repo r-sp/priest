@@ -36,15 +36,24 @@ export {
 
 export { getGamut, setGamut, checkGamut, gamutRange } from "./gamut";
 
-export { createService, generateColor } from "./process";
+export {
+  createService,
+  generateColor,
+  parseColor,
+  encodeColor,
+  decodeColor,
+  encodeId,
+  decodeId,
+  encodeScale,
+  decodeScale,
+  encodeCss,
+} from "./process";
 
 export {
   getColorQuery,
   getColorPath,
   switchColorPath,
   createMetadata,
-  createColorId,
-  getColorById,
 } from "./query";
 
 export { createTracks, createRange } from "./tracks";
