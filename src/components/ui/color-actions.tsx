@@ -2,12 +2,11 @@
 
 import type { ComponentPropsWithoutRef } from "react";
 import type { SessionSubscribe } from "~/types/session";
-import type { AnyColorMode, RgbColorMode } from "~/types/color";
+import type { AnyColorMode, ColorValues } from "~/types/color";
 import { useState, useMemo, useCallback } from "react";
 import { useSession } from "~/hooks";
 import { createPortal } from "react-dom";
-import { formatCss, setGamut } from "~/utils";
-import { samples, interpolate } from "culori/fn";
+import { formatCss, encodeScale, encodeColor } from "~/utils";
 import { Icon } from "../common";
 import clsx from "clsx";
 import Link from "next/link";
@@ -69,28 +68,23 @@ export default function ColorActions({ color, hex }: Props) {
     }
   }, []);
 
-  const scales = useMemo(() => {
-    return samples(13)
-      .map(interpolate(["#ffffff", `#${hex}`, "#000000"]))
-      .filter((_, index, arr) => index > 0 && index < arr.length - 1)
-      .map((src: RgbColorMode) => {
-        const { r, g, b } = setGamut(src) as RgbColorMode;
-        return ((1 << 24) | (r << 16) | (g << 8) | b).toString(16).slice(1);
-      })
-      .join("-");
-  }, [hex]);
-
   const [modal, setModal] = useState<boolean>(false);
 
   const handleModal = useCallback(() => {
     setModal(!modal);
   }, [modal, setModal]);
 
+  const scales = encodeScale(`#${hex}`);
+  const harmony = encodeColor(Object.values(color) as ColorValues);
+
   const linkHex = `/color-hex/${hex}`;
   const fileHex = `color-hex-${hex}`;
 
   const linkScales = `/color-scales/${scales}`;
   const fileScales = `color-scales-${hex}`;
+
+  const linkHarmony = `/color-harmony/${harmony}`;
+  const fileHarmony = `color-harmony-${hex}`;
 
   return (
     <div
@@ -141,6 +135,11 @@ export default function ColorActions({ color, hex }: Props) {
                       label="Color Scales"
                       link={linkScales}
                       onClick={() => handleDownload(linkScales, fileScales)}
+                    />
+                    <Button
+                      label="Color Harmony"
+                      link={linkHarmony}
+                      onClick={() => handleDownload(linkHarmony, fileHarmony)}
                     />
                   </ul>
                 </div>

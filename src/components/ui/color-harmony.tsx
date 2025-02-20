@@ -63,7 +63,7 @@ export default function ColorHarmony({ color, modal }: Props) {
     },
     {
       harmony: hueShift([current, hue150, hue210]),
-      label: "Split Complementary",
+      label: "Adjacent",
       ratio: "[0, 150, 210]",
     },
     {
