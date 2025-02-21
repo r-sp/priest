@@ -124,29 +124,32 @@ export default function Modal({ children, color }: Props) {
         role="dialog"
         aria-label={title}
         className={clsx(
-          "fixed top-0 right-0 bottom-0 left-0 z-50 bg-gray-50/80 px-4 backdrop-blur-lg dark:bg-gray-950/80",
-          scroll
-            ? "pointer-events-auto overflow-y-auto"
-            : "overflow-y-hidden opacity-0",
+          "fixed top-0 right-0 bottom-0 left-0 z-50 px-4",
+          scroll ? "overflow-y-auto" : "overflow-y-hidden opacity-0",
         )}
       >
-        <nav className="mx-auto flex h-16 max-w-5xl items-center justify-start">
-          <button
-            autoFocus={true}
-            aria-label="return back"
-            className="ml-[-0.4rem] inline-flex size-8 items-center justify-center rounded-full text-gray-800 outline-0 dark:text-gray-200"
-            onClick={handleClose}
+        <div className="animate-preslide ease-fluid relative transition-transform">
+          <nav className="pointer-events-auto mx-auto flex h-16 max-w-5xl items-center justify-start">
+            <button
+              autoFocus={true}
+              aria-label="return back"
+              className="ml-[-0.4rem] inline-flex size-8 items-center justify-center rounded-full text-gray-800 outline-0 dark:text-gray-200"
+              onClick={handleClose}
+            >
+              <Icon
+                size="24"
+                type="arrow-back"
+                className="animate-rotate ease-fluid pointer-events-none size-6 transition-transform"
+              />
+            </button>
+          </nav>
+          <div
+            role="none"
+            className="animate-slide ease-snappy pointer-events-none relative transition-transform"
           >
-            <Icon
-              size="24"
-              type="arrow-back"
-              className="pointer-events-none size-6"
-            />
-          </button>
-        </nav>
-        <div role="none" className="pointer-events-none relative">
-          {children}
-          {colorState && <Navigation {...colorState} />}
+            {children}
+            {colorState && <Navigation {...colorState} />}
+          </div>
           <span
             role="button"
             aria-label="close color modal"
@@ -156,6 +159,10 @@ export default function Modal({ children, color }: Props) {
           />
         </div>
       </div>
+      <div
+        aria-hidden="true"
+        className="animate-fade ease-snappy fixed top-0 right-0 bottom-0 left-0 z-24 bg-gray-50/80 backdrop-blur-lg transition-opacity dark:bg-gray-950/80"
+      ></div>
     </div>
   );
 }

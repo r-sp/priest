@@ -32,8 +32,6 @@ export default function ColorActions({ color, hex }: Props) {
   }, [color, setStore]);
 
   const handleDownload = useCallback(async (src: string, filename: string) => {
-    const hiddenElement = "link-download";
-
     try {
       const response = await fetch(src);
       if (!response.ok) {
@@ -46,9 +44,9 @@ export default function ColorActions({ color, hex }: Props) {
       const link = document.createElement("a");
       link.href = url;
       link.download = filename;
-      link.id = hiddenElement;
+      link.id = filename;
 
-      const prev = document.getElementById(hiddenElement);
+      const prev = document.getElementById(filename);
       if (prev) {
         body.removeChild(prev);
         body.appendChild(link);
@@ -61,7 +59,7 @@ export default function ColorActions({ color, hex }: Props) {
     } catch (e) {
       console.error(e);
     } finally {
-      const next = document.getElementById(hiddenElement);
+      const next = document.getElementById(filename);
       if (next) {
         document.body.removeChild(next);
       }
@@ -77,8 +75,8 @@ export default function ColorActions({ color, hex }: Props) {
   const scales = encodeScale(`#${hex}`);
   const harmony = encodeColor(Object.values(color) as ColorValues);
 
-  const linkHex = `/color-hex/${hex}`;
-  const fileHex = `color-hex-${hex}`;
+  const linkSwatch = `/color-swatch/${hex}`;
+  const fileSwatch = `color-swatch-${hex}`;
 
   const linkScales = `/color-scales/${scales}`;
   const fileScales = `color-scales-${hex}`;
@@ -104,7 +102,7 @@ export default function ColorActions({ color, hex }: Props) {
         suppressHydrationWarning
       >
         <Icon size="20" type="palette" className="pointer-events-none size-5" />
-        <span>{isEqualColor ? "Subscribed" : "Subscribe"}</span>
+        <span>{isEqualColor ? "Current Color" : "Set Current Color"}</span>
       </button>
       <button
         className="action inline-flex size-8 grow-0 cursor-pointer items-center justify-center rounded-2xl ring"
@@ -115,29 +113,45 @@ export default function ColorActions({ color, hex }: Props) {
       </button>
       {modal
         ? createPortal(
-            <div role="none" className="pointer-events-auto">
+            <div className="pointer-events-auto">
               <div
                 role="dialog"
                 aria-label="more color options"
-                className="pointer-events-none fixed top-0 right-0 bottom-0 left-0 z-64 flex items-end sm:items-center"
+                className="pointer-events-none fixed top-0 right-0 bottom-0 left-0 z-64 flex items-end px-4 sm:items-center"
               >
-                <div className="pointer-events-auto mx-auto grid max-h-screen w-full max-w-xl gap-y-3 overflow-y-auto rounded-t-lg bg-gray-100 px-4 pt-4 pb-12 ring ring-gray-200 sm:rounded-lg sm:pb-6 dark:bg-gray-900 dark:ring-gray-800">
-                  <h2 className="text-gray-600 dark:text-gray-400">
-                    More Options
-                  </h2>
-                  <ul role="listbox" className="grid gap-y-6">
+                <div className="animate-preslide ease-fluid pointer-events-auto mx-auto grid w-full max-w-xl rounded-t-lg bg-gray-100 ring ring-gray-200 transition-transform sm:rounded-lg dark:bg-gray-900 dark:ring-gray-800">
+                  <div className="xs:justify-between relative z-1 flex min-h-16 flex-wrap items-center gap-x-4 rounded-t-lg px-4 py-2 ring ring-gray-200 dark:ring-gray-800">
+                    <h2 className="inline-flex min-h-8 items-center text-gray-600 dark:text-gray-400">
+                      More Options
+                    </h2>
+                    <button
+                      aria-label="close modal"
+                      className="action inline-flex size-8 items-center justify-center rounded-2xl ring"
+                      onClick={handleModal}
+                    >
+                      <Icon
+                        size="24"
+                        type="close"
+                        className="animate-rotate ease-fluid pointer-events-none size-6 transition-transform"
+                      />
+                    </button>
+                  </div>
+                  <ul className="animate-slide ease-snappy grid max-h-[calc(100vh-7rem)] gap-y-6 overflow-auto px-4 pb-12 transition-transform sm:pb-6">
                     <Button
-                      label="Color Hex"
-                      link={linkHex}
-                      onClick={() => handleDownload(linkHex, fileHex)}
+                      label="Color Swatch"
+                      text="A 21:9 visual snapshot of color."
+                      link={linkSwatch}
+                      onClick={() => handleDownload(linkSwatch, fileSwatch)}
                     />
                     <Button
                       label="Color Scales"
+                      text="A series of tints and shades of a single hue."
                       link={linkScales}
                       onClick={() => handleDownload(linkScales, fileScales)}
                     />
                     <Button
                       label="Color Harmony"
+                      text="A cohesive color scheme from a single hue."
                       link={linkHarmony}
                       onClick={() => handleDownload(linkHarmony, fileHarmony)}
                     />
@@ -147,9 +161,9 @@ export default function ColorActions({ color, hex }: Props) {
               <span
                 role="button"
                 aria-label="close color options"
-                className="fixed top-0 right-0 bottom-0 left-0 z-54 bg-gray-50/80 backdrop-blur-lg dark:bg-gray-950/80"
+                className="animate-fade ease-snappy fixed top-0 right-0 bottom-0 left-0 z-54 bg-gray-50/80 backdrop-blur-lg transition-opacity dark:bg-gray-950/80"
                 tabIndex={0}
-                onFocus={() => setModal(false)}
+                onFocus={handleModal}
               />
             </div>,
             document.body,
@@ -160,24 +174,21 @@ export default function ColorActions({ color, hex }: Props) {
 }
 
 interface DownloadActions
-  extends Omit<ComponentPropsWithoutRef<"button">, "label" | "label"> {
+  extends Omit<ComponentPropsWithoutRef<"button">, "label" | "text" | "label"> {
   label: string;
+  text: string;
   link: string;
 }
 
-function Button({ label, link, ...props }: DownloadActions) {
+function Button({ label, text, link, ...props }: DownloadActions) {
   const item = label.toLowerCase();
   return (
-    <li
-      role="option"
-      aria-selected={false}
-      aria-label={item}
-      className="inline-grid gap-y-2 border-t border-t-gray-200 pt-3 dark:border-t-gray-800"
-    >
+    <li className="inline-grid gap-y-4 border-t border-t-gray-200 pt-4 dark:border-t-gray-800">
       <h3 className="text-lg font-medium text-gray-800 dark:text-gray-200">
         {label}
       </h3>
-      <div className="flex h-8 gap-x-4">
+      <p className="-mt-4 text-sm text-gray-600 dark:text-gray-400">{text}</p>
+      <div className="xs:grid-cols-2 grid gap-4">
         <button
           aria-label={`download ${item}`}
           className="action inline-flex h-9 grow-1 cursor-pointer items-center justify-center gap-x-2 rounded-md px-3 text-sm ring"
