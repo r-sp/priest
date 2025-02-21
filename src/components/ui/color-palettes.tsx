@@ -79,7 +79,7 @@ function Palette({ color, type, id }: ColorCard) {
         href={link}
         id={`color-palette-${id}`}
         data-color={index}
-        className="flex rounded-md"
+        className="flex scroll-m-4 rounded-md"
         prefetch={false}
         scroll={false}
       >
