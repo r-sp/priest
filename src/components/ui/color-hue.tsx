@@ -123,7 +123,7 @@ function AdjustHue({
           <button
             aria-label={`increase ${id} hue`}
             className={clsx(
-              "inline-flex h-5 w-8 cursor-pointer items-end justify-center text-gray-600 dark:text-gray-400",
+              "inline-flex h-5 w-8 items-end justify-center text-gray-600 dark:text-gray-400",
               value === maxHue || value > maxHue
                 ? "pointer-events-none opacity-50"
                 : "pointer-events-auto",
@@ -144,7 +144,7 @@ function AdjustHue({
           <button
             aria-label={`decrease ${id} hue`}
             className={clsx(
-              "inline-flex h-5 w-8 cursor-pointer items-start justify-center text-gray-600 dark:text-gray-400",
+              "inline-flex h-5 w-8 items-start justify-center text-gray-600 dark:text-gray-400",
               value === minHue || value < minHue
                 ? "pointer-events-none opacity-50"
                 : "pointer-events-auto",

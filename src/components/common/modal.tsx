@@ -11,6 +11,7 @@ import {
   formatCss,
   switchColorPath,
 } from "~/utils";
+import { motion } from "motion/react";
 import clsx from "clsx";
 import Icon from "./icons";
 import Link from "next/link";
@@ -52,9 +53,12 @@ export default function Modal({ children, color }: Props) {
 
   const handleKeyboard = useCallback(
     (e: KeyboardEvent) => {
+      const trigger = document.activeElement as HTMLButtonElement;
       switch (e.key) {
         case "Escape": {
-          handleClose();
+          if (trigger.dataset.modal !== "options") {
+            handleClose();
+          }
           e.preventDefault();
           break;
         }
@@ -128,41 +132,49 @@ export default function Modal({ children, color }: Props) {
           scroll ? "overflow-y-auto" : "overflow-y-hidden opacity-0",
         )}
       >
-        <div className="animate-preslide ease-fluid relative transition-transform">
-          <nav className="pointer-events-auto mx-auto flex h-16 max-w-5xl items-center justify-start">
-            <button
-              autoFocus={true}
-              aria-label="return back"
-              className="ml-[-0.4rem] inline-flex size-8 items-center justify-center rounded-full text-gray-800 outline-0 dark:text-gray-200"
-              onClick={handleClose}
-            >
-              <Icon
-                size="24"
-                type="arrow-back"
-                className="animate-rotate ease-fluid pointer-events-none size-6 transition-transform"
-              />
-            </button>
-          </nav>
-          <div
-            role="none"
-            className="animate-slide ease-snappy pointer-events-none relative transition-transform"
+        <nav className="pointer-events-auto mx-auto flex h-16 max-w-5xl items-center justify-start">
+          <motion.button
+            initial={{ rotate: -45, scale: 0.9 }}
+            animate={{ rotate: 0, scale: 1 }}
+            transition={{ duration: 0.24 }}
+            autoFocus={true}
+            aria-label="return back"
+            className="ml-[-0.4rem] inline-flex size-8 items-center justify-center rounded-full text-gray-800 dark:text-gray-200"
+            data-modal="color"
+            onClick={handleClose}
           >
-            {children}
-            {colorState && <Navigation {...colorState} />}
-          </div>
+            <Icon
+              size="24"
+              type="arrow-back"
+              className="pointer-events-none size-6"
+            />
+          </motion.button>
+        </nav>
+        <motion.div
+          initial={{ translateY: "8rem" }}
+          animate={{ translateY: "0rem" }}
+          transition={{ duration: 0.24 }}
+          role="none"
+          className="pointer-events-none relative"
+        >
+          {children}
+          {colorState && <Navigation {...colorState} />}
           <span
             role="button"
-            aria-label="close color modal"
+            aria-label="close modal"
             className="pointer-events-auto absolute top-0 right-0 bottom-0 left-0 -z-1"
             tabIndex={0}
             onFocus={handleClose}
           />
-        </div>
+        </motion.div>
       </div>
-      <div
+      <motion.div
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ duration: 0.16 }}
         aria-hidden="true"
-        className="animate-fade ease-snappy fixed top-0 right-0 bottom-0 left-0 z-24 bg-gray-50/80 backdrop-blur-lg transition-opacity dark:bg-gray-950/80"
-      ></div>
+        className="fixed top-0 right-0 bottom-0 left-0 z-24 bg-gray-50/80 backdrop-blur-lg dark:bg-gray-950/80"
+      />
     </div>
   );
 }

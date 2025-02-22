@@ -171,7 +171,7 @@ export default function InputCss() {
         >
           <button
             aria-label="generate random color"
-            className="pointer-events-auto inline-flex size-10 cursor-pointer items-center justify-center rounded-md"
+            className="pointer-events-auto inline-flex size-10 items-center justify-center rounded-md"
             tabIndex={-1}
             onClick={handleColor}
           >
@@ -190,7 +190,7 @@ export default function InputCss() {
                 />
                 <span
                   role="button"
-                  aria-label="close color input"
+                  aria-label="close modal"
                   className="fixed top-0 right-0 bottom-0 left-0 z-2 bg-gray-50/80 opacity-0 backdrop-blur-lg max-sm:opacity-100 dark:bg-gray-950/80"
                   tabIndex={0}
                   onFocus={() => setModal(false)}
