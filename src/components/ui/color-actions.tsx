@@ -1,13 +1,14 @@
 "use client";
 
-import type { ComponentPropsWithoutRef } from "react";
+import type { ComponentPropsWithoutRef, KeyboardEvent } from "react";
 import type { SessionSubscribe } from "~/types/session";
 import type { AnyColorMode, ColorValues } from "~/types/color";
-import { useState, useMemo, useCallback } from "react";
+import { useState, useMemo, useCallback, useRef } from "react";
 import { useSession } from "~/hooks";
 import { createPortal } from "react-dom";
 import { formatCss, encodeScale, encodeColor } from "~/utils";
 import { Icon } from "../common";
+import { motion } from "motion/react";
 import clsx from "clsx";
 import Link from "next/link";
 
@@ -67,10 +68,28 @@ export default function ColorActions({ color, hex }: Props) {
   }, []);
 
   const [modal, setModal] = useState<boolean>(false);
+  const refBtn = useRef<HTMLButtonElement>(null);
 
-  const handleModal = useCallback(() => {
-    setModal(!modal);
-  }, [modal, setModal]);
+  const handleClose = useCallback(() => {
+    const btn = refBtn.current;
+    if (btn) {
+      btn.focus();
+    }
+    setModal(false);
+  }, [setModal, refBtn]);
+
+  const handleKeyboard = useCallback(
+    (e: KeyboardEvent) => {
+      switch (e.key) {
+        case "Escape": {
+          handleClose();
+          e.preventDefault();
+          break;
+        }
+      }
+    },
+    [handleClose],
+  );
 
   const scales = encodeScale(`#${hex}`);
   const harmony = encodeColor(Object.values(color) as ColorValues);
@@ -89,12 +108,12 @@ export default function ColorActions({ color, hex }: Props) {
       role="group"
       aria-label="color actions"
       className="max-xs:flex-wrap flex min-h-9 grow-0 items-center justify-between gap-4"
+      onKeyDown={handleKeyboard}
     >
       <button
-        aria-label="set current color as primary"
         className={clsx(
           "action inline-flex h-9 grow-1 items-center justify-center gap-x-2 rounded-md px-3 text-sm ring",
-          isEqualColor ? "pointer-events-none opacity-60" : "cursor-pointer",
+          isEqualColor && "pointer-events-none opacity-60",
         )}
         disabled={isEqualColor}
         tabIndex={isEqualColor ? -1 : 0}
@@ -105,8 +124,11 @@ export default function ColorActions({ color, hex }: Props) {
         <span>{isEqualColor ? "Current Color" : "Set Current Color"}</span>
       </button>
       <button
-        className="action inline-flex size-8 grow-0 cursor-pointer items-center justify-center rounded-2xl ring"
-        onClick={handleModal}
+        ref={refBtn}
+        autoFocus={modal}
+        className="action alt inline-flex size-8 grow-0 items-center justify-center rounded-2xl ring"
+        data-modal="options"
+        onClick={() => setModal(true)}
       >
         <Icon size="24" type="more" className="pointer-events-none size-6" />
         <span className="sr-only">More</span>
@@ -119,24 +141,40 @@ export default function ColorActions({ color, hex }: Props) {
                 aria-label="more color options"
                 className="pointer-events-none fixed top-0 right-0 bottom-0 left-0 z-64 flex items-end px-4 sm:items-center"
               >
-                <div className="animate-preslide ease-fluid pointer-events-auto mx-auto grid w-full max-w-xl rounded-t-lg bg-gray-100 ring ring-gray-200 transition-transform sm:rounded-lg dark:bg-gray-900 dark:ring-gray-800">
+                <div className="pointer-events-auto mx-auto grid w-full max-w-xl overflow-hidden rounded-t-lg bg-gray-100 ring ring-gray-200 sm:rounded-lg dark:bg-gray-900 dark:ring-gray-800">
                   <div className="xs:justify-between relative z-1 flex min-h-16 flex-wrap items-center gap-x-4 rounded-t-lg px-4 py-2 ring ring-gray-200 dark:ring-gray-800">
                     <h2 className="inline-flex min-h-8 items-center text-gray-600 dark:text-gray-400">
                       More Options
                     </h2>
-                    <button
+                    <motion.button
+                      initial={{ rotate: -45, scale: 0.9 }}
+                      animate={{ rotate: 0, scale: 1 }}
+                      transition={{ duration: 0.24 }}
+                      autoFocus={true}
                       aria-label="close modal"
-                      className="action inline-flex size-8 items-center justify-center rounded-2xl ring"
-                      onClick={handleModal}
+                      className="action alt inline-flex size-8 items-center justify-center rounded-2xl ring"
+                      data-modal="options"
+                      onClick={handleClose}
                     >
                       <Icon
                         size="24"
                         type="close"
-                        className="animate-rotate ease-fluid pointer-events-none size-6 transition-transform"
+                        className="pointer-events-none size-6"
                       />
-                    </button>
+                    </motion.button>
                   </div>
-                  <ul className="animate-slide ease-snappy grid max-h-[calc(100vh-7rem)] gap-y-6 overflow-auto px-4 pb-12 transition-transform sm:pb-6">
+                  <motion.ul
+                    initial={{
+                      translateY: "4rem",
+                      overflow: "hidden",
+                    }}
+                    animate={{
+                      translateY: "0rem",
+                      overflow: "auto",
+                    }}
+                    transition={{ duration: 0.24 }}
+                    className="grid max-h-[calc(100vh-7rem)] gap-y-6 px-4 pb-12 sm:pb-6"
+                  >
                     <Button
                       label="Color Swatch"
                       text="A 21:9 visual snapshot of color."
@@ -155,15 +193,18 @@ export default function ColorActions({ color, hex }: Props) {
                       link={linkHarmony}
                       onClick={() => handleDownload(linkHarmony, fileHarmony)}
                     />
-                  </ul>
+                  </motion.ul>
                 </div>
               </div>
-              <span
+              <motion.span
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ duration: 0.16 }}
                 role="button"
-                aria-label="close color options"
-                className="animate-fade ease-snappy fixed top-0 right-0 bottom-0 left-0 z-54 bg-gray-50/80 backdrop-blur-lg transition-opacity dark:bg-gray-950/80"
+                aria-label="close modal"
+                className="fixed top-0 right-0 bottom-0 left-0 z-54 bg-gray-50/80 backdrop-blur-lg dark:bg-gray-950/80"
                 tabIndex={0}
-                onFocus={handleModal}
+                onFocus={handleClose}
               />
             </div>,
             document.body,
@@ -191,7 +232,7 @@ function Button({ label, text, link, ...props }: DownloadActions) {
       <div className="xs:grid-cols-2 grid gap-4">
         <button
           aria-label={`download ${item}`}
-          className="action inline-flex h-9 grow-1 cursor-pointer items-center justify-center gap-x-2 rounded-md px-3 text-sm ring"
+          className="action inline-flex h-9 grow-1 items-center justify-center gap-x-2 rounded-md px-3 text-sm ring"
           {...props}
         >
           <span>Download</span>
@@ -204,7 +245,7 @@ function Button({ label, text, link, ...props }: DownloadActions) {
         <Link
           aria-label={`view ${item}`}
           href={link}
-          className="action inline-flex h-9 grow-1 cursor-pointer items-center justify-center gap-x-2 rounded-md px-3 text-sm ring"
+          className="action inline-flex h-9 grow-1 items-center justify-center gap-x-2 rounded-md px-3 text-sm ring"
           prefetch={false}
           target="_blank"
           rel="noopener"
