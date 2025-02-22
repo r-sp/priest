@@ -44,7 +44,7 @@ export default function ColorOptions({ color, mode, action }: Props) {
             aria-selected={modeHex}
             aria-label={hex}
             name="rgb"
-            className="action flex cursor-pointer rounded-md px-2 py-2 outline-0"
+            className="action flex rounded-md px-2 py-2 outline-0"
             onClick={() => action({ mode: "rgb", ...rgb.color }, "hex")}
           >
             <code>{hex}</code>
@@ -210,7 +210,7 @@ function Option<Key extends ColorFormat>({
         aria-selected={isActive}
         aria-label={css}
         name={mode}
-        className="action flex cursor-pointer rounded-md px-2 py-2 outline-0"
+        className="action flex rounded-md px-2 py-2 outline-0"
         onClick={() => update({ mode, ...color }, mode)}
         onContextMenu={(e) => {
           e.preventDefault();
