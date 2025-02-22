@@ -18,60 +18,6 @@
   --breakpoint-2xl: 90rem;
   --container-8xl: 90rem;
   --aspect-cinema: 21 / 9;
-  --ease-fluid: cubic-bezier(0.3, 0, 0, 1);
-  --ease-snappy: cubic-bezier(0.2, 0, 0, 1);
-  --animate-rotate: rotate 200ms var(--ease-fluid);
-  --animate-preslide: preslide 200ms var(--ease-fluid);
-  --animate-slide: slide 200ms var(--ease-snappy);
-  --animate-fade: fade 200ms var(--ease-snappy);
-
-  @keyframes rotate {
-    0% {
-      opacity: 0;
-      transform: rotate(-60deg);
-    }
-    50% {
-      opacity: 1;
-      transform: rotate(-45deg);
-    }
-    100% {
-      opacity: 1;
-      transform: rotate(0deg);
-    }
-  }
-
-  @keyframes preslide {
-    0% {
-      pointer-events: none;
-      transform: translateY(4rem);
-    }
-    100% {
-      pointer-events: auto;
-      transform: translateY(0rem);
-    }
-  }
-
-  @keyframes slide {
-    0% {
-      opacity: 0;
-      pointer-events: none;
-      transform: translateY(8rem);
-    }
-    100% {
-      opacity: 1;
-      pointer-events: auto;
-      transform: translateY(0rem);
-    }
-  }
-
-  @keyframes fade {
-    0% {
-      opacity: 0.5;
-    }
-    100% {
-      opacity: 1;
-    }
-  }
 }
 
 @layer base {
@@ -103,7 +49,7 @@
     }
   }
   .action:hover,
-  .action:focus {
+  .action:not(.alt):focus {
     background-color: var(--color-gray-200);
     color: var(--color-gray-800);
     @variant dark {
@@ -118,7 +64,7 @@
     }
   }
   .action.ring:hover,
-  .action.ring:focus {
+  .action.ring:not(.alt):focus {
     --tw-ring-color: var(--color-gray-300);
     @variant dark {
       --tw-ring-color: var(--color-gray-700);
