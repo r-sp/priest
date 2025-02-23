@@ -136,7 +136,6 @@ export default function Modal({ children, color }: Props) {
           <motion.button
             initial={{ rotate: -45, scale: 0.9 }}
             animate={{ rotate: 0, scale: 1 }}
-            transition={{ duration: 0.24 }}
             autoFocus={true}
             aria-label="return back"
             className="ml-[-0.4rem] inline-flex size-8 items-center justify-center rounded-full text-gray-800 dark:text-gray-200"
@@ -151,9 +150,8 @@ export default function Modal({ children, color }: Props) {
           </motion.button>
         </nav>
         <motion.div
-          initial={{ translateY: "8rem" }}
-          animate={{ translateY: "0rem" }}
-          transition={{ duration: 0.24 }}
+          initial={{ translateY: "4rem", opacity: 0 }}
+          whileInView={{ translateY: "0rem", opacity: 1 }}
           role="none"
           className="pointer-events-none relative"
         >
@@ -170,8 +168,7 @@ export default function Modal({ children, color }: Props) {
       </div>
       <motion.div
         initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ duration: 0.16 }}
+        whileInView={{ opacity: 1 }}
         aria-hidden="true"
         className="fixed top-0 right-0 bottom-0 left-0 z-24 bg-gray-50/80 backdrop-blur-lg dark:bg-gray-950/80"
       />

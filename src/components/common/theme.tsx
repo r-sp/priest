@@ -3,6 +3,7 @@
 import type { ColorScheme } from "~/types/color";
 import { useEffect, useMemo, useCallback } from "react";
 import { useSession } from "~/hooks";
+import { motion } from "motion/react";
 import Icon from "./icons";
 
 export default function ThemeSwitcher() {
@@ -73,28 +74,27 @@ export default function ThemeSwitcher() {
   const isDark = getTheme === "dark";
 
   return (
-    <>
-      {theme === undefined ? (
-        <div className="skeleton mr-[-0.3rem] size-8 rounded-full" />
-      ) : (
-        <button
-          aria-label={`set theme ${isDark ? "light" : "dark"}`}
-          className="mr-[-0.3rem] inline-flex size-8 items-center justify-center rounded-full text-gray-700 dark:text-gray-300"
-          onClick={() => {
-            if (isDark) {
-              handleTheme("dark", "light");
-            } else {
-              handleTheme("light", "dark");
-            }
-          }}
-        >
-          <Icon
-            size="24"
-            type={isDark ? "sun" : "moon"}
-            className="pointer-events-none size-6"
-          />
-        </button>
-      )}
-    </>
+    <motion.button
+      initial={{ rotate: -45, scale: 0.5 }}
+      animate={{ rotate: 0, scale: 1 }}
+      whileTap={{ rotate: 45, scale: 0.8 }}
+      aria-label={`set theme ${isDark ? "light" : "dark"}`}
+      className="mr-[-0.3rem] inline-flex size-8 items-center justify-center rounded-full text-gray-700 dark:text-gray-300"
+      onClick={() => {
+        if (isDark) {
+          handleTheme("dark", "light");
+        } else {
+          handleTheme("light", "dark");
+        }
+      }}
+    >
+      {theme !== undefined ? (
+        <Icon
+          size="24"
+          type={isDark ? "sun" : "moon"}
+          className="pointer-events-none size-6"
+        />
+      ) : null}
+    </motion.button>
   );
 }
