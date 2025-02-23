@@ -149,7 +149,6 @@ export default function ColorActions({ color, hex }: Props) {
                     <motion.button
                       initial={{ rotate: -45, scale: 0.9 }}
                       animate={{ rotate: 0, scale: 1 }}
-                      transition={{ duration: 0.24 }}
                       autoFocus={true}
                       aria-label="close modal"
                       className="action alt inline-flex size-8 items-center justify-center rounded-2xl ring"
@@ -167,12 +166,13 @@ export default function ColorActions({ color, hex }: Props) {
                     initial={{
                       translateY: "4rem",
                       overflow: "hidden",
+                      opacity: 0,
                     }}
                     animate={{
                       translateY: "0rem",
                       overflow: "auto",
+                      opacity: 1,
                     }}
-                    transition={{ duration: 0.24 }}
                     className="grid max-h-[calc(100vh-7rem)] gap-y-6 px-4 pb-12 sm:pb-6"
                   >
                     <Button
@@ -199,7 +199,6 @@ export default function ColorActions({ color, hex }: Props) {
               <motion.span
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
-                transition={{ duration: 0.16 }}
                 role="button"
                 aria-label="close modal"
                 className="fixed top-0 right-0 bottom-0 left-0 z-54 bg-gray-50/80 backdrop-blur-lg dark:bg-gray-950/80"
