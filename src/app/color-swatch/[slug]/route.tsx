@@ -13,7 +13,7 @@ export async function GET(
   const color = (await params).slug;
 
   if (!/^(?:[0-9A-Fa-f]{3}){1,2}$/.test(color)) {
-    permanentRedirect("/color?error=unknown-color-hex");
+    permanentRedirect("/color?error=unknown-color-swatch");
   }
 
   return new ImageResponse(
