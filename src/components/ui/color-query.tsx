@@ -12,6 +12,7 @@ import {
 import { Suspense } from "react";
 import { Modal } from "../common";
 import clsx from "clsx";
+import Link from "next/link";
 import ColorActions from "./color-actions";
 import ColorContrast from "./color-contrast";
 import ColorHarmony from "./color-harmony";
@@ -106,12 +107,93 @@ interface ColorError {
 }
 
 function ResolveColor({ error, modal }: ColorError) {
-  const title = error.replaceAll("-", " ");
+  const listErrorMessage: {
+    id: string;
+    title: string;
+    text: string;
+    example: string;
+  }[] = [
+    {
+      id: "query",
+      title: "Unknown Color Query",
+      text: "The current param color values are must be the part of color mode",
+      example: "./color?mode=rgb&r=128&g=128&b=128",
+    },
+    {
+      id: "mode",
+      title: "Unknown Color Mode",
+      text: "The current param mode is not in supported color space",
+      example: "./color?mode=[rgb, hsl, hwb, lab, lch, oklab, oklch]",
+    },
+    {
+      id: "swatch",
+      title: "Unknown Color Swatch",
+      text: "The current path is not valid and must be hex value",
+      example: "./color-swatch/808080",
+    },
+    {
+      id: "scales",
+      title: "Unknown Color Scales",
+      text: "The current path is not valid and must be hex values",
+      example:
+        "./color-scales/e9e9e9-d4d4d4-bfbfbf-aaaaaa-959595-808080-6a6a6a-555555-404040-2a2a2a-151515",
+    },
+    {
+      id: "harmony",
+      title: "Unknown Color Harmony",
+      text: "The current path is not valid and must be color values",
+      example: "./color-harmony/rgb-128-128-128",
+    },
+  ];
+
+  const filteredErrorMessage = listErrorMessage.filter(
+    (e) => "unknown-color-" + e.id === error,
+  );
+
   return (
     <div className={modal ? undefined : "px-4"}>
-      <article className="max-w-8xl mx-auto grid w-full gap-y-4">
-        <h1 className="text-xl text-gray-800 dark:text-gray-200">{title}</h1>
-      </article>
+      {filteredErrorMessage[0] ? (
+        filteredErrorMessage.map((item, index) => (
+          <article key={index} className="mx-auto grid w-full max-w-3xl py-16">
+            <h1 className="text-xl font-medium text-gray-900 dark:text-gray-100">
+              {item.title}
+            </h1>
+            <p className="text-lg text-gray-600 dark:text-gray-400">
+              {item.text}
+            </p>
+            <pre className="mt-6 flex max-w-full overflow-x-auto rounded-md bg-gray-100 px-3 py-2 ring ring-gray-200 dark:bg-gray-900 dark:ring-gray-800">
+              <code className="inline-flex items-center text-gray-800 dark:text-gray-200">
+                {item.example}
+              </code>
+            </pre>
+            <div className="mt-8 flex flex-wrap select-none">
+              <Link
+                href="/"
+                className="action inline-flex h-9 items-center justify-center rounded-md px-4 text-sm ring"
+              >
+                Generate new color
+              </Link>
+            </div>
+          </article>
+        ))
+      ) : (
+        <article className="mx-auto grid w-full max-w-3xl py-16">
+          <h1 className="text-xl font-medium text-gray-900 dark:text-gray-100">
+            The current error is not detected
+          </h1>
+          <p className="text-lg text-gray-600 dark:text-gray-400">
+            You can try to find another color
+          </p>
+          <div className="mt-6 flex flex-wrap select-none">
+            <Link
+              href="/"
+              className="action inline-flex h-9 items-center justify-center rounded-md px-4 text-sm ring"
+            >
+              Generate new color
+            </Link>
+          </div>
+        </article>
+      )}
     </div>
   );
 }
