@@ -13,6 +13,7 @@ import {
   setGamut,
   generateColor,
 } from "~/utils";
+import { motion } from "motion/react";
 import { Icon } from "../common";
 import clsx from "clsx";
 import Form from "next/form";
@@ -169,17 +170,28 @@ export default function InputCss() {
             "bg-gradient-to-r from-gray-950/0 to-gray-100 to-40% text-gray-600 dark:to-gray-900 dark:text-gray-400",
           )}
         >
-          <button
+          <motion.button
+            initial={{ rotate: 45, scale: 0 }}
+            animate={{ rotate: 0, scale: 1 }}
+            whileTap={{ rotate: 30, scale: 0.9 }}
+            whileHover={{ rotate: 30, scale: 1 }}
             aria-label="generate random color"
             className="pointer-events-auto inline-flex size-10 items-center justify-center rounded-md"
             tabIndex={-1}
             onClick={handleColor}
           >
             <Icon size="24" type="palette" className="size-6" />
-          </button>
+          </motion.button>
         </div>
       </div>
-      <div ref={ref} role="none" id="input-portal">
+      <motion.div
+        initial={{ opacity: 0 }}
+        animate={modal ? { opacity: 1 } : { opacity: 0 }}
+        transition={{ duration: 0.1 }}
+        ref={ref}
+        role="none"
+        id="input-portal"
+      >
         {modal
           ? createPortal(
               <>
@@ -200,7 +212,7 @@ export default function InputCss() {
             )
           : null}
         {}
-      </div>
+      </motion.div>
     </Form>
   );
 }
