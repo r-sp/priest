@@ -1,102 +1,87 @@
 "use client";
 
-import type { MouseEvent } from "react";
-import { useState, useEffect, useRef, useCallback } from "react";
+import type { Dispatch, SetStateAction, MouseEvent } from "react";
+import { useState, useRef, useCallback, useEffect } from "react";
 import { useAnimationControls, motion } from "motion/react";
 import { round } from "~/utils";
 
+interface HSV {
+  h: number;
+  s: number;
+  v: number;
+}
+
 interface Offset {
-  left: number;
-  top: number;
-  width: number;
-  height: number;
+  l: number;
+  t: number;
+  w: number;
+  h: number;
 }
-const initBox: Offset = {
-  width: 0,
-  height: 0,
-  left: 0,
-  top: 0,
-};
-const initBtn: Offset = {
-  width: 32,
-  height: 32,
-  left: 0,
-  top: 0,
-};
 
-interface Position {
-  x: number;
-  y: number;
+interface Actions {
+  color: HSV;
+  setColor: Dispatch<SetStateAction<HSV>>;
 }
-const initPosition: Position = {
-  x: 0,
-  y: 0,
-};
 
-function Interactive() {
-  const [boxOffset, setBoxOffset] = useState<Offset>(initBox);
-  const [btnOffset, setBtnOffset] = useState<Offset>(initBtn);
-  const [position, setPosition] = useState<Position>(initPosition);
+type DragEvent =
+  | globalThis.MouseEvent
+  | globalThis.PointerEvent
+  | globalThis.TouchEvent;
+
+function Saturation({ color, setColor }: Actions) {
+  const boxData = useState<Offset>({ l: 0, t: 0, w: 0, h: 0 });
+  const btnData = useState<Offset>({ l: 0, t: 0, w: 32, h: 32 });
+
+  const [box, setBox] = boxData;
+  const [btn, setBtn] = btnData;
 
   const boxRef = useRef<HTMLDivElement>(null);
   const animationControls = useAnimationControls();
 
   const handleDrag = useCallback(
-    (
-      event:
-        | globalThis.MouseEvent
-        | globalThis.PointerEvent
-        | globalThis.TouchEvent,
-    ) => {
-      setPosition({
-        x: (btnOffset.left / boxOffset.width) * 100,
-        y: (btnOffset.top / boxOffset.height) * 100,
+    (event: DragEvent) => {
+      setColor({
+        ...color,
+        s: (btn.l / box.w) * 100,
+        v: (btn.t / box.h) * 100,
       });
 
-      const box = boxRef.current;
-      if (!box) return;
-      const boxRect = box.getBoundingClientRect();
+      const hasBoxRef = boxRef.current;
+      if (!hasBoxRef) return;
+      const boxRect = hasBoxRef.getBoundingClientRect();
 
-      const btn = event.target as HTMLDivElement;
-      const btnRect = btn.getBoundingClientRect();
+      const hasBtn = event.target as HTMLDivElement;
+      const btnRect = hasBtn.getBoundingClientRect();
 
       const offsetLeft = btnRect.left - boxRect.left;
       const offsetTop = btnRect.top - boxRect.top;
 
-      const hasRelativeLeft = offsetLeft !== btnOffset.left;
-      const hasRelativeTop = offsetTop !== btnOffset.top;
+      const hasOffsetLeft = offsetLeft !== btn.l;
+      const hasOffsetTop = offsetTop !== btn.t;
 
-      if (hasRelativeLeft && hasRelativeTop) {
-        setBtnOffset({
-          left: offsetLeft,
-          top: offsetTop,
-          width: btnRect.width,
-          height: btnRect.height,
-        });
+      if (hasOffsetLeft && hasOffsetTop) {
+        setBtn({ ...btn, l: offsetLeft, t: offsetTop });
       }
     },
-    [boxRef, boxOffset, btnOffset],
+    [color, setColor, boxRef, box, btn, setBtn],
   );
 
   const handlePosition = useCallback(
     (percentX: number, percentY: number) => {
-      setPosition({
-        x: percentX,
-        y: percentY,
-      });
+      setColor({ ...color, s: percentX, v: percentY });
 
-      const offsetX = (percentX / 100 - 0.5) * boxOffset.width;
-      const offsetY = (percentY / 100 - 0.5) * boxOffset.height;
+      const offsetX = (percentX / 100 - 0.5) * box.w;
+      const offsetY = (percentY / 100 - 0.5) * box.h;
 
-      const pointX = boxOffset.width / 2 + offsetX;
-      const pointY = boxOffset.height / 2 + offsetY;
+      const pointX = box.w / 2 + offsetX;
+      const pointY = box.h / 2 + offsetY;
 
       animationControls.start({
         x: pointX,
         y: pointY,
       });
     },
-    [animationControls, boxOffset],
+    [color, setColor, box, animationControls],
   );
 
   const handleTapRadius = useCallback(
@@ -104,9 +89,9 @@ function Interactive() {
       const area = event.target as HTMLDivElement;
       if (area.hasAttribute("style")) return;
 
-      const box = boxRef.current;
-      if (!box) return;
-      const boxRect = box.getBoundingClientRect();
+      const hasBoxRef = boxRef.current;
+      if (!hasBoxRef) return;
+      const boxRect = hasBoxRef.getBoundingClientRect();
 
       const clickX = event.clientX - boxRect.left;
       const clickY = event.clientY - boxRect.top;
@@ -120,17 +105,17 @@ function Interactive() {
   );
 
   const handleResize = useCallback(() => {
-    const box = boxRef.current;
-    if (!box) return;
-    const boxRect = box.getBoundingClientRect();
+    const hasBoxRef = boxRef.current;
+    if (!hasBoxRef) return;
+    const boxRect = hasBoxRef.getBoundingClientRect();
 
-    setBoxOffset({
-      width: box.offsetWidth - btnOffset.width,
-      height: box.offsetHeight - btnOffset.height,
-      left: boxRect.left,
-      top: boxRect.top,
+    setBox({
+      w: hasBoxRef.offsetWidth - btn.w,
+      h: hasBoxRef.offsetHeight - btn.h,
+      l: boxRect.left,
+      t: boxRect.top,
     });
-  }, [boxRef, btnOffset]);
+  }, [boxRef, setBox, btn]);
 
   useEffect(() => {
     handleResize();
@@ -140,32 +125,35 @@ function Interactive() {
     };
   }, [handleResize]);
 
-  // converting x-y to hsv to hsl
-  const fixup = (x: number, y: number) => {
-    x /= 100;
-    y /= 100;
-    x = Math.max(0, Math.min(1, x));
-    y = 1 - Math.max(0, Math.min(1, y));
-    let l = y * (1 - x / 2);
-    let s;
+  const convertColor = (s: number, v: number) => {
+    // make sure the value is 0-1
+    s /= 100;
+    v /= 100;
+    s = Math.max(0, Math.min(1, s));
+    v = 1 - Math.max(0, Math.min(1, v));
+
+    // lightness and saturation
+    let l = v * (1 - s / 2);
     if (l === 0 || l === 1) {
       s = 0;
     } else {
-      s = (y - l) / Math.min(l, 1 - l);
+      s = (v - l) / Math.min(l, 1 - l);
     }
+
+    // make sure the value is 0-100
     s *= 100;
     l *= 100;
     return [s, l];
   };
 
-  const [s, l] = fixup(position.x, position.y);
+  const [s, l] = convertColor(color.s, color.v);
 
-  const hue = 216;
+  const hue = round(color.h, 2);
   const saturation = round(s, 2);
   const lightness = round(l, 2);
 
-  const btnX = round(position.x, 2);
-  const btnY = round(position.y, 2);
+  const btnX = round(color.s, 2);
+  const btnY = round(color.v, 2);
 
   const css = `hsl(${hue}deg ${saturation}% ${lightness}%)`;
   const ring = `hsl(${hue}deg ${saturation}% ${lightness > 40 ? 20 : 80}%)`;
@@ -194,13 +182,13 @@ function Interactive() {
           dragTransition={{ bounceStiffness: 10, bounceDamping: 2 }}
           dragElastic={false}
           dragMomentum={true}
-          onDrag={(e) => handleDrag(e)}
           className="bg-ref absolute z-2 size-8 cursor-all-scroll rounded-2xl ring-2 ring-inset"
           style={{
             ["--bg" as string]: css,
             ["--tw-ring-color" as string]: ring,
           }}
           tabIndex={0}
+          onDrag={(e) => handleDrag(e)}
         />
       </div>
       <div className="pointer-events-none absolute bottom-0 z-2 flex flex-col gap-y-2 px-4 pb-4 font-mono text-sm break-words text-gray-300">
@@ -232,64 +220,55 @@ function Interactive() {
   );
 }
 
-function Slider() {
-  const [boxOffset, setBoxOffset] = useState<Offset>(initBox);
-  const [btnOffset, setBtnOffset] = useState<Offset>(initBtn);
-  const [position, setPosition] = useState<Position>(initPosition);
+function Hue({ color, setColor }: Actions) {
+  const trackData = useState<Offset>({ l: 0, t: 0, w: 0, h: 24 });
+  const thumbData = useState<Offset>({ l: 0, t: 0, w: 24, h: 24 });
 
-  const boxRef = useRef<HTMLDivElement>(null);
+  const [track, setTrack] = trackData;
+  const [thumb, setThumb] = thumbData;
+
+  const trackRef = useRef<HTMLDivElement>(null);
   const animationControls = useAnimationControls();
 
   const handleDrag = useCallback(
-    (
-      event:
-        | globalThis.MouseEvent
-        | globalThis.PointerEvent
-        | globalThis.TouchEvent,
-    ) => {
-      setPosition({
-        x: (btnOffset.left / boxOffset.width) * 100,
-        y: 0,
+    (event: DragEvent) => {
+      setColor({
+        ...color,
+        h: (thumb.l / track.w) * 360,
       });
 
-      const box = boxRef.current;
-      if (!box) return;
-      const boxRect = box.getBoundingClientRect();
+      const hasTrackRef = trackRef.current;
+      if (!hasTrackRef) return;
+      const trackRect = hasTrackRef.getBoundingClientRect();
 
-      const btn = event.target as HTMLDivElement;
-      const btnRect = btn.getBoundingClientRect();
+      const hasThumb = event.target as HTMLDivElement;
+      const thumbRect = hasThumb.getBoundingClientRect();
 
-      const offsetLeft = btnRect.left - boxRect.left;
-      const hasRelativeLeft = offsetLeft !== btnOffset.left;
+      const offsetLeft = thumbRect.left - trackRect.left;
+      const hasOffsetLeft = offsetLeft !== thumb.l;
 
-      if (hasRelativeLeft) {
-        setBtnOffset({
-          left: offsetLeft,
-          top: 0,
-          width: btnRect.width,
-          height: btnRect.height,
-        });
+      if (hasOffsetLeft) {
+        setThumb({ ...thumb, l: offsetLeft });
       }
     },
-    [boxRef, boxOffset, btnOffset],
+    [color, setColor, track, thumb, trackRef, setThumb],
   );
 
   const handlePosition = useCallback(
     (percentX: number) => {
-      setPosition({
-        x: percentX,
-        y: 0,
+      setColor({
+        ...color,
+        h: (percentX / 100) * 360,
       });
 
-      const offsetX = (percentX / 100 - 0.5) * boxOffset.width;
-      const pointX = boxOffset.width / 2 + offsetX;
+      const offsetX = (percentX / 100 - 0.5) * track.w;
+      const pointX = track.w / 2 + offsetX;
 
       animationControls.start({
         x: pointX,
-        y: 0,
       });
     },
-    [animationControls, boxOffset],
+    [color, setColor, track, animationControls],
   );
 
   const handleTapRadius = useCallback(
@@ -297,30 +276,30 @@ function Slider() {
       const area = event.target as HTMLDivElement;
       if (area.hasAttribute("style")) return;
 
-      const box = boxRef.current;
-      if (!box) return;
-      const boxRect = box.getBoundingClientRect();
+      const hasTrackRef = trackRef.current;
+      if (!hasTrackRef) return;
+      const trackRect = hasTrackRef.getBoundingClientRect();
 
-      const clickX = event.clientX - boxRect.left;
-      const percentX = (clickX / boxRect.width) * 100;
+      const clickX = event.clientX - trackRect.left;
+      const percentX = (clickX / trackRect.width) * 100;
 
       handlePosition(percentX);
     },
-    [boxRef, handlePosition],
+    [trackRef, handlePosition],
   );
 
   const handleResize = useCallback(() => {
-    const box = boxRef.current;
-    if (!box) return;
-    const boxRect = box.getBoundingClientRect();
+    const hasTrackRef = trackRef.current;
+    if (!hasTrackRef) return;
+    const trackRect = hasTrackRef.getBoundingClientRect();
 
-    setBoxOffset({
-      width: box.offsetWidth - btnOffset.width,
-      height: box.offsetHeight - btnOffset.height,
-      left: boxRect.left,
-      top: boxRect.top,
+    setTrack({
+      w: hasTrackRef.offsetWidth - thumb.w,
+      h: hasTrackRef.offsetHeight - thumb.h,
+      l: trackRect.left,
+      t: trackRect.top,
     });
-  }, [boxRef, btnOffset]);
+  }, [trackRef, setTrack, thumb]);
 
   useEffect(() => {
     handleResize();
@@ -330,11 +309,11 @@ function Slider() {
     };
   }, [handleResize]);
 
-  const hue = round((position.x / 100) * 360, 2);
+  const hue = round(color.h, 2);
 
   return (
     <motion.div
-      ref={boxRef}
+      ref={trackRef}
       layout="preserve-aspect"
       className="relative z-0 flex h-6 items-center overflow-hidden rounded-xl select-none"
     >
@@ -346,15 +325,15 @@ function Slider() {
         <motion.div
           animate={animationControls}
           drag="x"
-          dragConstraints={boxRef}
+          dragConstraints={trackRef}
           dragTransition={{ bounceStiffness: 10, bounceDamping: 2 }}
           dragDirectionLock={true}
           dragElastic={false}
           dragMomentum={true}
-          onDrag={(e) => handleDrag(e)}
           className="bg-ref size-6 cursor-all-scroll rounded-xl ring-2 shadow-gray-500 ring-gray-950/50 ring-inset dark:ring-gray-50/70"
           style={{ ["--bg" as string]: `hsl(${hue}deg 100% 50%)` }}
           tabIndex={0}
+          onDrag={(e) => handleDrag(e)}
         />
       </div>
       <div
@@ -368,4 +347,15 @@ function Slider() {
   );
 }
 
-export { Interactive, Slider };
+function ColorPicker() {
+  const [state, action] = useState<HSV>({ h: 0, s: 0, v: 0 });
+
+  return (
+    <div className="inline-grid gap-y-6">
+      <Saturation color={state} setColor={action} />
+      <Hue color={state} setColor={action} />
+    </div>
+  );
+}
+
+export { Saturation, Hue, ColorPicker };
