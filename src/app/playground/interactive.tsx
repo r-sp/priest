@@ -195,7 +195,7 @@ function Interactive() {
           dragElastic={false}
           dragMomentum={true}
           onDrag={(e) => handleDrag(e)}
-          className="bg-ref absolute z-2 size-8 cursor-all-scroll rounded-2xl ring-2"
+          className="bg-ref absolute z-2 size-8 cursor-all-scroll rounded-2xl ring-2 ring-inset"
           style={{
             ["--bg" as string]: css,
             ["--tw-ring-color" as string]: ring,
@@ -203,7 +203,7 @@ function Interactive() {
           tabIndex={0}
         />
       </div>
-      <div className="pointer-events-none absolute bottom-0 z-2 flex flex-col gap-y-2 px-4 pb-4 font-mono text-sm break-words text-gray-200 mix-blend-difference">
+      <div className="pointer-events-none absolute bottom-0 z-2 flex flex-col gap-y-2 px-4 pb-4 font-mono text-sm break-words text-gray-300">
         <div className="inline-flex flex-col">
           <h2>Color</h2>
           <p>{`H: ${hue}deg`}</p>
@@ -232,4 +232,140 @@ function Interactive() {
   );
 }
 
-export { Interactive };
+function Slider() {
+  const [boxOffset, setBoxOffset] = useState<Offset>(initBox);
+  const [btnOffset, setBtnOffset] = useState<Offset>(initBtn);
+  const [position, setPosition] = useState<Position>(initPosition);
+
+  const boxRef = useRef<HTMLDivElement>(null);
+  const animationControls = useAnimationControls();
+
+  const handleDrag = useCallback(
+    (
+      event:
+        | globalThis.MouseEvent
+        | globalThis.PointerEvent
+        | globalThis.TouchEvent,
+    ) => {
+      setPosition({
+        x: (btnOffset.left / boxOffset.width) * 100,
+        y: 0,
+      });
+
+      const box = boxRef.current;
+      if (!box) return;
+      const boxRect = box.getBoundingClientRect();
+
+      const btn = event.target as HTMLDivElement;
+      const btnRect = btn.getBoundingClientRect();
+
+      const offsetLeft = btnRect.left - boxRect.left;
+      const hasRelativeLeft = offsetLeft !== btnOffset.left;
+
+      if (hasRelativeLeft) {
+        setBtnOffset({
+          left: offsetLeft,
+          top: 0,
+          width: btnRect.width,
+          height: btnRect.height,
+        });
+      }
+    },
+    [boxRef, boxOffset, btnOffset],
+  );
+
+  const handlePosition = useCallback(
+    (percentX: number) => {
+      setPosition({
+        x: percentX,
+        y: 0,
+      });
+
+      const offsetX = (percentX / 100 - 0.5) * boxOffset.width;
+      const pointX = boxOffset.width / 2 + offsetX;
+
+      animationControls.start({
+        x: pointX,
+        y: 0,
+      });
+    },
+    [animationControls, boxOffset],
+  );
+
+  const handleTapRadius = useCallback(
+    (event: MouseEvent) => {
+      const area = event.target as HTMLDivElement;
+      if (area.hasAttribute("style")) return;
+
+      const box = boxRef.current;
+      if (!box) return;
+      const boxRect = box.getBoundingClientRect();
+
+      const clickX = event.clientX - boxRect.left;
+      const percentX = (clickX / boxRect.width) * 100;
+
+      handlePosition(percentX);
+    },
+    [boxRef, handlePosition],
+  );
+
+  const handleResize = useCallback(() => {
+    const box = boxRef.current;
+    if (!box) return;
+    const boxRect = box.getBoundingClientRect();
+
+    setBoxOffset({
+      width: box.offsetWidth - btnOffset.width,
+      height: box.offsetHeight - btnOffset.height,
+      left: boxRect.left,
+      top: boxRect.top,
+    });
+  }, [boxRef, btnOffset]);
+
+  useEffect(() => {
+    handleResize();
+    window.addEventListener("resize", handleResize);
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, [handleResize]);
+
+  const hue = round((position.x / 100) * 360, 2);
+
+  return (
+    <motion.div
+      ref={boxRef}
+      layout="preserve-aspect"
+      className="relative z-0 flex h-6 items-center overflow-hidden rounded-xl select-none"
+    >
+      <div
+        className="absolute top-0 right-0 bottom-0 left-0 z-1 cursor-crosshair"
+        tabIndex={-1}
+        onClick={handleTapRadius}
+      >
+        <motion.div
+          animate={animationControls}
+          drag="x"
+          dragConstraints={boxRef}
+          dragTransition={{ bounceStiffness: 10, bounceDamping: 2 }}
+          dragDirectionLock={true}
+          dragElastic={false}
+          dragMomentum={true}
+          onDrag={(e) => handleDrag(e)}
+          className="bg-ref size-6 cursor-all-scroll rounded-xl ring-2 shadow-gray-500 ring-gray-950/50 ring-inset dark:ring-gray-50/70"
+          style={{ ["--bg" as string]: `hsl(${hue}deg 100% 50%)` }}
+          tabIndex={0}
+        />
+      </div>
+      <div
+        className="bg-gradient-ref pointer-events-none absolute right-0 left-0 z-0 h-4 rounded-xl"
+        style={{
+          ["--bg" as string]:
+            "linear-gradient(90deg, hsl(0 100% 50%) 0%, hsl(60 100% 50%) 17%, hsl(120 100% 50%) 33%, hsl(180 100% 50%) 50%, hsl(240 100% 50%) 67%, hsl(300 100% 50%) 83%, hsl(0 100% 50%) 100%)",
+        }}
+      ></div>
+    </motion.div>
+  );
+}
+
+export { Interactive, Slider };
