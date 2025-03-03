@@ -1,7 +1,7 @@
 "use client";
 
 import type { Dispatch, SetStateAction, MouseEvent } from "react";
-import { useState, useRef, useCallback, useEffect } from "react";
+import { useState, useRef, useCallback, useEffect, memo } from "react";
 import { useAnimationControls, motion } from "motion/react";
 import { round } from "~/utils";
 
@@ -18,6 +18,11 @@ interface Offset {
   h: number;
 }
 
+interface Axis {
+  x: number;
+  y: number;
+}
+
 interface Actions {
   color: HSV;
   setColor: Dispatch<SetStateAction<HSV>>;
@@ -27,6 +32,23 @@ type DragEvent =
   | globalThis.MouseEvent
   | globalThis.PointerEvent
   | globalThis.TouchEvent;
+
+type RadiusEvent = globalThis.PointerEvent | MouseEvent;
+
+type RadiusData = [number, number, boolean];
+
+type RadiusAxis = [number, number];
+
+type RadiusPosition = [Offset, Axis, boolean, boolean];
+
+const clientRect = {
+  x: 0,
+  y: 0,
+  width: 0,
+  height: 0,
+  top: 0,
+  left: 0,
+} as DOMRect;
 
 function Saturation({ color, setColor }: Actions) {
   const boxData = useState<Offset>({ l: 0, t: 0, w: 0, h: 0 });
@@ -38,17 +60,82 @@ function Saturation({ color, setColor }: Actions) {
   const boxRef = useRef<HTMLDivElement>(null);
   const animationControls = useAnimationControls();
 
+  const updateColor = useCallback(
+    (input: Partial<HSV>) => {
+      setColor({ ...color, ...input });
+    },
+    [color, setColor],
+  );
+
+  const getBoxRect = useCallback(() => {
+    const hasBoxRef = boxRef.current;
+    if (!hasBoxRef) return clientRect;
+    return hasBoxRef.getBoundingClientRect();
+  }, [boxRef]);
+
+  const getBoxRadius = useCallback(
+    (event: RadiusEvent) => {
+      const area = event.target as HTMLDivElement;
+      const ignoredArea = area.hasAttribute("style");
+
+      const boxRect = getBoxRect();
+
+      const clickX = event.clientX - boxRect.left;
+      const clickY = event.clientY - boxRect.top;
+
+      const percentX = (clickX / boxRect.width) * 100;
+      const percentY = (clickY / boxRect.height) * 100;
+
+      return [percentX, percentY, ignoredArea] as RadiusData;
+    },
+    [getBoxRect],
+  );
+
+  const getBoxAxis = useCallback(
+    (percentX: number, percentY: number) => {
+      const offsetX = (percentX / 100 - 0.5) * box.w;
+      const offsetY = (percentY / 100 - 0.5) * box.h;
+
+      const pointX = box.w / 2 + offsetX;
+      const pointY = box.h / 2 + offsetY;
+
+      return [pointX, pointY] as RadiusAxis;
+    },
+    [box],
+  );
+
+  const getBoxPosition = useCallback(() => {
+    const boxRect = getBoxRect();
+
+    const offsetWidth = boxRect.width - btn.w;
+    const offsetHeight = boxRect.height - btn.h;
+
+    const hasOffsetWidth = offsetWidth !== box.w;
+    const hasOffsetHeight = offsetHeight !== box.h;
+
+    const offset: Offset = {
+      w: offsetWidth,
+      h: offsetHeight,
+      l: boxRect.left,
+      t: boxRect.top,
+    };
+
+    const axis: Axis = {
+      x: (color.s / 100) * offsetWidth,
+      y: (color.v / 100) * offsetHeight,
+    };
+
+    return [offset, axis, hasOffsetWidth, hasOffsetHeight] as RadiusPosition;
+  }, [getBoxRect, box, btn, color]);
+
   const handleDrag = useCallback(
     (event: DragEvent) => {
-      setColor({
-        ...color,
+      updateColor({
         s: (btn.l / box.w) * 100,
         v: (btn.t / box.h) * 100,
       });
 
-      const hasBoxRef = boxRef.current;
-      if (!hasBoxRef) return;
-      const boxRect = hasBoxRef.getBoundingClientRect();
+      const boxRect = getBoxRect();
 
       const hasBtn = event.target as HTMLDivElement;
       const btnRect = hasBtn.getBoundingClientRect();
@@ -63,59 +150,61 @@ function Saturation({ color, setColor }: Actions) {
         setBtn({ ...btn, l: offsetLeft, t: offsetTop });
       }
     },
-    [color, setColor, boxRef, box, btn, setBtn],
+    [updateColor, getBoxRect, box, btn, setBtn],
   );
 
   const handlePosition = useCallback(
     (percentX: number, percentY: number) => {
-      setColor({ ...color, s: percentX, v: percentY });
+      const [pointX, pointY] = getBoxAxis(percentX, percentY);
 
-      const offsetX = (percentX / 100 - 0.5) * box.w;
-      const offsetY = (percentY / 100 - 0.5) * box.h;
-
-      const pointX = box.w / 2 + offsetX;
-      const pointY = box.h / 2 + offsetY;
-
+      updateColor({ s: percentX, v: percentY });
       animationControls.start({
         x: pointX,
         y: pointY,
       });
     },
-    [color, setColor, box, animationControls],
+    [getBoxAxis, updateColor, animationControls],
+  );
+
+  const handlePanRadius = useCallback(
+    (event: globalThis.PointerEvent) => {
+      const [percentX, percentY, ignoredArea] = getBoxRadius(event);
+      if (ignoredArea) return;
+
+      const [pointX, pointY] = getBoxAxis(percentX, percentY);
+
+      updateColor({ s: percentX, v: percentY });
+      animationControls.set({
+        x: pointX,
+        y: pointY,
+      });
+    },
+    [getBoxRadius, getBoxAxis, updateColor, animationControls],
   );
 
   const handleTapRadius = useCallback(
     (event: MouseEvent) => {
-      const area = event.target as HTMLDivElement;
-      if (area.hasAttribute("style")) return;
-
-      const hasBoxRef = boxRef.current;
-      if (!hasBoxRef) return;
-      const boxRect = hasBoxRef.getBoundingClientRect();
-
-      const clickX = event.clientX - boxRect.left;
-      const clickY = event.clientY - boxRect.top;
-
-      const percentX = (clickX / boxRect.width) * 100;
-      const percentY = (clickY / boxRect.height) * 100;
+      const [percentX, percentY, ignoredArea] = getBoxRadius(event);
+      if (ignoredArea) return;
 
       handlePosition(percentX, percentY);
     },
-    [boxRef, handlePosition],
+    [getBoxRadius, handlePosition],
   );
 
   const handleResize = useCallback(() => {
-    const hasBoxRef = boxRef.current;
-    if (!hasBoxRef) return;
-    const boxRect = hasBoxRef.getBoundingClientRect();
+    const [offset, axis, hasWidth, hasHeight] = getBoxPosition();
 
-    setBox({
-      w: hasBoxRef.offsetWidth - btn.w,
-      h: hasBoxRef.offsetHeight - btn.h,
-      l: boxRect.left,
-      t: boxRect.top,
-    });
-  }, [boxRef, setBox, btn]);
+    if (hasWidth && hasHeight) {
+      setBox(offset);
+      animationControls.start({
+        x: axis.x,
+        y: axis.y,
+        scale: 1,
+        opacity: 1,
+      });
+    }
+  }, [getBoxPosition, setBox, animationControls]);
 
   useEffect(() => {
     handleResize();
@@ -169,6 +258,7 @@ function Saturation({ color, setColor }: Actions) {
           "linear-gradient(0deg,#000,transparent),linear-gradient(90deg,#fff,hsla(0,0%,100%,0))",
         boxShadow: "inset 0 0 0 1px rgba(0,0,0,.05)",
       }}
+      onPan={handlePanRadius}
     >
       <div
         className="absolute top-0 right-0 bottom-0 left-0 z-1 cursor-crosshair"
@@ -177,6 +267,7 @@ function Saturation({ color, setColor }: Actions) {
       >
         <motion.div
           animate={animationControls}
+          initial={{ scale: 0.5, opacity: 0.1 }}
           drag
           dragConstraints={boxRef}
           dragTransition={{ bounceStiffness: 10, bounceDamping: 2 }}
@@ -293,13 +384,26 @@ function Hue({ color, setColor }: Actions) {
     if (!hasTrackRef) return;
     const trackRect = hasTrackRef.getBoundingClientRect();
 
-    setTrack({
-      w: hasTrackRef.offsetWidth - thumb.w,
-      h: hasTrackRef.offsetHeight - thumb.h,
-      l: trackRect.left,
-      t: trackRect.top,
-    });
-  }, [trackRef, setTrack, thumb]);
+    const offsetWidth = hasTrackRef.offsetWidth - thumb.w;
+    const offsetHeight = hasTrackRef.offsetHeight - thumb.h;
+
+    const hasOffsetWidth = offsetWidth !== track.w;
+    const hasOffsetHeight = offsetHeight !== track.h;
+
+    if (hasOffsetWidth && hasOffsetHeight) {
+      setTrack({
+        w: offsetWidth,
+        h: offsetWidth,
+        l: trackRect.left,
+        t: trackRect.top,
+      });
+      animationControls.start({
+        x: (color.h / 360) * offsetWidth,
+        scale: 1,
+        opacity: 1,
+      });
+    }
+  }, [trackRef, track, setTrack, thumb, animationControls, color]);
 
   useEffect(() => {
     handleResize();
@@ -324,6 +428,7 @@ function Hue({ color, setColor }: Actions) {
       >
         <motion.div
           animate={animationControls}
+          initial={{ scale: 0.5, opacity: 0.1 }}
           drag="x"
           dragConstraints={trackRef}
           dragTransition={{ bounceStiffness: 10, bounceDamping: 2 }}
@@ -347,15 +452,20 @@ function Hue({ color, setColor }: Actions) {
   );
 }
 
-function ColorPicker() {
-  const [state, action] = useState<HSV>({ h: 0, s: 0, v: 0 });
+const ColorSaturation = memo(Saturation);
+const ColorHue = memo(Hue);
+
+function Interactive() {
+  const [state, action] = useState<HSV>({ h: 216, s: 50, v: 50 });
 
   return (
     <div className="inline-grid gap-y-6">
-      <Saturation color={state} setColor={action} />
-      <Hue color={state} setColor={action} />
+      <ColorSaturation color={state} setColor={action} />
+      <ColorHue color={state} setColor={action} />
     </div>
   );
 }
 
-export { Saturation, Hue, ColorPicker };
+const ColorPicker = memo(Interactive);
+
+export { ColorPicker, ColorSaturation, ColorHue };
