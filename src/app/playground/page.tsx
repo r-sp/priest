@@ -1,5 +1,4 @@
 import type { Metadata } from "next";
-import { Interactive, Slider } from "./interactive";
 import { ColorPicker } from "./color-picker";
 
 export const metadata: Metadata = {
@@ -15,10 +14,6 @@ export default function Page() {
       <article className="mx-auto grid w-full max-w-5xl gap-y-6">
         <h1 className="sr-only">Playground</h1>
         <div className="grid gap-8 md:grid-cols-2">
-          <div className="inline-grid gap-y-6">
-            <Interactive />
-            <Slider />
-          </div>
           <ColorPicker />
         </div>
       </article>
