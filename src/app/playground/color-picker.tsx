@@ -1,27 +1,64 @@
 "use client";
 
-import type { InteractiveState, InteractiveAction } from "./interactive-color";
+import type { ColorStates, ColorActions } from "./store";
 import { useReducer, memo } from "react";
-import { interactiveReducer } from "./interactive-color";
+import { colorRecuder } from "./store";
 import { ColorSaturation } from "./interactive-saturation";
-import { ColorHue } from "./interactive-hue";
 
 function Interactive() {
-  const [color, action] = useReducer<InteractiveState, [InteractiveAction]>(
-    interactiveReducer,
+  const [state, dispatch] = useReducer<ColorStates, [ColorActions]>(
+    colorRecuder,
     {
-      color: { h: 216, s: 50, v: 50 },
-      box: { left: 0, top: 0, width: 0, height: 0 },
-      btn: { left: 0, top: 0, width: 32, height: 32 },
-      track: { left: 0, top: 0, width: 0, height: 24 },
-      thumb: { left: 0, top: 0, width: 24, height: 24 },
+      color: { h: 210, s: 100, l: 50 },
+      point: { x: 0, y: 0, z: 0 },
     },
   );
 
+  const handleSaturation = (
+    saturation: number,
+    lightness: number,
+    pointX: number,
+    pointY: number,
+  ) => {
+    dispatch({
+      type: "saturation",
+      s: saturation,
+      l: lightness,
+      x: pointX,
+      y: pointY,
+    });
+  };
+
+  // const handleHue = (hue: number, pointZ: number) => {
+  //   dispatch({
+  //     type: "hue",
+  //     h: hue,
+  //     z: pointZ,
+  //   });
+  // };
+
   return (
-    <div className="inline-grid gap-y-6">
-      <ColorSaturation state={color} dispatch={action} />
-      <ColorHue state={color} dispatch={action} />
+    <div className="grid gap-8 md:grid-cols-2">
+      <ColorSaturation store={state} onChange={handleSaturation} />
+      {/* <ColorHue color={[210, 50, 50]} /> */}
+      <div className="flex flex-col font-mono text-gray-600 dark:text-gray-400">
+        <div className="flex flex-col">
+          <h2 className="font-semibold text-gray-800 dark:text-gray-200">
+            color
+          </h2>
+          <p>{`H: ${state.color.h}%`}</p>
+          <p>{`S: ${state.color.s}%`}</p>
+          <p>{`L: ${state.color.l}%`}</p>
+        </div>
+        <div className="flex flex-col">
+          <h2 className="font-semibold text-gray-800 dark:text-gray-200">
+            axis
+          </h2>
+          <p>{`X: ${state.point.x}%`}</p>
+          <p>{`Y: ${state.point.y}%`}</p>
+          <p>{`Z: ${state.point.z}`}</p>
+        </div>
+      </div>
     </div>
   );
 }
