@@ -73,6 +73,28 @@
 }
 
 @layer components {
+  .interactive-saturation {
+    background-color: hsl(var(--hue) 100% 50%);
+    background-image:
+      linear-gradient(0deg, hsl(0 0 0), hsla(0 0 0 / 0)),
+      linear-gradient(90deg, hsl(0 0 100), hsla(0 0 0 / 0));
+  }
+  .interactive-controls {
+    --tw-ring-color: hsl(var(--hue) var(--saturation) var(--ring));
+    background-color: hsl(var(--hue) var(--saturation) var(--lightness));
+  }
+  .interactive-rainbow {
+    background-image: linear-gradient(
+      90deg,
+      hsl(0 100% 50%) 0%,
+      hsl(60 100% 50%) 17%,
+      hsl(120 100% 50%) 33%,
+      hsl(180 100% 50%) 50%,
+      hsl(240 100% 50%) 67%,
+      hsl(300 100% 50%) 83%,
+      hsl(0 100% 50%) 100%
+    );
+  }
   .slider,
   .slider::-webkit-slider-runnable-track,
   .slider::-webkit-slider-thumb {
